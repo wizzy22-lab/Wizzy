@@ -25,7 +25,7 @@ function initWordSplit() {
   const intro = document.querySelector('.hero-intro');
   if (!intro) return;
 
-  // Preserve <span> children (highlight, highlight-blue)
+  // Preserve <span> children (highlight, highlight-accent)
   const rawHTML = intro.innerHTML;
   // Parse into text + span nodes
   const temp = document.createElement('div');
