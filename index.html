@@ -13,19 +13,43 @@
 </head>
 <body>
 
+  <!-- ===== NAV ===== -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner container">
+
+      <!-- Logo -->
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-placeholder"></div>
+      </a>
+
+      <!-- Links -->
+      <nav class="nav-links" id="navLinks">
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#resume" class="nav-link">Resume</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <!-- Lang toggle -->
+      <div class="nav-lang">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <span class="lang-divider">/</span>
+        <button class="lang-btn" data-lang="ko">KO</button>
+      </div>
+
+    </div>
+  </header>
+
   <!-- ===== HERO ===== -->
   <section class="hero">
     <div class="hero-inner container">
       <div class="hero-text">
         <h1 class="hero-heading-wrap">
-          <span class="hero-line">I turn <span class="hero-dynamic" id="heroInput">raw ideas</span></span>
-          <span class="hero-line">into <span class="hero-dynamic" id="heroOutput">crafted experience</span></span>
+          <span class="hero-line hero-line--fixed">I turn</span>
+          <span class="hero-line hero-line--dynamic"><span class="hero-dynamic" id="heroInput">raw ideas</span></span>
+          <span class="hero-line hero-line--fixed">into</span>
+          <span class="hero-line hero-line--dynamic"><span class="hero-dynamic" id="heroOutput">crafted experience</span></span>
         </h1>
-        <p class="hero-intro">
-          👋 Pleased to meet ya, I'm a product designer based in
-          <span class="highlight">Seoul, Korea</span>.
-          I'm passionate about building <span class="highlight-accent">decision-focused &amp; user-centered</span> experiences.
-        </p>
       </div>
       <div class="hero-img-placeholder"></div>
     </div>
@@ -417,61 +441,11 @@
     </div>
   </section>
 
-  <!-- ===== TESTIMONIALS ===== -->
-  <section class="testimonials section">
-    <div class="container">
-      <h2 class="section-heading">Some Kind Words</h2>
-
-      <div class="testimonial-grid">
-
-        <div class="testimonial-card">
-          <p class="testimonial-quote">"I've been seeing his work for years, and he has always been thoughtful,
-          consistent, and driven. His passion for improvement is evident and admirable."</p>
-          <div class="testimonial-author">
-            <div class="author-avatar-placeholder"></div>
-            <div class="author-info">
-              <span class="author-name">Brandon Perez</span>
-              <span class="author-title">Senior Software Developer</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="testimonial-card">
-          <p class="testimonial-quote">"Andrew is driven and always eager to learn. I've seen his growth as a developer
-          first hand, and what stands out most is how he combines his creativity and technical skills.
-          This can be seen on full display with the Bingeable app."</p>
-          <div class="testimonial-author">
-            <div class="author-avatar-placeholder"></div>
-            <div class="author-info">
-              <span class="author-name">Kevin Dhaliwal</span>
-              <span class="author-title">SDE 1 — Amazon</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="testimonial-card">
-          <p class="testimonial-quote">"I've been consistently impressed by Andrew's drive and initiative.
-          He independently took an idea from concept to a fully launched app in the App Store (Bingeable),
-          handling everything from design to backend and frontend development. He's a quick learner,
-          resourceful, and highly motivated, always applying feedback effectively and showing persistence
-          in solving problems."</p>
-          <div class="testimonial-author">
-            <div class="author-avatar-placeholder"></div>
-            <div class="author-info">
-              <span class="author-name">Ryan Cimoszko</span>
-              <span class="author-title">Senior Software Engineer — Betr</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
 
   <!-- ===== CONTACT ===== -->
   <footer class="contact section">
     <div class="container contact-inner">
-      <h2 class="contact-heading">Designing is thinking out loud —<br>let's think together.</h2>
+      <h2 class="contact-heading">Designing decision-driven experiences<br>across product, brand,<br>and real-world operations.</h2>
       <div class="contact-profile-placeholder"></div>
       <div class="contact-links">
         <a href="#" class="btn-contact">Message</a>

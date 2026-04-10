@@ -418,9 +418,46 @@ function initHeroDynamic() {
 }
 
 /* ===========================
+   NAVBAR — SCROLL + LANG
+   =========================== */
+function initNavbar() {
+  const navbar = document.getElementById('navbar');
+  if (!navbar) return;
+
+  // Scroll shadow
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 10);
+  }, { passive: true });
+
+  // Lang toggle
+  const langBtns = navbar.querySelectorAll('.lang-btn');
+  langBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      langBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // Scroll spy
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = navbar.querySelectorAll('.nav-link');
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => spy.observe(s));
+}
+
+/* ===========================
    INIT ALL ON LOAD
    =========================== */
 window.addEventListener('DOMContentLoaded', () => {
+  initNavbar();
   initHeroDynamic();
   initHeadingReveal();
   initWordSplit();
