@@ -1,0 +1,145 @@
+/* =============================================
+   HAEJI WI — DESIGN SYSTEM
+   Single source of truth for all design tokens
+   Last updated: 2026-04-10
+   ============================================= */
+
+/* ===========================
+   FONTS
+   =========================== */
+/*
+  Manrope  — Body / UI       : 400, 500, 600, 700
+  Sora     — Display / Title : 600, 700, 800
+*/
+
+:root {
+  --font-body:  'Manrope', system-ui, sans-serif;
+  --font-title: 'Sora',    system-ui, sans-serif;
+}
+
+
+/* ===========================
+   TYPOGRAPHY SCALE
+   Base: 16px (1rem)
+   =========================== */
+:root {
+  /* Fixed */
+  --text-2xs:  0.6875rem;  /* 11px — card-tag, micro labels */
+  --text-xs:   0.75rem;    /* 12px — section-label, skill-cat-title, stat-label, lang-pill, footer-copy */
+  --text-sm:   0.875rem;   /* 14px — nav-links, badge, acc-tag, card-link */
+  --text-base: 1rem;       /* 16px — mobile-menu, btn, card-desc, timeline-desc */
+  --text-lg:   1.125rem;   /* 18px — body, hero-greeting, hero-sub, about-body */
+  --text-xl:   1.25rem;    /* 20px — nav-logo, card-title, timeline-title */
+  --text-2xl:  1.5rem;     /* 24px — timeline-year */
+  --text-3xl:  2.5rem;     /* 40px — stat-num */
+
+  /* Fluid (clamp) */
+  --text-acc-title:       clamp(1.25rem, 2.5vw, 1.75rem);  /* 20~28px  — accordion title */
+  --text-footer-headline: clamp(1.75rem, 4vw,   3.5rem);   /* 28~56px  — footer headline */
+  --text-section-title:   clamp(2rem,    4vw,   3rem);     /* 32~48px  — section titles */
+  --text-projects-title:  clamp(2.5rem,  6vw,   4.5rem);   /* 40~72px  — projects section */
+  --text-hero-typing:     clamp(1.25rem, 3vw,   2rem);     /* 20~32px  — typing animation */
+  --text-hero-name:       clamp(3.5rem,  9vw,   7rem);     /* 56~112px — hero name */
+}
+
+
+/* ===========================
+   FONT WEIGHTS
+   =========================== */
+:root {
+  --weight-regular:    400;
+  --weight-medium:     500;
+  --weight-semibold:   600;
+  --weight-bold:       700;
+  --weight-extrabold:  800;
+}
+
+
+/* ===========================
+   COLOR PALETTE
+   =========================== */
+:root {
+  /* Background */
+  --bg-primary: #ffffff;
+
+  /* Accent — Orange
+     #f97316 on white → 3.0:1  → decoration ONLY
+     #c2410c on white → 7.5:1  → text & buttons ✓
+     #9a3412 on white → 11.6:1 → hover ✓          */
+  --accent:       #f97316;
+  --accent-dark:  #c2410c;
+  --accent-hover: #9a3412;
+  --accent-light: #fff7ed;
+
+  /* Text — warm tones */
+  --text-primary:   #111827;
+  --text-secondary: #6b5e56;
+  --text-tertiary:  #5c4f4a;
+
+  /* Border */
+  --border:        #111827;
+  --border-subtle: #e5e7eb;
+}
+
+
+/* ===========================
+   SPACING
+   =========================== */
+:root {
+  --space-1:  0.25rem;   /*  4px */
+  --space-2:  0.5rem;    /*  8px */
+  --space-3:  0.75rem;   /* 12px */
+  --space-4:  1rem;      /* 16px */
+  --space-5:  1.25rem;   /* 20px */
+  --space-6:  1.5rem;    /* 24px */
+  --space-8:  2rem;      /* 32px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-12: 3rem;      /* 48px */
+  --space-16: 4rem;      /* 64px */
+  --space-20: 5rem;      /* 80px */
+  --space-24: 6rem;      /* 96px */
+  --space-32: 8rem;      /* 128px */
+}
+
+
+/* ===========================
+   LAYOUT
+   =========================== */
+:root {
+  --nav-h:  80px;
+  --max-w:  1280px;
+  --pad-x:  2rem;
+  --sec-py: 8rem;
+}
+
+
+/* ===========================
+   SHADOWS
+   =========================== */
+:root {
+  --shadow-card:       0 4px 24px rgba(0, 0, 0, 0.07);
+  --shadow-card-hover: 0 8px 32px rgba(194, 65, 12, 0.14);
+  --shadow-nav:        0 2px 16px rgba(0, 0, 0, 0.06);
+}
+
+
+/* ===========================
+   MOTION
+   =========================== */
+:root {
+  --ease:           0.25s ease;
+  --ease-spring:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-cubic: cubic-bezier(0, 0, 0.2, 1);
+}
+
+
+/* ===========================
+   BORDER RADIUS
+   =========================== */
+:root {
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   12px;
+  --radius-xl:   14px;
+  --radius-full: 100px;
+}
