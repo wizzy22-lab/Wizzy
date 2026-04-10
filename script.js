@@ -245,6 +245,11 @@ function initProjectsScroll() {
   if (!sticky || !track) return;
 
   let currentIdx = -1;
+  let isSnapping  = false;
+
+  function getStickyH() {
+    return sticky.offsetHeight - window.innerHeight;
+  }
 
   function updateUI(idx) {
     if (idx === currentIdx) return;
@@ -255,7 +260,7 @@ function initProjectsScroll() {
 
   function onScroll() {
     const rect      = sticky.getBoundingClientRect();
-    const stickyH   = sticky.offsetHeight - window.innerHeight;
+    const stickyH   = getStickyH();
     const scrolled  = Math.max(0, Math.min(-rect.top, stickyH));
     const pct       = stickyH > 0 ? scrolled / stickyH : 0;
     const total     = slides.length;
@@ -267,16 +272,47 @@ function initProjectsScroll() {
     updateUI(idx);
   }
 
+  // 특정 슬라이드 위치로 스냅
+  function snapToSlide(idx) {
+    const stickyH  = getStickyH();
+    const total    = slides.length;
+    const targetY  = sticky.offsetTop + (idx / (total - 1)) * stickyH;
+    isSnapping = true;
+    window.scrollTo({ top: targetY, behavior: 'smooth' });
+    setTimeout(() => { isSnapping = false; }, 800);
+  }
+
+  // 현재 scroll 위치에서 가장 가까운 슬라이드로 snap
+  function snapToNearest() {
+    if (isSnapping) return;
+    const rect    = sticky.getBoundingClientRect();
+    const stickyH = getStickyH();
+    // 스티키 존 안에 있을 때만 작동
+    if (rect.top > 5 || rect.bottom < window.innerHeight - 5) return;
+    const scrolled = Math.max(0, -rect.top);
+    const pct      = Math.min(scrolled / stickyH, 1);
+    const nearest  = Math.round(pct * (slides.length - 1));
+    if (nearest !== currentIdx) snapToSlide(nearest);
+  }
+
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
+  // scrollend 지원 브라우저: 즉시 snap
+  // 미지원 브라우저: 150ms debounce fallback
+  if ('onscrollend' in window) {
+    window.addEventListener('scrollend', snapToNearest, { passive: true });
+  } else {
+    let snapTimer = null;
+    window.addEventListener('scroll', () => {
+      clearTimeout(snapTimer);
+      snapTimer = setTimeout(snapToNearest, 150);
+    }, { passive: true });
+  }
+
+  // 도트 클릭
   dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => {
-      const stickyH   = sticky.offsetHeight - window.innerHeight;
-      const total     = slides.length;
-      const targetPct = i / (total - 1);
-      window.scrollTo({ top: sticky.offsetTop + targetPct * stickyH, behavior: 'smooth' });
-    });
+    dot.addEventListener('click', () => snapToSlide(i));
   });
 }
 
