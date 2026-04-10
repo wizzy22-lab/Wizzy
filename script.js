@@ -307,9 +307,85 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ===========================
+   HERO — DYNAMIC TEXT ANIMATION
+   =========================== */
+function initHeroDynamic() {
+  const inputEl  = document.getElementById('heroInput');
+  const outputEl = document.getElementById('heroOutput');
+  if (!inputEl || !outputEl) return;
+
+  const pairs = [
+    { input: 'raw ideas',       output: 'crafted experience'   },
+    { input: 'complex systems', output: 'simple interactions'  },
+    { input: 'products',        output: 'business growth'      },
+  ];
+
+  const REPEATS    = 2;          // 전체 사이클 반복 횟수
+  const HOLD_MS    = 1500;       // 각 페어 노출 시간
+  const SLIDE_MS   = 450;        // slide-in 길이
+
+  let cycleIdx = 0;              // 현재 페어 인덱스 (0~2)
+  let repeatCount = 0;           // 완료된 사이클 수
+  let timer = null;
+
+  // 초기 텍스트를 .hero-dynamic-inner 로 래핑
+  function wrap(el, text) {
+    el.innerHTML = `<span class="hero-dynamic-inner">${text}</span>`;
+  }
+
+  wrap(inputEl,  pairs[0].input);
+  wrap(outputEl, pairs[0].output);
+
+  function swapTo(idx) {
+    const pair = pairs[idx];
+
+    function animateEl(el, newText) {
+      const inner = el.querySelector('.hero-dynamic-inner');
+
+      // slide out
+      inner.classList.remove('slide-in');
+      inner.classList.add('slide-out');
+
+      setTimeout(() => {
+        wrap(el, newText);
+        const newInner = el.querySelector('.hero-dynamic-inner');
+        newInner.classList.add('slide-in');
+      }, 350);
+    }
+
+    animateEl(inputEl,  pair.input);
+    animateEl(outputEl, pair.output);
+  }
+
+  function step() {
+    cycleIdx++;
+
+    // 한 사이클 완료
+    if (cycleIdx >= pairs.length) {
+      cycleIdx = 0;
+      repeatCount++;
+    }
+
+    // REPEATS 완료 후 마지막 페어(business growth)에서 정지
+    if (repeatCount >= REPEATS && cycleIdx === 0) {
+      // 마지막 페어로 이동 후 정지
+      swapTo(pairs.length - 1);
+      return;
+    }
+
+    swapTo(cycleIdx);
+    timer = setTimeout(step, HOLD_MS + SLIDE_MS);
+  }
+
+  // 첫 페어 노출 후 시작
+  timer = setTimeout(step, HOLD_MS);
+}
+
+/* ===========================
    INIT ALL ON LOAD
    =========================== */
 window.addEventListener('DOMContentLoaded', () => {
+  initHeroDynamic();
   initHeadingReveal();
   initWordSplit();
   initFadeUp();

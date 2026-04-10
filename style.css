@@ -83,37 +83,83 @@ body {
    HERO
    ============================================= */
 .hero {
-  position: relative;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 65fr 35fr;
+  gap: 3rem;
+  align-items: center;
+  max-width: 800px;
+  padding-block: 5rem;
 }
 
 .hero-img-placeholder {
   width: 100%;
-  aspect-ratio: 16 / 7;
-  border-radius: 0;
+  aspect-ratio: 4 / 5;
+  border-radius: 12px;
 }
 
 .hero-text {
-  padding-block: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-.hero-heading {
+/* Heading wrapper */
+.hero-heading-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1em;
+}
+
+.hero-line {
+  display: block;
   font-family: var(--font-title);
-  font-size: var(--text-hero-name);
+  font-size: 64px;
   font-weight: var(--weight-extrabold);
-  line-height: 1.05;
-  margin-bottom: 1.5rem;
-  max-width: 900px;
-  clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
-  animation: clipReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+  line-height: 1.15;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+/* Dynamic text slot */
+.hero-dynamic {
+  color: var(--accent-blue);
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  position: relative;
+}
+
+.hero-dynamic-inner {
+  display: inline-block;
+}
+
+.hero-dynamic-inner.slide-in {
+  animation: slideInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-dynamic-inner.slide-out {
+  animation: slideOutUp 0.35s ease-in forwards;
+}
+
+@keyframes slideInUp {
+  from { transform: translateY(110%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+@keyframes slideOutUp {
+  from { transform: translateY(0);    opacity: 1; }
+  to   { transform: translateY(-110%); opacity: 0; }
 }
 
 .hero-intro {
   font-size: var(--text-lg);
   color: var(--text-muted);
-  max-width: 640px;
   line-height: 1.75;
   opacity: 0;
-  animation: fadeUp 0.8s ease 0.65s forwards;
+  animation: fadeUp 0.8s ease 0.4s forwards;
 }
 
 @keyframes clipReveal {
@@ -624,6 +670,10 @@ body {
    RESPONSIVE
    ============================================= */
 @media (max-width: 768px) {
+  .hero-inner { grid-template-columns: 1fr; padding-block: 3rem; }
+  .hero-img-placeholder { aspect-ratio: 16 / 9; order: -1; }
+  .hero-line { font-size: 40px; white-space: normal; }
+
   .project-slide { grid-template-columns: 1fr; padding: 0 1rem; }
   .project-images { height: 200px; }
   .projects-sticky { height: 900vh; }
