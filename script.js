@@ -1,9 +1,147 @@
 /* =============================================
-   FADESTOCODES WIREFRAME — SCRIPT
+   MAINPAGE — SCRIPT
    ============================================= */
 
 /* ===========================
-   TIMELINE — SVG ANIMATION
+   1. SECTION HEADING CLIP-PATH REVEAL
+   =========================== */
+function initHeadingReveal() {
+  const headings = document.querySelectorAll('.section-heading');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  headings.forEach(h => obs.observe(h));
+}
+
+/* ===========================
+   2. WORD-BY-WORD STAGGER (hero-intro)
+   =========================== */
+function initWordSplit() {
+  const intro = document.querySelector('.hero-intro');
+  if (!intro) return;
+
+  // Preserve <span> children (highlight, highlight-blue)
+  const rawHTML = intro.innerHTML;
+  // Parse into text + span nodes
+  const temp = document.createElement('div');
+  temp.innerHTML = rawHTML;
+
+  let wordIdx = 0;
+  function processNode(node) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const words = node.textContent.split(/(\s+)/);
+      const frag = document.createDocumentFragment();
+      words.forEach(part => {
+        if (/^\s+$/.test(part) || part === '') {
+          frag.appendChild(document.createTextNode(part));
+        } else {
+          const span = document.createElement('span');
+          span.className = 'word-token';
+          span.style.setProperty('--i', wordIdx++);
+          span.textContent = part;
+          frag.appendChild(span);
+        }
+      });
+      node.parentNode.replaceChild(frag, node);
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      // Wrap the entire inline element as one token
+      const span = document.createElement('span');
+      span.className = 'word-token';
+      span.style.setProperty('--i', wordIdx++);
+      span.appendChild(node.cloneNode(true));
+      node.parentNode.replaceChild(span, node);
+    }
+  }
+
+  Array.from(temp.childNodes).forEach(processNode);
+  intro.innerHTML = '';
+  intro.appendChild(temp);
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.word-token').forEach(t => t.classList.add('visible'));
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  obs.observe(intro);
+}
+
+/* ===========================
+   3. SECTION CONTENT FADE-UP (.anim-fade)
+   =========================== */
+function initFadeUp() {
+  // Auto-tag elements that should fade
+  const selectors = [
+    '.section-sub',
+    '.feature-list li',
+    '.tech-logos',
+    '.code-snippet-placeholder',
+    '.snippet-desc',
+    '.timeline-item',
+    '.contact-inner > *',
+    '.projects-header .section-heading'
+  ];
+
+  selectors.forEach(sel => {
+    document.querySelectorAll(sel).forEach((el, i) => {
+      el.classList.add('anim-fade');
+      el.style.setProperty('--idx', i);
+    });
+  });
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.anim-fade').forEach(el => obs.observe(el));
+}
+
+/* ===========================
+   4. CHALLENGE ITEMS SLIDE-IN
+   =========================== */
+function initChallengeSlide() {
+  const items = document.querySelectorAll('.challenge-item');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  items.forEach(item => obs.observe(item));
+}
+
+/* ===========================
+   5. TESTIMONIAL CARDS STAGGER
+   =========================== */
+function initTestimonials() {
+  const cards = document.querySelectorAll('.testimonial-card');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  cards.forEach(card => obs.observe(card));
+}
+
+/* ===========================
+   6. TIMELINE — SVG ANIMATION (lerp scrub)
    =========================== */
 function buildWavePath(totalHeight) {
   const amp = 70;
@@ -32,7 +170,10 @@ function initTimeline() {
 
   const totalLen = pathEl.getTotalLength();
 
-  /* 볼 위치 배치 */
+  // Ball initial r = 0 for scale pop
+  balls.forEach(b => b.setAttribute('r', '0'));
+
+  // Place balls on path
   items.forEach((item, i) => {
     if (!balls[i]) return;
     const itemY = item.offsetTop + item.offsetHeight / 2;
@@ -42,22 +183,38 @@ function initTimeline() {
     balls[i].setAttribute('cy', pt.y);
   });
 
-  /* Path 드로우 */
+  // Path draw setup
   pathEl.style.strokeDasharray  = `${totalLen}`;
   pathEl.style.strokeDashoffset = `${totalLen}`;
 
+  // Lerp scrub state
+  let currentOffset = totalLen;
+  let targetOffset  = totalLen;
+  let rafId = null;
+
+  function lerpLoop() {
+    currentOffset += (targetOffset - currentOffset) * 0.08;
+    pathEl.style.strokeDashoffset = currentOffset;
+    if (Math.abs(currentOffset - targetOffset) > 0.5) {
+      rafId = requestAnimationFrame(lerpLoop);
+    } else {
+      rafId = null;
+    }
+  }
+
   function updatePath() {
     const rect     = timelineEl.getBoundingClientRect();
-    const scrolled = Math.max(0, -rect.top + window.innerHeight * 0.6);
+    const scrolled = Math.max(0, -rect.top + window.innerHeight * 0.5);
     const pct      = Math.min(scrolled / h, 1);
-    pathEl.style.strokeDashoffset = `${totalLen * (1 - pct)}`;
+    targetOffset   = totalLen * (1 - pct);
+    if (!rafId) rafId = requestAnimationFrame(lerpLoop);
   }
 
   window.addEventListener('scroll', updatePath, { passive: true });
   updatePath();
 
-  /* 볼 팝인 */
-  const ballObserver = new IntersectionObserver((entries) => {
+  // Ball scale pop-in via IntersectionObserver
+  const ballObs = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       const i = Array.from(items).indexOf(entry.target);
       if (!balls[i]) return;
@@ -65,18 +222,19 @@ function initTimeline() {
         balls[i].classList.add('visible');
       } else {
         balls[i].classList.remove('visible');
+        balls[i].setAttribute('r', '0');
       }
     });
   }, { threshold: 0.3 });
 
-  items.forEach(item => ballObserver.observe(item));
+  items.forEach(item => ballObs.observe(item));
 }
 
 window.addEventListener('load', initTimeline);
 window.addEventListener('resize', initTimeline);
 
 /* ===========================
-   PROJECTS — STICKY HORIZONTAL SCROLL
+   7. PROJECTS — STICKY HORIZONTAL SCROLL
    =========================== */
 function initProjectsScroll() {
   const sticky  = document.querySelector('.projects-sticky');
@@ -112,14 +270,12 @@ function initProjectsScroll() {
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  /* Dot click — scroll to that slide */
   dots.forEach((dot, i) => {
     dot.addEventListener('click', () => {
-      const stickyH  = sticky.offsetHeight - window.innerHeight;
-      const total    = slides.length;
+      const stickyH   = sticky.offsetHeight - window.innerHeight;
+      const total     = slides.length;
       const targetPct = i / (total - 1);
-      const targetScrollY = sticky.offsetTop + targetPct * stickyH;
-      window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
+      window.scrollTo({ top: sticky.offsetTop + targetPct * stickyH, behavior: 'smooth' });
     });
   });
 }
@@ -128,14 +284,35 @@ window.addEventListener('load', initProjectsScroll);
 window.addEventListener('resize', initProjectsScroll);
 
 /* ===========================
-   PROJECTS — ACCORDION
+   8. PROJECTS — ACCORDION + IMAGE TRANSITION
    =========================== */
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.proj-acc-item').forEach(item => {
     item.addEventListener('click', () => {
-      const siblings = item.closest('.proj-acc-list').querySelectorAll('.proj-acc-item');
+      const list     = item.closest('.proj-acc-list');
+      const siblings = list.querySelectorAll('.proj-acc-item');
       siblings.forEach(s => s.classList.remove('active'));
       item.classList.add('active');
+
+      // Sync stacked images
+      const slide   = item.closest('.project-slide');
+      const imgs    = slide.querySelectorAll('.project-images .project-screenshot-placeholder');
+      const accIdx  = Array.from(siblings).indexOf(item) % imgs.length;
+      imgs.forEach((img, i) => {
+        img.style.zIndex  = i === accIdx ? '3' : i === 0 ? '2' : '1';
+        img.style.opacity = i === accIdx ? '1' : '0.3';
+      });
     });
   });
+});
+
+/* ===========================
+   INIT ALL ON LOAD
+   =========================== */
+window.addEventListener('DOMContentLoaded', () => {
+  initHeadingReveal();
+  initWordSplit();
+  initFadeUp();
+  initChallengeSlide();
+  initTestimonials();
 });
