@@ -353,6 +353,32 @@ body {
 .project-images .project-screenshot-placeholder:nth-child(2) { top: 30px; }
 .project-images .project-screenshot-placeholder:nth-child(3) { top: 60px; }
 
+.proj-img-cta {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.6rem 1.1rem;
+  border: 1.5px solid rgba(0, 0, 0, 0.15);
+  border-radius: 20px;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: #111;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  white-space: nowrap;
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  z-index: 10;
+}
+
+.proj-img-cta:hover {
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+  color: #fff;
+}
+
 /* Right — project info */
 .project-info {
   display: flex;
