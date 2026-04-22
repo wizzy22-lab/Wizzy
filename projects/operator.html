@@ -1,0 +1,2081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Operator — Haeji Wi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <style>
+
+    /* ═══════════════════════════════════════
+       DESIGN SYSTEM — OPERATOR PORTFOLIO
+       Figma: Light theme · Blue accent
+       Font: Sora (title) · Manrope (body)
+       Base: 16px · Scale: integer px
+    ════════════════════════════════════════ */
+    :root {
+      /* Colors */
+      --bg:           #F9FAFB;
+      --surface:      #FFFFFF;
+      --border:       #E5E7EB;
+      --text-1:       #111827;
+      --text-2:       #374151;
+      --text-3:       #6B7280;
+      --accent:       #3B82F6;
+      --accent-dark:  #1D4ED8;
+      --accent-mid:   #93C5FD;
+      --accent-bg:    #EFF6FF;
+
+      /* Typography */
+      --f-title: 'Sora', system-ui, sans-serif;
+      --f-body:  'Manrope', system-ui, sans-serif;
+
+      /* Size scale (integer px) */
+      --t12: 12px;
+      --t14: 14px;
+      --t16: 16px;
+      --t18: 18px;
+      --t20: 20px;
+      --t24: 24px;
+      --t32: 32px;
+      --t40: 40px;
+      --t48: 48px;
+      --t64: 64px;
+      --t80: 80px;
+
+      /* Spacing (4px grid) */
+      --s4:   4px;
+      --s8:   8px;
+      --s12:  12px;
+      --s16:  16px;
+      --s20:  20px;
+      --s24:  24px;
+      --s32:  32px;
+      --s40:  40px;
+      --s48:  48px;
+      --s64:  64px;
+      --s80:  80px;
+      --s96:  96px;
+      --s128: 128px;
+
+      /* Radius */
+      --r4:    4px;
+      --r8:    8px;
+      --r12:   12px;
+      --r16:   16px;
+      --r24:   24px;
+      --r-pill: 9999px;
+
+      /* Layout */
+      --max-w:  1200px;
+      --nav-h:  52px;
+      --toc-h:  56px;
+      --toc-w:  0px;
+      --pad-x:  40px;
+
+      /* Motion */
+      --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-circ:   cubic-bezier(0.0, 0.0, 0.2, 1);
+      --dur-fast:    0.4s;
+      --dur-base:    0.6s;
+      --dur-slow:    0.85s;
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Korean font override */
+    body.lang-ko {
+      --f-title: 'Pretendard Variable', system-ui, sans-serif;
+      --f-body:  'Pretendard Variable', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--f-body);
+      font-size: var(--t16);
+      color: var(--text-2);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ═══════════════════════════════════════
+       NAV
+    ════════════════════════════════════════ */
+    .pj-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: rgba(249,250,251,0);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--pad-x);
+      z-index: 200;
+      transition: box-shadow 0.3s;
+    }
+    .pj-nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+    .pj-nav-back {
+      font-family: var(--f-body);
+      font-size: var(--t14);
+      font-weight: 500;
+      color: var(--text-3);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: var(--s8);
+      transition: color 0.2s;
+    }
+    .pj-nav-back:hover { color: var(--text-1); }
+    .pj-nav-title {
+      font-family: var(--f-title);
+      font-size: var(--t16);
+      font-weight: 700;
+      color: var(--text-1);
+      letter-spacing: -0.3px;
+      transition: opacity 0.3s ease;
+    }
+    .pj-nav-title.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .pj-nav-right {
+      display: flex;
+      align-items: center;
+      gap: var(--s16);
+    }
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: var(--s6);
+    }
+    .lang-sep {
+      font-size: var(--t12);
+      color: var(--border);
+    }
+    .lang-btn {
+      font-family: var(--f-body);
+      font-size: var(--t12);
+      font-weight: 600;
+      color: var(--text-3);
+      background: none;
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: var(--r-pill);
+      cursor: pointer;
+      transition: background 0.25s var(--ease-circ),
+                  border-color 0.25s var(--ease-circ),
+                  color 0.25s var(--ease-circ);
+      line-height: 1;
+    }
+    .lang-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .lang-btn:hover:not(.active) {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ═══════════════════════════════════════
+       TOC BAR
+    ════════════════════════════════════════ */
+    .pj-toc {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 201;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .pj-toc.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .pj-toc-inner {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 2px;
+      padding: 4px;
+      background: rgba(13, 18, 19, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+      white-space: nowrap;
+    }
+    .toc-btn {
+      font-family: var(--f-body);
+      font-size: var(--t16);
+      font-weight: 500;
+      color: var(--text-2);
+      background: none;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 100px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s var(--ease-circ), color 0.2s var(--ease-circ);
+      letter-spacing: 0.01em;
+    }
+    .toc-btn:hover { background: var(--accent-bg); color: var(--accent); }
+    .toc-btn.active { background: var(--accent); color: #0D1213; font-weight: 600; }
+
+    /* ═══════════════════════════════════════
+       PAGE BODY OFFSET
+    ════════════════════════════════════════ */
+    .page-body {
+      padding-top: var(--nav-h);
+    }
+    [id] {
+      scroll-margin-top: var(--nav-h);
+    }
+
+    /* ═══════════════════════════════════════
+       HERO
+    ════════════════════════════════════════ */
+    .hero {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 48px var(--pad-x) 96px;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s8);
+      font-size: var(--t12);
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-bg);
+      padding: var(--s4) var(--s12);
+      border-radius: var(--r-pill);
+      margin-bottom: var(--s24);
+      letter-spacing: 0.02em;
+    }
+    .hero-h1 {
+      font-family: var(--f-title);
+      font-size: var(--t80);
+      font-weight: 800;
+      color: var(--text-1);
+      letter-spacing: -3px;
+      line-height: 1;
+      margin-bottom: var(--s24);
+    }
+    .hero-sub {
+      font-family: var(--f-title);
+      font-size: var(--t24);
+      font-weight: 600;
+      color: var(--text-1);
+      letter-spacing: -0.5px;
+      line-height: 1.3;
+      max-width: 760px;
+      margin-bottom: var(--s12);
+    }
+    .hero-desc {
+      font-size: var(--t18);
+      font-weight: 400;
+      color: var(--text-3);
+      max-width: 640px;
+      line-height: 1.6;
+      margin-bottom: var(--s48);
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--s48);
+      padding-top: var(--s32);
+      border-top: 1px solid var(--border);
+    }
+    .hero-meta-label {
+      font-size: var(--t12);
+      font-weight: 600;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: var(--s4);
+    }
+    .hero-meta-value {
+      font-size: var(--t16);
+      font-weight: 500;
+      color: var(--text-1);
+      line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════════════
+       SECTION WRAPPER
+    ════════════════════════════════════════ */
+    .cs-section {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 120px var(--pad-x);
+    }
+    .cs-section-border {
+      border-top: 1px solid var(--border);
+    }
+
+    /* Labels */
+    .cs-group-lbl {
+      font-size: var(--t12);
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: var(--s8);
+    }
+    .cs-sub-lbl {
+      font-size: var(--t12);
+      font-weight: 600;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--s8);
+    }
+
+    /* Headings */
+    .cs-h2 {
+      font-family: var(--f-title);
+      font-size: var(--t40);
+      font-weight: 700;
+      color: var(--text-1);
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      margin-bottom: var(--s16);
+    }
+    .cs-h3 {
+      font-family: var(--f-title);
+      font-size: var(--t32);
+      font-weight: 700;
+      color: var(--text-1);
+      letter-spacing: -1px;
+      line-height: 1.2;
+      margin-bottom: var(--s12);
+    }
+    .cs-h4 {
+      font-family: var(--f-title);
+      font-size: var(--t20);
+      font-weight: 600;
+      color: var(--text-1);
+      letter-spacing: -0.3px;
+      margin-bottom: var(--s8);
+    }
+
+    /* Body text */
+    .cs-body {
+      font-size: var(--t16);
+      line-height: 1.75;
+      color: var(--text-2);
+      max-width: 680px;
+    }
+    .cs-body + .cs-body { margin-top: var(--s12); }
+    .cs-body-lg {
+      font-size: var(--t18);
+      line-height: 1.7;
+      color: var(--text-2);
+      max-width: 680px;
+    }
+
+    /* Insight block */
+    .cs-insight {
+      background: var(--accent-bg);
+      border-radius: 0 var(--r8) var(--r8) 0;
+      padding: var(--s16) var(--s20) var(--s16) calc(var(--s20) + 3px);
+      margin-top: var(--s20);
+      position: relative;
+    }
+    .cs-insight + .cs-insight { margin-top: var(--s12); }
+    .cs-insight::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0;
+      width: 3px; height: 0;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: height 0.55s var(--ease-spring) 0.1s;
+    }
+    .cs-insight.is-visible::before { height: 100%; }
+    /* 같은 컨테이너 내 두 번째 insight: 딜레이 추가 */
+    .cs-insight + .cs-insight::before { transition-delay: 0.25s; }
+    .cs-insight-lbl {
+      font-size: var(--t11);
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--s6);
+    }
+    .cs-insight-body {
+      font-size: var(--t15);
+      font-weight: 500;
+      color: var(--text-1);
+      line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════════════
+       GRIDS
+    ════════════════════════════════════════ */
+    .g-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s48); align-items: start; }
+    .g-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--s32); }
+
+    /* ═══════════════════════════════════════
+       SUB-SECTION (within group)
+    ════════════════════════════════════════ */
+    .cs-sub {
+      margin-top: 120px;
+      padding-top: 96px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ═══════════════════════════════════════
+       CARD
+    ════════════════════════════════════════ */
+    .cs-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r16);
+      padding: var(--s32);
+      transition: border-color 0.2s, transform 0.3s var(--ease-spring), box-shadow 0.3s;
+    }
+    .cs-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(59,130,246,0.08);
+    }
+    .cs-card-lbl {
+      font-size: var(--t12);
+      font-weight: 600;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: var(--s12);
+    }
+    .cs-card-title {
+      font-family: var(--f-title);
+      font-size: var(--t20);
+      font-weight: 600;
+      color: var(--text-1);
+      letter-spacing: -0.3px;
+      margin-bottom: var(--s8);
+    }
+    .cs-card-body {
+      font-size: var(--t16);
+      line-height: 1.7;
+      color: var(--text-2);
+    }
+
+    /* ═══════════════════════════════════════
+       IMAGES — Method B
+    ════════════════════════════════════════ */
+    .img-wrap { position: relative; width: 100%; }
+    .img-wrap img {
+      width: 100%;
+      border-radius: var(--r12);
+      border: 1px solid var(--border);
+      display: block;
+      object-fit: cover;
+    }
+    .img-ph {
+      display: none;
+      width: 100%;
+      background: var(--accent-bg);
+      border: 1.5px dashed var(--accent-mid);
+      border-radius: var(--r12);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--s8);
+      padding: var(--s24);
+    }
+    .img-ph-name {
+      font-size: var(--t14);
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .img-ph-file {
+      font-size: var(--t12);
+      font-weight: 400;
+      color: var(--accent-mid);
+      font-family: 'Courier New', monospace;
+    }
+
+    /* ═══════════════════════════════════════
+       STEP LIST
+    ════════════════════════════════════════ */
+    .cs-steps { margin-top: var(--s40); }
+    .cs-step {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: var(--s24);
+      padding: var(--s32) 0;
+      border-top: 1px solid var(--border);
+    }
+    .cs-step-num {
+      font-family: var(--f-title);
+      font-size: var(--t12);
+      font-weight: 700;
+      color: var(--accent);
+      padding-top: 4px;
+    }
+    .cs-step-title {
+      font-family: var(--f-title);
+      font-size: var(--t20);
+      font-weight: 600;
+      color: var(--text-1);
+      letter-spacing: -0.3px;
+      margin-bottom: var(--s8);
+    }
+    .cs-step-body {
+      font-size: var(--t16);
+      line-height: 1.75;
+      color: var(--text-2);
+    }
+    .cs-step-body + .cs-step-body { margin-top: var(--s8); }
+
+    /* ═══════════════════════════════════════
+       QUOTE
+    ════════════════════════════════════════ */
+    .cs-quote {
+      border-left: 3px solid var(--accent);
+      padding: var(--s16) var(--s24);
+      margin: var(--s24) 0;
+    }
+    .cs-quote p {
+      font-family: var(--f-title);
+      font-size: var(--t20);
+      font-weight: 600;
+      color: var(--text-1);
+      letter-spacing: -0.3px;
+      line-height: 1.5;
+    }
+
+    /* ═══════════════════════════════════════
+       STAT / OUTCOME
+    ════════════════════════════════════════ */
+    .outcome-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s20);
+      margin-top: var(--s48);
+    }
+    .outcome-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r16);
+      padding: var(--s32);
+      transition: border-color 0.2s, transform 0.3s var(--ease-spring), box-shadow 0.3s;
+    }
+    .outcome-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(59,130,246,0.08);
+    }
+    .outcome-lbl {
+      font-size: var(--t12);
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--s16);
+    }
+    .outcome-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--s8);
+    }
+    .outcome-list li {
+      font-size: var(--t14);
+      color: var(--text-2);
+      line-height: 1.6;
+      padding-left: var(--s16);
+      position: relative;
+    }
+    .outcome-list li::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .outcome-arrow {
+      font-size: var(--t13);
+      font-weight: 600;
+      color: var(--accent);
+      margin-top: var(--s12);
+    }
+
+    .cs-stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r16);
+      padding: var(--s24) var(--s32);
+      display: inline-block;
+      min-width: 200px;
+      margin-top: var(--s32);
+    }
+    .cs-stat-num {
+      font-family: var(--f-title);
+      font-size: var(--t64);
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: var(--s8);
+    }
+    .cs-stat-desc {
+      font-size: var(--t14);
+      color: var(--text-3);
+      line-height: 1.5;
+      max-width: 240px;
+    }
+
+    /* ═══════════════════════════════════════
+       FEATURE GRID
+    ════════════════════════════════════════ */
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--s24);
+      margin-top: var(--s48);
+    }
+    .feat-item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s16);
+    }
+    .feat-item .img-wrap { overflow: hidden; border-radius: var(--r16); }
+    .video-wrap {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--r16);
+    }
+    .feat-item .video-wrap {
+      aspect-ratio: 1 / 1;
+      background: var(--surface);
+      width: 100%;
+    }
+    .video-wrap video,
+    .video-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .video-ph {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--s8);
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: var(--r16);
+    }
+    .video-ph-name {
+      font-size: var(--t14);
+      font-weight: 600;
+      color: var(--text-2);
+    }
+    .video-ph-file {
+      font-size: var(--t12);
+      color: var(--text-3);
+    }
+    .feat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r16);
+      padding: var(--s32);
+      transition: border-color 0.2s, transform 0.3s var(--ease-spring), box-shadow 0.3s;
+    }
+    .feat-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 36px rgba(59,130,246,0.10);
+    }
+    .feat-num {
+      font-size: var(--t12);
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      margin-bottom: var(--s16);
+    }
+    .feat-title {
+      font-family: var(--f-title);
+      font-size: var(--t20);
+      font-weight: 700;
+      color: var(--text-1);
+      letter-spacing: -0.3px;
+      margin-bottom: var(--s4);
+    }
+    .feat-sub {
+      font-size: var(--t14);
+      font-weight: 500;
+      color: var(--text-3);
+      margin-bottom: var(--s12);
+    }
+    .feat-body {
+      font-size: var(--t14);
+      color: var(--text-2);
+      line-height: 1.7;
+    }
+
+    /* ═══════════════════════════════════════
+       REFLECTION GRID
+    ════════════════════════════════════════ */
+    .reflect-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s16);
+      margin-top: var(--s48);
+    }
+    .reflect-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r16);
+      padding: var(--s32);
+      transition: border-color 0.2s, transform 0.3s var(--ease-spring), box-shadow 0.3s;
+    }
+    .reflect-item:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(59,130,246,0.08);
+    }
+    .reflect-num {
+      font-family: var(--f-title);
+      font-size: var(--t48);
+      font-weight: 800;
+      color: var(--border);
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: var(--s16);
+    }
+    .reflect-title {
+      font-family: var(--f-title);
+      font-size: var(--t16);
+      font-weight: 700;
+      color: var(--text-1);
+      margin-bottom: var(--s8);
+    }
+    .reflect-body {
+      font-size: var(--t14);
+      color: var(--text-2);
+      line-height: 1.7;
+    }
+
+    /* ═══════════════════════════════════════
+       MORE PROJECTS
+    ════════════════════════════════════════ */
+    .more-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--s20);
+      margin-top: var(--s48);
+    }
+    .proj-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r16);
+      padding: var(--s32);
+      text-decoration: none;
+      display: block;
+      transition: border-color 0.2s, transform 0.3s var(--ease-spring), box-shadow 0.3s;
+    }
+    .proj-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(59,130,246,0.10);
+    }
+    .proj-num {
+      font-size: var(--t12);
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      margin-bottom: var(--s12);
+    }
+    .proj-thumb {
+      width: 100%;
+      height: 180px;
+      border-radius: var(--r8);
+      margin-bottom: var(--s16);
+      overflow: hidden;
+      background: var(--accent-bg);
+    }
+    .proj-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s var(--ease-spring);
+    }
+    .proj-card:hover .proj-thumb img { transform: scale(1.06); }
+    .proj-title {
+      font-family: var(--f-title);
+      font-size: var(--t20);
+      font-weight: 700;
+      color: var(--text-1);
+      letter-spacing: -0.3px;
+      margin-bottom: var(--s8);
+    }
+    .proj-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--s8);
+      margin-bottom: var(--s12);
+    }
+    .proj-tag {
+      font-size: var(--t12);
+      font-weight: 500;
+      color: var(--text-3);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: var(--s4) var(--s12);
+      border-radius: var(--r-pill);
+    }
+    .proj-desc {
+      font-size: var(--t14);
+      color: var(--text-2);
+      line-height: 1.6;
+      margin-bottom: var(--s16);
+    }
+    .proj-cta {
+      font-size: var(--t14);
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    /* ═══════════════════════════════════════
+       UTILITIES
+    ════════════════════════════════════════ */
+    .mt-16 { margin-top: var(--s16); }
+    .mt-24 { margin-top: var(--s24); }
+    .mt-32 { margin-top: var(--s32); }
+    .mt-40 { margin-top: var(--s40); }
+    .mt-48 { margin-top: var(--s48); }
+    .mt-64 { margin-top: var(--s64); }
+
+    /* ═══════════════════════════════════════
+       HERO — STAGGER FADE-UP (page load)
+    ════════════════════════════════════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: none; }
+    }
+    .hero-tag   { animation: fadeUp var(--dur-base) var(--ease-spring) 0ms   both; }
+    .hero-h1    { animation: fadeUp var(--dur-slow) var(--ease-spring) 80ms  both; }
+    .hero-sub   { animation: fadeUp var(--dur-slow) var(--ease-spring) 180ms both; }
+    .hero-desc  { animation: fadeUp var(--dur-base) var(--ease-spring) 280ms both; }
+    .hero-meta  { animation: fadeUp var(--dur-base) var(--ease-spring) 370ms both; }
+    .hero .img-wrap { animation: fadeUp var(--dur-slow) var(--ease-spring) 480ms both; }
+
+    /* ═══════════════════════════════════════
+       TEXT LINE REVEAL (Cuberto style)
+    ════════════════════════════════════════ */
+    .line-wrap { display: block; overflow: hidden; }
+    .line-inner {
+      display: block;
+      transform: translateY(105%);
+      transition: transform var(--dur-slow) var(--ease-spring);
+    }
+    .reveal-text.is-visible .line-inner { transform: none; }
+
+    /* ═══════════════════════════════════════
+       CLIP-PATH IMAGE REVEAL
+    ════════════════════════════════════════ */
+    /* hero img-wrap uses fadeUp animation, not clip-path */
+    .clip-reveal {
+      clip-path: inset(0 0 100% 0);
+      transition: clip-path var(--dur-slow) var(--ease-spring);
+    }
+    .clip-reveal.is-visible { clip-path: inset(0 0 0% 0); }
+    .clip-reveal img, .clip-reveal .img-ph {
+      transform: scale(1.04);
+      transition: transform var(--dur-slow) var(--ease-spring);
+    }
+    .clip-reveal.is-visible img,
+    .clip-reveal.is-visible .img-ph { transform: scale(1); }
+
+    /* ═══════════════════════════════════════
+       STAGGER REVEAL — cards / lists
+    ════════════════════════════════════════ */
+    .stagger-item {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity var(--dur-base) var(--ease-spring),
+                  transform var(--dur-base) var(--ease-spring);
+    }
+    .stagger-item.is-visible { opacity: 1; transform: none; }
+
+    /* ═══════════════════════════════════════
+       STEP NUM POP-IN
+    ════════════════════════════════════════ */
+    .cs-step-num {
+      opacity: 0;
+      transform: scale(0.4);
+      transition: opacity 0.35s var(--ease-spring),
+                  transform 0.35s var(--ease-spring);
+    }
+    .cs-step.is-visible .cs-step-num { opacity: 1; transform: scale(1); }
+    .cs-step-content {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity var(--dur-base) var(--ease-spring) 80ms,
+                  transform var(--dur-base) var(--ease-spring) 80ms;
+    }
+    .cs-step.is-visible .cs-step-content { opacity: 1; transform: none; }
+
+    /* ═══════════════════════════════════════
+       QUOTE BORDER GROW
+    ════════════════════════════════════════ */
+    .cs-quote {
+      position: relative;
+      border-left: none;
+      padding-left: calc(var(--s24) + 3px);
+    }
+    .cs-quote::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0;
+      width: 3px; height: 0;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: height 0.6s var(--ease-spring) 0.2s;
+    }
+    .cs-quote.is-visible::before { height: 100%; }
+    .cs-quote p {
+      font-family: var(--f-title);
+      font-size: var(--t20);
+      font-weight: 600;
+      color: var(--text-1);
+      letter-spacing: -0.3px;
+      line-height: 1.5;
+    }
+
+    /* ═══════════════════════════════════════
+       REFLECTION CASCADE
+    ════════════════════════════════════════ */
+    .reflect-num {
+      opacity: 0;
+      transition: opacity 0.4s var(--ease-spring);
+    }
+    .reflect-title {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity var(--dur-base) var(--ease-spring) 100ms,
+                  transform var(--dur-base) var(--ease-spring) 100ms;
+    }
+    .reflect-body {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity var(--dur-base) var(--ease-spring) 180ms,
+                  transform var(--dur-base) var(--ease-spring) 180ms;
+    }
+    .reflect-item.is-visible .reflect-num   { opacity: 1; }
+    .reflect-item.is-visible .reflect-title { opacity: 1; transform: none; }
+    .reflect-item.is-visible .reflect-body  { opacity: 1; transform: none; }
+
+    /* ═══════════════════════════════════════
+       COUNT-UP
+    ════════════════════════════════════════ */
+    .cs-stat-num {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity var(--dur-base) var(--ease-spring),
+                  transform var(--dur-base) var(--ease-spring);
+    }
+    .cs-stat-num.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ═══════════════════════════════════════
+       RESPONSIVE
+    ════════════════════════════════════════ */
+    @media (max-width: 744px) {
+      :root {
+        --t80: 48px;
+        --t64: 40px;
+        --t40: 32px;
+        --pad-x: 24px;
+      }
+      .pj-toc { display: none; }
+      .page-body { padding-top: var(--nav-h); }
+      .g-2, .g-3, .feat-grid, .outcome-grid, .reflect-grid { grid-template-columns: 1fr; }
+      .more-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       NAV
+  ════════════════════════════════════════ -->
+  <header class="pj-nav">
+    <a href="../index.html" class="pj-nav-back" data-en="← Wizzy" data-ko="← Wizzy">← Wizzy</a>
+    <div class="pj-nav-title">Operator</div>
+    <div class="pj-nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <span class="lang-sep">/</span>
+        <button class="lang-btn" data-lang="ko">KO</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════
+       TOC BAR
+  ════════════════════════════════════════ -->
+  <nav class="pj-toc" aria-label="Page sections">
+    <div class="pj-toc-inner">
+      <button class="toc-btn active" data-target="overview"      data-en="Overview"   data-ko="개요">Overview</button>
+      <button class="toc-btn"        data-target="approach"      data-en="Approach"   data-ko="접근">Approach</button>
+      <button class="toc-btn"        data-target="solution"      data-en="Solution"   data-ko="솔루션">Solution</button>
+      <button class="toc-btn"        data-target="outcome"       data-en="Outcome"    data-ko="결과">Outcome</button>
+      <button class="toc-btn"        data-target="iteration"     data-en="Iteration"  data-ko="반복">Iteration</button>
+      <button class="toc-btn"        data-target="reflection"    data-en="Reflection" data-ko="회고">Reflection</button>
+      <button class="toc-btn"        data-target="more-projects" data-en="More"       data-ko="더보기">More</button>
+    </div>
+  </nav>
+
+  <div class="page-body">
+
+    <!-- ═══════════════════════════════════════
+         HERO
+    ════════════════════════════════════════ -->
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="img-wrap">
+          <img src="../assets/images/projects/operator/hero-mockup.jpg?v=2"
+               alt="Operator App Mockup" style="height:660px;">
+          <div class="img-ph" style="height:660px;">
+            <span class="img-ph-name">Hero Mockup</span>
+            <span class="img-ph-file">operator/hero-mockup.jpg</span>
+          </div>
+        </div>
+
+        <div class="hero-tag mt-48" data-en="UX / Product Design · Energy Management" data-ko="UX / 프로덕트 디자인 · 에너지 관리">UX / Product Design · Energy Management</div>
+        <h1 class="hero-h1">Operator</h1>
+        <p class="hero-sub" data-en="Without criteria, every HVAC decision relies on intuition" data-ko="기준이 없으면, 모든 HVAC 결정은 직관에 의존한다">Without criteria, every HVAC decision relies on intuition</p>
+        <p class="hero-desc" data-en="Small business owners make HVAC decisions multiple times a day. But the system never tells them when to adjust, what to base it on, or what will happen after. This project gives them the information they need to decide — not just the controls to act." data-ko="자영업자는 하루에도 여러 번 HVAC 결정을 내린다. 하지만 시스템은 언제 조절해야 하는지, 무엇을 기준으로 해야 하는지, 이후에 어떻게 되는지 알려주지 않는다. 이 프로젝트는 자영업자에게 결정할 수 있는 정보를 준다 — 제어 버튼만이 아니라.">Small business owners make HVAC decisions multiple times a day. But the system never tells them when to adjust, what to base it on, or what will happen after. This project gives them the information they need to decide — not just the controls to act.</p>
+
+        <div class="hero-meta mt-48">
+          <div>
+            <p class="hero-meta-label" data-en="Duration" data-ko="기간">Duration</p>
+            <p class="hero-meta-value" data-en="7 weeks" data-ko="7주">7 weeks</p>
+          </div>
+          <div>
+            <p class="hero-meta-label" data-en="Project type" data-ko="프로젝트 유형">Project type</p>
+            <p class="hero-meta-value" data-en="Team project" data-ko="팀 프로젝트">Team project</p>
+          </div>
+          <div>
+            <p class="hero-meta-label" data-en="Contribution" data-ko="기여도">Contribution</p>
+            <p class="hero-meta-value" data-en="50%" data-ko="50%">50%</p>
+          </div>
+          <div>
+            <p class="hero-meta-label" data-en="Role" data-ko="역할">Role</p>
+            <p class="hero-meta-value" data-en="Problem Framing &amp; Research Lead&#10;UX Strategy &amp; Concept Design&#10;Data-driven UX &amp; Communication Design&#10;Product Perspective &amp; Execution" data-ko="문제 프레이밍 &amp; 리서치 리드&#10;UX 전략 &amp; 컨셉 디자인&#10;데이터 기반 UX &amp; 커뮤니케이션 디자인&#10;제품 관점 &amp; 실행">
+              Problem Framing &amp; Research Lead<br>
+              UX Strategy &amp; Concept Design<br>
+              Data-driven UX &amp; Communication Design<br>
+              Product Perspective &amp; Execution
+            </p>
+          </div>
+          <div>
+            <p class="hero-meta-label" data-en="Tools" data-ko="툴">Tools</p>
+            <p class="hero-meta-value" data-en="Figma · Figma Make" data-ko="Figma · Figma Make">Figma · Figma Make</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         01  OVERVIEW
+    ════════════════════════════════════════ -->
+    <section id="overview">
+      <div class="cs-section">
+        <p class="cs-group-lbl" data-en="Overview" data-ko="개요">Overview</p>
+        <p class="cs-sub-lbl" data-en="Project Summary" data-ko="프로젝트 요약">Project Summary</p>
+        <h2 class="cs-h2 reveal-text" data-en="Small business owners need to decide — not just adjust" data-ko="자영업자는 결정하는 사람이다 — 단순히 조작하는 사람이 아니다">Small business owners need to decide — not just adjust</h2>
+
+        <div class="g-2 mt-48">
+          <div>
+            <p class="cs-body" data-en="Right now, HVAC systems give small business owners buttons and settings. But they don't tell them what to do with them." data-ko="지금 HVAC 시스템은 자영업자에게 버튼과 설정을 준다. 하지만 그것으로 무엇을 해야 할지는 알려주지 않는다.">Right now, HVAC systems give small business owners buttons and settings. But they don't tell them what to do with them.</p>
+            <p class="cs-body mt-16" data-en="They want to keep the store comfortable and manage electricity costs at the same time. Without knowing which action leads to which result, they guess. And they keep guessing, over and over." data-ko="자영업자는 매장을 쾌적하게 유지하면서 전기 요금도 관리하고 싶다. 어떤 행동이 어떤 결과로 이어지는지 모르면 짐작한다. 그리고 계속 짐작한다.">They want to keep the store comfortable and manage electricity costs at the same time. Without knowing which action leads to which result, they guess. And they keep guessing, over and over.</p>
+            <p class="cs-body mt-16" data-en="This project started from my store operation experience and my teammate's analysis of how electricity costs actually work." data-ko="이 프로젝트는 내 매장 운영 경험과, 팀원의 전기 요금 구조 분석에서 시작됐다.">This project started from my store operation experience and my teammate's analysis of how electricity costs actually work.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         02  APPROACH — DISCOVER + DEFINE + IDEATE
+    ════════════════════════════════════════ -->
+    <section id="approach" class="cs-section-border">
+      <div class="cs-section">
+        <p class="cs-group-lbl" data-en="Approach" data-ko="접근">Approach</p>
+
+        <!-- ── DISCOVER ── -->
+        <p class="cs-sub-lbl" data-en="Discover" data-ko="발견">Discover</p>
+        <h2 class="cs-h2 reveal-text" data-en="Small Business Owners Are Decision-Makers Stuck Without Decision Support" data-ko="자영업자는 결정 지원 없이 결정을 내려야 한다">Small Business Owners Are Decision-Makers Stuck Without Decision Support</h2>
+
+        <!-- Secondary Research -->
+        <div class="cs-sub">
+          <p class="cs-sub-lbl" data-en="Secondary Research" data-ko="2차 리서치">Secondary Research</p>
+          <h3 class="cs-h3 reveal-text" data-en="Small business owners feel caught between comfort and cost — and there's no way out" data-ko="자영업자는 쾌적함과 비용 사이에 끼여 있다 — 빠져나갈 방법이 없다">Small business owners feel caught between comfort and cost — and there's no way out</h3>
+          <p class="cs-body" data-en="Looking at the data, small business owners were adjusting HVAC constantly. Not because they wanted to — but because they didn't know when to stop. They worried that reducing HVAC would make customers uncomfortable. And they worried that keeping it running would cost too much." data-ko="데이터를 보면, 자영업자들은 계속 HVAC을 조작하고 있었다. 원해서가 아니라 — 언제 멈춰야 할지 몰랐기 때문이다. HVAC을 줄이면 손님이 불편할까 걱정됐다. 계속 켜두면 비용이 너무 많이 들까 걱정됐다.">Looking at the data, small business owners were adjusting HVAC constantly. Not because they wanted to — but because they didn't know when to stop. They worried that reducing HVAC would make customers uncomfortable. And they worried that keeping it running would cost too much.</p>
+          <div class="cs-insight">
+            <p class="cs-insight-lbl" data-en="Insight" data-ko="인사이트">Insight</p>
+            <p class="cs-insight-body" data-en="The problem is not too many adjustments — it's that small business owners have no criteria to stop adjusting" data-ko="문제는 조작이 많다는 게 아니다 — 조작을 멈출 기준이 없다는 것이다">The problem is not too many adjustments — it's that small business owners have no criteria to stop adjusting</p>
+          </div>
+          <div class="clip-reveal img-wrap mt-32">
+            <img src="../assets/images/projects/operator/approach/secondary-research.jpg"
+                 alt="Secondary Research" style="height:480px;">
+            <div class="img-ph" style="height:480px;">
+              <span class="img-ph-name">Secondary Research</span>
+              <span class="img-ph-file">operator/approach/secondary-research.jpg</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Primary Research -->
+        <div class="cs-sub">
+          <p class="cs-sub-lbl" data-en="Primary Research" data-ko="1차 리서치">Primary Research</p>
+          <h3 class="cs-h3 reveal-text" data-en="Even when small business owners want to save cost, they can't — because comfort always comes first" data-ko="비용을 줄이고 싶어도 줄일 수 없다 — 쾌적함이 항상 먼저다">Even when small business owners want to save cost, they can't — because comfort always comes first</h3>
+          <div class="mt-32">
+            <p class="cs-body" data-en="In interviews, small business owners said the same thing: they couldn't reduce HVAC because they were worried about customers. So they kept adjusting — but without any way to see what those adjustments actually did. They made the same decisions again and again, without ever being able to learn from them." data-ko="인터뷰에서 자영업자들은 같은 말을 했다: 손님이 걱정돼서 HVAC을 줄일 수 없었다. 그래서 계속 조작했다 — 하지만 그 조작이 실제로 어떤 결과를 만드는지 볼 방법이 없었다. 같은 결정을 반복했지만, 그것으로부터 배울 수 없었다.">In interviews, small business owners said the same thing: they couldn't reduce HVAC because they were worried about customers. So they kept adjusting — but without any way to see what those adjustments actually did. They made the same decisions again and again, without ever being able to learn from them.</p>
+            <div class="cs-insight mt-24">
+              <p class="cs-insight-lbl" data-en="Insight" data-ko="인사이트">Insight</p>
+              <p class="cs-insight-body" data-en="Each adjustment is a guess — because the result is never shown" data-ko="모든 조작은 추측이다 — 결과가 보이지 않기 때문에">Each adjustment is a guess — because the result is never shown</p>
+            </div>
+            <div class="cs-insight">
+              <p class="cs-insight-lbl" data-en="Insight" data-ko="인사이트">Insight</p>
+              <p class="cs-insight-body" data-en="Comfort vs. cost — small business owners face this trade-off every time, with no criteria to guide them" data-ko="쾌적함 vs. 비용 — 자영업자는 매번 이 선택을 한다, 기준 없이">Comfort vs. cost — small business owners face this trade-off every time, with no criteria to guide them</p>
+            </div>
+          </div>
+
+          <!-- ① Interview Photos — g-2 -->
+          <div class="g-2 mt-32">
+            <div class="clip-reveal img-wrap">
+              <img src="../assets/images/projects/operator/approach/interview-photo-1.jpg"
+                   alt="Interview Photo 1" style="height:300px;">
+              <div class="img-ph" style="height:300px;">
+                <span class="img-ph-name">Interview Photo 1</span>
+                <span class="img-ph-file">operator/approach/interview-photo-1.jpg</span>
+              </div>
+            </div>
+            <div class="clip-reveal img-wrap">
+              <img src="../assets/images/projects/operator/approach/interview-photo-2.jpg"
+                   alt="Interview Photo 2" style="height:300px;">
+              <div class="img-ph" style="height:300px;">
+                <span class="img-ph-name">Interview Photo 2</span>
+                <span class="img-ph-file">operator/approach/interview-photo-2.jpg</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ② Interview Protocol — full width -->
+          <div class="clip-reveal img-wrap mt-16">
+            <img src="../assets/images/projects/operator/approach/interview-protocol-en.jpg"
+                 data-en-src="../assets/images/projects/operator/approach/interview-protocol-en.jpg"
+                 data-ko-src="../assets/images/projects/operator/approach/interview-protocol-ko.jpg"
+                 alt="Interview Protocol" style="height:320px;">
+            <div class="img-ph" style="height:320px;">
+              <span class="img-ph-name">Interview Protocol</span>
+              <span class="img-ph-file">operator/approach/interview-protocol.jpg</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Analysis -->
+        <div class="cs-sub">
+          <p class="cs-sub-lbl" data-en="Analysis" data-ko="분석">Analysis</p>
+          <h3 class="cs-h3 reveal-text" data-en="The same difficulty appeared across every interview — not how to control, but how to decide" data-ko="모든 인터뷰에서 같은 어려움이 반복됐다 — 어떻게 제어할지가 아니라, 어떻게 결정할지">The same difficulty appeared across every interview — not how to control, but how to decide</h3>
+          <p class="cs-body" data-en="I analyzed the interview data using affinity mapping and thematic analysis. The issues weren't scattered — they kept pointing to the same place. Small business owners didn't struggle with operating the system. They struggled with deciding: when to adjust, how much, and how to balance comfort against energy costs — without any clear criteria." data-ko="어피니티 매핑과 주제 분석으로 인터뷰 데이터를 분석했다. 문제들은 제각각이 아니었다 — 계속 같은 지점을 가리켰다. 자영업자들은 시스템을 조작하는 것에서 어려움을 겪지 않았다. 언제 조절할지, 얼마나 할지, 쾌적함과 에너지 비용을 어떻게 균형 잡을지 결정하는 것 — 명확한 기준 없이.">I analyzed the interview data using affinity mapping and thematic analysis. The issues weren't scattered — they kept pointing to the same place. Small business owners didn't struggle with operating the system. They struggled with deciding: when to adjust, how much, and how to balance comfort against energy costs — without any clear criteria.</p>
+          <div class="cs-insight mt-24">
+            <p class="cs-insight-lbl" data-en="Insight" data-ko="인사이트">Insight</p>
+            <p class="cs-insight-body" data-en="Small business owners want to balance comfort and cost — but there's no criteria to do it with" data-ko="자영업자는 쾌적함과 비용을 균형 잡고 싶다 — 하지만 그럴 기준이 없다">Small business owners want to balance comfort and cost — but there's no criteria to do it with</p>
+          </div>
+          <div class="g-2 mt-32">
+            <div class="clip-reveal img-wrap">
+              <img src="../assets/images/projects/operator/approach/affinity-mapping.jpg"
+                   alt="Affinity Mapping" style="height:220px;">
+              <div class="img-ph" style="height:220px;">
+                <span class="img-ph-name">Affinity Mapping</span>
+                <span class="img-ph-file">operator/approach/affinity-mapping.jpg</span>
+              </div>
+            </div>
+            <div class="clip-reveal img-wrap">
+              <img src="../assets/images/projects/operator/approach/thematic-analysis.jpg"
+                   alt="Thematic Analysis" style="height:220px;">
+              <div class="img-ph" style="height:220px;">
+                <span class="img-ph-name">Thematic Analysis</span>
+                <span class="img-ph-file">operator/approach/thematic-analysis.jpg</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Context Research -->
+        <div class="cs-sub">
+          <p class="cs-sub-lbl" data-en="Context Research" data-ko="맥락 리서치">Context Research</p>
+          <h3 class="cs-h3 reveal-text" data-en="Electricity costs change by the hour — but the structure is too complex to actually use" data-ko="전기 요금은 시간마다 바뀐다 — 하지만 구조가 너무 복잡해서 실제로 쓸 수 없다">Electricity costs change by the hour — but the structure is too complex to actually use</h3>
+          <div class="g-2 mt-32">
+            <div>
+              <p class="cs-body" data-en="Electricity pricing changes based on time of day and total usage. In theory, small business owners could save money by adjusting HVAC at the right times. But the pricing structure is so complex that most can't apply it to real decisions." data-ko="전기 요금은 시간대와 총 사용량에 따라 바뀐다. 이론적으로 자영업자는 적절한 시간에 HVAC을 조절해서 비용을 절약할 수 있다. 하지만 요금 구조가 너무 복잡해서 대부분은 실제 결정에 적용할 수 없다.">Electricity pricing changes based on time of day and total usage. In theory, small business owners could save money by adjusting HVAC at the right times. But the pricing structure is so complex that most can't apply it to real decisions.</p>
+              <div class="cs-insight mt-24">
+                <p class="cs-insight-lbl" data-en="Insight" data-ko="인사이트">Insight</p>
+                <p class="cs-insight-body" data-en="Cost information exists — but it's invisible to the people who need it most" data-ko="비용 정보는 존재한다 — 하지만 가장 필요한 사람에게는 보이지 않는다">Cost information exists — but it's invisible to the people who need it most</p>
+              </div>
+            </div>
+            <div class="clip-reveal img-wrap">
+              <img src="../assets/images/projects/operator/approach/context-research.jpg"
+                   alt="Context Research" style="height:480px;">
+              <div class="img-ph" style="height:480px;">
+                <span class="img-ph-name">Context Research</span>
+                <span class="img-ph-file">operator/approach/context-research.jpg</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Competitor Analysis -->
+        <div class="cs-sub">
+          <p class="cs-sub-lbl" data-en="Competitor Analysis" data-ko="경쟁사 분석">Competitor Analysis</p>
+          <h3 class="cs-h3 reveal-text" data-en="Existing systems show data — but never tell small business owners what to do with it" data-ko="기존 시스템은 데이터를 보여준다 — 하지만 그걸로 무엇을 해야 할지는 알려주지 않는다">Existing systems show data — but never tell small business owners what to do with it</h3>
+          <div class="g-2 mt-32">
+            <div>
+              <p class="cs-body" data-en="HVAC and EMS systems offer plenty of controls and historical data. But they don't translate that data into action. Small business owners can see what happened — they just can't figure out what to do next." data-ko="HVAC과 EMS 시스템은 많은 제어 기능과 과거 데이터를 제공한다. 하지만 그 데이터를 행동으로 연결하지 않는다. 자영업자는 무슨 일이 있었는지는 볼 수 있다 — 다음에 뭘 해야 할지는 알 수 없다.">HVAC and EMS systems offer plenty of controls and historical data. But they don't translate that data into action. Small business owners can see what happened — they just can't figure out what to do next.</p>
+              <div class="cs-insight mt-24">
+                <p class="cs-insight-lbl" data-en="Insight" data-ko="인사이트">Insight</p>
+                <p class="cs-insight-body" data-en="Data without guidance is not enough — they need to know what to do, not just what happened" data-ko="안내 없는 데이터는 충분하지 않다 — 무슨 일이 있었는지가 아니라, 뭘 해야 할지 알아야 한다">Data without guidance is not enough — they need to know what to do, not just what happened</p>
+              </div>
+              <div class="cs-insight">
+                <p class="cs-insight-lbl" data-en="Insight" data-ko="인사이트">Insight</p>
+                <p class="cs-insight-body" data-en="The gap is not in features — it's in decision support" data-ko="차이는 기능에 있지 않다 — 의사결정 지원에 있다">The gap is not in features — it's in decision support</p>
+              </div>
+            </div>
+            <div class="clip-reveal img-wrap">
+              <img src="../assets/images/projects/operator/approach/competitor-analysis.jpg"
+                   alt="Competitor Analysis" style="height:480px;">
+              <div class="img-ph" style="height:480px;">
+                <span class="img-ph-name">Competitor Analysis</span>
+                <span class="img-ph-file">operator/approach/competitor-analysis.jpg</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── DEFINE ── -->
+        <div id="define" class="cs-sub">
+          <p class="cs-sub-lbl" data-en="Define" data-ko="정의">Define</p>
+          <h2 class="cs-h2 reveal-text" data-en="The Problem Is Not Missing Controls — It's Missing Criteria" data-ko="문제는 제어 기능의 부재가 아니다 — 기준의 부재다">The Problem Is Not Missing Controls — It's Missing Criteria</h2>
+
+          <div class="cs-steps">
+
+            <div class="cs-step">
+              <span class="cs-step-num">01</span>
+              <div class="cs-step-content">
+                <p class="cs-step-title" data-en="Problem Definition" data-ko="문제 정의">Problem Definition</p>
+                <p class="cs-step-body" data-en="This is not about adding more controls. Small business owners already have controls. The problem is that they don't know when to use them, what to base their decisions on, or what will happen after. That's the gap this project addresses." data-ko="이건 더 많은 제어 기능을 추가하는 것에 관한 게 아니다. 자영업자는 이미 제어 기능이 있다. 문제는 언제 써야 하는지, 무엇을 기준으로 결정해야 하는지, 이후에 어떻게 되는지를 모른다는 것이다.">This is not about adding more controls. Small business owners already have controls. The problem is that they don't know when to use them, what to base their decisions on, or what will happen after. That's the gap this project addresses.</p>
+                <div class="cs-insight mt-16">
+                  <p class="cs-insight-lbl" data-en="Insight" data-ko="인사이트">Insight</p>
+                  <p class="cs-insight-body" data-en="The core issue is not missing features — it's missing a structure for deciding" data-ko="핵심 문제는 기능의 부재가 아니다 — 결정하기 위한 구조의 부재다">The core issue is not missing features — it's missing a structure for deciding</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="cs-step">
+              <span class="cs-step-num">02</span>
+              <div class="cs-step-content">
+                <p class="cs-step-title" data-en="Root Cause Analysis" data-ko="근본 원인 분석">Root Cause Analysis</p>
+                <p class="cs-step-body" data-en="Why do small business owners keep guessing? Because the system never shows results. When they change the temperature or mode, they don't see how comfort will shift, or how much cost will go up. Without that, every decision is a gamble." data-ko="왜 자영업자들은 계속 추측하는가? 시스템이 결과를 보여주지 않기 때문이다. 온도나 모드를 바꾸면 쾌적함이 어떻게 변하고, 비용이 얼마나 올라가는지 보이지 않는다. 그게 없으면 모든 결정은 도박이다.">Why do small business owners keep guessing? Because the system never shows results. When they change the temperature or mode, they don't see how comfort will shift, or how much cost will go up. Without that, every decision is a gamble.</p>
+                <div class="cs-insight mt-16">
+                  <p class="cs-insight-lbl" data-en="Insight" data-ko="인사이트">Insight</p>
+                  <p class="cs-insight-body" data-en="No feedback loop — no learning — same mistakes over and over" data-ko="피드백 루프 없음 — 배움 없음 — 같은 실수 반복">No feedback loop — no learning — same mistakes over and over</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="cs-step">
+              <span class="cs-step-num">03</span>
+              <div class="cs-step-content">
+                <p class="cs-step-title" data-en="Persona &amp; User Journey" data-ko="페르소나 &amp; 사용자 여정">Persona &amp; User Journey</p>
+                <p class="cs-step-body" data-en="The busier the store, the less time small business owners have to think. When things get crowded, they need to make HVAC decisions fast — with no time to analyze. So they go with intuition. The persona work showed this is not a skill problem. It's a time + criteria problem." data-ko="매장이 바빠질수록 생각할 시간이 줄어든다. 매장이 붐빌 때 자영업자는 빠르게 HVAC 결정을 내려야 한다 — 분석할 시간 없이. 그래서 직관에 의존한다. 페르소나 작업은 이것이 역량 문제가 아님을 보여줬다. 시간 + 기준의 문제다.">The busier the store, the less time small business owners have to think. When things get crowded, they need to make HVAC decisions fast — with no time to analyze. So they go with intuition. The persona work showed this is not a skill problem. It's a time + criteria problem.</p>
+                <div class="cs-insight mt-16">
+                  <p class="cs-insight-lbl" data-en="Insight" data-ko="인사이트">Insight</p>
+                  <p class="cs-insight-body" data-en="Small business owners don't make bad decisions — they make decisions without the right information at the right time" data-ko="자영업자는 나쁜 결정을 내리는 게 아니다 — 적시에 적절한 정보 없이 결정을 내린다">Small business owners don't make bad decisions — they make decisions without the right information at the right time</p>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;" class="mt-24">
+                  <div class="clip-reveal img-wrap">
+                    <img src="../assets/images/projects/operator/define/persona.jpg"
+                         alt="User Persona" style="height:300px;">
+                    <div class="img-ph" style="height:300px;">
+                      <span class="img-ph-name">User Persona</span>
+                      <span class="img-ph-file">operator/define/persona.jpg</span>
+                    </div>
+                  </div>
+                  <div class="clip-reveal img-wrap">
+                    <img src="../assets/images/projects/operator/define/user-journey-map.jpg"
+                         alt="User Journey Map" style="height:300px;">
+                    <div class="img-ph" style="height:300px;">
+                      <span class="img-ph-name">User Journey Map</span>
+                      <span class="img-ph-file">operator/define/user-journey-map.jpg</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cs-step">
+              <span class="cs-step-num">04</span>
+              <div class="cs-step-content">
+                <p class="cs-step-title" data-en="Problem Statement" data-ko="문제 정의">Problem Statement</p>
+                <div class="g-2 mt-24">
+                  <div>
+                    <div class="cs-quote">
+                      <p data-en="Small Business Owners Need to Decide — Not Just Adjust" data-ko="자영업자는 결정해야 한다 — 조작만 하는 게 아니라">Small Business Owners Need to Decide — Not Just Adjust</p>
+                    </div>
+                    <p class="cs-step-body" data-en="Every day, small business owners manage the trade-off between comfort and cost. They make HVAC decisions repeatedly, in conditions that keep changing. Without criteria or feedback, they rely on intuition. The result: unstable, inconsistent, exhausting decisions." data-ko="매일 자영업자는 쾌적함과 비용 사이의 트레이드오프를 관리한다. 변화하는 환경에서 HVAC 결정을 반복적으로 내린다. 기준도 피드백도 없이 직관에 의존한다. 결과: 불안정하고, 일관성 없고, 피로한 결정.">Every day, small business owners manage the trade-off between comfort and cost. They make HVAC decisions repeatedly, in conditions that keep changing. Without criteria or feedback, they rely on intuition. The result: unstable, inconsistent, exhausting decisions.</p>
+                  </div>
+                  <div class="clip-reveal img-wrap">
+                    <img src="../assets/images/projects/operator/define/kpi-definition-en.jpg"
+                         data-en-src="../assets/images/projects/operator/define/kpi-definition-en.jpg"
+                         data-ko-src="../assets/images/projects/operator/define/kpi-definition-ko.jpg"
+                         alt="KPI Definition" style="height:382px;">
+                    <div class="img-ph" style="height:382px;">
+                      <span class="img-ph-name">KPI Definition</span>
+                      <span class="img-ph-file">operator/define/kpi-definition.jpg</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── IDEATE ── -->
+        <div id="ideate" class="cs-sub">
+          <p class="cs-sub-lbl" data-en="Ideate" data-ko="아이디에이션">Ideate</p>
+          <h2 class="cs-h2 reveal-text" data-en="Show What to Do Now — and What Will Happen" data-ko="지금 무엇을 해야 할지 — 그리고 어떻게 될지 보여준다">Show What to Do Now — and What Will Happen</h2>
+
+          <div class="cs-steps">
+
+            <div class="cs-step">
+              <span class="cs-step-num">01</span>
+              <div class="cs-step-content">
+                <p class="cs-step-title" data-en="Solution Direction" data-ko="솔루션 방향">Solution Direction</p>
+                <p class="cs-step-body" data-en="The answer is not more data. Small business owners already feel overwhelmed by information they can't use. The answer is showing the right action and the expected result, at the right moment." data-ko="답은 더 많은 데이터가 아니다. 자영업자들은 이미 쓸 수 없는 정보에 압도당한다. 답은 적절한 순간에 적절한 행동과 예상 결과를 보여주는 것이다.">The answer is not more data. Small business owners already feel overwhelmed by information they can't use. The answer is showing the right action and the expected result, at the right moment.</p>
+                <div class="cs-insight mt-16">
+                  <p class="cs-insight-lbl" data-en="Core" data-ko="핵심">Core</p>
+                  <p class="cs-insight-body" data-en="Not more information — decision clarity at the right moment" data-ko="더 많은 정보가 아니라 — 적절한 순간의 결정 명확성">Not more information — decision clarity at the right moment</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="cs-step">
+              <span class="cs-step-num">02</span>
+              <div class="cs-step-content">
+                <p class="cs-step-title" data-en="Functional Structuring" data-ko="기능 구조화">Functional Structuring</p>
+                <div class="g-2 mt-24">
+                  <div>
+                    <p class="cs-step-body" data-en="We mapped out all the variables that affect HVAC decisions: weather, time of day, store occupancy, electricity rate. Then we connected each variable to a specific function — so the system could give small business owners the right information at the right moment." data-ko="HVAC 결정에 영향을 미치는 모든 변수를 매핑했다: 날씨, 시간대, 매장 점유율, 전기 요금. 그리고 각 변수를 특정 기능과 연결했다 — 시스템이 자영업자에게 적절한 순간에 적절한 정보를 줄 수 있도록.">We mapped out all the variables that affect HVAC decisions: weather, time of day, store occupancy, electricity rate. Then we connected each variable to a specific function — so the system could give small business owners the right information at the right moment.</p>
+                    <div class="cs-insight mt-16">
+                      <p class="cs-insight-lbl" data-en="Insight" data-ko="인사이트">Insight</p>
+                      <p class="cs-insight-body" data-en="Every decision involves multiple variables — the system must reflect that, simply" data-ko="모든 결정은 여러 변수가 함께 작용한다 — 시스템은 그것을 단순하게 반영해야 한다">Every decision involves multiple variables — the system must reflect that, simply</p>
+                    </div>
+                  </div>
+                  <div class="clip-reveal img-wrap">
+                    <img src="../assets/images/projects/operator/ideate/functional-structure.jpg"
+                         alt="Functional Structure" style="height:360px; width:100%; object-fit:cover; border-radius:var(--r12);">
+                    <div class="img-ph" style="height:360px;">
+                      <span class="img-ph-name">Functional Structure</span>
+                      <span class="img-ph-file">operator/ideate/functional-structure.jpg</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cs-step">
+              <span class="cs-step-num">03</span>
+              <div class="cs-step-content">
+                <p class="cs-step-title" data-en="Scenario &amp; Prioritization" data-ko="시나리오 &amp; 우선순위">Scenario &amp; Prioritization</p>
+                <p class="cs-step-body" data-en="We designed features around real decision moments — when the store gets crowded, when outside temperature spikes, when the electricity rate peaks. Features were mapped to these moments, then prioritized using a 2×2 matrix and MoSCoW to define the MVP." data-ko="실제 결정 순간을 중심으로 기능을 설계했다 — 매장이 붐빌 때, 외부 온도가 급등할 때, 전기 요금이 피크일 때. 기능을 이 순간에 매핑하고, 2×2 매트릭스와 MoSCoW로 우선순위를 정해 MVP를 정의했다.">We designed features around real decision moments — when the store gets crowded, when outside temperature spikes, when the electricity rate peaks. Features were mapped to these moments, then prioritized using a 2×2 matrix and MoSCoW to define the MVP.</p>
+                <div class="cs-insight mt-16">
+                  <p class="cs-insight-lbl" data-en="Insight" data-ko="인사이트">Insight</p>
+                  <p class="cs-insight-body" data-en="It's not about having the right features — it's about having them at the right moment" data-ko="올바른 기능을 갖는 게 아니다 — 올바른 순간에 갖는 것이다">It's not about having the right features — it's about having them at the right moment</p>
+                </div>
+                <div class="g-3 mt-24">
+                  <div class="clip-reveal img-wrap">
+                    <img src="../assets/images/projects/operator/ideate/scenario.jpg"
+                         alt="Scenario" style="height:300px;">
+                    <div class="img-ph" style="height:300px;">
+                      <span class="img-ph-name">Scenario</span>
+                      <span class="img-ph-file">operator/ideate/scenario.jpg</span>
+                    </div>
+                  </div>
+                  <div class="clip-reveal img-wrap">
+                    <img src="../assets/images/projects/operator/ideate/2x2-matrix.jpg"
+                         alt="2x2 Matrix" style="height:300px;">
+                    <div class="img-ph" style="height:300px;">
+                      <span class="img-ph-name">2×2 Prioritization Matrix</span>
+                      <span class="img-ph-file">operator/ideate/2x2-matrix.jpg</span>
+                    </div>
+                  </div>
+                  <div class="clip-reveal img-wrap">
+                    <img src="../assets/images/projects/operator/ideate/moscow.jpg"
+                         alt="MoSCoW" style="height:300px;">
+                    <div class="img-ph" style="height:300px;">
+                      <span class="img-ph-name">MoSCoW</span>
+                      <span class="img-ph-file">operator/ideate/moscow.jpg</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cs-step">
+              <span class="cs-step-num">04</span>
+              <div class="cs-step-content">
+                <p class="cs-step-title" data-en="Ideation &amp; User Flow Design" data-ko="아이디에이션 &amp; 사용자 흐름 설계">Ideation &amp; User Flow Design</p>
+                <div class="g-2 mt-24">
+                  <div>
+                    <p class="cs-step-body" data-en="The flow is designed to match how small business owners think, not how HVAC systems are built. Instead of showing data and asking them to figure things out, the flow guides: here's the situation → here's what you can do → here's what will happen." data-ko="흐름은 자영업자가 생각하는 방식에 맞게 설계됐다, HVAC 시스템이 구축된 방식이 아니라. 데이터를 보여주고 알아내길 기대하는 대신, 흐름이 안내한다: 상황이 이렇다 → 이렇게 할 수 있다 → 이렇게 될 것이다.">The flow is designed to match how small business owners think, not how HVAC systems are built. Instead of showing data and asking them to figure things out, the flow guides: here's the situation → here's what you can do → here's what will happen.</p>
+                    <div class="cs-insight mt-16">
+                      <p class="cs-insight-lbl" data-en="Insight" data-ko="인사이트">Insight</p>
+                      <p class="cs-insight-body" data-en="The key is not the amount of information — it's the order" data-ko="핵심은 정보의 양이 아니다 — 순서다">The key is not the amount of information — it's the order</p>
+                    </div>
+                  </div>
+                  <div class="clip-reveal img-wrap">
+                    <video autoplay loop muted playsinline style="height:360px; width:100%; object-fit:cover; border-radius:var(--r12);">
+                      <source src="../assets/videos/projects/operator/crazy-8.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cs-step">
+              <span class="cs-step-num">05</span>
+              <div class="cs-step-content">
+                <p class="cs-step-title" data-en="IA &amp; System Design" data-ko="IA &amp; 시스템 설계">IA &amp; System Design</p>
+                <p class="cs-step-body" data-en="The decision flow — understand → choose → act → see result — became the structure for the IA and system logic. Every screen, every interaction was designed to keep that flow intact." data-ko="결정 흐름 — 이해 → 선택 → 행동 → 결과 확인 — 이 IA와 시스템 로직의 구조가 됐다. 모든 화면, 모든 인터랙션은 그 흐름을 유지하도록 설계됐다.">The decision flow — understand → choose → act → see result — became the structure for the IA and system logic. Every screen, every interaction was designed to keep that flow intact.</p>
+                <div class="cs-insight mt-16">
+                  <p class="cs-insight-lbl" data-en="Insight" data-ko="인사이트">Insight</p>
+                  <p class="cs-insight-body" data-en="Good structure makes decisions feel effortless" data-ko="좋은 구조는 결정을 쉽게 만든다">Good structure makes decisions feel effortless</p>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;" class="mt-24">
+                  <div class="clip-reveal img-wrap">
+                    <img src="../assets/images/projects/operator/ideate/ia.jpg"
+                         alt="Information Architecture" style="height:360px;">
+                    <div class="img-ph" style="height:360px;">
+                      <span class="img-ph-name">Information Architecture</span>
+                      <span class="img-ph-file">operator/ideate/ia.jpg</span>
+                    </div>
+                  </div>
+                  <div class="clip-reveal img-wrap">
+                    <img src="../assets/images/projects/operator/ideate/system-flow.jpg"
+                         alt="System Flow" style="height:360px;">
+                    <div class="img-ph" style="height:360px;">
+                      <span class="img-ph-name">System Flow</span>
+                      <span class="img-ph-file">operator/ideate/system-flow.jpg</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cs-step">
+              <span class="cs-step-num">06</span>
+              <div class="cs-step-content">
+                <p class="cs-step-title" data-en="Wireframe &amp; Design System" data-ko="와이어프레임 &amp; 디자인 시스템">Wireframe &amp; Design System</p>
+                <p class="cs-step-body" data-en="One screen. All the information needed to decide — nothing extra. We reduced the number of steps and made sure every critical action could happen without switching screens." data-ko="한 화면. 결정에 필요한 모든 정보 — 그 외 아무것도 없다. 단계 수를 줄이고, 모든 핵심 행동이 화면 전환 없이 이루어질 수 있게 했다.">One screen. All the information needed to decide — nothing extra. We reduced the number of steps and made sure every critical action could happen without switching screens.</p>
+                <div class="cs-insight mt-16">
+                  <p class="cs-insight-lbl" data-en="Insight" data-ko="인사이트">Insight</p>
+                  <p class="cs-insight-body" data-en="Small business owners need speed — decisions need to happen in seconds" data-ko="자영업자는 속도가 필요하다 — 결정은 초 단위로 이루어져야 한다">Small business owners need speed — decisions need to happen in seconds</p>
+                </div>
+                <div class="g-2 mt-24">
+                  <div class="clip-reveal img-wrap">
+                    <img src="../assets/images/projects/operator/ideate/wireframe-1.jpg"
+                         alt="Wireframe 1" style="height:480px;">
+                    <div class="img-ph" style="height:480px;">
+                      <span class="img-ph-name">Wireframe</span>
+                      <span class="img-ph-file">operator/ideate/wireframe-1.jpg</span>
+                    </div>
+                  </div>
+                  <div class="clip-reveal img-wrap">
+                    <img src="../assets/images/projects/operator/ideate/design-system.jpg"
+                         alt="Design System" style="height:480px;">
+                    <div class="img-ph" style="height:480px;">
+                      <span class="img-ph-name">Design System</span>
+                      <span class="img-ph-file">operator/ideate/design-system.jpg</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         03  SOLUTION AND IMPACT
+    ════════════════════════════════════════ -->
+    <section id="solution" class="cs-section-border">
+      <div class="cs-section">
+        <p class="cs-group-lbl" data-en="Solution" data-ko="솔루션">Solution</p>
+
+        <!-- Key Features -->
+        <p class="cs-sub-lbl" data-en="Key Features" data-ko="핵심 기능">Key Features</p>
+        <h2 class="cs-h2 reveal-text" data-en="Four Features That Turn Confusion into Clear Decisions" data-ko="혼란을 명확한 결정으로 바꾸는 네 가지 기능">Four Features That Turn Confusion into Clear Decisions</h2>
+        <p class="cs-body" data-en="Each feature maps to one moment in the decision process: understand the situation, explore options, review past results, and set criteria in advance." data-ko="각 기능은 결정 과정의 한 순간에 대응한다: 상황 파악, 선택지 탐색, 과거 결과 확인, 기준 사전 설정.">Each feature maps to one moment in the decision process: understand the situation, explore options, review past results, and set criteria in advance.</p>
+
+        <div class="video-wrap mt-48" style="aspect-ratio:16/9;">
+          <img src="../assets/images/projects/operator/solution/mockup-overview.jpg?v=3" alt="Mockup Overview">
+          <div class="video-ph">
+            <span class="video-ph-name">Mockup Overview</span>
+            <span class="video-ph-file">operator/solution/mockup-overview.jpg</span>
+          </div>
+        </div>
+
+        <div class="feat-grid">
+
+          <div class="feat-item">
+            <div class="video-wrap">
+              <img src="../assets/images/projects/operator/solution/feature-apply.jpg?v=2" alt="Feature 01">
+              <div class="video-ph">
+                <span class="video-ph-name">Feature 01 — Apply on Kiosk</span>
+                <span class="video-ph-file">operator/solution/feature-apply.jpg</span>
+              </div>
+            </div>
+            <div class="feat-card">
+              <p class="feat-num" data-en="FEATURE 01" data-ko="기능 01">FEATURE 01</p>
+              <p class="feat-title" data-en="Apply Solution on Kiosk" data-ko="키오스크에서 솔루션 적용">Apply Solution on Kiosk</p>
+              <p class="feat-sub" data-en="Diagnose and act — in one place" data-ko="한 곳에서 진단하고 행동한다">Diagnose and act — in one place</p>
+              <p class="feat-body" data-en="The kiosk shows the current situation and the recommended action. Store owners select a solution and apply it — without switching between screens or systems." data-ko="키오스크에서 현재 상황과 추천 행동을 보여준다. 자영업자는 솔루션을 선택하고 바로 적용한다 — 화면을 이동하거나 시스템을 바꿀 필요 없이.">The kiosk shows the current situation and the recommended action. Store owners select a solution and apply it — without switching between screens or systems.</p>
+            </div>
+          </div>
+
+          <div class="feat-item">
+            <div class="video-wrap">
+              <img src="../assets/images/projects/operator/solution/feature-detail-flow.jpg?v=2" alt="Feature 02">
+              <div class="video-ph">
+                <span class="video-ph-name">Feature 02 — Solution Detail Flow</span>
+                <span class="video-ph-file">operator/solution/feature-detail-flow.jpg</span>
+              </div>
+            </div>
+            <div class="feat-card">
+              <p class="feat-num" data-en="FEATURE 02" data-ko="기능 02">FEATURE 02</p>
+              <p class="feat-title" data-en="Solution Detail Flow" data-ko="솔루션 상세 흐름">Solution Detail Flow</p>
+              <p class="feat-sub" data-en="From kiosk to full detail — then back to action" data-ko="키오스크에서 상세 확인 — 그리고 바로 적용">From kiosk to full detail — then back to action</p>
+              <p class="feat-body" data-en="When owners want to understand more before deciding, they move from the kiosk to the full solution detail on the main app — then apply it. The decision flow doesn't stop; it deepens." data-ko="결정 전에 더 알고 싶을 때, 키오스크에서 메인 앱의 솔루션 상세 화면으로 이동해 내용을 확인하고 적용한다. 결정 흐름이 끊기지 않고 이어진다.">When owners want to understand more before deciding, they move from the kiosk to the full solution detail on the main app — then apply it. The decision flow doesn't stop; it deepens.</p>
+            </div>
+          </div>
+
+          <div class="feat-item">
+            <div class="video-wrap">
+              <img src="../assets/images/projects/operator/solution/feature-datalog.jpg?v=2" alt="Feature 03">
+              <div class="video-ph">
+                <span class="video-ph-name">Feature 03 — Data Log</span>
+                <span class="video-ph-file">operator/solution/feature-datalog.jpg</span>
+              </div>
+            </div>
+            <div class="feat-card">
+              <p class="feat-num" data-en="FEATURE 03" data-ko="기능 03">FEATURE 03</p>
+              <p class="feat-title" data-en="Data Log" data-ko="데이터 로그">Data Log</p>
+              <p class="feat-sub" data-en="See past decisions and their cost impact" data-ko="과거 결정과 비용 영향 확인">See past decisions and their cost impact</p>
+              <p class="feat-body" data-en="The data log records every adjustment. Store owners can open cost details to see exactly how each decision affected their electricity bill — building real decision criteria over time." data-ko="데이터 로그는 모든 조작을 기록한다. 비용 상세보기에서 각 결정이 전기 요금에 어떤 영향을 줬는지 정확히 볼 수 있다 — 시간이 지나면서 실제 기준이 쌓인다.">The data log records every adjustment. Store owners can open cost details to see exactly how each decision affected their electricity bill — building real decision criteria over time.</p>
+            </div>
+          </div>
+
+          <div class="feat-item">
+            <div class="video-wrap">
+              <img src="../assets/images/projects/operator/solution/feature-scan.jpg?v=2" alt="Feature 04">
+              <div class="video-ph">
+                <span class="video-ph-name">Feature 04 — Store Scan Analysis</span>
+                <span class="video-ph-file">operator/solution/feature-scan.jpg</span>
+              </div>
+            </div>
+            <div class="feat-card">
+              <p class="feat-num" data-en="FEATURE 04" data-ko="기능 04">FEATURE 04</p>
+              <p class="feat-title" data-en="Store Scan Analysis" data-ko="매장 스캔 분석">Store Scan Analysis</p>
+              <p class="feat-sub" data-en="Read the environment before deciding" data-ko="결정 전 환경을 먼저 파악한다">Read the environment before deciding</p>
+              <p class="feat-body" data-en="The app scans the store environment — temperature, occupancy, external conditions — and shows what's happening right now. Store owners see a clear picture of the situation before making any decision." data-ko="앱이 매장 환경 — 온도, 점유율, 외부 조건 — 을 스캔하고 현재 상태를 보여준다. 자영업자는 결정을 내리기 전에 상황을 명확하게 파악한다.">The app scans the store environment — temperature, occupancy, external conditions — and shows what's happening right now. Store owners see a clear picture of the situation before making any decision.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Outcome -->
+        <div id="outcome" class="cs-sub">
+          <p class="cs-sub-lbl" data-en="Outcome" data-ko="결과">Outcome</p>
+          <h3 class="cs-h3 reveal-text" data-en="Users Made Faster Decisions — and Knew Why They Were Making Them" data-ko="사용자들은 더 빠르게 결정했다 — 그리고 왜 그 결정을 내리는지 알았다">Users Made Faster Decisions — and Knew Why They Were Making Them</h3>
+          <div class="g-2 mt-32">
+            <div>
+              <p class="cs-body" data-en="The test was designed around the full decision flow — not just task completion. Participants read a situation, chose a strategy, and explained the expected outcome. The goal: could they make a clear, confident decision?" data-ko="테스트는 단순한 작업 완료가 아니라 전체 결정 흐름을 중심으로 설계됐다. 참가자들은 상황을 읽고, 전략을 선택하고, 예상 결과를 설명했다. 목표: 명확하고 자신 있는 결정을 내릴 수 있는가?">The test was designed around the full decision flow — not just task completion. Participants read a situation, chose a strategy, and explained the expected outcome. The goal: could they make a clear, confident decision?</p>
+              <div class="cs-stat">
+                <p class="cs-stat-num">76</p>
+                <p class="cs-stat-desc" data-en="Average SUS score — above the 68 threshold for a usable system. More importantly, users could explain their choices, not just make them." data-ko="평균 SUS 점수 — 사용 가능한 시스템의 기준점 68을 초과했다. 더 중요한 것은, 사용자들이 단순히 선택하는 것이 아니라 자신의 선택을 설명할 수 있었다.">Average SUS score — above the 68 threshold for a usable system. More importantly, users could explain their choices, not just make them.</p>
+              </div>
+            </div>
+            <div class="clip-reveal img-wrap">
+              <img src="../assets/images/projects/operator/validate/usability-test.jpg"
+                   alt="Usability Test" style="height:330px;">
+              <div class="img-ph" style="height:330px;">
+                <span class="img-ph-name">Usability Test</span>
+                <span class="img-ph-file">operator/validate/usability-test.jpg</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="g-2 mt-16">
+            <div class="clip-reveal img-wrap">
+              <img src="../assets/images/projects/operator/validate/ut-protocol.jpg"
+                   alt="UT Protocol" style="height:330px;">
+              <div class="img-ph" style="height:330px;">
+                <span class="img-ph-name">UT Protocol</span>
+                <span class="img-ph-file">operator/validate/ut-protocol.jpg</span>
+              </div>
+            </div>
+            <div class="clip-reveal img-wrap">
+              <img src="../assets/images/projects/operator/validate/sus-score.jpg"
+                   alt="SUS Validated Usability Through SUS" style="height:330px;">
+              <div class="img-ph" style="height:330px;">
+                <span class="img-ph-name">SUS Validated Usability</span>
+                <span class="img-ph-file">operator/validate/sus-score.jpg</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="outcome-grid mt-48">
+            <div class="outcome-card">
+              <p class="outcome-lbl" data-en="Decision Changes" data-ko="결정 변화">Decision Changes</p>
+              <ul class="outcome-list">
+                <li data-en="Fewer repeated adjustments" data-ko="반복 조작 감소">Fewer repeated adjustments</li>
+                <li data-en="Faster decisions" data-ko="더 빠른 결정">Faster decisions</li>
+                <li data-en="SUS score: 76" data-ko="SUS 점수: 76">SUS score: 76</li>
+              </ul>
+              <p class="outcome-arrow" data-en="→ From intuition to result-based decisions" data-ko="→ 직관에서 결과 기반 결정으로">→ From intuition to result-based decisions</p>
+            </div>
+            <div class="outcome-card">
+              <p class="outcome-lbl" data-en="Cost Changes" data-ko="비용 변화">Cost Changes</p>
+              <ul class="outcome-list">
+                <li data-en="About 5–15% reduction" data-ko="약 5–15% 절감">About 5–15% reduction</li>
+              </ul>
+              <p class="outcome-arrow" data-en="→ Maintain comfort while reducing cost" data-ko="→ 쾌적함을 유지하며 비용 절감">→ Maintain comfort while reducing cost</p>
+            </div>
+            <div class="outcome-card">
+              <p class="outcome-lbl" data-en="Behavior Changes" data-ko="행동 변화">Behavior Changes</p>
+              <ul class="outcome-list">
+                <li data-en="Intuition → result-based choice" data-ko="직관 → 결과 기반 선택">Intuition → result-based choice</li>
+                <li data-en="Fewer repeated adjustments" data-ko="반복 조작 감소">Fewer repeated adjustments</li>
+                <li data-en="More consistent decisions" data-ko="더 일관된 결정">More consistent decisions</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         04  GLIMPSE OF OUTPUTS
+    ════════════════════════════════════════ -->
+    <section id="iteration" class="cs-section-border">
+      <div class="cs-section">
+        <p class="cs-group-lbl" data-en="Iteration" data-ko="반복">Iteration</p>
+        <p class="cs-sub-lbl" data-en="Insight &amp; Iteration" data-ko="인사이트 &amp; 반복">Insight &amp; Iteration</p>
+        <h2 class="cs-h2" data-en="Testing Showed Where the Structure Still Got in the Way" data-ko="테스트에서 구조가 아직 방해가 되는 곳이 드러났다">Testing Showed Where the Structure Still Got in the Way</h2>
+        <p class="cs-body mt-16" data-en="The first version revealed two structural issues — both about flow. Places where small business owners had to break their thinking to navigate the interface." data-ko="첫 번째 버전에서 두 가지 구조적 문제가 드러났다 — 둘 다 흐름에 관한 것이었다. 자영업자가 인터페이스를 탐색하기 위해 생각을 끊어야 하는 곳.">The first version revealed two structural issues — both about flow. Places where small business owners had to break their thinking to navigate the interface.</p>
+
+        <div class="g-2 mt-48">
+          <div class="cs-card">
+            <p class="cs-card-lbl" data-en="Iteration 01" data-ko="반복 01">Iteration 01</p>
+            <h4 class="cs-card-title" data-en="Fewer Screen Transitions Kept the Decision Flow Intact" data-ko="화면 전환을 줄여서 결정 흐름을 유지했다">Fewer Screen Transitions Kept the Decision Flow Intact</h4>
+            <p class="cs-card-body" data-en="Users had to move across screens to complete a single decision. We combined related actions into one context so the flow never had to stop." data-ko="단일 결정을 완료하기 위해 화면을 이동해야 했다. 관련 행동을 하나의 맥락으로 합쳐서 흐름이 멈추지 않게 했다.">Users had to move across screens to complete a single decision. We combined related actions into one context so the flow never had to stop.</p>
+            <div class="clip-reveal img-wrap mt-24">
+              <img src="../assets/images/projects/operator/validate/redesign-transitions.jpg"
+                   alt="Iteration — Screen Transitions" style="height:360px;">
+              <div class="img-ph" style="height:360px;">
+                <span class="img-ph-name">Redesign — Transitions</span>
+                <span class="img-ph-file">operator/validate/redesign-transitions.jpg</span>
+              </div>
+            </div>
+          </div>
+          <div class="cs-card">
+            <p class="cs-card-lbl" data-en="Iteration 02" data-ko="반복 02">Iteration 02</p>
+            <h4 class="cs-card-title" data-en="Outcomes First — Because That's What They Look for First" data-ko="결과를 먼저 — 자영업자가 가장 먼저 찾는 것이기 때문이다">Outcomes First — Because That's What They Look for First</h4>
+            <p class="cs-card-body" data-en="The original layout buried the outcome at the bottom. We moved it to the top. When small business owners open the app, the first thing they see is: what will happen, and is it worth it?" data-ko="원래 레이아웃은 결과를 하단에 묻었다. 상단으로 이동했다. 자영업자가 앱을 열면 가장 먼저 보이는 것: 어떻게 될 것이고, 그만한 가치가 있는가?">The original layout buried the outcome at the bottom. We moved it to the top. When small business owners open the app, the first thing they see is: what will happen, and is it worth it?</p>
+            <div class="clip-reveal img-wrap mt-24">
+              <img src="../assets/images/projects/operator/validate/redesign-information.jpg"
+                   alt="Iteration — Information Order" style="height:360px;">
+              <div class="img-ph" style="height:360px;">
+                <span class="img-ph-name">Redesign — Information</span>
+                <span class="img-ph-file">operator/validate/redesign-information.jpg</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         05  REFLECTION
+    ════════════════════════════════════════ -->
+    <section id="reflection" class="cs-section-border">
+      <div class="cs-section">
+        <p class="cs-group-lbl" data-en="Reflection" data-ko="회고">Reflection</p>
+        <p class="cs-sub-lbl" data-en="Reflection" data-ko="회고">Reflection</p>
+        <h2 class="cs-h2" data-en="What Designing for Decisions Taught Me" data-ko="결정을 위한 디자인이 가르쳐 준 것">What Designing for Decisions Taught Me</h2>
+
+        <div class="reflect-grid">
+          <div class="reflect-item">
+            <p class="reflect-num">01</p>
+            <p class="reflect-title" data-en="Reframing the Problem Is the First Design Decision" data-ko="문제를 다시 정의하는 것이 첫 번째 디자인 결정이다">Reframing the Problem Is the First Design Decision</p>
+            <p class="reflect-body" data-en="I started thinking about HVAC control. But the real problem was something else — small business owners had no way to make decisions. Changing that framing changed everything: what we designed, what we prioritized, and what we left out." data-ko="처음엔 HVAC 제어를 생각했다. 하지만 진짜 문제는 달랐다 — 자영업자에게는 결정할 방법이 없었다. 그 프레임을 바꾸는 것이 모든 것을 바꿨다: 무엇을 디자인할지, 무엇을 우선할지, 무엇을 뺄지.">I started thinking about HVAC control. But the real problem was something else — small business owners had no way to make decisions. Changing that framing changed everything: what we designed, what we prioritized, and what we left out.</p>
+          </div>
+          <div class="reflect-item">
+            <p class="reflect-num">02</p>
+            <p class="reflect-title" data-en="Data Is Only Useful If It Helps Someone Decide" data-ko="데이터는 누군가가 결정하는 데 도움이 될 때만 유용하다">Data Is Only Useful If It Helps Someone Decide</p>
+            <p class="reflect-body" data-en="Small business owners had access to data. But they couldn't use it. The problem wasn't missing data — it was that nothing translated the data into a decision. That's the gap UX should fill." data-ko="자영업자는 데이터에 접근할 수 있었다. 하지만 활용할 수 없었다. 데이터가 없는 게 문제가 아니었다 — 데이터를 결정으로 연결해주는 것이 없었다. 그게 UX가 채워야 할 공백이다.">Small business owners had access to data. But they couldn't use it. The problem wasn't missing data — it was that nothing translated the data into a decision. That's the gap UX should fill.</p>
+          </div>
+          <div class="reflect-item">
+            <p class="reflect-num">03</p>
+            <p class="reflect-title" data-en="Good UX Supports the Decision, Not Just the Action" data-ko="좋은 UX는 행동뿐 아니라 결정을 지원한다">Good UX Supports the Decision, Not Just the Action</p>
+            <p class="reflect-body" data-en="Most systems are designed to help users do things. But small business owners didn't struggle with doing — they struggled with knowing what to do. That distinction shaped every design choice we made." data-ko="대부분의 시스템은 사용자가 무언가를 하도록 돕기 위해 설계된다. 하지만 자영업자들이 힘들어한 건 행동이 아니었다 — 무엇을 해야 할지 아는 것이었다. 그 차이가 우리의 모든 디자인 결정을 형성했다.">Most systems are designed to help users do things. But small business owners didn't struggle with doing — they struggled with knowing what to do. That distinction shaped every design choice we made.</p>
+          </div>
+          <div class="reflect-item">
+            <p class="reflect-num">04</p>
+            <p class="reflect-title" data-en="Structure Matters More Than Features" data-ko="구조가 기능보다 중요하다">Structure Matters More Than Features</p>
+            <p class="reflect-body" data-en="We could have added more features. We chose not to. A clear flow that small business owners can follow is worth more than a long list of options they have to figure out. Less, structured well, is more." data-ko="기능을 더 추가할 수 있었다. 하지 않기로 했다. 자영업자가 따를 수 있는 명확한 흐름이, 직접 파악해야 하는 긴 옵션 목록보다 가치 있다. 덜 하되 잘 구조화된 것이 더 낫다.">We could have added more features. We chose not to. A clear flow that small business owners can follow is worth more than a long list of options they have to figure out. Less, structured well, is more.</p>
+          </div>
+          <div class="reflect-item" style="grid-column: 1 / -1;">
+            <p class="reflect-num">05</p>
+            <p class="reflect-title" data-en="Defining the Right Scope Is Part of Good Design" data-ko="올바른 범위를 정의하는 것도 디자인이다">Defining the Right Scope Is Part of Good Design</p>
+            <p class="reflect-body" data-en="We kept the MVP focused on the core decision flow. Every feature we cut made the remaining ones stronger. Scope isn't a constraint — it's a design choice." data-ko="MVP를 핵심 결정 흐름에 집중시켰다. 뺀 기능 하나하나가 남은 기능을 더 강하게 만들었다. 범위는 제약이 아니다 — 디자인 결정이다.">We kept the MVP focused on the core decision flow. Every feature we cut made the remaining ones stronger. Scope isn't a constraint — it's a design choice.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         13  VIEW OTHER PROJECTS
+    ════════════════════════════════════════ -->
+    <section id="more-projects" class="cs-section-border">
+      <div class="cs-section">
+        <p class="cs-group-lbl" data-en="View other projects" data-ko="다른 프로젝트">View other projects</p>
+        <h2 class="cs-h2" data-en="More Projects" data-ko="더 많은 프로젝트">More Projects</h2>
+
+        <div class="more-grid">
+
+          <a href="geme.html" class="proj-card">
+            <p class="proj-num">No.01</p>
+            <div class="proj-thumb">
+              <img src="../assets/images/projects/geme/thumb.jpg" alt="GEME"
+                   onerror="this.style.display='none'">
+            </div>
+            <p class="proj-title">GEME</p>
+            <div class="proj-tags">
+              <span class="proj-tag" data-en="End-to-End Design" data-ko="End-to-End 디자인">End-to-End Design</span>
+              <span class="proj-tag" data-en="Mobile UX" data-ko="모바일 UX">Mobile UX</span>
+              <span class="proj-tag" data-en="Launch" data-ko="런칭">Launch</span>
+            </div>
+            <p class="proj-desc" data-en="Co-founded and designed a mobile platform that transforms complex team management and guest matching into clear, actionable experiences." data-ko="복잡한 팀 관리와 게스트 매칭을 명확하고 실행 가능한 경험으로 전환하는 모바일 플랫폼을 공동 창업하고 디자인했다.">Co-founded and designed a mobile platform that transforms complex team management and guest matching into clear, actionable experiences.</p>
+            <span class="proj-cta" data-en="View Case Study →" data-ko="케이스 스터디 보기 →">View Case Study →</span>
+          </a>
+
+          <a href="bingx.html" class="proj-card">
+            <p class="proj-num">No.03</p>
+            <div class="proj-thumb">
+              <img src="../assets/images/projects/bingx/thumb.jpg" alt="BingX"
+                   onerror="this.style.display='none'">
+            </div>
+            <p class="proj-title">BingX</p>
+            <div class="proj-tags">
+              <span class="proj-tag" data-en="Product UX" data-ko="프로덕트 UX">Product UX</span>
+              <span class="proj-tag" data-en="UX Redesign" data-ko="UX 리디자인">UX Redesign</span>
+              <span class="proj-tag" data-en="Concept" data-ko="컨셉">Concept</span>
+            </div>
+            <p class="proj-desc" data-en="Redesigned the onboarding experience to help users understand AI trading roles and make confident decisions through guided interactions." data-ko="AI 트레이딩 역할을 이해하고 가이드된 인터랙션을 통해 자신 있는 결정을 내릴 수 있도록 온보딩 경험을 리디자인했다.">Redesigned the onboarding experience to help users understand AI trading roles and make confident decisions through guided interactions.</p>
+            <span class="proj-cta" data-en="View Case Study →" data-ko="케이스 스터디 보기 →">View Case Study →</span>
+          </a>
+
+          <a href="weekend-greenwich.html" class="proj-card">
+            <p class="proj-num">No.04</p>
+            <div class="proj-thumb">
+              <img src="../assets/images/projects/weekend-greenwich/thumb.jpg" alt="Weekend Greenwich"
+                   onerror="this.style.display='none'">
+            </div>
+            <p class="proj-title">Weekend Greenwich</p>
+            <div class="proj-tags">
+              <span class="proj-tag" data-en="Brand Experience" data-ko="브랜드 경험">Brand Experience</span>
+              <span class="proj-tag" data-en="Product Design" data-ko="프로덕트 디자인">Product Design</span>
+              <span class="proj-tag" data-en="Ongoing" data-ko="진행중">Ongoing</span>
+            </div>
+            <p class="proj-desc" data-en="Led product design and development based on brand identity, creating an offline brand experience that connects directly with real customers." data-ko="브랜드 아이덴티티를 기반으로 프로덕트 디자인과 개발을 주도하여 실제 고객과 직접 연결되는 오프라인 브랜드 경험을 만들었다.">Led product design and development based on brand identity, creating an offline brand experience that connects directly with real customers.</p>
+            <span class="proj-cta" data-en="View Case Study →" data-ko="케이스 스터디 보기 →">View Case Study →</span>
+          </a>
+
+          <a href="wizzy-bakeshop.html" class="proj-card">
+            <p class="proj-num">No.05</p>
+            <div class="proj-thumb">
+              <img src="../assets/images/projects/wizzy-bakeshop/thumb.jpg" alt="Wizzy Bakeshop"
+                   onerror="this.style.display='none'">
+            </div>
+            <p class="proj-title">Wizzy Bakeshop</p>
+            <div class="proj-tags">
+              <span class="proj-tag" data-en="Brand Experience" data-ko="브랜드 경험">Brand Experience</span>
+              <span class="proj-tag" data-en="Operations" data-ko="운영">Operations</span>
+              <span class="proj-tag" data-en="Launch" data-ko="런칭">Launch</span>
+            </div>
+            <p class="proj-desc" data-en="Built and operated a dessert brand, designing the full customer experience from product to service in a real business environment." data-ko="디저트 브랜드를 구축하고 운영하며 실제 비즈니스 환경에서 제품부터 서비스까지 전체 고객 경험을 디자인했다.">Built and operated a dessert brand, designing the full customer experience from product to service in a real business environment.</p>
+            <span class="proj-cta" data-en="View Case Study →" data-ko="케이스 스터디 보기 →">View Case Study →</span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /.page-body -->
+
+  <script>
+    let lenis;
+
+    /* ═══════════════════════════════════════
+       IMAGE FALLBACK
+    ════════════════════════════════════════ */
+    document.querySelectorAll('.img-wrap img').forEach(img => {
+      const ph = img.nextElementSibling;
+      if (!ph || !ph.classList.contains('img-ph')) return;
+      const showPh = () => {
+        img.style.display = 'none';
+        ph.style.display = 'flex';
+        const wrap = ph.closest('.clip-reveal');
+        if (wrap) {
+          wrap.style.clipPath = 'inset(0 0 0% 0)';
+          wrap.classList.add('is-visible');
+        }
+      };
+      const showImg = () => {
+        const wrap = img.closest('.clip-reveal');
+        if (wrap) wrap.classList.add('is-visible');
+      };
+      if (img.complete) {
+        if (img.naturalWidth === 0) showPh(); else showImg();
+      } else {
+        img.addEventListener('error', showPh);
+        img.addEventListener('load', showImg);
+      }
+    });
+
+    // video-wrap 안의 img — 로드 성공 시 video-ph 숨김
+    document.querySelectorAll('.video-wrap img').forEach(img => {
+      const ph = img.nextElementSibling;
+      if (!ph) return;
+      const showPh = () => { img.style.display = 'none'; ph.style.display = 'flex'; };
+      const showImg = () => { ph.style.display = 'none'; };
+      if (img.complete) {
+        if (img.naturalWidth === 0) showPh(); else showImg();
+      } else {
+        img.addEventListener('error', showPh);
+        img.addEventListener('load', showImg);
+      }
+    });
+
+    // video가 있는 clip-reveal은 즉시 is-visible 추가
+    document.querySelectorAll('.clip-reveal video').forEach(video => {
+      const wrap = video.closest('.clip-reveal');
+      if (wrap) {
+        wrap.classList.add('is-visible');
+        wrap.style.clipPath = 'inset(0 0 0% 0)';
+      }
+    });
+
+    /* ═══════════════════════════════════════
+       LANGUAGE TOGGLE
+    ════════════════════════════════════════ */
+    function setLang(lang) {
+      document.body.classList.toggle('lang-ko', lang === 'ko');
+      document.documentElement.lang = lang;
+
+      document.querySelectorAll('[data-en]').forEach(el => {
+        const text = el.dataset[lang] || el.dataset.en;
+        const lineInner = el.querySelector('.line-inner');
+        if (lineInner) {
+          lineInner.textContent = text;
+        } else if (el.children.length === 0) {
+          el.textContent = text;
+        }
+      });
+
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+
+      // 언어별 이미지 src 교체
+      document.querySelectorAll('img[data-en-src]').forEach(img => {
+        const src = lang === 'ko' ? img.dataset.koSrc : img.dataset.enSrc;
+        if (src && img.src !== src) img.src = src;
+      });
+
+      localStorage.setItem('pj-lang', lang);
+    }
+
+    setLang(localStorage.getItem('pj-lang') || 'en');
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => setLang(btn.dataset.lang));
+    });
+
+    /* ═══════════════════════════════════════
+       NAV — SCROLL SHADOW + TOC REVEAL
+    ════════════════════════════════════════ */
+    const pjNav = document.querySelector('.pj-nav');
+    const pjToc = document.querySelector('.pj-toc');
+    const navTitle = document.querySelector('.pj-nav-title');
+
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY > 40;
+      if (pjNav) pjNav.classList.toggle('scrolled', window.scrollY > 10);
+      if (pjToc) pjToc.classList.toggle('is-visible', scrolled);
+      if (navTitle) navTitle.classList.toggle('is-hidden', scrolled);
+    }, { passive: true });
+
+    /* ═══════════════════════════════════════
+       TEXT LINE REVEAL — wrap headings
+    ════════════════════════════════════════ */
+    document.querySelectorAll('.reveal-text').forEach(el => {
+      // Don't double-wrap
+      if (el.querySelector('.line-wrap')) return;
+      el.innerHTML = `<span class="line-wrap"><span class="line-inner">${el.innerHTML}</span></span>`;
+    });
+
+    /* ═══════════════════════════════════════
+       COUNT-UP — SUS 76
+    ════════════════════════════════════════ */
+    function countUp(el, target, duration) {
+      let start = null;
+      const ease = t => 1 - Math.pow(1 - t, 3);
+      const step = ts => {
+        if (!start) start = ts;
+        const p = Math.min((ts - start) / duration, 1);
+        el.textContent = Math.round(ease(p) * target);
+        if (p < 1) requestAnimationFrame(step);
+        else el.textContent = target;
+      };
+      requestAnimationFrame(step);
+    }
+
+    /* ═══════════════════════════════════════
+       STAGGER DELAY INJECTION
+    ════════════════════════════════════════ */
+    ['.feat-grid', '.outcome-grid', '.more-grid'].forEach(parent => {
+      document.querySelectorAll(`${parent} > *`).forEach((el, i) => {
+        el.classList.add('stagger-item');
+        el.style.transitionDelay = `${i * 80}ms`;
+      });
+    });
+    // reflect-grid uses its own cascade — still stagger but shorter
+    document.querySelectorAll('.reflect-grid > *').forEach((el, i) => {
+      el.style.setProperty('--stagger-i', i);
+    });
+
+    /* ═══════════════════════════════════════
+       INTERSECTION OBSERVER — REVEAL
+    ════════════════════════════════════════ */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        el.classList.add('is-visible');
+
+        // Count-up trigger
+        if (el.classList.contains('cs-stat-num')) {
+          const target = parseInt(el.textContent, 10);
+          if (!isNaN(target)) countUp(el, target, 1500);
+        }
+
+        io.unobserve(el);
+      });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.08 });
+
+    [
+      '.reveal-text',
+      '.clip-reveal',
+      '.cs-insight',
+      '.cs-step',
+      '.cs-quote',
+      '.stagger-item',
+      '.reflect-item',
+      '.cs-stat-num',
+    ].forEach(sel => {
+      document.querySelectorAll(sel).forEach(el => io.observe(el));
+    });
+
+    /* ═══════════════════════════════════════
+       TOC — active highlight + smooth scroll
+    ════════════════════════════════════════ */
+    const tocBtns = document.querySelectorAll('.toc-btn');
+
+    tocBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const el = document.getElementById(btn.dataset.target);
+        if (!el) return;
+        const offset = 52;
+        if (lenis) {
+          lenis.scrollTo(el, { offset: -offset });
+        } else {
+          window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - offset, behavior: 'smooth' });
+        }
+      });
+    });
+
+    const tocObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        tocBtns.forEach(b => b.classList.remove('active'));
+        const match = document.querySelector(`.toc-btn[data-target="${e.target.id}"]`);
+        if (match) match.classList.add('active');
+      });
+    }, { rootMargin: '-15% 0px -75% 0px' });
+
+    ['overview','approach','solution','outcome','iteration','reflection','more-projects']
+      .forEach(id => { const el = document.getElementById(id); if (el) tocObserver.observe(el); });
+  </script>
+
+</body>
+</html>

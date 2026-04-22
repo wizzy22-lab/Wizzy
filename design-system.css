@@ -40,6 +40,7 @@
   --text-projects-title:  clamp(2.5rem,  6vw,   4.5rem);   /* 40~72px  — projects section */
   --text-hero-typing:     clamp(1.25rem, 3vw,   2rem);     /* 20~32px  — typing animation */
   --text-hero-name:       clamp(3.5rem,  9vw,   7rem);     /* 56~112px — hero name */
+  --text-about:           3.5rem;                           /* 56px     — about section headline, line-height 105%, letter-spacing 0 */
 }
 
 
@@ -60,25 +61,24 @@
    =========================== */
 :root {
   /* Background */
-  --bg-primary: #ffffff;
+  --bg-primary:   #0D1213;   /* Deep Navy — main bg */
+  --bg-card:      #1a2550;   /* Navy light — card bg */
+  --bg-elevated:  #1f2d60;   /* Navy elevated */
 
-  /* Accent — Orange
-     #f97316 on white → 3.0:1  → decoration ONLY
-     #c2410c on white → 7.5:1  → text & buttons ✓
-     #9a3412 on white → 11.6:1 → hover ✓          */
-  --accent:       #f97316;
-  --accent-dark:  #c2410c;
-  --accent-hover: #9a3412;
-  --accent-light: #fff7ed;
+  /* Accent — Yellow */
+  --accent:       #FCF89B;   /* Yellow — point color */
+  --accent-dark:  #e6ca38;   /* Yellow dark — hover */
+  --accent-hover: #ccb420;   /* Yellow deeper */
+  --accent-light: #fffbdc;   /* Yellow tint */
 
-  /* Text — warm tones */
-  --text-primary:   #111827;
-  --text-secondary: #6b5e56;
-  --text-tertiary:  #5c4f4a;
+  /* Text */
+  --text-primary:   #EFF8FF;  /* Off-white — main text */
+  --text-secondary: #8aaabf;  /* Blue-grey — muted */
+  --text-tertiary:  #5c7a94;  /* Blue-grey dim */
 
   /* Border */
-  --border:        #111827;
-  --border-subtle: #e5e7eb;
+  --border:        #2a4070;   /* Navy border */
+  --border-subtle: #1f3060;   /* Navy border subtle */
 }
 
 

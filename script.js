@@ -1,152 +1,184 @@
 /* =============================================
-   MAINPAGE — SCRIPT
+   HAEJI WI — PORTFOLIO SCRIPT
+   GSAP + ScrollTrigger
    ============================================= */
 
-/* ===========================
-   1. SECTION HEADING CLIP-PATH REVEAL
-   =========================== */
-function initHeadingReveal() {
-  const headings = document.querySelectorAll('.section-heading');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('revealed');
-        obs.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  headings.forEach(h => obs.observe(h));
-}
+gsap.registerPlugin(ScrollTrigger);
 
-/* ===========================
-   2. WORD-BY-WORD STAGGER (hero-intro)
-   =========================== */
-function initWordSplit() {
-  const intro = document.querySelector('.hero-intro');
-  if (!intro) return;
+/* =============================================
+   1. NAVBAR
+   ============================================= */
+function initNavbar() {
+  const navbar = document.getElementById('navbar');
+  if (!navbar) return;
 
-  // Preserve <span> children (highlight, highlight-accent)
-  const rawHTML = intro.innerHTML;
-  // Parse into text + span nodes
-  const temp = document.createElement('div');
-  temp.innerHTML = rawHTML;
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 10);
+  }, { passive: true });
 
-  let wordIdx = 0;
-  function processNode(node) {
-    if (node.nodeType === Node.TEXT_NODE) {
-      const words = node.textContent.split(/(\s+)/);
-      const frag = document.createDocumentFragment();
-      words.forEach(part => {
-        if (/^\s+$/.test(part) || part === '') {
-          frag.appendChild(document.createTextNode(part));
-        } else {
-          const span = document.createElement('span');
-          span.className = 'word-token';
-          span.style.setProperty('--i', wordIdx++);
-          span.textContent = part;
-          frag.appendChild(span);
-        }
-      });
-      node.parentNode.replaceChild(frag, node);
-    } else if (node.nodeType === Node.ELEMENT_NODE) {
-      // Wrap the entire inline element as one token
-      const span = document.createElement('span');
-      span.className = 'word-token';
-      span.style.setProperty('--i', wordIdx++);
-      span.appendChild(node.cloneNode(true));
-      node.parentNode.replaceChild(span, node);
-    }
-  }
-
-  Array.from(temp.childNodes).forEach(processNode);
-  intro.innerHTML = '';
-  intro.appendChild(temp);
-
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.querySelectorAll('.word-token').forEach(t => t.classList.add('visible'));
-        obs.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  obs.observe(intro);
-}
-
-/* ===========================
-   3. SECTION CONTENT FADE-UP (.anim-fade)
-   =========================== */
-function initFadeUp() {
-  // Auto-tag elements that should fade
-  const selectors = [
-    '.section-sub',
-    '.feature-list li',
-    '.tech-logos',
-    '.code-snippet-placeholder',
-    '.snippet-desc',
-    '.timeline-item',
-    '.contact-inner > *',
-    '.projects-header .section-heading'
-  ];
-
-  selectors.forEach(sel => {
-    document.querySelectorAll(sel).forEach((el, i) => {
-      el.classList.add('anim-fade');
-      el.style.setProperty('--idx', i);
+  // Lang toggle
+  navbar.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      navbar.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
     });
   });
 
-  const obs = new IntersectionObserver((entries) => {
+  // Scroll spy
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = navbar.querySelectorAll('.nav-link');
+  const spy = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        obs.unobserve(entry.target);
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`);
+        });
       }
     });
-  }, { threshold: 0.12 });
-
-  document.querySelectorAll('.anim-fade').forEach(el => obs.observe(el));
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => spy.observe(s));
 }
 
-/* ===========================
-   4. CHALLENGE ITEMS SLIDE-IN
-   =========================== */
-function initChallengeSlide() {
-  const items = document.querySelectorAll('.challenge-item');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        obs.unobserve(entry.target);
+/* =============================================
+   2. HERO — LOAD ANIMATION + DYNAMIC TEXT
+   ============================================= */
+function initHero() {
+  const lines     = document.querySelectorAll('.hero-line-fixed');
+  const dynamic   = document.querySelector('.hero-line-dynamic');
+  const sub       = document.querySelector('.hero-sub');
+  const scrollHint = document.querySelector('.hero-scroll-hint');
+
+  // Entrance timeline
+  const tl = gsap.timeline({ delay: 0.2 });
+  tl.to(lines,     { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'power2.out' }, 0)
+    .to(dynamic,   { opacity: 1, duration: 0.5, ease: 'power2.out' }, 0.2)
+    .to(sub,       { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.3)
+    .to(scrollHint,{ opacity: 1, duration: 0.6 }, 0.6);
+
+  // Set initial states
+  gsap.set([sub, scrollHint], { y: 20 });
+  gsap.set(lines, { y: 30 });
+}
+
+function initHeroDynamic() {
+  const el = document.getElementById('heroDynamic');
+  if (!el) return;
+
+  const words = [
+    'unclear<br>decisions',
+    'messy<br>operations',
+    'user<br>frustration',
+    'business<br>problems',
+    'field<br>insights',
+  ];
+
+  let idx = 0;
+  el.innerHTML = words[0];
+
+  function cycle() {
+    gsap.to(el, {
+      opacity: 0, y: -16, duration: 0.3, ease: 'power2.in',
+      onComplete: () => {
+        idx = (idx + 1) % words.length;
+        el.innerHTML = words[idx];
+        gsap.fromTo(el,
+          { opacity: 0, y: 16 },
+          { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out',
+            onComplete: () => setTimeout(cycle, 1800)
+          }
+        );
       }
     });
-  }, { threshold: 0.15 });
-  items.forEach(item => obs.observe(item));
+  }
+
+  setTimeout(cycle, 1800);
 }
 
-/* ===========================
-   5. TESTIMONIAL CARDS STAGGER
-   =========================== */
-function initTestimonials() {
-  const cards = document.querySelectorAll('.testimonial-card');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        obs.unobserve(entry.target);
+/* =============================================
+   3. ABOUT INTRO — STAMP TUMBLE-IN
+   ============================================= */
+function initAboutIntro() {
+  const section = document.querySelector('.about-intro');
+  if (!section) return;
+
+  const lines  = section.querySelectorAll('.about-line');
+  const stamps = section.querySelectorAll('.about-stamp');
+
+  // 스탬프 초기 상태: 위에서 대기
+  gsap.set(stamps, { y: -200, opacity: 0, rotation: 0 });
+
+  const tl = gsap.timeline({
+    scrollTrigger: { trigger: section, start: 'top 70%' }
+  });
+
+  // 텍스트 라인 fade + slide-up stagger
+  tl.from(lines, {
+    opacity: 0, y: 50,
+    duration: 0.75,
+    stagger: 0.1,
+    ease: 'power2.out'
+  });
+
+  // 스탬프 tumble-in: 각 data-rot 값으로 착지
+  stamps.forEach((stamp, i) => {
+    const rot = parseFloat(stamp.dataset.rot) || 0;
+    tl.to(stamp, {
+      y: 0, opacity: 1, rotation: rot,
+      duration: 0.65,
+      ease: 'back.out(1.6)',
+    }, i === 0 ? '-=0.3' : '-=0.45');
+  });
+}
+
+/* =============================================
+   4. PROJECTS — GSAP HORIZONTAL SCROLL
+   ============================================= */
+function initProjectsScroll() {
+  const sticky  = document.querySelector('.projects-sticky');
+  const track   = document.getElementById('projectsTrack');
+  const counter = document.getElementById('projectCounter');
+  const dots    = document.querySelectorAll('.proj-dot');
+  const slides  = document.querySelectorAll('.project-slide');
+  if (!sticky || !track || !slides.length) return;
+
+  let currentIdx = 0;
+
+  function updateUI(idx) {
+    if (idx === currentIdx && idx !== 0) return;
+    currentIdx = idx;
+    counter.textContent = `${String(idx + 1).padStart(2, '0')} / 05`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  }
+
+  gsap.to(track, {
+    x: () => -(slides.length - 1) * window.innerWidth,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: sticky,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 1,
+      onUpdate: (self) => {
+        updateUI(Math.round(self.progress * (slides.length - 1)));
       }
+    }
+  });
+
+  // Dot click — scroll to that slide
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      const stickyH = sticky.offsetHeight - window.innerHeight;
+      const targetY = sticky.offsetTop + (i / (slides.length - 1)) * stickyH;
+      window.scrollTo({ top: targetY, behavior: 'smooth' });
     });
-  }, { threshold: 0.15 });
-  cards.forEach(card => obs.observe(card));
+  });
 }
 
-/* ===========================
-   6. TIMELINE — SVG ANIMATION (lerp scrub)
-   =========================== */
+/* =============================================
+   4. TIMELINE — SVG WAVE + GSAP DRAW
+   ============================================= */
 function buildWavePath(totalHeight) {
-  const amp = 70;
-  const wl  = 320;
-  const cx  = 90;
+  const amp = 70, wl = 320, cx = 90;
   const points = [];
   for (let y = 0; y <= totalHeight; y += 6) {
     const x = cx + Math.sin((y / wl) * Math.PI * 2) * amp;
@@ -170,9 +202,6 @@ function initTimeline() {
 
   const totalLen = pathEl.getTotalLength();
 
-  // Ball initial r = 0 for scale pop
-  balls.forEach(b => b.setAttribute('r', '0'));
-
   // Place balls on path
   items.forEach((item, i) => {
     if (!balls[i]) return;
@@ -183,285 +212,200 @@ function initTimeline() {
     balls[i].setAttribute('cy', pt.y);
   });
 
-  // Path draw setup
+  // Stroke draw via GSAP scrub
   pathEl.style.strokeDasharray  = `${totalLen}`;
   pathEl.style.strokeDashoffset = `${totalLen}`;
 
-  // Lerp scrub state
-  let currentOffset = totalLen;
-  let targetOffset  = totalLen;
-  let rafId = null;
-
-  function lerpLoop() {
-    currentOffset += (targetOffset - currentOffset) * 0.08;
-    pathEl.style.strokeDashoffset = currentOffset;
-    if (Math.abs(currentOffset - targetOffset) > 0.5) {
-      rafId = requestAnimationFrame(lerpLoop);
-    } else {
-      rafId = null;
+  gsap.to(pathEl, {
+    strokeDashoffset: 0,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: timelineEl,
+      start: 'top 70%',
+      end: 'bottom 80%',
+      scrub: 1,
     }
-  }
+  });
 
-  function updatePath() {
-    const rect     = timelineEl.getBoundingClientRect();
-    const scrolled = Math.max(0, -rect.top + window.innerHeight * 0.5);
-    const pct      = Math.min(scrolled / h, 1);
-    targetOffset   = totalLen * (1 - pct);
-    if (!rafId) rafId = requestAnimationFrame(lerpLoop);
-  }
-
-  window.addEventListener('scroll', updatePath, { passive: true });
-  updatePath();
-
-  // Ball scale pop-in via IntersectionObserver
-  const ballObs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const i = Array.from(items).indexOf(entry.target);
-      if (!balls[i]) return;
-      if (entry.isIntersecting) {
-        balls[i].classList.add('visible');
-      } else {
-        balls[i].classList.remove('visible');
-        balls[i].setAttribute('r', '0');
+  // Timeline items fade-up
+  items.forEach((item) => {
+    gsap.to(item, {
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: item,
+        start: 'top 80%',
+        toggleActions: 'play none none none'
       }
     });
-  }, { threshold: 0.3 });
+  });
 
-  items.forEach(item => ballObs.observe(item));
-}
-
-window.addEventListener('load', initTimeline);
-window.addEventListener('resize', initTimeline);
-
-/* ===========================
-   7. PROJECTS — STICKY HORIZONTAL SCROLL
-   =========================== */
-function initProjectsScroll() {
-  const sticky  = document.querySelector('.projects-sticky');
-  const track   = document.getElementById('projectsTrack');
-  const counter = document.getElementById('projectCounter');
-  const dots    = document.querySelectorAll('.proj-dot');
-  const slides  = document.querySelectorAll('.project-slide');
-  if (!sticky || !track) return;
-
-  let currentIdx = -1;
-  let isSnapping  = false;
-
-  function getStickyH() {
-    return sticky.offsetHeight - window.innerHeight;
-  }
-
-  function updateUI(idx) {
-    if (idx === currentIdx) return;
-    currentIdx = idx;
-    counter.textContent = `${String(idx + 1).padStart(2, '0')} / 05`;
-    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-  }
-
-  function onScroll() {
-    const rect      = sticky.getBoundingClientRect();
-    const stickyH   = getStickyH();
-    const scrolled  = Math.max(0, Math.min(-rect.top, stickyH));
-    const pct       = stickyH > 0 ? scrolled / stickyH : 0;
-    const total     = slides.length;
-    const translateX = pct * (total - 1) * 100;
-
-    track.style.transform = `translateX(-${translateX}vw)`;
-
-    const idx = Math.min(total - 1, Math.round(pct * (total - 1)));
-    updateUI(idx);
-  }
-
-  // 특정 슬라이드 위치로 스냅
-  function snapToSlide(idx) {
-    const stickyH  = getStickyH();
-    const total    = slides.length;
-    const targetY  = sticky.offsetTop + (idx / (total - 1)) * stickyH;
-    isSnapping = true;
-    window.scrollTo({ top: targetY, behavior: 'smooth' });
-    setTimeout(() => { isSnapping = false; }, 800);
-  }
-
-  // 현재 scroll 위치에서 가장 가까운 슬라이드로 snap
-  function snapToNearest() {
-    if (isSnapping) return;
-    const rect    = sticky.getBoundingClientRect();
-    const stickyH = getStickyH();
-    // 스티키 존 안에 있을 때만 작동
-    if (rect.top > 5 || rect.bottom < window.innerHeight - 5) return;
-    const scrolled = Math.max(0, -rect.top);
-    const pct      = Math.min(scrolled / stickyH, 1);
-    const nearest  = Math.round(pct * (slides.length - 1));
-    if (nearest !== currentIdx) snapToSlide(nearest);
-  }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-
-  // scrollend 지원 브라우저: 즉시 snap
-  // 미지원 브라우저: 150ms debounce fallback
-  if ('onscrollend' in window) {
-    window.addEventListener('scrollend', snapToNearest, { passive: true });
-  } else {
-    let snapTimer = null;
-    window.addEventListener('scroll', () => {
-      clearTimeout(snapTimer);
-      snapTimer = setTimeout(snapToNearest, 150);
-    }, { passive: true });
-  }
-
-  // 도트 클릭
-  dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => snapToSlide(i));
+  // Ball pop-in
+  items.forEach((item, i) => {
+    if (!balls[i]) return;
+    ScrollTrigger.create({
+      trigger: item,
+      start: 'top 75%',
+      onEnter: () => gsap.to(balls[i], { attr: { r: 10 }, duration: 0.5, ease: 'back.out(2)' }),
+      onLeaveBack: () => gsap.to(balls[i], { attr: { r: 0 }, duration: 0.3 }),
+    });
   });
 }
 
-window.addEventListener('load', initProjectsScroll);
-window.addEventListener('resize', initProjectsScroll);
+/* =============================================
+   5. TESTIMONIALS
+   ============================================= */
+function initTestimonials() {
+  const heading  = document.querySelector('.testimonials-heading');
+  const thWords  = document.querySelector('.th-muted');   // WORDS → 오른쪽
+  const thFrom   = document.querySelector('.th-light');   // FROM  → 왼쪽 미세
+  const thPeople = document.querySelector('.th-accent');  // PEOPLE → 왼쪽
 
-/* ===========================
-   8. PROJECTS — ACCORDION + IMAGE TRANSITION
-   =========================== */
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.proj-acc-item').forEach(item => {
-    item.addEventListener('click', () => {
-      const list     = item.closest('.proj-acc-list');
-      const siblings = list.querySelectorAll('.proj-acc-item');
-      siblings.forEach(s => s.classList.remove('active'));
-      item.classList.add('active');
+  if (!heading) return;
 
-      // Sync stacked images
-      const slide   = item.closest('.project-slide');
-      const imgs    = slide.querySelectorAll('.project-images .project-screenshot-placeholder');
-      const accIdx  = Array.from(siblings).indexOf(item) % imgs.length;
-      imgs.forEach((img, i) => {
-        img.style.zIndex  = i === accIdx ? '3' : i === 0 ? '2' : '1';
-        img.style.opacity = i === accIdx ? '1' : '0.3';
+  // 초기 위치 — 약간 엇갈리게
+  gsap.set(thWords,  { x: '8vw'  });
+  gsap.set(thFrom,   { x: '0'    });
+  gsap.set(thPeople, { x: '-8vw' });
+
+  const st = { trigger: heading, start: 'top bottom', end: 'bottom top', scrub: 1.5 };
+
+  // 최종 위치: 1280px 기준 중앙에서 ±160px 이내로 고정
+  gsap.to(thWords,  { x: 160,  ease: 'none', scrollTrigger: st });
+  gsap.to(thFrom,   { x: -40,  ease: 'none', scrollTrigger: st });
+  gsap.to(thPeople, { x: -260, ease: 'none', scrollTrigger: st });
+
+  // testimonial 카드 fade-up
+  document.querySelectorAll('.testimonial-item').forEach((item) => {
+    gsap.to(item, {
+      opacity: 1, y: 0, duration: 0.9, ease: 'power2.out',
+      scrollTrigger: { trigger: item, start: 'top 80%', toggleActions: 'play none none none' }
+    });
+  });
+}
+
+/* =============================================
+   6. SKILLS + CONTACT — GRAVITY FALL + FULL-SECTION CURSOR FOLLOW
+   ============================================= */
+function initSkillsContact() {
+  const section = document.querySelector('.skills-contact');
+  const pills   = document.querySelectorAll('.skill-pill');
+  const reveal  = document.getElementById('contactReveal');
+  if (!section || !pills.length) return;
+
+  const pillCount  = pills.length;
+  const fallPos    = Array.from({ length: pillCount }, () => ({ x: 0, y: 0 }));
+  const naturalCtr = Array.from({ length: pillCount }, () => ({ x: 0, y: 0 }));
+  let fallen       = false;
+
+  // Initial state — hidden stacked
+  gsap.set(pills, { opacity: 0, y: 40 });
+
+  // Entrance — replayable
+  function playEntrance() {
+    gsap.to(pills, {
+      opacity: 1, y: 0,
+      stagger: 0.07,
+      duration: 0.6,
+      ease: 'power2.out',
+      overwrite: true
+    });
+    if (reveal) {
+      gsap.to(reveal, {
+        opacity: 1, duration: 0.5, ease: 'power2.out',
+        onStart: () => reveal.classList.add('visible')
+      });
+    }
+  }
+
+  // Full reset
+  function resetSection() {
+    fallen = false;
+    gsap.killTweensOf(pills);
+    gsap.set(pills, { x: 0, y: 40, rotation: 0, scaleX: 1, scaleY: 1, borderRadius: '100px', opacity: 0 });
+    if (reveal) {
+      gsap.set(reveal, { opacity: 0 });
+      reveal.classList.remove('visible');
+    }
+  }
+
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'top 60%',
+    onEnter:     playEntrance,
+    onEnterBack: playEntrance,
+    onLeaveBack: resetSection,
+    onLeave:     resetSection
+  });
+
+  // Phase 1 — explosion scatter from center
+  function doFall() {
+    if (fallen) return;
+    fallen = true;
+
+    const sr = section.getBoundingClientRect();
+
+    pills.forEach((pill, i) => {
+      const pr = pill.getBoundingClientRect();
+      const cx = pr.left + pr.width  / 2;
+      const cy = pr.top  + pr.height / 2;
+      naturalCtr[i] = { x: cx, y: cy };
+
+      const targetX = gsap.utils.random(-sr.width * 0.42, sr.width * 0.42);
+      const targetY = gsap.utils.random(-120, 380);
+      const rot     = gsap.utils.random(-80, 80);
+
+      fallPos[i] = { x: targetX, y: targetY };
+
+      gsap.to(pill, {
+        x: targetX, y: targetY, rotation: rot, opacity: 0.9,
+        duration: gsap.utils.random(0.44, 0.82),
+        ease: 'power3.in',
+        delay: i * 0.022,
+        overwrite: 'auto',
+        onComplete() {
+          gsap.timeline()
+            .to(pill, { scaleX: 1.35, scaleY: 0.5, borderRadius: '50%', duration: 0.1,  ease: 'power3.out' })
+            .to(pill, { scaleX: 1,    scaleY: 1,   borderRadius: '100px', duration: 0.65, ease: 'elastic.out(1.3, 0.38)' });
+        }
       });
     });
-  });
-});
-
-/* ===========================
-   HERO — DYNAMIC TEXT ANIMATION
-   =========================== */
-function initHeroDynamic() {
-  const inputEl  = document.getElementById('heroInput');
-  const outputEl = document.getElementById('heroOutput');
-  if (!inputEl || !outputEl) return;
-
-  const pairs = [
-    { input: 'raw ideas',       output: 'crafted experience'   },
-    { input: 'complex systems', output: 'simple interactions'  },
-    { input: 'products',        output: 'business growth'      },
-  ];
-
-  const REPEATS    = 2;          // 전체 사이클 반복 횟수
-  const HOLD_MS    = 1500;       // 각 페어 노출 시간
-  const SLIDE_MS   = 450;        // slide-in 길이
-
-  let cycleIdx = 0;              // 현재 페어 인덱스 (0~2)
-  let repeatCount = 0;           // 완료된 사이클 수
-  let timer = null;
-
-  // 초기 텍스트를 .hero-dynamic-inner 로 래핑
-  function wrap(el, text) {
-    el.innerHTML = `<span class="hero-dynamic-inner">${text}</span>`;
   }
 
-  wrap(inputEl,  pairs[0].input);
-  wrap(outputEl, pairs[0].output);
-
-  function swapTo(idx) {
-    const pair = pairs[idx];
-
-    function animateEl(el, newText) {
-      const inner = el.querySelector('.hero-dynamic-inner');
-
-      // slide out
-      inner.classList.remove('slide-in');
-      inner.classList.add('slide-out');
-
-      setTimeout(() => {
-        wrap(el, newText);
-        const newInner = el.querySelector('.hero-dynamic-inner');
-        newInner.classList.add('slide-in');
-      }, 350);
-    }
-
-    animateEl(inputEl,  pair.input);
-    animateEl(outputEl, pair.output);
-  }
-
-  function step() {
-    cycleIdx++;
-
-    // 한 사이클 완료
-    if (cycleIdx >= pairs.length) {
-      cycleIdx = 0;
-      repeatCount++;
-    }
-
-    // REPEATS 완료 후 마지막 페어(business growth)에서 정지
-    if (repeatCount >= REPEATS && cycleIdx === 0) {
-      // 마지막 페어로 이동 후 정지
-      swapTo(pairs.length - 1);
-      return;
-    }
-
-    swapTo(cycleIdx);
-    timer = setTimeout(step, HOLD_MS + SLIDE_MS);
-  }
-
-  // 첫 페어 노출 후 시작
-  timer = setTimeout(step, HOLD_MS);
-}
-
-/* ===========================
-   NAVBAR — SCROLL + LANG
-   =========================== */
-function initNavbar() {
-  const navbar = document.getElementById('navbar');
-  if (!navbar) return;
-
-  // Scroll shadow
-  window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 10);
-  }, { passive: true });
-
-  // Lang toggle
-  const langBtns = navbar.querySelectorAll('.lang-btn');
-  langBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      langBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+  // Per-pill hover squash-and-stretch
+  pills.forEach((pill) => {
+    pill.addEventListener('mouseenter', () => {
+      if (!fallen) return;
+      gsap.timeline({ overwrite: false })
+        .to(pill, { scaleX: 1.52, scaleY: 0.3,   borderRadius: '50%',   duration: 0.13, ease: 'power3.in' })
+        .to(pill, { scaleX: 1,    scaleY: 1,      borderRadius: '100px', duration: 1.05, ease: 'elastic.out(2, 0.3)' });
     });
   });
 
-  // Scroll spy
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = navbar.querySelectorAll('.nav-link');
-  const spy = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        navLinks.forEach(link => {
-          link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`);
-        });
-      }
-    });
-  }, { rootMargin: '-40% 0px -55% 0px' });
-  sections.forEach(s => spy.observe(s));
+  section.addEventListener('mouseenter', doFall);
 }
 
-/* ===========================
-   INIT ALL ON LOAD
-   =========================== */
+/* =============================================
+   INIT
+   ============================================= */
 window.addEventListener('DOMContentLoaded', () => {
   initNavbar();
+  initHero();
   initHeroDynamic();
-  initHeadingReveal();
-  initWordSplit();
-  initFadeUp();
-  initChallengeSlide();
+  initAboutIntro();
   initTestimonials();
+});
+
+window.addEventListener('load', () => {
+  initProjectsScroll();
+  initTimeline();
+  initSkillsContact();
+  ScrollTrigger.refresh();
+});
+
+window.addEventListener('resize', () => {
+  ScrollTrigger.refresh();
+  initTimeline();
 });

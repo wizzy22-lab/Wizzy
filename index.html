@@ -3,54 +3,90 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Haeji Wi - Product Designer</title>
-  <meta name="description" content="From Seoul, Korea" />
+  <title>Haeji Wi — Product Designer</title>
+  <meta name="description" content="Product Designer based in Seoul, Korea" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,700&family=Manrope:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="design-system.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- ===== NAV ===== -->
+  <!-- ===== NAVBAR ===== -->
   <header class="navbar" id="navbar">
     <div class="nav-inner container">
-
-      <!-- Logo -->
-      <a href="#" class="nav-logo">
-        <div class="nav-logo-placeholder"></div>
-      </a>
-
-      <!-- Links -->
+      <a href="#" class="nav-logo">Wizzy</a>
       <nav class="nav-links" id="navLinks">
-        <a href="#projects" class="nav-link">Projects</a>
-        <a href="#about" class="nav-link">About</a>
-        <a href="#contact" class="nav-link">Contact</a>
+        <a href="#projects" class="nav-link">Project</a>
+        <a href="#about"    class="nav-link">About</a>
+        <a href="#resume"   class="nav-link">Resume</a>
+        <a href="#contact"  class="nav-link">Contact</a>
       </nav>
-
-      <!-- Lang toggle -->
       <div class="nav-lang">
         <button class="lang-btn active" data-lang="en">EN</button>
         <span class="lang-divider">/</span>
         <button class="lang-btn" data-lang="ko">KO</button>
       </div>
-
     </div>
   </header>
 
   <!-- ===== HERO ===== -->
-  <section class="hero">
-    <div class="hero-inner container">
-      <div class="hero-text">
-        <h1 class="hero-heading-wrap">
-          <span class="hero-line hero-line--fixed">I turn</span>
-          <span class="hero-line hero-line--dynamic"><span class="hero-dynamic" id="heroInput">raw ideas</span></span>
-          <span class="hero-line hero-line--fixed">into</span>
-          <span class="hero-line hero-line--dynamic"><span class="hero-dynamic" id="heroOutput">crafted experience</span></span>
-        </h1>
+  <section class="hero" id="hero">
+    <!-- Background image — place file at assets/images/hero/hero-bg.jpg -->
+    <div class="hero-bg">
+      <img src="assets/images/hero/hero-bg.jpg" alt="" class="hero-bg-img" onerror="this.style.display='none'">
+    </div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+<h1 class="hero-title">
+        <span class="hero-line-fixed">I turn</span>
+        <span class="hero-line-dynamic">
+          <span class="hero-dynamic" id="heroDynamic">unclear<br>decisions</span>
+        </span>
+        <span class="hero-line-fixed hero-line-fixed--dim">into products</span>
+        <span class="hero-line-fixed hero-line-fixed--dim">that grow businesses.</span>
+      </h1>
+      <p class="hero-sub">Seoul, Korea — UX · Product · Brand</p>
+    </div>
+
+    <!-- Profile image — place file at assets/images/profile/hero-profile.jpg -->
+    <div class="hero-profile">
+      <img src="assets/images/profile/hero-profile.jpg" alt="Haeji Wi" class="hero-profile-img" onerror="this.parentElement.classList.add('no-img')">
+    </div>
+
+    <div class="hero-scroll-hint">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT INTRO ===== -->
+  <section class="about-intro" id="about">
+    <div class="about-container">
+
+      <div class="about-block">
+        <p class="about-line about-line--white">Hi, I'm a Product Designer based in</p>
+        <div class="about-stamp-line">
+          <span class="about-stamp about-stamp--left" data-rot="-6">Seoul, Korea</span>
+        </div>
       </div>
-      <div class="hero-img-placeholder"></div>
+
+      <div class="about-block">
+        <p class="about-line about-line--white">I design products grounded in</p>
+        <p class="about-line about-line--white">real-world operations & user behavior</p>
+      </div>
+
+      <div class="about-block">
+        <p class="about-line about-line--white">What I care about most is building something</p>
+        <div class="about-stamps-row">
+          <span class="about-stamp about-stamp--left" data-rot="5">real,</span>
+          <span class="about-stamp-amp">&</span>
+          <span class="about-stamp about-stamp--right" data-rot="-4">meaningful</span>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -59,188 +95,142 @@
     <div class="projects-sticky">
       <div class="projects-sticky-inner">
 
-        <!-- Header -->
         <div class="projects-header">
-          <h2 class="section-heading">What I've Been Working On</h2>
+          <h2 class="projects-section-title">Project</h2>
           <span class="project-counter" id="projectCounter">01 / 05</span>
         </div>
 
-        <!-- Horizontal track -->
         <div class="projects-track" id="projectsTrack">
 
-          <!-- Slide 1 -->
+          <!-- Slide 01 -->
           <div class="project-slide">
-            <div class="project-images">
-              <div class="project-screenshot-placeholder"></div>
-              <div class="project-screenshot-placeholder"></div>
-              <div class="project-screenshot-placeholder"></div>
-              <a href="#" class="proj-img-cta">View Case Study →</a>
-            </div>
             <div class="project-info">
-              <span class="project-num">01</span>
-              <h3 class="project-title">Operator – HVAC Decision Support UX</h3>
-              <p class="project-desc">Designed a system to help small business owners make better energy decisions</p>
-              <div class="proj-acc-list">
-                <div class="proj-acc-item active">
-                  <p class="proj-acc-title">Design Challenge</p>
-                  <p class="proj-acc-body">Small business owners lack visibility into energy usage patterns, making cost-saving decisions feel arbitrary and overwhelming.</p>
-                </div>
-                <div class="proj-acc-item">
-                  <p class="proj-acc-title">My Approach</p>
-                  <p class="proj-acc-body">Mapped operator decision flows, identified key friction points, and designed a dashboard that surfaces actionable insights over raw data.</p>
-                </div>
-                <div class="proj-acc-item">
-                  <p class="proj-acc-title">Key Decisions</p>
-                  <p class="proj-acc-body">Prioritized decision-support framing over data visualization — every screen answers "what should I do next?" rather than "what happened?"</p>
-                </div>
-                <div class="proj-acc-item">
-                  <p class="proj-acc-title">Outcome</p>
-                  <p class="proj-acc-body">A streamlined HVAC control UX that reduces cognitive load and helps operators make confident energy decisions independently.</p>
-                </div>
+              <span class="project-num">No.01</span>
+              <h3 class="project-title">GEME – Basketball Team Management &amp; Guest Matching Platform</h3>
+              <div class="project-tools">
+                <div class="tool-icon-placeholder" title="Figma"></div>
+                <div class="tool-icon-placeholder" title="Notion"></div>
               </div>
-              <a href="#" class="proj-cta">View Case Study</a>
+              <div class="project-skills">
+                <span class="skill-tag">End-to-End Design</span>
+                <span class="skill-tag">Mobile UX</span>
+                <span class="skill-tag">Launch</span>
+              </div>
+              <p class="project-desc">Co-founded and designed a mobile platform that transforms complex team management and guest matching into clear, actionable experiences — from problem definition to launch.</p>
+            </div>
+            <div class="project-thumb">
+              <div class="project-thumb-inner">
+                <img src="assets/images/projects/geme/thumb.jpg" alt="GEME" onerror="this.style.display='none'">
+                <div class="project-thumb-placeholder"></div>
+              </div>
+              <a href="projects/geme.html" class="proj-cta">View Case Study →</a>
             </div>
           </div>
 
-          <!-- Slide 2 -->
+          <!-- Slide 02 -->
           <div class="project-slide">
-            <div class="project-images">
-              <div class="project-screenshot-placeholder"></div>
-              <div class="project-screenshot-placeholder"></div>
-              <div class="project-screenshot-placeholder"></div>
-              <a href="#" class="proj-img-cta">View Case Study →</a>
-            </div>
             <div class="project-info">
-              <span class="project-num">02</span>
-              <h3 class="project-title">BingX AI Master Redesign</h3>
-              <p class="project-desc">Improved usability and trust in AI-driven trading UX</p>
-              <div class="proj-acc-list">
-                <div class="proj-acc-item active">
-                  <p class="proj-acc-title">Design Challenge</p>
-                  <p class="proj-acc-body">AI trading features were powerful but opaque — users didn't trust outputs they couldn't understand or verify.</p>
-                </div>
-                <div class="proj-acc-item">
-                  <p class="proj-acc-title">My Approach</p>
-                  <p class="proj-acc-body">Conducted a UX audit of the existing AI Master flow, identified trust gaps, and redesigned key screens to expose reasoning and reduce ambiguity.</p>
-                </div>
-                <div class="proj-acc-item">
-                  <p class="proj-acc-title">Key Decisions</p>
-                  <p class="proj-acc-body">Added explainability layers and progressive disclosure — showing the "why" behind AI signals without overwhelming the core interface.</p>
-                </div>
-                <div class="proj-acc-item">
-                  <p class="proj-acc-title">Outcome</p>
-                  <p class="proj-acc-body">Redesigned flow that improves perceived reliability of AI recommendations and reduces user hesitation at key decision points.</p>
-                </div>
+              <span class="project-num">No.02</span>
+              <h3 class="project-title">Operator – HVAC Cost Optimization Decision Support System for Small Businesses</h3>
+              <div class="project-tools">
+                <div class="tool-icon-placeholder" title="Figma"></div>
+                <div class="tool-icon-placeholder" title="Notion"></div>
+                <div class="tool-icon-placeholder" title="Maze"></div>
               </div>
-              <a href="#" class="proj-cta">View Case Study</a>
+              <div class="project-skills">
+                <span class="skill-tag">Product Design</span>
+                <span class="skill-tag">UX Strategy</span>
+                <span class="skill-tag">Concept</span>
+              </div>
+              <p class="project-desc">Designed an operational UX system that helps small business owners reduce HVAC costs by making clear, data-driven decisions within complex pricing structures and environments.</p>
+            </div>
+            <div class="project-thumb">
+              <div class="project-thumb-inner">
+                <img src="assets/images/projects/operator/thumb.jpg" alt="Operator" onerror="this.style.display='none'">
+                <div class="project-thumb-placeholder"></div>
+              </div>
+              <a href="projects/operator.html" class="proj-cta">View Case Study →</a>
             </div>
           </div>
 
-          <!-- Slide 3 -->
+          <!-- Slide 03 -->
           <div class="project-slide">
-            <div class="project-images">
-              <div class="project-screenshot-placeholder"></div>
-              <div class="project-screenshot-placeholder"></div>
-              <div class="project-screenshot-placeholder"></div>
-              <a href="#" class="proj-img-cta">View Case Study →</a>
-            </div>
             <div class="project-info">
-              <span class="project-num">03</span>
-              <h3 class="project-title">GEME – Sports Guest Matching Platform</h3>
-              <p class="project-desc">Co-founded and designed a mobile platform for sports-based matching</p>
-              <div class="proj-acc-list">
-                <div class="proj-acc-item active">
-                  <p class="proj-acc-title">Design Challenge</p>
-                  <p class="proj-acc-body">Sports players struggle to find suitable partners or fill open spots — existing solutions are fragmented across group chats and community boards.</p>
-                </div>
-                <div class="proj-acc-item">
-                  <p class="proj-acc-title">My Approach</p>
-                  <p class="proj-acc-body">Designed end-to-end from problem definition through launch — including user research, information architecture, and full UI design.</p>
-                </div>
-                <div class="proj-acc-item">
-                  <p class="proj-acc-title">Key Decisions</p>
-                  <p class="proj-acc-body">Built matching logic around skill level and availability rather than social graphs — reducing friction for users who want to play, not network.</p>
-                </div>
-                <div class="proj-acc-item">
-                  <p class="proj-acc-title">Outcome</p>
-                  <p class="proj-acc-body">A launched mobile platform that enables sports-based guest matching with a clean, activity-first UX.</p>
-                </div>
+              <span class="project-num">No.03</span>
+              <h3 class="project-title">BingX – AI Master Onboarding Experience Redesign</h3>
+              <div class="project-tools">
+                <div class="tool-icon-placeholder" title="Figma"></div>
+                <div class="tool-icon-placeholder" title="FigJam"></div>
+                <div class="tool-icon-placeholder" title="Framer"></div>
               </div>
-              <a href="#" class="proj-cta">View Case Study</a>
+              <div class="project-skills">
+                <span class="skill-tag">Product UX</span>
+                <span class="skill-tag">UX Redesign</span>
+                <span class="skill-tag">Concept</span>
+              </div>
+              <p class="project-desc">Redesigned the onboarding experience to help users understand AI trading roles and make confident decisions through guided interactions.</p>
+            </div>
+            <div class="project-thumb">
+              <div class="project-thumb-inner">
+                <img src="assets/images/projects/bingx/thumb.jpg" alt="BingX" onerror="this.style.display='none'">
+                <div class="project-thumb-placeholder"></div>
+              </div>
+              <a href="projects/bingx.html" class="proj-cta">View Case Study →</a>
             </div>
           </div>
 
-          <!-- Slide 4 -->
+          <!-- Slide 04 -->
           <div class="project-slide">
-            <div class="project-images">
-              <div class="project-screenshot-placeholder"></div>
-              <div class="project-screenshot-placeholder"></div>
-              <div class="project-screenshot-placeholder"></div>
-              <a href="#" class="proj-img-cta">View Case Study →</a>
-            </div>
             <div class="project-info">
-              <span class="project-num">04</span>
-              <h3 class="project-title">Wizzy Bakeshop – F&amp;B Brand Operation</h3>
-              <p class="project-desc">Founded and operated a dessert brand, managing UX and operations</p>
-              <div class="proj-acc-list">
-                <div class="proj-acc-item active">
-                  <p class="proj-acc-title">Design Challenge</p>
-                  <p class="proj-acc-body">Building a brand from scratch with no agency support — every touchpoint from packaging to social presence needed to feel intentional and cohesive.</p>
-                </div>
-                <div class="proj-acc-item">
-                  <p class="proj-acc-title">My Approach</p>
-                  <p class="proj-acc-body">Treated the entire brand as a designed system — defining visual identity, customer journey, and operational flows as interrelated design problems.</p>
-                </div>
-                <div class="proj-acc-item">
-                  <p class="proj-acc-title">Key Decisions</p>
-                  <p class="proj-acc-body">Prioritized brand consistency at every touchpoint over growth speed — building loyalty before volume.</p>
-                </div>
-                <div class="proj-acc-item">
-                  <p class="proj-acc-title">Outcome</p>
-                  <p class="proj-acc-body">A fully self-operated brand with consistent visual identity and loyal recurring customers.</p>
-                </div>
+              <span class="project-num">No.04</span>
+              <h3 class="project-title">Weekend Greenwich – Food &amp; Lifestyle Brand</h3>
+              <div class="project-tools">
+                <div class="tool-icon-placeholder" title="Figma"></div>
+                <div class="tool-icon-placeholder" title="Canva"></div>
               </div>
-              <a href="#" class="proj-cta">View Case Study</a>
+              <div class="project-skills">
+                <span class="skill-tag">Brand Experience</span>
+                <span class="skill-tag">Product Design &amp; Development</span>
+                <span class="skill-tag">Ongoing</span>
+              </div>
+              <p class="project-desc">Led product design and development based on brand identity, creating an offline brand experience that connects directly with real customers.</p>
+            </div>
+            <div class="project-thumb">
+              <div class="project-thumb-inner">
+                <img src="assets/images/projects/weekend-greenwich/thumb.jpg" alt="Weekend Greenwich" onerror="this.style.display='none'">
+                <div class="project-thumb-placeholder"></div>
+              </div>
+              <a href="projects/weekend-greenwich.html" class="proj-cta">View Case Study →</a>
             </div>
           </div>
 
-          <!-- Slide 5 -->
+          <!-- Slide 05 -->
           <div class="project-slide">
-            <div class="project-images">
-              <div class="project-screenshot-placeholder"></div>
-              <div class="project-screenshot-placeholder"></div>
-              <div class="project-screenshot-placeholder"></div>
-              <a href="#" class="proj-img-cta">View Case Study →</a>
-            </div>
             <div class="project-info">
-              <span class="project-num">05</span>
-              <h3 class="project-title">Weekend Greenwich – Premium Dessert Brand</h3>
-              <p class="project-desc">Led brand experience and pop-up UX in retail environments</p>
-              <div class="proj-acc-list">
-                <div class="proj-acc-item active">
-                  <p class="proj-acc-title">Design Challenge</p>
-                  <p class="proj-acc-body">Pop-up retail environments demand high-impact brand moments with minimal setup time and inconsistent physical constraints.</p>
-                </div>
-                <div class="proj-acc-item">
-                  <p class="proj-acc-title">My Approach</p>
-                  <p class="proj-acc-body">Designed modular brand components — display systems, packaging, and spatial arrangements that could be adapted to each venue without losing brand character.</p>
-                </div>
-                <div class="proj-acc-item">
-                  <p class="proj-acc-title">Key Decisions</p>
-                  <p class="proj-acc-body">Focused the brand experience on sensory and emotional consistency rather than visual uniformity — making the feeling repeatable, not just the look.</p>
-                </div>
-                <div class="proj-acc-item">
-                  <p class="proj-acc-title">Outcome</p>
-                  <p class="proj-acc-body">A premium brand presence across multiple retail environments with high customer recognition and repeat engagement.</p>
-                </div>
+              <span class="project-num">No.05</span>
+              <h3 class="project-title">Wizzy Bakeshop – Experience-driven Dessert Brand</h3>
+              <div class="project-tools">
+                <div class="tool-icon-placeholder" title="Figma"></div>
+                <div class="tool-icon-placeholder" title="Instagram"></div>
               </div>
-              <a href="#" class="proj-cta">View Case Study</a>
+              <div class="project-skills">
+                <span class="skill-tag">Brand Experience</span>
+                <span class="skill-tag">Operations</span>
+                <span class="skill-tag">Launch</span>
+              </div>
+              <p class="project-desc">Built and operated a dessert brand, designing the full customer experience from product to service in a real business environment.</p>
+            </div>
+            <div class="project-thumb">
+              <div class="project-thumb-inner">
+                <img src="assets/images/projects/weekend-greenwich/thumb.jpg" alt="Weekend Greenwich" onerror="this.style.display='none'">
+                <div class="project-thumb-placeholder"></div>
+              </div>
+              <a href="projects/weekend-greenwich.html" class="proj-cta">View Case Study →</a>
             </div>
           </div>
 
         </div><!-- /.projects-track -->
 
-        <!-- Dot navigation -->
         <div class="projects-dots">
           <div class="proj-dot active" data-index="0"></div>
           <div class="proj-dot" data-index="1"></div>
@@ -249,199 +239,134 @@
           <div class="proj-dot" data-index="4"></div>
         </div>
 
-      </div><!-- /.projects-sticky-inner -->
-    </div><!-- /.projects-sticky -->
-  </section>
-
-  <!-- ===== FRONTEND TECH ===== -->
-  <section class="tech-section section">
-    <div class="container">
-      <h2 class="section-heading">UX &amp; Product</h2>
-      <p class="section-sub">How I understand users and define problems</p>
-
-      <div class="tech-logos">
-        <div class="tech-logo-placeholder" title="User Research"></div>
-        <div class="tech-logo-placeholder" title="Problem Definition"></div>
-        <div class="tech-logo-placeholder" title="Information Architecture"></div>
-        <div class="tech-logo-placeholder" title="User Flow"></div>
-        <div class="tech-logo-placeholder" title="Wireframing"></div>
-        <div class="tech-logo-placeholder" title="Prototyping"></div>
-        <div class="tech-logo-placeholder" title="Usability Testing"></div>
       </div>
-
-      <ul class="feature-list">
-        <li>Operational Thinking</li>
-        <li>Structured Problem Solving</li>
-        <li>Decision-focused UX</li>
-        <li>Brand + UX Integration</li>
-        <li>Execution Ability</li>
-      </ul>
-
-      <div class="code-snippet-placeholder"></div>
-      <p class="snippet-desc">Process artifact — user research synthesis and information architecture mapping</p>
-    </div>
-  </section>
-
-  <!-- ===== BACKEND TECH ===== -->
-  <section class="tech-section section">
-    <div class="container">
-      <h2 class="section-heading">Design &amp; Tools</h2>
-
-      <div class="tech-logos">
-        <div class="tech-logo-placeholder" title="Figma"></div>
-        <div class="tech-logo-placeholder" title="Claude"></div>
-        <div class="tech-logo-placeholder" title="ChatGPT"></div>
-        <div class="tech-logo-placeholder" title="Gemini"></div>
-        <div class="tech-logo-placeholder" title="Notion"></div>
-      </div>
-
-      <ul class="feature-list">
-        <li>UI Design</li>
-        <li>Interaction Design</li>
-        <li>Design Systems</li>
-        <li>Visual Hierarchy</li>
-        <li>Typography</li>
-        <li>Layout</li>
-      </ul>
-
-      <div class="code-snippet-placeholder"></div>
-      <p class="snippet-desc">Design system component library and interaction specifications in Figma</p>
-    </div>
-  </section>
-
-  <!-- ===== CHALLENGES ===== -->
-  <section class="challenges section">
-    <div class="container">
-
-      <div class="challenge-item">
-        <h3 class="challenge-title">Challenge #1</h3>
-        <h4 class="challenge-subtitle">Designing UX without a team or prior industry experience</h4>
-        <p class="challenge-body">
-          Transitioning into UX with no formal team or mentorship, I had to self-direct my learning across
-          research methods, information architecture, and interaction design. I built a habit of learning
-          by doing — running my own usability tests, iterating on wireframes, and studying real products
-          to close the gap between theory and practice.
-        </p>
-      </div>
-
-      <div class="challenge-item">
-        <h3 class="challenge-title">Challenge #2</h3>
-        <h4 class="challenge-subtitle">Translating operational intuition into design decisions</h4>
-        <p class="challenge-body">
-          Years of running F&amp;B operations gave me sharp instincts about what users actually need —
-          but translating that into UX rationale required a new language. I learned to frame operational
-          insight as user pain points, map decision flows from real-world processes, and articulate
-          design choices in terms of user behavior rather than business habit.
-        </p>
-      </div>
-
-      <div class="challenge-item">
-        <h3 class="challenge-title">Challenge #3</h3>
-        <h4 class="challenge-subtitle">Building a product from concept to launch solo</h4>
-        <p class="challenge-body">
-          With GEME, I handled every stage alone — problem definition, competitive research, user flows,
-          UI design, and launch coordination. The constraint forced me to prioritize ruthlessly,
-          make faster decisions with incomplete information, and maintain design coherence
-          across the entire product without a handoff process.
-        </p>
-      </div>
-
     </div>
   </section>
 
   <!-- ===== TIMELINE ===== -->
-  <section class="timeline-section section" id="about">
+  <section class="timeline-section section" id="timeline">
     <div class="container">
-      <h2 class="section-heading">Let's take it back</h2>
+      <h2 class="section-heading">How I got Here</h2>
 
       <div class="timeline">
         <svg class="timeline-svg" id="timelineSvg" aria-hidden="true" preserveAspectRatio="none">
-          <path id="timelinePath" fill="none" stroke="#e8e0d4" stroke-width="3" stroke-linecap="round"/>
-          <circle class="tl-ball" data-index="0" r="18"/>
-          <circle class="tl-ball" data-index="1" r="18"/>
-          <circle class="tl-ball" data-index="2" r="18"/>
-          <circle class="tl-ball" data-index="3" r="18"/>
-          <circle class="tl-ball" data-index="4" r="18"/>
-          <circle class="tl-ball" data-index="5" r="18"/>
-          <circle class="tl-ball" data-index="6" r="18"/>
-          <circle class="tl-ball" data-index="7" r="18"/>
+          <path id="timelinePath" fill="none" stroke="#FCF89B" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+          <circle class="tl-ball" data-index="0" r="0"/>
+          <circle class="tl-ball" data-index="1" r="0"/>
+          <circle class="tl-ball" data-index="2" r="0"/>
+          <circle class="tl-ball" data-index="3" r="0"/>
+          <circle class="tl-ball" data-index="4" r="0"/>
+          <circle class="tl-ball" data-index="5" r="0"/>
         </svg>
 
+        <!-- Node 1 -->
         <div class="timeline-item">
-          <div class="timeline-year">2018</div>
+          <div class="timeline-year-wrap">
+            <div class="timeline-year">2018</div>
+            <div class="timeline-year-range">– 2020</div>
+          </div>
           <div class="timeline-content">
-            <div class="timeline-img-placeholder" style="width:240px;height:160px;"></div>
+            <div class="timeline-img-wrap">
+              <img src="assets/images/timeline/2018.jpg" alt="2018" onerror="this.style.display='none'">
+              <div class="timeline-img-placeholder" style="width:160px;height:160px;"></div>
+            </div>
             <div class="timeline-text">
-              <p>Navigation Major &amp; Structured Thinking — built a foundation in systematic analysis and disciplined problem-solving.</p>
+              <p>Studied Navigation, maritime trade, and regulations, developing strong decision-making skills in complex environments.</p>
             </div>
           </div>
         </div>
 
+        <!-- Node 2 — 2 themes -->
         <div class="timeline-item">
-          <div class="timeline-year">2019</div>
+          <div class="timeline-year-wrap">
+            <div class="timeline-year">2020</div>
+            <div class="timeline-year-range">– 2021</div>
+          </div>
           <div class="timeline-content">
-            <div class="timeline-img-placeholder" style="width:160px;height:160px;"></div>
-            <div class="timeline-text">
-              <p>Discipline &amp; Responsibility Development — refined the habits of accountability and execution that would carry through every future role.</p>
+            <div class="timeline-img-wrap">
+              <img src="assets/images/timeline/2020.jpg" alt="2020" onerror="this.style.display='none'">
+              <div class="timeline-img-placeholder" style="width:160px;height:160px;"></div>
+            </div>
+            <div class="timeline-themes">
+              <div class="timeline-theme">
+                <p>Gained hands-on experience through maritime training, building responsibility and real-world problem-solving skills.</p>
+              </div>
+              <div class="timeline-theme">
+                <p>Started baking as a hobby and gradually developed it into a serious craft.</p>
+              </div>
             </div>
           </div>
         </div>
 
+        <!-- Node 3 -->
         <div class="timeline-item">
-          <div class="timeline-year">2020</div>
+          <div class="timeline-year-wrap">
+            <div class="timeline-year">2021</div>
+            <div class="timeline-year-range"></div>
+          </div>
           <div class="timeline-content">
-            <div class="timeline-img-placeholder" style="width:160px;height:160px;"></div>
+            <div class="timeline-img-wrap">
+              <img src="assets/images/timeline/2021.jpg" alt="2021" onerror="this.style.display='none'">
+              <div class="timeline-img-placeholder" style="width:160px;height:160px;"></div>
+            </div>
             <div class="timeline-text">
-              <p>Transition Toward Practical Work — shifted focus from academic structure to hands-on creation and real-world application.</p>
+              <p>Advanced baking skills to a professional level, working at a bakery in Seoul during the COVID period.</p>
             </div>
           </div>
         </div>
 
+        <!-- Node 4 -->
         <div class="timeline-item">
-          <div class="timeline-year">2021</div>
+          <div class="timeline-year-wrap">
+            <div class="timeline-year">2022</div>
+            <div class="timeline-year-range">– 2024</div>
+          </div>
           <div class="timeline-content">
-            <div class="timeline-img-placeholder" style="width:160px;height:160px;"></div>
+            <div class="timeline-img-wrap">
+              <img src="assets/images/timeline/2022.jpg" alt="2022" onerror="this.style.display='none'">
+              <div class="timeline-img-placeholder" style="width:160px;height:160px;"></div>
+            </div>
             <div class="timeline-text">
-              <p>Start of Baking &amp; Hands-on Creation — discovered a passion for craft and customer experience through the art of baking.</p>
+              <p>Launched Wizzy Bakeshop, leading product development, store operations, and customer experience end-to-end.</p>
             </div>
           </div>
         </div>
 
+        <!-- Node 5 -->
         <div class="timeline-item">
-          <div class="timeline-year">2022</div>
+          <div class="timeline-year-wrap">
+            <div class="timeline-year">2025</div>
+            <div class="timeline-year-range">– 2026</div>
+          </div>
           <div class="timeline-content">
-            <div class="timeline-img-placeholder" style="width:160px;height:200px;"></div>
+            <div class="timeline-img-wrap">
+              <img src="assets/images/timeline/2025.jpg" alt="2025" onerror="this.style.display='none'">
+              <div class="timeline-img-placeholder" style="width:160px;height:160px;"></div>
+            </div>
             <div class="timeline-text">
-              <p>Wizzy Bakeshop Launch — founded and operated a dessert brand, managing everything from product development to brand identity and customer experience.</p>
+              <p>Transitioned into UX/UI design after graduation, studying product thinking and UX methodologies at Blossom UX School.</p>
             </div>
           </div>
         </div>
 
+        <!-- Node 6 — 2 themes -->
         <div class="timeline-item">
-          <div class="timeline-year">2023</div>
-          <div class="timeline-content">
-            <div class="timeline-img-placeholder" style="width:240px;height:160px;"></div>
-            <div class="timeline-text">
-              <p>F&amp;B Operation &amp; Brand Experience — led the Weekend Greenwich brand through pop-up events and retail environments, shaping every touchpoint of the customer journey.</p>
-            </div>
+          <div class="timeline-year-wrap">
+            <div class="timeline-year">2026</div>
+            <div class="timeline-year-range">–</div>
           </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-year">2024</div>
           <div class="timeline-content">
-            <div class="timeline-img-placeholder" style="width:160px;height:160px;"></div>
-            <div class="timeline-text">
-              <p>UX/UI Career Transition — made a deliberate pivot into product design, channeling operational experience into decision-focused UX work.</p>
+            <div class="timeline-img-wrap">
+              <img src="assets/images/timeline/2026.jpg" alt="2026" onerror="this.style.display='none'">
+              <div class="timeline-img-placeholder" style="width:160px;height:160px;"></div>
             </div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-year">2025</div>
-          <div class="timeline-content">
-            <div class="timeline-text">
-              <p>Product Design &amp; Service Building — now designing end-to-end product experiences and seeking a role where design shapes real decisions.</p>
+            <div class="timeline-themes">
+              <div class="timeline-theme">
+                <p>Leading brand renewal, product development, and department store expansion for Weekend Greenwich as Brand Director.</p>
+              </div>
+              <div class="timeline-theme">
+                <p>Building portfolio and working on product design projects.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -450,19 +375,86 @@
     </div>
   </section>
 
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="testimonials section">
+    <div class="container">
+      <h2 class="testimonials-heading">
+        <span class="th-muted">WORDS</span>
+        <span class="th-light">FROM</span>
+        <span class="th-accent">PEOPLE</span>
+      </h2>
+      <div class="testimonials-list">
 
-  <!-- ===== CONTACT ===== -->
-  <footer class="contact section" id="contact">
-    <div class="container contact-inner">
-      <h2 class="contact-heading">Designing decision-driven experiences<br>across product, brand,<br>and real-world operations.</h2>
-      <div class="contact-profile-placeholder"></div>
-      <div class="contact-links">
-        <a href="#" class="btn-contact">Message</a>
-        <a href="#" class="btn-contact btn-contact--outline">Portfolio</a>
+        <div class="testimonial-item">
+          <span class="t-quote-mark">"</span>
+          <p class="t-quote">추천사 텍스트를 여기에 입력하세요. 동료나 협업자의 추천사입니다.</p>
+          <div class="t-author">
+            <div class="t-avatar">
+              <img src="assets/images/profile/testimonial-1.jpg" alt="" onerror="this.style.display='none'">
+              <div class="t-avatar-placeholder"></div>
+            </div>
+            <div class="t-info">
+              <p class="t-name">이름</p>
+              <p class="t-role">직함 · 소속</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-item">
+          <span class="t-quote-mark">"</span>
+          <p class="t-quote">두 번째 추천사 텍스트를 여기에 입력하세요.</p>
+          <div class="t-author">
+            <div class="t-avatar">
+              <img src="assets/images/profile/testimonial-2.jpg" alt="" onerror="this.style.display='none'">
+              <div class="t-avatar-placeholder"></div>
+            </div>
+            <div class="t-info">
+              <p class="t-name">이름</p>
+              <p class="t-role">직함 · 소속</p>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
-  </footer>
+  </section>
 
+  <!-- ===== SKILLS + CONTACT ===== -->
+  <section class="skills-contact" id="contact">
+
+    <!-- Pills (수직 정렬 → 와르르) -->
+    <div class="skills-stack" id="skillsStack">
+      <div class="skill-pill">Figma</div>
+      <div class="skill-pill">User Research</div>
+      <div class="skill-pill">Interaction Design</div>
+      <div class="skill-pill">Design Systems</div>
+      <div class="skill-pill">Prototyping</div>
+      <div class="skill-pill">Information Architecture</div>
+      <div class="skill-pill">Brand Design</div>
+      <div class="skill-pill">Claude / ChatGPT</div>
+    </div>
+
+    <!-- Contact (pill 와르르 후 등장) -->
+    <div class="contact-reveal" id="contactReveal">
+      <p class="contact-overflow">
+        Looks like you overflowed my skill set…<br>
+        <span>Okay that was fun — feel free to say hi.</span>
+      </p>
+      <div class="contact-profile">
+        <img src="assets/images/profile/profile.jpg" alt="Haeji Wi" onerror="this.style.display='none'">
+        <div class="contact-profile-placeholder"></div>
+      </div>
+      <div class="contact-btns" id="resume">
+        <a href="mailto:your@email.com" class="btn-contact">Message</a>
+        <a href="assets/resume.pdf" class="btn-contact btn-contact--outline" target="_blank">Resume</a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- GSAP -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
