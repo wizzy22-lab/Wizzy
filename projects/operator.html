@@ -326,6 +326,7 @@
       font-weight: 500;
       color: var(--text-1);
       line-height: 1.6;
+      white-space: pre-line;
     }
 
     /* ═══════════════════════════════════════
@@ -447,8 +448,8 @@
        SUB-SECTION (within group)
     ════════════════════════════════════════ */
     .cs-sub {
-      margin-top: 120px;
-      padding-top: 96px;
+      margin-top: 80px;
+      padding-top: 64px;
       border-top: 1px solid var(--border);
     }
 
@@ -493,6 +494,9 @@
        IMAGES — Method B
     ════════════════════════════════════════ */
     .img-wrap { position: relative; width: 100%; }
+    .img-wrap.ratio-wide { aspect-ratio: 16/7; }
+    .img-wrap.ratio-4x3  { aspect-ratio: 4/3; }
+    .img-wrap.ratio-3x2  { aspect-ratio: 3/2; }
     .img-wrap img {
       width: 100%;
       border-radius: var(--r12);
@@ -1072,10 +1076,10 @@
     ════════════════════════════════════════ -->
     <div class="hero">
       <div class="hero-inner">
-        <div class="img-wrap">
+        <div class="img-wrap ratio-wide">
           <img src="../assets/images/projects/operator/hero-mockup.jpg?v=2"
-               alt="Operator App Mockup" style="height:660px;">
-          <div class="img-ph" style="height:660px;">
+               alt="Operator App Mockup">
+          <div class="img-ph">
             <span class="img-ph-name">Hero Mockup</span>
             <span class="img-ph-file">operator/hero-mockup.jpg</span>
           </div>
@@ -1101,12 +1105,10 @@
           </div>
           <div>
             <p class="hero-meta-label" data-en="Role" data-ko="역할">Role</p>
-            <p class="hero-meta-value" data-en="Problem Framing &amp; Research Lead&#10;UX Strategy &amp; Concept Design&#10;Data-driven UX &amp; Communication Design&#10;Product Perspective &amp; Execution" data-ko="문제 프레이밍 &amp; 리서치 리드&#10;UX 전략 &amp; 컨셉 디자인&#10;데이터 기반 UX &amp; 커뮤니케이션 디자인&#10;제품 관점 &amp; 실행">
-              Problem Framing &amp; Research Lead<br>
-              UX Strategy &amp; Concept Design<br>
-              Data-driven UX &amp; Communication Design<br>
-              Product Perspective &amp; Execution
-            </p>
+            <p class="hero-meta-value" data-en="Problem Framing & Research Lead&#10;UX Strategy & Concept Design&#10;Data-driven UX & Communication Design&#10;Product Perspective & Execution" data-ko="문제 프레이밍 & 리서치 리드&#10;UX 전략 & 컨셉 디자인&#10;데이터 기반 UX & 커뮤니케이션 디자인&#10;제품 관점 & 실행">Problem Framing & Research Lead
+UX Strategy & Concept Design
+Data-driven UX & Communication Design
+Product Perspective & Execution</p>
           </div>
           <div>
             <p class="hero-meta-label" data-en="Tools" data-ko="툴">Tools</p>
@@ -1160,10 +1162,10 @@
             <p class="cs-insight-lbl" data-en="Insight" data-ko="인사이트">Insight</p>
             <p class="cs-insight-body" data-en="The problem wasn't simple discomfort — it was a structure that required users to make repeated HVAC decisions without any criteria to judge by" data-ko="문제는 단순한 불편이 아니라, '냉난방을 판단할 기준 없이 반복적으로 선택해야 하는 구조'였다">The problem wasn't simple discomfort — it was a structure that required users to make repeated HVAC decisions without any criteria to judge by</p>
           </div>
-          <div class="clip-reveal img-wrap mt-32">
+          <div class="clip-reveal img-wrap ratio-wide mt-32">
             <img src="../assets/images/projects/operator/approach/secondary-research.jpg"
-                 alt="Secondary Research" style="height:480px;">
-            <div class="img-ph" style="height:480px;">
+                 alt="Secondary Research">
+            <div class="img-ph">
               <span class="img-ph-name">Secondary Research</span>
               <span class="img-ph-file">operator/approach/secondary-research.jpg</span>
             </div>
@@ -1188,18 +1190,18 @@
 
           <!-- ① Interview Photos — g-2 -->
           <div class="g-2 mt-32">
-            <div class="clip-reveal img-wrap">
+            <div class="clip-reveal img-wrap ratio-4x3">
               <img src="../assets/images/projects/operator/approach/interview-photo-1.jpg"
-                   alt="Interview Photo 1" style="height:300px;">
-              <div class="img-ph" style="height:300px;">
+                   alt="Interview Photo 1">
+              <div class="img-ph">
                 <span class="img-ph-name">Interview Photo 1</span>
                 <span class="img-ph-file">operator/approach/interview-photo-1.jpg</span>
               </div>
             </div>
-            <div class="clip-reveal img-wrap">
+            <div class="clip-reveal img-wrap ratio-4x3">
               <img src="../assets/images/projects/operator/approach/interview-photo-2.jpg"
-                   alt="Interview Photo 2" style="height:300px;">
-              <div class="img-ph" style="height:300px;">
+                   alt="Interview Photo 2">
+              <div class="img-ph">
                 <span class="img-ph-name">Interview Photo 2</span>
                 <span class="img-ph-file">operator/approach/interview-photo-2.jpg</span>
               </div>
@@ -1207,12 +1209,12 @@
           </div>
 
           <!-- ② Interview Protocol — full width -->
-          <div class="clip-reveal img-wrap mt-16">
+          <div class="clip-reveal img-wrap ratio-wide mt-16">
             <img src="../assets/images/projects/operator/approach/interview-protocol-en.jpg"
                  data-en-src="../assets/images/projects/operator/approach/interview-protocol-en.jpg"
                  data-ko-src="../assets/images/projects/operator/approach/interview-protocol-ko.jpg"
-                 alt="Interview Protocol" style="height:320px;">
-            <div class="img-ph" style="height:320px;">
+                 alt="Interview Protocol">
+            <div class="img-ph">
               <span class="img-ph-name">Interview Protocol</span>
               <span class="img-ph-file">operator/approach/interview-protocol.jpg</span>
             </div>
@@ -1230,18 +1232,18 @@
             <p class="cs-insight-body" data-en="Small business owners want to balance comfort and cost — but there's no criteria to do it with" data-ko="자영업자는 쾌적함과 비용을 균형 잡고 싶다 — 하지만 그럴 기준이 없다">Small business owners want to balance comfort and cost — but there's no criteria to do it with</p>
           </div>
           <div class="g-2 mt-32">
-            <div class="clip-reveal img-wrap">
+            <div class="clip-reveal img-wrap ratio-4x3">
               <img src="../assets/images/projects/operator/approach/affinity-mapping.jpg"
-                   alt="Affinity Mapping" style="height:220px;">
-              <div class="img-ph" style="height:220px;">
+                   alt="Affinity Mapping">
+              <div class="img-ph">
                 <span class="img-ph-name">Affinity Mapping</span>
                 <span class="img-ph-file">operator/approach/affinity-mapping.jpg</span>
               </div>
             </div>
-            <div class="clip-reveal img-wrap">
+            <div class="clip-reveal img-wrap ratio-4x3">
               <img src="../assets/images/projects/operator/approach/thematic-analysis.jpg"
-                   alt="Thematic Analysis" style="height:220px;">
-              <div class="img-ph" style="height:220px;">
+                   alt="Thematic Analysis">
+              <div class="img-ph">
                 <span class="img-ph-name">Thematic Analysis</span>
                 <span class="img-ph-file">operator/approach/thematic-analysis.jpg</span>
               </div>
@@ -1261,10 +1263,10 @@
                 <p class="cs-insight-body" data-en="Operators did consider cost — but since they couldn't see how each decision affected their actual bill, cost functioned as after-the-fact information rather than a decision criterion" data-ko="운영자는 비용을 고려하고 있지만, 각 선택이 실제 요금에 어떤 영향을 주는지 알 수 없어 비용은 판단 기준이 아니라 '사후 확인 정보'로만 작동하고 있었다">Operators did consider cost — but since they couldn't see how each decision affected their actual bill, cost functioned as after-the-fact information rather than a decision criterion</p>
               </div>
             </div>
-            <div class="clip-reveal img-wrap">
+            <div class="clip-reveal img-wrap ratio-4x3">
               <img src="../assets/images/projects/operator/approach/context-research.jpg"
-                   alt="Context Research" style="height:480px;">
-              <div class="img-ph" style="height:480px;">
+                   alt="Context Research">
+              <div class="img-ph">
                 <span class="img-ph-name">Context Research</span>
                 <span class="img-ph-file">operator/approach/context-research.jpg</span>
               </div>
@@ -1284,10 +1286,10 @@
                 <p class="cs-insight-body" data-en="Data is provided — but because the link between choice and outcome is missing, existing systems leave users repeating a cycle of trial and confirmation rather than making informed decisions" data-ko="데이터는 제공되지만 '선택 → 결과'가 연결되지 않기 때문에 기존 시스템에서는 판단이 아니라 '시도와 확인'을 반복하는 구조가 된다">Data is provided — but because the link between choice and outcome is missing, existing systems leave users repeating a cycle of trial and confirmation rather than making informed decisions</p>
               </div>
             </div>
-            <div class="clip-reveal img-wrap">
+            <div class="clip-reveal img-wrap ratio-4x3">
               <img src="../assets/images/projects/operator/approach/competitor-analysis.jpg"
-                   alt="Competitor Analysis" style="height:480px;">
-              <div class="img-ph" style="height:480px;">
+                   alt="Competitor Analysis">
+              <div class="img-ph">
                 <span class="img-ph-name">Competitor Analysis</span>
                 <span class="img-ph-file">operator/approach/competitor-analysis.jpg</span>
               </div>
@@ -1329,19 +1331,19 @@
                   <p class="cs-insight-lbl" data-en="Insight" data-ko="인사이트">Insight</p>
                   <p class="cs-insight-body" data-en="Under time pressure, deliberate judgment gives way to immediate, reactive adjustments" data-ko="시간 압박이 있는 상황에서는, 판단 대신 즉각적인 조정 행동으로 전환된다">Under time pressure, deliberate judgment gives way to immediate, reactive adjustments</p>
                 </div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;" class="mt-24">
-                  <div class="clip-reveal img-wrap">
+                <div class="g-2 mt-24">
+                  <div class="clip-reveal img-wrap ratio-4x3">
                     <img src="../assets/images/projects/operator/define/persona.jpg"
-                         alt="User Persona" style="height:300px;">
-                    <div class="img-ph" style="height:300px;">
+                         alt="User Persona">
+                    <div class="img-ph">
                       <span class="img-ph-name">User Persona</span>
                       <span class="img-ph-file">operator/define/persona.jpg</span>
                     </div>
                   </div>
-                  <div class="clip-reveal img-wrap">
+                  <div class="clip-reveal img-wrap ratio-4x3">
                     <img src="../assets/images/projects/operator/define/user-journey-map.jpg"
-                         alt="User Journey Map" style="height:300px;">
-                    <div class="img-ph" style="height:300px;">
+                         alt="User Journey Map">
+                    <div class="img-ph">
                       <span class="img-ph-name">User Journey Map</span>
                       <span class="img-ph-file">operator/define/user-journey-map.jpg</span>
                     </div>
@@ -1361,12 +1363,12 @@
                     </div>
                     <p class="cs-step-body" data-en="Every day, small business owners manage the trade-off between comfort and cost. They make HVAC decisions repeatedly, in conditions that keep changing. Without criteria or feedback, they rely on intuition. The result: unstable, inconsistent, exhausting decisions." data-ko="매일 자영업자는 쾌적함과 비용 사이의 트레이드오프를 관리한다. 변화하는 환경에서 HVAC 결정을 반복적으로 내린다. 기준도 피드백도 없이 직관에 의존한다. 결과: 불안정하고, 일관성 없고, 피로한 결정.">Every day, small business owners manage the trade-off between comfort and cost. They make HVAC decisions repeatedly, in conditions that keep changing. Without criteria or feedback, they rely on intuition. The result: unstable, inconsistent, exhausting decisions.</p>
                   </div>
-                  <div class="clip-reveal img-wrap">
+                  <div class="clip-reveal img-wrap ratio-4x3">
                     <img src="../assets/images/projects/operator/define/kpi-definition-en.jpg"
                          data-en-src="../assets/images/projects/operator/define/kpi-definition-en.jpg"
                          data-ko-src="../assets/images/projects/operator/define/kpi-definition-ko.jpg"
-                         alt="KPI Definition" style="height:382px;">
-                    <div class="img-ph" style="height:382px;">
+                         alt="KPI Definition">
+                    <div class="img-ph">
                       <span class="img-ph-name">KPI Definition</span>
                       <span class="img-ph-file">operator/define/kpi-definition.jpg</span>
                     </div>
@@ -1407,10 +1409,10 @@
                     <p class="cs-step-body" data-en="HVAC decisions involve multiple factors simultaneously — outdoor environment, store conditions, cost — making it impossible to judge by any single criterion." data-ko="냉난방 판단은 외부 환경, 매장 상태, 비용 등 여러 요소가 동시에 작용하기 때문에 단일 기준으로 판단할 수 없다.">HVAC decisions involve multiple factors simultaneously — outdoor environment, store conditions, cost — making it impossible to judge by any single criterion.</p>
                     <p class="cs-step-body mt-16" data-en="We mapped all the variables that influence HVAC operation and structured how each affects comfort and cost. From this, we designed a functional architecture that considers multiple variables at once and connects them into a single judgment." data-ko="냉난방 운영에 영향을 주는 요소들을 정리하고, 각 요소가 쾌적도와 비용에 어떻게 영향을 주는지 구조화했다. 이를 기반으로 여러 변수를 동시에 고려해 하나의 판단으로 연결하는 기능 구조를 설계했다.">We mapped all the variables that influence HVAC operation and structured how each affects comfort and cost. From this, we designed a functional architecture that considers multiple variables at once and connects them into a single judgment.</p>
                   </div>
-                  <div class="clip-reveal img-wrap">
+                  <div class="clip-reveal img-wrap ratio-4x3">
                     <img src="../assets/images/projects/operator/ideate/functional-structure.jpg"
-                         alt="Functional Structure" style="height:360px; width:100%; object-fit:cover; border-radius:var(--r12);">
-                    <div class="img-ph" style="height:360px;">
+                         alt="Functional Structure">
+                    <div class="img-ph">
                       <span class="img-ph-name">Functional Structure</span>
                       <span class="img-ph-file">operator/ideate/functional-structure.jpg</span>
                     </div>
@@ -1430,26 +1432,26 @@
                   <p class="cs-insight-body" data-en="Not every possible feature — only those directly needed for real decision-making were included in the MVP" data-ko="모든 기능이 아니라, 실제 의사결정에 필요한 기능만 MVP로 구성했다">Not every possible feature — only those directly needed for real decision-making were included in the MVP</p>
                 </div>
                 <div class="g-3 mt-24">
-                  <div class="clip-reveal img-wrap">
+                  <div class="clip-reveal img-wrap ratio-3x2">
                     <img src="../assets/images/projects/operator/ideate/scenario.jpg"
-                         alt="Scenario" style="height:300px;">
-                    <div class="img-ph" style="height:300px;">
+                         alt="Scenario">
+                    <div class="img-ph">
                       <span class="img-ph-name">Scenario</span>
                       <span class="img-ph-file">operator/ideate/scenario.jpg</span>
                     </div>
                   </div>
-                  <div class="clip-reveal img-wrap">
+                  <div class="clip-reveal img-wrap ratio-3x2">
                     <img src="../assets/images/projects/operator/ideate/2x2-matrix.jpg"
-                         alt="2x2 Matrix" style="height:300px;">
-                    <div class="img-ph" style="height:300px;">
+                         alt="2x2 Matrix">
+                    <div class="img-ph">
                       <span class="img-ph-name">2×2 Prioritization Matrix</span>
                       <span class="img-ph-file">operator/ideate/2x2-matrix.jpg</span>
                     </div>
                   </div>
-                  <div class="clip-reveal img-wrap">
+                  <div class="clip-reveal img-wrap ratio-3x2">
                     <img src="../assets/images/projects/operator/ideate/moscow.jpg"
-                         alt="MoSCoW" style="height:300px;">
-                    <div class="img-ph" style="height:300px;">
+                         alt="MoSCoW">
+                    <div class="img-ph">
                       <span class="img-ph-name">MoSCoW</span>
                       <span class="img-ph-file">operator/ideate/moscow.jpg</span>
                     </div>
@@ -1482,19 +1484,19 @@
                 <p class="cs-step-title" data-en="IA &amp; System Design" data-ko="IA &amp; 시스템 설계">IA &amp; System Design</p>
                 <p class="cs-step-body" data-en="Rather than separating decision information from the action, we integrated both into a single continuous flow." data-ko="판단 정보와 선택을 분리하지 않고, 하나의 흐름으로 통합했다.">Rather than separating decision information from the action, we integrated both into a single continuous flow.</p>
                 <p class="cs-step-body mt-16" data-en="We reduced the steps between reviewing information, interpreting it, and making a selection — designing a structure that leads directly to a choice." data-ko="정보 확인 → 해석 → 선택의 단계를 줄이고, 바로 선택으로 이어질 수 있도록 구조를 설계했다.">We reduced the steps between reviewing information, interpreting it, and making a selection — designing a structure that leads directly to a choice.</p>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;" class="mt-24">
-                  <div class="clip-reveal img-wrap">
+                <div class="g-2 mt-24">
+                  <div class="clip-reveal img-wrap ratio-4x3">
                     <img src="../assets/images/projects/operator/ideate/ia.jpg"
-                         alt="Information Architecture" style="height:360px;">
-                    <div class="img-ph" style="height:360px;">
+                         alt="Information Architecture">
+                    <div class="img-ph">
                       <span class="img-ph-name">Information Architecture</span>
                       <span class="img-ph-file">operator/ideate/ia.jpg</span>
                     </div>
                   </div>
-                  <div class="clip-reveal img-wrap">
+                  <div class="clip-reveal img-wrap ratio-4x3">
                     <img src="../assets/images/projects/operator/ideate/system-flow.jpg"
-                         alt="System Flow" style="height:360px;">
-                    <div class="img-ph" style="height:360px;">
+                         alt="System Flow">
+                    <div class="img-ph">
                       <span class="img-ph-name">System Flow</span>
                       <span class="img-ph-file">operator/ideate/system-flow.jpg</span>
                     </div>
@@ -1511,18 +1513,18 @@
                 <p class="cs-step-body mt-16" data-en="The wireframe was structured so that current status (temperature and humidity), expected outcomes (comfort and cost), and available options (mode and settings) could all be viewed and acted on from a single screen." data-ko="현재 상태(온도·습도), 예상 결과(쾌적도·비용), 선택지(모드·설정)를 한 화면에서 동시에 확인하고 바로 선택할 수 있도록 와이어프레임을 구성했다.">The wireframe was structured so that current status (temperature and humidity), expected outcomes (comfort and cost), and available options (mode and settings) could all be viewed and acted on from a single screen.</p>
                 <p class="cs-step-body mt-16" data-en="The design system was built around information hierarchy and comparative structure — to support fast judgment without friction. To allow users to quickly distinguish decision-critical information, we clearly separated status, outcome, and choice — and applied a numeric + delta-based display format for intuitive comparison. Color and typography were used to distinguish current status, recommended choice, and expected outcome — so users could understand at a glance, without interpretation." data-ko="디자인 시스템은 '빠른 판단'을 방해하지 않도록 정보의 우선순위와 비교 구조를 중심으로 설계했다. 판단에 필요한 정보를 빠르게 구분할 수 있도록 상태 / 결과 / 선택을 명확히 구분하고, 각 선택의 결과를 직관적으로 비교할 수 있도록 수치 + 변화량 중심의 표현 방식을 적용했다. 또한, 사용자가 해석 없이 바로 이해할 수 있도록 컬러와 타이포를 통해 현재 상태 / 권장 선택 / 예상 결과를 명확히 구분했다.">The design system was built around information hierarchy and comparative structure — to support fast judgment without friction. To allow users to quickly distinguish decision-critical information, we clearly separated status, outcome, and choice — and applied a numeric + delta-based display format for intuitive comparison. Color and typography were used to distinguish current status, recommended choice, and expected outcome — so users could understand at a glance, without interpretation.</p>
                 <div class="g-2 mt-24">
-                  <div class="clip-reveal img-wrap">
+                  <div class="clip-reveal img-wrap ratio-4x3">
                     <img src="../assets/images/projects/operator/ideate/wireframe-1.jpg"
-                         alt="Wireframe 1" style="height:480px;">
-                    <div class="img-ph" style="height:480px;">
+                         alt="Wireframe 1">
+                    <div class="img-ph">
                       <span class="img-ph-name">Wireframe</span>
                       <span class="img-ph-file">operator/ideate/wireframe-1.jpg</span>
                     </div>
                   </div>
-                  <div class="clip-reveal img-wrap">
+                  <div class="clip-reveal img-wrap ratio-4x3">
                     <img src="../assets/images/projects/operator/ideate/design-system.jpg"
-                         alt="Design System" style="height:480px;">
-                    <div class="img-ph" style="height:480px;">
+                         alt="Design System">
+                    <div class="img-ph">
                       <span class="img-ph-name">Design System</span>
                       <span class="img-ph-file">operator/ideate/design-system.jpg</span>
                     </div>
@@ -1617,10 +1619,10 @@
                 <p class="cs-stat-desc" data-en="SUS score — confirming usability above the acceptable threshold." data-ko="SUS 점수 — 사용성 기준을 상회하는 결과를 확인했다.">SUS score — confirming usability above the acceptable threshold.</p>
               </div>
             </div>
-            <div class="clip-reveal img-wrap">
+            <div class="clip-reveal img-wrap ratio-4x3">
               <img src="../assets/images/projects/operator/validate/usability-test.jpg"
-                   alt="Usability Test" style="height:330px;">
-              <div class="img-ph" style="height:330px;">
+                   alt="Usability Test">
+              <div class="img-ph">
                 <span class="img-ph-name">Usability Test</span>
                 <span class="img-ph-file">operator/validate/usability-test.jpg</span>
               </div>
@@ -1628,18 +1630,18 @@
           </div>
 
           <div class="g-2 mt-16">
-            <div class="clip-reveal img-wrap">
+            <div class="clip-reveal img-wrap ratio-4x3">
               <img src="../assets/images/projects/operator/validate/ut-protocol.jpg"
-                   alt="UT Protocol" style="height:330px;">
-              <div class="img-ph" style="height:330px;">
+                   alt="UT Protocol">
+              <div class="img-ph">
                 <span class="img-ph-name">UT Protocol</span>
                 <span class="img-ph-file">operator/validate/ut-protocol.jpg</span>
               </div>
             </div>
-            <div class="clip-reveal img-wrap">
+            <div class="clip-reveal img-wrap ratio-4x3">
               <img src="../assets/images/projects/operator/validate/sus-score.jpg"
-                   alt="SUS Validated Usability Through SUS" style="height:330px;">
-              <div class="img-ph" style="height:330px;">
+                   alt="SUS Validated Usability Through SUS">
+              <div class="img-ph">
                 <span class="img-ph-name">SUS Validated Usability</span>
                 <span class="img-ph-file">operator/validate/sus-score.jpg</span>
               </div>
@@ -1662,7 +1664,7 @@
       <div class="cs-section">
         <p class="cs-group-lbl" data-en="Iteration" data-ko="반복">Iteration</p>
         <p class="cs-sub-lbl" data-en="Insight &amp; Iteration" data-ko="인사이트 &amp; 반복">Insight &amp; Iteration</p>
-        <h2 class="cs-h2" data-en="Testing Showed Where the Structure Still Got in the Way" data-ko="테스트에서 구조가 아직 방해가 되는 곳이 드러났다">Testing Showed Where the Structure Still Got in the Way</h2>
+        <h2 class="cs-h2 reveal-text" data-en="Testing Showed Where the Structure Still Got in the Way" data-ko="테스트에서 구조가 아직 방해가 되는 곳이 드러났다"><span class="line-inner">Testing Showed Where the Structure Still Got in the Way</span></h2>
         <p class="cs-body mt-16" data-en="The first version revealed two structural issues — both about flow. Places where small business owners had to break their thinking to navigate the interface." data-ko="첫 번째 버전에서 두 가지 구조적 문제가 드러났다 — 둘 다 흐름에 관한 것이었다. 자영업자가 인터페이스를 탐색하기 위해 생각을 끊어야 하는 곳.">The first version revealed two structural issues — both about flow. Places where small business owners had to break their thinking to navigate the interface.</p>
 
         <div class="g-2 mt-48">
@@ -1862,7 +1864,7 @@
         const lineInner = el.querySelector('.line-inner');
         if (lineInner) {
           lineInner.textContent = text;
-        } else if (el.children.length === 0) {
+        } else if (el.children.length === 0 || [...el.children].every(c => c.tagName === 'BR')) {
           el.textContent = text;
         }
       });
