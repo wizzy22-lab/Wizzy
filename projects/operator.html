@@ -378,7 +378,6 @@
       letter-spacing: -1px;
       line-height: 1.2;
       margin-bottom: var(--s12);
-      white-space: pre-line;
     }
     .cs-h4 {
       font-family: var(--f-title);
@@ -1158,7 +1157,7 @@ Product Perspective & Execution</p>
         <!-- Secondary Research -->
         <div class="cs-sub">
           <p class="cs-sub-lbl" data-en="Secondary Research" data-ko="2차 리서치">Secondary Research</p>
-          <h3 class="cs-h3 reveal-text" data-en="Small business owners adjust their HVAC systems based on intuition and experience — without any clear criteria" data-ko="Small business owner는 냉난방을&#10;'명확한 기준 없이' 직관과 경험에 의존해 조절하고 있다">Small business owners adjust their HVAC systems based on intuition and experience — without any clear criteria</h3>
+          <h3 class="cs-h3 reveal-text" data-en="Small business owners adjust their HVAC systems based on intuition and experience — without any clear criteria" data-ko="Small business owner는 냉난방을<br>'명확한 기준 없이' 직관과 경험에 의존해 조절하고 있다">Small business owners adjust their HVAC systems based on intuition and experience — without any clear criteria</h3>
           <p class="cs-body" data-en="Analysis of user voices revealed that operators were repeatedly adjusting HVAC temperature and modes without any clear criteria. Categorizing review and community data showed an ongoing conflict between comfort and cost." data-ko="사용자 보이스 분석 결과, 운영자는 냉난방 온도와 모드를 명확한 기준 없이 반복적으로 조절하고 있었다. 리뷰와 커뮤니티 데이터를 카테고리화한 결과, 쾌적함과 비용 사이에서 지속적인 갈등이 발생하고 있었다.">Analysis of user voices revealed that operators were repeatedly adjusting HVAC temperature and modes without any clear criteria. Categorizing review and community data showed an ongoing conflict between comfort and cost.</p>
           <div class="cs-insight">
             <p class="cs-insight-lbl" data-en="Insight" data-ko="인사이트">Insight</p>
@@ -1865,9 +1864,9 @@ Product Perspective & Execution</p>
         const text = el.dataset[lang] || el.dataset.en;
         const lineInner = el.querySelector('.line-inner');
         if (lineInner) {
-          lineInner.textContent = text;
+          lineInner.innerHTML = text;
         } else if (el.children.length === 0 || [...el.children].every(c => c.tagName === 'BR')) {
-          el.textContent = text;
+          el.innerHTML = text;
         }
       });
 
