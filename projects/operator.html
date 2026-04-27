@@ -1219,6 +1219,75 @@
     }
 
     /* ═══════════════════════════════════════
+       IDEATE REDESIGN
+    ════════════════════════════════════════ */
+    .ideate-hero-h {
+      font-family: var(--f-title);
+      font-size: var(--t64);
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--text-1);
+      letter-spacing: -0.02em;
+    }
+    .define-hero-sub {
+      font-size: var(--t20);
+      color: var(--text-2);
+      line-height: 1.6;
+      margin-top: var(--s24);
+    }
+    .ideate-ba {
+      max-width: 800px;
+      display: grid;
+      grid-template-columns: 1fr 48px 1fr;
+      align-items: start;
+      margin-bottom: var(--s80);
+    }
+    .ideate-ba-col {
+      padding: var(--s32);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r12);
+      background: var(--bg);
+    }
+    .ideate-ba-col--after {
+      background: var(--accent-bg);
+      border-color: var(--accent-mid);
+    }
+    .ideate-ba-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--t24);
+      color: var(--accent);
+      padding-top: var(--s48);
+    }
+    .ideate-ba-lbl {
+      font-size: var(--t12);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-3);
+      margin-bottom: var(--s16);
+    }
+    .ideate-ba-col--after .ideate-ba-lbl { color: var(--accent); }
+    .ideate-ba-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--s12);
+    }
+    .ideate-ba-list li {
+      font-size: var(--t16);
+      color: var(--text-2);
+      line-height: 1.6;
+    }
+    .ideate-ba-col--after .ideate-ba-list li {
+      color: var(--text-1);
+      font-weight: 500;
+    }
+
+    /* ═══════════════════════════════════════
        RESPONSIVE
     ════════════════════════════════════════ */
     @media (max-width: 744px) {
@@ -1236,6 +1305,8 @@
       .define-final { padding: var(--s40) var(--s32); }
       .define-final-h { font-size: var(--t32); }
       .define-hero { padding: 80px 0; }
+      .ideate-ba { grid-template-columns: 1fr; }
+      .ideate-ba-arrow { display: none; }
     }
 
   </style>
@@ -1717,158 +1788,182 @@ Product Perspective & Execution</p>
 
         <!-- ── IDEATE ── -->
         <div id="ideate" class="cs-sub">
-          <p class="cs-sub-lbl" data-en="Ideate">Ideate</p>
-          <h2 class="cs-h2 reveal-text" data-en="Show What to Do Now — and What Will Happen" data-ko="지금 무엇을 해야 할지 — 그리고 어떻게 될지 보여준다">Show What to Do Now — and What Will Happen</h2>
+          <p class="cs-sub-lbl" data-en="Ideate" data-ko="Ideate">Ideate</p>
 
-          <div class="cs-steps">
-
-            <div class="cs-step">
-              <span class="cs-step-num">01</span>
-              <div class="cs-step-content">
-                <p class="cs-step-title" data-en="Solution Direction" data-ko="솔루션 방향">Solution Direction</p>
-                <p class="cs-step-body" data-en="Rather than showing HVAC data for users to interpret, the system makes the judgment first — and the user simply approves." data-ko="냉난방 데이터를 보여주는 것이 아니라, 시스템이 먼저 판단하고 사용자는 승인하는 구조로 전환한다.">Rather than showing HVAC data for users to interpret, the system makes the judgment first — and the user simply approves.</p>
-                <p class="cs-step-body mt-16" data-en="Building on the problem definition, we designed a structure that treats data not as raw information, but as a computed input — calculating the outcome of each option in terms of comfort and cost, then presenting a single optimal choice." data-ko="문제 정의를 기반으로, 데이터를 단순 정보가 아닌 각 선택의 결과(쾌적도·비용)를 계산해 하나의 최적 선택으로 제안하는 구조로 설계했다.">Building on the problem definition, we designed a structure that treats data not as raw information, but as a computed input — calculating the outcome of each option in terms of comfort and cost, then presenting a single optimal choice.</p>
-                <div class="cs-insight mt-16">
-                  <p class="cs-insight-lbl" data-en="Core" data-ko="핵심">Core</p>
-                  <p class="cs-insight-body" data-en="The user doesn't make the judgment — the system does. The user only confirms." data-ko="사용자가 판단하는 것이 아니라, 시스템이 먼저 판단하고 사용자는 확인만 한다">The user doesn't make the judgment — the system does. The user only confirms.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="cs-step">
-              <span class="cs-step-num">02</span>
-              <div class="cs-step-content">
-                <p class="cs-step-title" data-en="Mind Mapping &amp; Functional" data-ko="Mind Mapping &amp; Functional">Mind Mapping &amp; Functional</p>
-                <div class="g-2 mt-24">
-                  <div>
-                    <p class="cs-step-body" data-en="HVAC decisions involve multiple factors simultaneously — outdoor environment, store conditions, cost — making it impossible to judge by any single criterion." data-ko="냉난방 판단은 외부 환경, 매장 상태, 비용 등 여러 요소가 동시에 작용하기 때문에 단일 기준으로 판단할 수 없다.">HVAC decisions involve multiple factors simultaneously — outdoor environment, store conditions, cost — making it impossible to judge by any single criterion.</p>
-                    <p class="cs-step-body mt-16" data-en="We mapped all the variables that influence HVAC operation and structured how each affects comfort and cost. From this, we designed a functional architecture that considers multiple variables at once and connects them into a single judgment." data-ko="냉난방 운영에 영향을 주는 요소들을 정리하고, 각 요소가 쾌적도와 비용에 어떻게 영향을 주는지 구조화했다. 이를 기반으로 여러 변수를 동시에 고려해 하나의 판단으로 연결하는 기능 구조를 설계했다.">We mapped all the variables that influence HVAC operation and structured how each affects comfort and cost. From this, we designed a functional architecture that considers multiple variables at once and connects them into a single judgment.</p>
-                  </div>
-                  <div class="clip-reveal img-wrap ratio-4x3">
-                    <img src="../assets/images/projects/operator/ideate/functional-structure.jpg"
-                         alt="Functional Structure">
-                    <div class="img-ph">
-                      <span class="img-ph-name">Functional Structure</span>
-                      <span class="img-ph-file">operator/ideate/functional-structure.jpg</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="cs-step">
-              <span class="cs-step-num">03</span>
-              <div class="cs-step-content">
-                <p class="cs-step-title" data-en="Scenario &amp; Prioritization" data-ko="시나리오 &amp; 우선순위">Scenario &amp; Prioritization</p>
-                <p class="cs-step-body" data-en="Based on real store operation scenarios, we defined only the features users truly needed as the MVP." data-ko="매장 운영 시나리오를 기반으로, 사용자에게 실제로 필요한 기능만 MVP로 정의했다.">Based on real store operation scenarios, we defined only the features users truly needed as the MVP.</p>
-                <p class="cs-step-body mt-16" data-en="We analyzed the user journey to identify the key situations when HVAC adjustments occur: peak customer hours, sudden changes in outdoor temperature, and high electricity rate periods. Features were defined and prioritized based on the actions required in each scenario." data-ko="사용자 여정을 분석해 냉난방 조절이 발생하는 주요 상황을 도출했다 — 손님이 몰리는 시간, 외부 온도가 급격히 변하는 상황, 전기요금이 높은 시간대. 각 시나리오에서 필요한 행동을 기준으로 기능을 정의하고 우선순위를 설정했다.">We analyzed the user journey to identify the key situations when HVAC adjustments occur: peak customer hours, sudden changes in outdoor temperature, and high electricity rate periods. Features were defined and prioritized based on the actions required in each scenario.</p>
-                <div class="cs-insight mt-16">
-                  <p class="cs-insight-lbl" data-en="Core" data-ko="핵심">Core</p>
-                  <p class="cs-insight-body" data-en="Not every possible feature — only those directly needed for real decision-making were included in the MVP" data-ko="모든 기능이 아니라, 실제 의사결정에 필요한 기능만 MVP로 구성했다">Not every possible feature — only those directly needed for real decision-making were included in the MVP</p>
-                </div>
-                <div class="g-3 mt-24">
-                  <div class="clip-reveal img-wrap ratio-3x2">
-                    <img src="../assets/images/projects/operator/ideate/scenario.jpg"
-                         alt="Scenario">
-                    <div class="img-ph">
-                      <span class="img-ph-name">Scenario</span>
-                      <span class="img-ph-file">operator/ideate/scenario.jpg</span>
-                    </div>
-                  </div>
-                  <div class="clip-reveal img-wrap ratio-3x2">
-                    <img src="../assets/images/projects/operator/ideate/2x2-matrix.jpg"
-                         alt="2x2 Matrix">
-                    <div class="img-ph">
-                      <span class="img-ph-name">2×2 Prioritization Matrix</span>
-                      <span class="img-ph-file">operator/ideate/2x2-matrix.jpg</span>
-                    </div>
-                  </div>
-                  <div class="clip-reveal img-wrap ratio-3x2">
-                    <img src="../assets/images/projects/operator/ideate/moscow.jpg"
-                         alt="MoSCoW">
-                    <div class="img-ph">
-                      <span class="img-ph-name">MoSCoW</span>
-                      <span class="img-ph-file">operator/ideate/moscow.jpg</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="cs-step">
-              <span class="cs-step-num">04</span>
-              <div class="cs-step-content">
-                <p class="cs-step-title" data-en="Ideation &amp; User Flow" data-ko="아이디에이션 &amp; 사용자 흐름">Ideation &amp; User Flow</p>
-                <div class="g-2 mt-24">
-                  <div>
-                    <p class="cs-step-body" data-en="Using Crazy 8, we explored main screen structures and decided on a flow that integrates judgment, choice, and outcome in a single view." data-ko="Crazy 8을 통해 메인 화면 구조를 탐색하고, '판단·선택·결과'를 한 화면에 통합하는 흐름으로 결정했다.">Using Crazy 8, we explored main screen structures and decided on a flow that integrates judgment, choice, and outcome in a single view.</p>
-                    <p class="cs-step-body mt-16" data-en="Comparing multiple layouts, we explored both a structure that split decision information across steps and one that displayed everything at once. Through internal team discussion, we initially determined that showing judgment, choice, and outcome simultaneously was better suited for faster decision-making. This was later validated in user testing, where the structure confirmed to genuinely accelerate the decision process." data-ko="여러 배치를 비교하며 판단 정보를 단계적으로 나누는 구조와 한 화면에 동시에 노출하는 구조를 탐색했다. 초기에는 팀 내부 논의를 통해 판단·선택·결과를 동시에 확인할 수 있는 구조가 더 빠른 의사결정에 적합하다고 판단했고, 이후 사용자 테스트 과정에서 해당 구조가 실제 판단 속도를 높이는 방향으로 작동함을 확인하며 구조를 보완했다.">Comparing multiple layouts, we explored both a structure that split decision information across steps and one that displayed everything at once. Through internal team discussion, we initially determined that showing judgment, choice, and outcome simultaneously was better suited for faster decision-making. This was later validated in user testing, where the structure confirmed to genuinely accelerate the decision process.</p>
-                  </div>
-                  <div class="clip-reveal img-wrap">
-                    <video autoplay loop muted playsinline style="height:360px; width:100%; object-fit:cover; border-radius:var(--r12);">
-                      <source src="../assets/videos/projects/operator/crazy-8.mp4" type="video/mp4">
-                    </video>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="cs-step">
-              <span class="cs-step-num">05</span>
-              <div class="cs-step-content">
-                <p class="cs-step-title" data-en="IA &amp; System Design" data-ko="IA &amp; 시스템 설계">IA &amp; System Design</p>
-                <p class="cs-step-body" data-en="Rather than separating decision information from the action, we integrated both into a single continuous flow." data-ko="판단 정보와 선택을 분리하지 않고, 하나의 흐름으로 통합했다.">Rather than separating decision information from the action, we integrated both into a single continuous flow.</p>
-                <p class="cs-step-body mt-16" data-en="We reduced the steps between reviewing information, interpreting it, and making a selection — designing a structure that leads directly to a choice." data-ko="정보 확인 → 해석 → 선택의 단계를 줄이고, 바로 선택으로 이어질 수 있도록 구조를 설계했다.">We reduced the steps between reviewing information, interpreting it, and making a selection — designing a structure that leads directly to a choice.</p>
-                <div class="g-2 mt-24">
-                  <div class="clip-reveal img-wrap ratio-4x3">
-                    <img src="../assets/images/projects/operator/ideate/ia.jpg"
-                         alt="Information Architecture">
-                    <div class="img-ph">
-                      <span class="img-ph-name">Information Architecture</span>
-                      <span class="img-ph-file">operator/ideate/ia.jpg</span>
-                    </div>
-                  </div>
-                  <div class="clip-reveal img-wrap ratio-4x3">
-                    <img src="../assets/images/projects/operator/ideate/system-flow.jpg"
-                         alt="System Flow">
-                    <div class="img-ph">
-                      <span class="img-ph-name">System Flow</span>
-                      <span class="img-ph-file">operator/ideate/system-flow.jpg</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="cs-step">
-              <span class="cs-step-num">06</span>
-              <div class="cs-step-content">
-                <p class="cs-step-title" data-en="Wireframe &amp; Design System" data-ko="와이어프레임 &amp; 디자인 시스템">Wireframe &amp; Design System</p>
-                <p class="cs-step-body" data-en="Status, outcomes, and choices were integrated into a single screen — enabling immediate judgment and selection." data-ko="상태, 결과, 선택을 한 화면에 통합해 즉시 판단과 선택이 가능하도록 설계했다.">Status, outcomes, and choices were integrated into a single screen — enabling immediate judgment and selection.</p>
-                <p class="cs-step-body mt-16" data-en="The wireframe was structured so that current status (temperature and humidity), expected outcomes (comfort and cost), and available options (mode and settings) could all be viewed and acted on from a single screen." data-ko="현재 상태(온도·습도), 예상 결과(쾌적도·비용), 선택지(모드·설정)를 한 화면에서 동시에 확인하고 바로 선택할 수 있도록 와이어프레임을 구성했다.">The wireframe was structured so that current status (temperature and humidity), expected outcomes (comfort and cost), and available options (mode and settings) could all be viewed and acted on from a single screen.</p>
-                <p class="cs-step-body mt-16" data-en="The design system was built around information hierarchy and comparative structure — to support fast judgment without friction. To allow users to quickly distinguish decision-critical information, we clearly separated status, outcome, and choice — and applied a numeric + delta-based display format for intuitive comparison. Color and typography were used to distinguish current status, recommended choice, and expected outcome — so users could understand at a glance, without interpretation." data-ko="디자인 시스템은 '빠른 판단'을 방해하지 않도록 정보의 우선순위와 비교 구조를 중심으로 설계했다. 판단에 필요한 정보를 빠르게 구분할 수 있도록 상태 / 결과 / 선택을 명확히 구분하고, 각 선택의 결과를 직관적으로 비교할 수 있도록 수치 + 변화량 중심의 표현 방식을 적용했다. 또한, 사용자가 해석 없이 바로 이해할 수 있도록 컬러와 타이포를 통해 현재 상태 / 권장 선택 / 예상 결과를 명확히 구분했다.">The design system was built around information hierarchy and comparative structure — to support fast judgment without friction. To allow users to quickly distinguish decision-critical information, we clearly separated status, outcome, and choice — and applied a numeric + delta-based display format for intuitive comparison. Color and typography were used to distinguish current status, recommended choice, and expected outcome — so users could understand at a glance, without interpretation.</p>
-                <div class="g-2 mt-24">
-                  <div class="clip-reveal img-wrap ratio-4x3">
-                    <img src="../assets/images/projects/operator/ideate/wireframe-1.jpg"
-                         alt="Wireframe 1">
-                    <div class="img-ph">
-                      <span class="img-ph-name">Wireframe</span>
-                      <span class="img-ph-file">operator/ideate/wireframe-1.jpg</span>
-                    </div>
-                  </div>
-                  <div class="clip-reveal img-wrap ratio-4x3">
-                    <img src="../assets/images/projects/operator/ideate/design-system.jpg"
-                         alt="Design System">
-                    <div class="img-ph">
-                      <span class="img-ph-name">Design System</span>
-                      <span class="img-ph-file">operator/ideate/design-system.jpg</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+          <!-- IDEATE HERO -->
+          <div class="define-hero">
+            <h2 class="ideate-hero-h reveal-text"
+                data-en="The system judges first —<br>the user only confirms."
+                data-ko="시스템이 먼저 판단하고,<br>사용자는 확인만 하는 구조로 전환했다">
+              The system judges first —<br>the user only confirms.
+            </h2>
+            <p class="define-hero-sub"
+               data-en="Rather than presenting data to interpret, we designed a structure that proposes a choice."
+               data-ko="데이터를 보여주는 것이 아니라, 선택을 제안하는 구조로 설계했다">
+              Rather than presenting data to interpret, we designed a structure that proposes a choice.
+            </p>
           </div>
+
+          <!-- SECTION 2 — SOLUTION DIRECTION -->
+          <div class="define-block">
+            <p class="define-num" data-en="Solution Direction" data-ko="솔루션 방향">Solution Direction</p>
+            <p class="define-body" data-en="We shifted from showing HVAC data for users to interpret, to a structure where the system calculates the outcome of each option and presents a single optimal choice." data-ko="냉난방 데이터를 보여주는 것이 아니라, 시스템이 각 선택의 결과를 계산해 최적의 선택을 제안하는 구조로 전환했다.">We shifted from showing HVAC data for users to interpret, to a structure where the system calculates the outcome of each option and presents a single optimal choice.</p>
+          </div>
+
+          <div class="ideate-ba">
+            <div class="ideate-ba-col ideate-ba-col--before">
+              <p class="ideate-ba-lbl" data-en="Before" data-ko="Before">Before</p>
+              <ul class="ideate-ba-list">
+                <li data-en="User judges directly" data-ko="사용자가 직접 판단">User judges directly</li>
+                <li data-en="Outcome is unknown" data-ko="결과를 알 수 없음">Outcome is unknown</li>
+              </ul>
+            </div>
+            <div class="ideate-ba-arrow">→</div>
+            <div class="ideate-ba-col ideate-ba-col--after">
+              <p class="ideate-ba-lbl" data-en="After" data-ko="After">After</p>
+              <ul class="ideate-ba-list">
+                <li data-en="System proposes the optimal choice" data-ko="시스템이 최적 선택 제안">System proposes the optimal choice</li>
+                <li data-en="Outcome is shown alongside the choice" data-ko="결과를 함께 제공">Outcome is shown alongside the choice</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="define-block">
+            <div class="cs-insight">
+              <p class="cs-insight-lbl" data-en="Core" data-ko="핵심">Core</p>
+              <p class="cs-insight-body" data-en="Judgment is not left to the user." data-ko="판단을 사용자에게 맡기지 않는다">Judgment is not left to the user.</p>
+            </div>
+          </div>
+
+          <!-- SECTION 3 — DECISION MODEL + FUNCTIONAL -->
+          <div class="define-root">
+            <div>
+              <p class="define-num" data-en="Decision Model" data-ko="의사결정 모델">Decision Model</p>
+              <p class="define-body" data-en="HVAC decisions involve multiple variables acting simultaneously —" data-ko="냉난방 판단은">HVAC decisions involve multiple variables acting simultaneously —</p>
+              <p class="define-body" data-en="outdoor environment, store conditions, and cost." data-ko="외부 환경 / 매장 상태 / 비용 등 여러 변수가 동시에 작용하는 문제다.">outdoor environment, store conditions, and cost.</p>
+              <p class="define-body mt-16" data-en="We structured how each variable converts into comfort and cost impact," data-ko="각 요소를 쾌적도 / 비용 영향으로 변환하고,">We structured how each variable converts into comfort and cost impact,</p>
+              <p class="define-key" data-en="then connected them into a single judgment." data-ko="하나의 판단으로 연결하는 구조를 설계했다">then connected them into a single judgment.</p>
+              <div class="cs-insight mt-24">
+                <p class="cs-insight-lbl" data-en="Core" data-ko="핵심">Core</p>
+                <p class="cs-insight-body" data-en="Complex variables → compressed into one choice." data-ko="복잡한 변수 → 하나의 선택으로 압축">Complex variables → compressed into one choice.</p>
+              </div>
+            </div>
+            <div class="clip-reveal img-wrap ratio-4x3">
+              <img src="../assets/images/projects/operator/ideate/functional-structure.jpg" alt="Functional Categorization">
+              <div class="img-ph">
+                <span class="img-ph-name">Functional Categorization</span>
+                <span class="img-ph-file">operator/ideate/functional-structure.jpg</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 4 — SCENARIO + PRIORITIZATION -->
+          <div class="define-block">
+            <p class="define-num" data-en="Scenario + Prioritization" data-ko="시나리오 + 우선순위">Scenario + Prioritization</p>
+            <p class="define-body" data-en="Based on real store operations, we identified the key decision moments —" data-ko="실제 매장 운영 상황을 기준으로 의사결정이 발생하는 핵심 순간을 정의했다 —">Based on real store operations, we identified the key decision moments —</p>
+            <p class="define-key" data-en="then built the MVP around only what those moments required." data-ko="그 순간에 필요한 기능만 MVP로 남겼다">then built the MVP around only what those moments required.</p>
+            <div class="g-3 mt-24">
+              <div class="clip-reveal img-wrap ratio-3x2">
+                <img src="../assets/images/projects/operator/ideate/scenario.jpg" alt="Scenario">
+                <div class="img-ph">
+                  <span class="img-ph-name">Scenario</span>
+                  <span class="img-ph-file">operator/ideate/scenario.jpg</span>
+                </div>
+              </div>
+              <div class="clip-reveal img-wrap ratio-3x2">
+                <img src="../assets/images/projects/operator/ideate/2x2-matrix.jpg" alt="2x2 Matrix">
+                <div class="img-ph">
+                  <span class="img-ph-name">2×2 Prioritization Matrix</span>
+                  <span class="img-ph-file">operator/ideate/2x2-matrix.jpg</span>
+                </div>
+              </div>
+              <div class="clip-reveal img-wrap ratio-3x2">
+                <img src="../assets/images/projects/operator/ideate/moscow.jpg" alt="MoSCoW">
+                <div class="img-ph">
+                  <span class="img-ph-name">MoSCoW</span>
+                  <span class="img-ph-file">operator/ideate/moscow.jpg</span>
+                </div>
+              </div>
+            </div>
+            <div class="cs-insight mt-24">
+              <p class="cs-insight-lbl" data-en="Core" data-ko="핵심">Core</p>
+              <p class="cs-insight-body" data-en="Not every possible feature — only those directly needed for real decision-making." data-ko="모든 기능이 아니라, 결정에 필요한 기능만 남겼다">Not every possible feature — only those directly needed for real decision-making.</p>
+            </div>
+          </div>
+
+          <!-- SECTION 5 — IDEATION PROCESS (CRAZY 8) -->
+          <div class="define-block">
+            <p class="define-num" data-en="Ideation Process" data-ko="아이디에이션 과정">Ideation Process</p>
+            <p class="define-body" data-en="To explore multiple UI structures quickly, we ran Crazy 8 to experiment with different layouts." data-ko="다양한 UI 구조를 탐색하기 위해 Crazy 8을 통해 여러 레이아웃을 빠르게 실험했다.">To explore multiple UI structures quickly, we ran Crazy 8 to experiment with different layouts.</p>
+            <p class="define-key" data-en="Integrating judgment, choice, and outcome in one view proved most efficient." data-ko="여러 구조 중, 판단·선택·결과를 통합한 방식이 가장 효율적이었다">Integrating judgment, choice, and outcome in one view proved most efficient.</p>
+          </div>
+          <div class="clip-reveal img-wrap ratio-wide mt-24" style="max-width:800px;">
+            <video autoplay loop muted playsinline style="width:100%; height:100%; object-fit:cover; border-radius:var(--r12);">
+              <source src="../assets/videos/projects/operator/crazy-8.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="define-block mt-24">
+            <div class="cs-insight">
+              <p class="cs-insight-lbl" data-en="Core" data-ko="핵심">Core</p>
+              <p class="cs-insight-body" data-en="One screen. One decision. Judgment, choice, and outcome together." data-ko="한 화면에서 판단·선택·결과를 동시에 확인한다">One screen. One decision. Judgment, choice, and outcome together.</p>
+            </div>
+          </div>
+
+          <!-- SECTION 6 — INTEGRATED FLOW -->
+          <div class="define-block">
+            <p class="define-num" data-en="Integrated Flow" data-ko="통합 흐름">Integrated Flow</p>
+            <p class="define-body" data-en="Rather than splitting judgment, choice, and outcome across separate steps," data-ko="판단 → 선택 → 결과를 분리하지 않고">Rather than splitting judgment, choice, and outcome across separate steps,</p>
+            <p class="define-key" data-en="we integrated them into a single continuous flow." data-ko="하나의 흐름으로 통합했다">we integrated them into a single continuous flow.</p>
+            <div class="g-2 mt-24">
+              <div class="clip-reveal img-wrap ratio-4x3">
+                <img src="../assets/images/projects/operator/ideate/ia.jpg" alt="Information Architecture">
+                <div class="img-ph">
+                  <span class="img-ph-name">Information Architecture</span>
+                  <span class="img-ph-file">operator/ideate/ia.jpg</span>
+                </div>
+              </div>
+              <div class="clip-reveal img-wrap ratio-4x3">
+                <img src="../assets/images/projects/operator/ideate/system-flow.jpg" alt="System Flow">
+                <div class="img-ph">
+                  <span class="img-ph-name">System Flow</span>
+                  <span class="img-ph-file">operator/ideate/system-flow.jpg</span>
+                </div>
+              </div>
+            </div>
+            <div class="cs-insight mt-24">
+              <p class="cs-insight-lbl" data-en="Core" data-ko="핵심">Core</p>
+              <p class="cs-insight-body" data-en="Information is not divided — it is grouped by decision unit." data-ko="정보를 나누지 않고, 결정 단위로 묶는다">Information is not divided — it is grouped by decision unit.</p>
+            </div>
+          </div>
+
+          <!-- SECTION 7 — WIREFRAME -->
+          <div class="define-block">
+            <p class="define-num" data-en="Wireframe" data-ko="와이어프레임">Wireframe</p>
+            <p class="define-body" data-en="Current status, expected outcome, and recommended choice — all visible on a single screen." data-ko="현재 상태, 예상 결과, 추천 선택을 한 화면에서 동시에 확인할 수 있도록 설계했다.">Current status, expected outcome, and recommended choice — all visible on a single screen.</p>
+            <p class="define-key" data-en="One glance. One confirmation. Done." data-ko="한 번의 확인으로 바로 선택할 수 있는 구조">One glance. One confirmation. Done.</p>
+            <div class="clip-reveal img-wrap ratio-wide mt-24">
+              <img src="../assets/images/projects/operator/ideate/wireframe-1.jpg" alt="Wireframe">
+              <div class="img-ph">
+                <span class="img-ph-name">Wireframe</span>
+                <span class="img-ph-file">operator/ideate/wireframe-1.jpg</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 8 — DESIGN SYSTEM -->
+          <div class="define-block">
+            <p class="define-num" data-en="Design System" data-ko="디자인 시스템">Design System</p>
+            <p class="define-body" data-en="Status, outcome, and choice are visually separated so users can compare without interpretation." data-ko="사용자가 해석하지 않아도 되도록 정보를 비교 가능한 형태로 설계했다.">Status, outcome, and choice are visually separated so users can compare without interpretation.</p>
+            <p class="define-key" data-en="Designed to be understood at a glance — no interpretation required." data-ko="해석 없이 바로 이해할 수 있는 구조">Designed to be understood at a glance — no interpretation required.</p>
+            <div class="clip-reveal img-wrap ratio-wide mt-24">
+              <img src="../assets/images/projects/operator/ideate/design-system.jpg" alt="Design System">
+              <div class="img-ph">
+                <span class="img-ph-name">Design System</span>
+                <span class="img-ph-file">operator/ideate/design-system.jpg</span>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </div>
