@@ -1226,21 +1226,27 @@
     /* ═══════════════════════════════════════
        STACK CARDS
     ════════════════════════════════════════ */
-    .overview-sticky {
-      position: sticky;
-      top: var(--nav-h);
-      z-index: 5;
-      background: var(--bg);
-      padding-bottom: 32px;
-    }
     .stack-scene {
       position: relative;
       height: 200vh;
     }
     .stack-stage {
       position: sticky;
-      top: calc(var(--nav-h) + 80px);
+      top: var(--nav-h);
+      height: calc(100vh - var(--nav-h));
+      display: flex;
+      flex-direction: column;
       background: var(--bg);
+      padding-top: 48px;
+    }
+    .stack-stage-header {
+      flex-shrink: 0;
+      padding-bottom: 32px;
+    }
+    .stack-cards-area {
+      position: relative;
+      flex: 1;
+      min-height: 0;
     }
     .stack-card {
       position: absolute;
@@ -1472,15 +1478,15 @@ Product Perspective & Execution</p>
          01  OVERVIEW
     ════════════════════════════════════════ -->
     <section id="overview" class="cs-section-border">
-      <div class="cs-section">
-        <div class="overview-sticky">
-          <p class="cs-group-lbl" data-en="Overview">Overview</p>
-          <p class="cs-sub-lbl" data-en="Project Summary">Project Summary</p>
-          <h2 class="cs-h2 reveal-text" data-en="The Problem Wasn't Control —<br>It Was the <span style='color:var(--accent)'>Absence of Decision Criteria</span>" data-ko="문제는 냉난방 제어가 아니라<br>냉난방 <span style='color:var(--accent)'>조정 시 판단 기준의 부재</span>였다">문제는 냉난방 제어가 아니라<br>냉난방 <span style="color:var(--accent)">조정 시 판단 기준의 부재</span>였다</h2>
-        </div>
-
+      <div class="cs-section" style="padding-top: 0; padding-bottom: 80px;">
         <div class="stack-scene">
           <div class="stack-stage">
+            <div class="stack-stage-header">
+              <p class="cs-group-lbl" data-en="Overview">Overview</p>
+              <p class="cs-sub-lbl" data-en="Project Summary">Project Summary</p>
+              <h2 class="cs-h2 reveal-text" data-en="The Problem Wasn't Control —<br>It Was the <span style='color:var(--accent)'>Absence of Decision Criteria</span>" data-ko="문제는 냉난방 제어가 아니라<br>냉난방 <span style='color:var(--accent)'>조정 시 판단 기준의 부재</span>였다">문제는 냉난방 제어가 아니라<br>냉난방 <span style="color:var(--accent)">조정 시 판단 기준의 부재</span>였다</h2>
+            </div>
+            <div class="stack-cards-area">
 
             <div class="stack-card cs-card">
               <p class="cs-card-lbl" data-en="01 — How It Started" data-ko="01 — 시작">01 — How It Started</p>
@@ -1522,8 +1528,9 @@ Product Perspective & Execution</p>
               </div>
             </div>
 
-          </div>
-        </div>
+            </div><!-- /.stack-cards-area -->
+          </div><!-- /.stack-stage -->
+        </div><!-- /.stack-scene -->
 
         <div class="cs-quote mt-48">
           <p data-en="We ran user research to validate this hypothesis." data-ko="이 가설을 검증하기 위해 사용자 리서치를 진행했다">We ran user research to validate this hypothesis.</p>
@@ -2659,21 +2666,10 @@ Product Perspective & Execution</p>
       const scene = document.querySelector('.stack-scene');
       if (!scene) return;
       const cards = [...scene.querySelectorAll('.stack-card')];
-      const stage = scene.querySelector('.stack-stage');
-      const stickyHeader = document.querySelector('.overview-sticky');
       const N = cards.length;
       let sceneTop = 0;
-      const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'), 10) || 52;
-
-      function updateStageTop() {
-        if (stickyHeader && stage) {
-          const hdrH = stickyHeader.offsetHeight;
-          stage.style.top = (navH + hdrH + 16) + 'px';
-        }
-      }
 
       function cachePos() {
-        updateStageTop();
         sceneTop = scene.getBoundingClientRect().top + window.scrollY;
       }
 
