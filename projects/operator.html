@@ -1219,6 +1219,36 @@
     }
 
     /* ═══════════════════════════════════════
+       STACK CARDS
+    ════════════════════════════════════════ */
+    .stack-scene {
+      position: relative;
+      height: 480vh;
+    }
+    .stack-stage {
+      position: sticky;
+      top: calc(var(--nav-h) + 80px);
+    }
+    .stack-card {
+      position: absolute;
+      width: 100%;
+      top: 0;
+      will-change: transform, opacity;
+      pointer-events: none;
+      transform: translateY(80px);
+      opacity: 0;
+    }
+    .stack-card:first-child {
+      position: relative;
+      transform: none;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .stack-card.is-active {
+      pointer-events: auto;
+    }
+
+    /* ═══════════════════════════════════════
        IDEATE REDESIGN
     ════════════════════════════════════════ */
     .ideate-hero-h {
@@ -1401,48 +1431,50 @@ Product Perspective & Execution</p>
         <p class="cs-sub-lbl" data-en="Project Summary">Project Summary</p>
         <h2 class="cs-h2 reveal-text" data-en="The Problem Wasn't Control — It Was the Absence of Decision Criteria" data-ko="문제는 제어가 아니라 '판단 기준의 부재'였다">The Problem Wasn't Control — It Was the Absence of Decision Criteria</h2>
 
-        <div class="mt-48" style="display:flex; flex-direction:column; gap:16px;">
+        <div class="stack-scene mt-48">
+          <div class="stack-stage">
 
-          <div class="cs-card stagger-item">
-            <p class="cs-card-lbl" data-en="01 — How It Started" data-ko="01 — 시작">01 — How It Started</p>
-            <p class="cs-card-body mt-8" data-en="This project began with a question from a teammate." data-ko="이 프로젝트는 팀원의 질문에서 시작되었다">This project began with a question from a teammate.</p>
-            <div class="cs-insight mt-16">
-              <p class="cs-insight-body" data-en="&quot;Why do people adjust their HVAC systems on intuition — without any clear criteria?&quot;" data-ko="&quot;왜 사람들은 냉난방을 명확한 기준 없이 감으로 조절하고 있을까?&quot;">"Why do people adjust their HVAC systems on intuition — without any clear criteria?"</p>
+            <div class="stack-card cs-card">
+              <p class="cs-card-lbl" data-en="01 — How It Started" data-ko="01 — 시작">01 — How It Started</p>
+              <p class="cs-card-body mt-8" data-en="This project began with a question from a teammate." data-ko="이 프로젝트는 팀원의 질문에서 시작되었다">This project began with a question from a teammate.</p>
+              <div class="cs-insight mt-16">
+                <p class="cs-insight-body" data-en="&quot;Why do people adjust their HVAC systems on intuition — without any clear criteria?&quot;" data-ko="&quot;왜 사람들은 냉난방을 명확한 기준 없이 감으로 조절하고 있을까?&quot;">"Why do people adjust their HVAC systems on intuition — without any clear criteria?"</p>
+              </div>
             </div>
-          </div>
 
-          <div class="cs-card stagger-item">
-            <p class="cs-card-lbl" data-en="02 — Defining the Target" data-ko="02 — 타겟 설정">02 — Defining the Target</p>
-            <p class="cs-card-body mt-8" data-en="We thought carefully about who this problem should be solved for." data-ko="우리는 이 문제를 누구에게 풀어야 할지 고민했고, 가정용이 아닌">We thought carefully about who this problem should be solved for.</p>
-            <div class="cs-insight mt-16">
-              <p class="cs-insight-body" data-en="We set small business owners — not residential users — as our target." data-ko="Small business owner를 타겟으로 설정했다">We set small business owners — not residential users — as our target.</p>
+            <div class="stack-card cs-card">
+              <p class="cs-card-lbl" data-en="02 — Defining the Target" data-ko="02 — 타겟 설정">02 — Defining the Target</p>
+              <p class="cs-card-body mt-8" data-en="We thought carefully about who this problem should be solved for." data-ko="우리는 이 문제를 누구에게 풀어야 할지 고민했고, 가정용이 아닌">We thought carefully about who this problem should be solved for.</p>
+              <div class="cs-insight mt-16">
+                <p class="cs-insight-body" data-en="We set small business owners — not residential users — as our target." data-ko="Small business owner를 타겟으로 설정했다">We set small business owners — not residential users — as our target.</p>
+              </div>
             </div>
-          </div>
 
-          <div class="cs-card stagger-item">
-            <p class="cs-card-lbl" data-en="03 — Personal Experience" data-ko="03 — 개인 경험 연결">03 — Personal Experience</p>
-            <p class="cs-card-body mt-8" data-en="Running my own store, I kept adjusting the HVAC — but without any clear criteria to guide me, I always fell back on intuition." data-ko="나는 실제 매장을 운영하며 냉난방을 계속 조절하지만 판단 기준 없이 직관에 의존하게 되는 문제를 겪고 있었다">Running my own store, I kept adjusting the HVAC — but without any clear criteria to guide me, I always fell back on intuition.</p>
-            <div class="cs-insight mt-16">
-              <p class="cs-insight-body" data-en="That personal experience aligned directly with what research was revealing." data-ko="이 경험이 리서치와 맞닿으며">That personal experience aligned directly with what research was revealing.</p>
+            <div class="stack-card cs-card">
+              <p class="cs-card-lbl" data-en="03 — Personal Experience" data-ko="03 — 개인 경험 연결">03 — Personal Experience</p>
+              <p class="cs-card-body mt-8" data-en="Running my own store, I kept adjusting the HVAC — but without any clear criteria to guide me, I always fell back on intuition." data-ko="나는 실제 매장을 운영하며 냉난방을 계속 조절하지만 판단 기준 없이 직관에 의존하게 되는 문제를 겪고 있었다">Running my own store, I kept adjusting the HVAC — but without any clear criteria to guide me, I always fell back on intuition.</p>
+              <div class="cs-insight mt-16">
+                <p class="cs-insight-body" data-en="That personal experience aligned directly with what research was revealing." data-ko="이 경험이 리서치와 맞닿으며">That personal experience aligned directly with what research was revealing.</p>
+              </div>
             </div>
-          </div>
 
-          <div class="cs-card stagger-item">
-            <p class="cs-card-lbl" data-en="04 — Redefining the Problem" data-ko="04 — 문제 재정의">04 — Redefining the Problem</p>
-            <p class="cs-card-body mt-8" data-en="We concluded that this was not simply a problem of control." data-ko="우리는 이 문제가 단순한 조작 문제가 아니라">We concluded that this was not simply a problem of control.</p>
-            <div class="cs-insight mt-16">
-              <p class="cs-insight-body" data-en="It was a problem of &quot;a structure where making a judgment is inherently difficult.&quot;" data-ko="&quot;판단 자체가 어려운 구조&quot;의 문제라는 결론에 도달했다">It was a problem of "a structure where making a judgment is inherently difficult."</p>
+            <div class="stack-card cs-card">
+              <p class="cs-card-lbl" data-en="04 — Redefining the Problem" data-ko="04 — 문제 재정의">04 — Redefining the Problem</p>
+              <p class="cs-card-body mt-8" data-en="We concluded that this was not simply a problem of control." data-ko="우리는 이 문제가 단순한 조작 문제가 아니라">We concluded that this was not simply a problem of control.</p>
+              <div class="cs-insight mt-16">
+                <p class="cs-insight-body" data-en="It was a problem of &quot;a structure where making a judgment is inherently difficult.&quot;" data-ko="&quot;판단 자체가 어려운 구조&quot;의 문제라는 결론에 도달했다">It was a problem of "a structure where making a judgment is inherently difficult."</p>
+              </div>
             </div>
-          </div>
 
-          <div class="cs-card stagger-item">
-            <p class="cs-card-lbl" data-en="05 — Solution Direction" data-ko="05 — 해결 방향">05 — Solution Direction</p>
-            <p class="cs-card-body mt-8" data-en="The answer wasn't to leave users to figure it out on their own." data-ko="이 문제는 사용자가 직접 판단하도록 두는 것이 아니라">The answer wasn't to leave users to figure it out on their own.</p>
-            <div class="cs-insight mt-16">
-              <p class="cs-insight-body" data-en="The system proposes the optimal choice first — and the user simply reviews and approves." data-ko="시스템이 먼저 최적의 선택을 제안하고, 사용자는 이를 확인하고 승인하는 구조로 전환해야 했다">The system proposes the optimal choice first — and the user simply reviews and approves.</p>
+            <div class="stack-card cs-card">
+              <p class="cs-card-lbl" data-en="05 — Solution Direction" data-ko="05 — 해결 방향">05 — Solution Direction</p>
+              <p class="cs-card-body mt-8" data-en="The answer wasn't to leave users to figure it out on their own." data-ko="이 문제는 사용자가 직접 판단하도록 두는 것이 아니라">The answer wasn't to leave users to figure it out on their own.</p>
+              <div class="cs-insight mt-16">
+                <p class="cs-insight-body" data-en="The system proposes the optimal choice first — and the user simply reviews and approves." data-ko="시스템이 먼저 최적의 선택을 제안하고, 사용자는 이를 확인하고 승인하는 구조로 전환해야 했다">The system proposes the optimal choice first — and the user simply reviews and approves.</p>
+              </div>
             </div>
-          </div>
 
+          </div>
         </div>
 
         <div class="cs-quote mt-48">
@@ -2432,6 +2464,64 @@ Product Perspective & Execution</p>
 
     ['overview','approach','solution','outcome','iteration','reflection','more-projects']
       .forEach(id => { const el = document.getElementById(id); if (el) tocObserver.observe(el); });
+    /* ═══════════════════════════════════════
+       STACK CARDS
+    ════════════════════════════════════════ */
+    (function () {
+      const scene = document.querySelector('.stack-scene');
+      if (!scene) return;
+      const cards = [...scene.querySelectorAll('.stack-card')];
+      const N = cards.length;
+      let sceneTop = 0;
+
+      function cachePos() {
+        sceneTop = scene.getBoundingClientRect().top + window.scrollY;
+      }
+
+      function update() {
+        const scrolled = window.scrollY - sceneTop;
+        const maxScroll = scene.offsetHeight - window.innerHeight;
+        const progress = Math.max(0, Math.min(1, scrolled / maxScroll));
+        const slot = progress * (N - 1);
+        const activeIndex = Math.min(Math.floor(slot), N - 1);
+        const frac = slot - activeIndex;
+
+        cards.forEach((card, i) => {
+          const sp = (activeIndex - i) + frac;
+          let ty, scale, opacity;
+
+          if (sp < -1) {
+            ty = 80; scale = 1; opacity = 0;
+          } else if (sp < 0) {
+            ty = -sp * 80;
+            scale = 0.97 + (1 + sp) * 0.03;
+            opacity = 1 + sp;
+          } else {
+            ty = -sp * 8;
+            scale = 1 - Math.min(sp, 5) * 0.03;
+            opacity = Math.max(0, 1 - Math.max(0, sp - 1) * 0.55);
+          }
+
+          card.style.transform = `translateY(${ty.toFixed(2)}px) scale(${scale.toFixed(4)})`;
+          card.style.opacity = Math.max(0, Math.min(1, opacity)).toFixed(3);
+          card.style.zIndex = Math.round(N * 2 - Math.abs(sp) * 10);
+          card.classList.toggle('is-active', Math.abs(sp) < 0.05);
+        });
+      }
+
+      cachePos();
+      window.addEventListener('resize', cachePos, { passive: true });
+
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(() => { update(); ticking = false; });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      update();
+    })();
   </script>
 
 </body>
