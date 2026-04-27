@@ -469,6 +469,40 @@
     .stack-card .cs-insight + .cs-insight::before { transition-delay: 0.25s; }
     .stack-card .cs-insight-body { color: var(--text-1); }
 
+    .criteria-item {
+      border: 1px solid var(--border);
+      border-radius: var(--r12);
+      padding: var(--s20) var(--s24);
+      transition: border-color 0.25s ease, transform 0.25s var(--ease-spring), box-shadow 0.25s ease, opacity 0.4s ease;
+      cursor: default;
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    .criteria-item.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .criteria-item:nth-child(2) { transition-delay: 0.1s; }
+    .criteria-item:nth-child(3) { transition-delay: 0.2s; }
+    .criteria-item:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .criteria-item-num {
+      font-size: var(--t12);
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      margin-bottom: var(--s8);
+    }
+    .criteria-item-text {
+      font-size: var(--t16);
+      font-weight: 600;
+      line-height: 1.5;
+      color: var(--text-1);
+    }
+
     .cs-body-list {
       font-size: var(--t16);
       line-height: 1.75;
@@ -1717,12 +1751,21 @@ Product Perspective & Execution</p>
              data-en="Operators had no trouble operating the HVAC system itself — but">
             운영자들은 냉난방을 조작하는 데에는 어려움이 없었지만
           </p>
-          <ul class="cs-body-list">
-            <li data-ko="언제 조절할지" data-en="When to adjust">언제 조절할지</li>
-            <li data-ko="얼마나 조절할지" data-en="How much to adjust">얼마나 조절할지</li>
-            <li data-ko="쾌적함과 비용을 어떻게 균형 잡을지" data-en="How to balance comfort against cost">쾌적함과 비용을 어떻게 균형 잡을지</li>
-          </ul>
-          <p class="cs-body mt-8"
+          <div class="g-3 mt-16" style="gap:var(--s16);">
+            <div class="criteria-item">
+              <p class="criteria-item-num">01</p>
+              <p class="criteria-item-text" data-ko="언제 조절할지" data-en="When to adjust">언제 조절할지</p>
+            </div>
+            <div class="criteria-item">
+              <p class="criteria-item-num">02</p>
+              <p class="criteria-item-text" data-ko="얼마나 조절할지" data-en="How much to adjust">얼마나 조절할지</p>
+            </div>
+            <div class="criteria-item">
+              <p class="criteria-item-num">03</p>
+              <p class="criteria-item-text" data-ko="쾌적함과 비용을 어떻게 균형 잡을지" data-en="How to balance comfort against cost">쾌적함과 비용을 어떻게 균형 잡을지</p>
+            </div>
+          </div>
+          <p class="cs-body mt-16"
              data-ko="에 대한 <strong>명확한 판단 기준이 없었다</strong>"
              data-en="— they had <strong>no clear criteria for any of it</strong>">
             에 대한 <strong>명확한 판단 기준이 없었다</strong>
@@ -2716,6 +2759,7 @@ Product Perspective & Execution</p>
       '.reflect-item',
       '.cs-stat-num',
       '.img-swap-item--2',
+      '.criteria-item',
     ].forEach(sel => {
       document.querySelectorAll(sel).forEach(el => io.observe(el));
     });
