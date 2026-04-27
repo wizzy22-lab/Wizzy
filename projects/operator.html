@@ -19,24 +19,28 @@
     ════════════════════════════════════════ */
     :root {
       /* Colors */
-      --bg:           #F9FAFB;
-      --surface:      #FFFFFF;
-      --border:       #E5E7EB;
-      --text-1:       #111827;
-      --text-2:       #374151;
-      --text-3:       #6B7280;
-      --accent:       #3B82F6;
-      --accent-dark:  #1D4ED8;
-      --accent-mid:   #93C5FD;
-      --accent-bg:    #EFF6FF;
+      --bg:          #F1F1EF;
+      --surface:     #FFFFFF;
+      --border:      #D9D6D0;
+      --text-1:      #1A1916;
+      --text-2:      #4A4845;
+      --text-3:      #908D88;
+      --accent:      #0097FE;
+      --accent-dark: #0078CB;
+      --accent-mid:  #C8C260;
+      --accent-bg:   #FFFDD7;
+      --error:       #E54040;
 
       /* Typography */
-      --f-title: 'Sora', system-ui, sans-serif;
-      --f-body:  'Manrope', system-ui, sans-serif;
+      --f-title: 'Sora', 'Pretendard Variable', system-ui, sans-serif;
+      --f-body:  'Manrope', 'Pretendard Variable', system-ui, sans-serif;
 
       /* Size scale (integer px) */
+      --t11: 11px;
       --t12: 12px;
+      --t13: 13px;
       --t14: 14px;
+      --t15: 15px;
       --t16: 16px;
       --t18: 18px;
       --t20: 20px;
@@ -49,6 +53,7 @@
 
       /* Spacing (4px grid) */
       --s4:   4px;
+      --s6:   6px;
       --s8:   8px;
       --s12:  12px;
       --s16:  16px;
@@ -94,11 +99,7 @@
       }
     }
 
-    /* Korean font override */
-    body.lang-ko {
-      --f-title: 'Pretendard Variable', system-ui, sans-serif;
-      --f-body:  'Pretendard Variable', system-ui, sans-serif;
-    }
+
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -118,7 +119,7 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       height: var(--nav-h);
-      background: rgba(249,250,251,0);
+      background: rgba(241,241,239,0);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid transparent;
@@ -147,7 +148,7 @@
       font-size: var(--t16);
       font-weight: 700;
       color: var(--text-1);
-      letter-spacing: -0.3px;
+      letter-spacing: -0.015em;
       transition: opacity 0.3s ease;
     }
     .pj-nav-title.is-hidden {
@@ -258,8 +259,8 @@
        HERO
     ════════════════════════════════════════ */
     .hero {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
+      background: var(--accent-bg);
+      border-bottom: 1px solid var(--accent-mid);
     }
     .hero-inner {
       max-width: var(--max-w);
@@ -284,7 +285,7 @@
       font-size: var(--t80);
       font-weight: 800;
       color: var(--text-1);
-      letter-spacing: -3px;
+      letter-spacing: -0.04em;
       line-height: 1;
       margin-bottom: var(--s24);
     }
@@ -293,7 +294,7 @@
       font-size: var(--t24);
       font-weight: 600;
       color: var(--text-1);
-      letter-spacing: -0.5px;
+      letter-spacing: -0.02em;
       line-height: 1.3;
       max-width: 760px;
       margin-bottom: var(--s12);
@@ -352,7 +353,7 @@
     }
     .cs-sub-lbl {
       font-size: var(--t12);
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text-3);
       text-transform: uppercase;
       letter-spacing: 0.1em;
@@ -365,8 +366,8 @@
       font-size: var(--t40);
       font-weight: 700;
       color: var(--text-1);
-      letter-spacing: -1.5px;
-      line-height: 1.3;
+      letter-spacing: -0.04em;
+      line-height: 1.2;
       margin-bottom: var(--s16);
       max-width: 720px;
     }
@@ -375,16 +376,26 @@
       font-size: var(--t32);
       font-weight: 700;
       color: var(--text-1);
-      letter-spacing: -1px;
-      line-height: 1.2;
+      letter-spacing: -0.03em;
+      line-height: 1.25;
       margin-bottom: var(--s12);
     }
     .cs-h4 {
       font-family: var(--f-title);
+      font-size: var(--t24);
+      font-weight: 600;
+      color: var(--text-1);
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+      margin-bottom: var(--s8);
+    }
+    .cs-h5 {
+      font-family: var(--f-title);
       font-size: var(--t20);
       font-weight: 600;
       color: var(--text-1);
-      letter-spacing: -0.3px;
+      letter-spacing: -0.015em;
+      line-height: 1.4;
       margin-bottom: var(--s8);
     }
 
@@ -467,7 +478,7 @@
     .cs-card:hover {
       border-color: var(--accent);
       transform: translateY(-3px);
-      box-shadow: 0 8px 32px rgba(59,130,246,0.08);
+      box-shadow: 0 8px 32px rgba(0,151,254,0.08);
     }
     .cs-card-lbl {
       font-size: var(--t12);
@@ -481,8 +492,9 @@
       font-family: var(--f-title);
       font-size: var(--t20);
       font-weight: 600;
+      line-height: 1.4;
       color: var(--text-1);
-      letter-spacing: -0.3px;
+      letter-spacing: -0.015em;
       margin-bottom: var(--s8);
     }
     .cs-card-body {
@@ -495,7 +507,7 @@
        IMAGES — Method B
     ════════════════════════════════════════ */
     .img-wrap { position: relative; width: 100%; }
-    .img-wrap.ratio-wide { aspect-ratio: 16/7; }
+    .img-wrap.ratio-wide { aspect-ratio: 16/9; }
     .img-wrap.ratio-4x3  { aspect-ratio: 4/3; }
     .img-wrap.ratio-3x2  { aspect-ratio: 3/2; }
     .img-wrap.ratio-3x4  { aspect-ratio: 3/4; }
@@ -553,7 +565,7 @@
       font-size: var(--t20);
       font-weight: 600;
       color: var(--text-1);
-      letter-spacing: -0.3px;
+      letter-spacing: -0.015em;
       margin-bottom: var(--s8);
     }
     .cs-step-body {
@@ -576,7 +588,7 @@
       font-size: var(--t20);
       font-weight: 600;
       color: var(--text-1);
-      letter-spacing: -0.3px;
+      letter-spacing: -0.015em;
       line-height: 1.5;
     }
 
@@ -599,7 +611,7 @@
     .outcome-card:hover {
       border-color: var(--accent);
       transform: translateY(-3px);
-      box-shadow: 0 8px 28px rgba(59,130,246,0.08);
+      box-shadow: 0 8px 28px rgba(0,151,254,0.08);
     }
     .outcome-lbl {
       font-size: var(--t12);
@@ -650,7 +662,7 @@
       font-size: var(--t64);
       font-weight: 700;
       color: var(--accent);
-      letter-spacing: -2px;
+      letter-spacing: -0.03em;
       line-height: 1;
       margin-bottom: var(--s8);
     }
@@ -724,7 +736,7 @@
     .feat-card:hover {
       border-color: var(--accent);
       transform: translateY(-4px);
-      box-shadow: 0 10px 36px rgba(59,130,246,0.10);
+      box-shadow: 0 10px 36px rgba(0,151,254,0.10);
     }
     .feat-num {
       font-size: var(--t12);
@@ -736,9 +748,10 @@
     .feat-title {
       font-family: var(--f-title);
       font-size: var(--t20);
-      font-weight: 700;
+      font-weight: 600;
+      line-height: 1.4;
       color: var(--text-1);
-      letter-spacing: -0.3px;
+      letter-spacing: -0.015em;
       margin-bottom: var(--s4);
     }
     .feat-sub {
@@ -772,14 +785,14 @@
     .reflect-item:hover {
       border-color: var(--accent);
       transform: translateY(-3px);
-      box-shadow: 0 8px 28px rgba(59,130,246,0.08);
+      box-shadow: 0 8px 28px rgba(0,151,254,0.08);
     }
     .reflect-num {
       font-family: var(--f-title);
       font-size: var(--t48);
       font-weight: 800;
       color: var(--border);
-      letter-spacing: -2px;
+      letter-spacing: -0.03em;
       line-height: 1;
       margin-bottom: var(--s16);
     }
@@ -817,7 +830,7 @@
     .proj-card:hover {
       border-color: var(--accent);
       transform: translateY(-5px);
-      box-shadow: 0 12px 40px rgba(59,130,246,0.10);
+      box-shadow: 0 12px 40px rgba(0,151,254,0.10);
     }
     .proj-num {
       font-size: var(--t12);
@@ -847,7 +860,7 @@
       font-size: var(--t20);
       font-weight: 700;
       color: var(--text-1);
-      letter-spacing: -0.3px;
+      letter-spacing: -0.015em;
       margin-bottom: var(--s8);
     }
     .proj-tags {
@@ -980,7 +993,7 @@
       font-size: var(--t20);
       font-weight: 600;
       color: var(--text-1);
-      letter-spacing: -0.3px;
+      letter-spacing: -0.015em;
       line-height: 1.5;
     }
 
@@ -1057,7 +1070,8 @@
       margin-bottom: var(--s20);
     }
     .define-key {
-      font-size: var(--t20);
+      font-family: var(--f-body);
+      font-size: var(--t18);
       font-weight: 700;
       color: var(--text-1);
       line-height: 1.6;
@@ -1255,9 +1269,9 @@
       font-family: var(--f-title);
       font-size: var(--t64);
       font-weight: 800;
-      line-height: 1.2;
+      line-height: 1.1;
       color: var(--text-1);
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
     }
     .define-hero-sub {
       font-size: var(--t20);
@@ -1333,7 +1347,7 @@
     .sol-flow-col--after .sol-flow-lbl { color: var(--accent); }
     .sol-flow-steps { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s8); }
     .sol-flow-step { font-size: var(--t13); font-weight: 500; color: var(--text-2); background: var(--surface); border: 1px solid var(--border); border-radius: 100px; padding: var(--s6) var(--s16); }
-    .sol-flow-step--bad { border-color: #ef4444; color: #ef4444; }
+    .sol-flow-step--bad { border-color: var(--error); color: var(--error); }
     .sol-flow-step--good { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
     .sol-flow-arrow { font-size: var(--t14); color: var(--text-3); }
 
@@ -1458,7 +1472,7 @@ Product Perspective & Execution</p>
     <!-- ═══════════════════════════════════════
          01  OVERVIEW
     ════════════════════════════════════════ -->
-    <section id="overview">
+    <section id="overview" class="cs-section-border">
       <div class="cs-section">
         <p class="cs-group-lbl" data-en="Overview">Overview</p>
         <p class="cs-sub-lbl" data-en="Project Summary">Project Summary</p>
@@ -1575,7 +1589,7 @@ Product Perspective & Execution</p>
               </div>
             </div>
             <!-- 오른쪽: 이미지 3개 세로 배치 -->
-            <div style="display:flex; flex-direction:column; gap:12px; height:100%;">
+            <div style="display:flex; flex-direction:column; gap:var(--s12); height:100%;">
               <div class="clip-reveal img-wrap" style="flex:1;">
                 <img src="../assets/images/projects/operator/approach/interview-photo-1.jpg"
                      alt="Interview Photo 1"
