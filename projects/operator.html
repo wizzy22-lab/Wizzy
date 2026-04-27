@@ -1317,6 +1317,37 @@
       font-weight: 500;
     }
 
+    /* ── SOLUTION REDESIGN ── */
+    .feat-bullets { list-style: none; margin: var(--s16) 0; padding: 0; display: flex; flex-direction: column; gap: var(--s8); }
+    .feat-bullet { font-size: var(--t14); color: var(--text-2); line-height: 1.6; padding-left: 1.5em; position: relative; }
+    .feat-bullet::before { content: "→"; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
+    .feat-result { margin-top: var(--s20); padding: var(--s16) var(--s20); background: var(--accent-bg); border-left: 3px solid var(--accent); border-radius: 0 var(--r8) var(--r8) 0; }
+    .feat-result-lbl { font-size: var(--t11); font-weight: 700; letter-spacing: 0.08em; color: var(--accent); margin-bottom: var(--s6); }
+    .feat-result-body { font-size: var(--t13); color: var(--text-2); line-height: 1.6; }
+
+    .sol-flow { max-width: 900px; }
+    .sol-flow-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s24); }
+    .sol-flow-col { padding: var(--s32); border: 1.5px solid var(--border); border-radius: var(--r16); background: var(--bg); }
+    .sol-flow-col--after { background: var(--accent-bg); border-color: var(--accent-mid); }
+    .sol-flow-lbl { font-size: var(--t12); font-weight: 700; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: var(--s20); }
+    .sol-flow-col--after .sol-flow-lbl { color: var(--accent); }
+    .sol-flow-steps { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s8); }
+    .sol-flow-step { font-size: var(--t13); font-weight: 500; color: var(--text-2); background: var(--surface); border: 1px solid var(--border); border-radius: 100px; padding: var(--s6) var(--s16); }
+    .sol-flow-step--bad { border-color: #ef4444; color: #ef4444; }
+    .sol-flow-step--good { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+    .sol-flow-arrow { font-size: var(--t14); color: var(--text-3); }
+
+    .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s24); }
+    .kpi-item { padding: var(--s40); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r16); }
+    .kpi-item-lbl { font-size: var(--t12); font-weight: 700; letter-spacing: 0.08em; color: var(--accent); margin-bottom: var(--s20); }
+    .kpi-stat-row { display: flex; gap: var(--s32); margin-top: var(--s8); flex-wrap: wrap; }
+    .kpi-stat { display: flex; flex-direction: column; gap: var(--s4); }
+    .kpi-stat-num { font-family: var(--f-title); font-size: var(--t48); font-weight: 800; color: var(--accent); letter-spacing: -0.02em; line-height: 1; }
+    .kpi-stat-desc { font-size: var(--t12); color: var(--text-3); line-height: 1.5; max-width: 120px; }
+    .kpi-behav { margin-top: var(--s8); }
+    .kpi-behav-lbl { font-size: var(--t11); font-weight: 700; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: var(--s12); }
+    .kpi-behav-lbl--after { color: var(--accent); }
+
     /* ═══════════════════════════════════════
        RESPONSIVE
     ════════════════════════════════════════ */
@@ -1337,6 +1368,8 @@
       .define-hero { padding: 80px 0; }
       .ideate-ba { grid-template-columns: 1fr; }
       .ideate-ba-arrow { display: none; }
+      .sol-flow-grid, .kpi-grid { grid-template-columns: 1fr; }
+      .kpi-item { padding: var(--s32); }
     }
 
   </style>
@@ -2012,18 +2045,11 @@ Product Perspective & Execution</p>
         <p class="cs-sub-lbl" data-en="Key Features">Key Features</p>
         <h2 class="cs-h2 reveal-text" data-en="Three Features That Replace Repeated Adjustments with a Single Judgment" data-ko="반복적인 조정을 한 번의 판단으로 전환하는 세 가지 기능">Three Features That Replace Repeated Adjustments with a Single Judgment</h2>
 
-        <div class="video-wrap mt-48" style="aspect-ratio:16/9;">
-          <img src="../assets/images/projects/operator/solution/mockup-overview.jpg?v=3" alt="Mockup Overview">
-          <div class="video-ph">
-            <span class="video-ph-name">Mockup Overview</span>
-            <span class="video-ph-file">operator/solution/mockup-overview.jpg</span>
-          </div>
-        </div>
+        <div class="feat-grid mt-48" style="grid-template-columns: repeat(3, 1fr);">
 
-        <div class="feat-grid" style="grid-template-columns: repeat(3, 1fr);">
-
+          <!-- Feature 01 -->
           <div class="feat-item">
-            <div class="video-wrap">
+            <div class="video-wrap" style="aspect-ratio:1/1; background:var(--surface);">
               <img src="../assets/images/projects/operator/solution/feature-apply.jpg?v=2" alt="Feature 01">
               <div class="video-ph">
                 <span class="video-ph-name">Feature 01 — One Screen Decision</span>
@@ -2032,13 +2058,22 @@ Product Perspective & Execution</p>
             </div>
             <div class="feat-card">
               <p class="feat-num" data-en="FEATURE 01" data-ko="기능 01">FEATURE 01</p>
-              <p class="feat-title" data-en="One Screen Decision" data-ko="One Screen Decision">One Screen Decision</p>
-              <p class="feat-body" data-en="HVAC status, expected outcomes (comfort and cost), and available choices are integrated into a single screen → Select immediately without interpreting data → Replace repeated adjustments with a single judgment" data-ko="냉난방 상태, 예상 결과(쾌적도·비용), 선택지를 한 화면에 통합 → 정보 해석 없이 즉시 선택 가능 → 반복 조정 대신 한 번의 판단으로 전환">HVAC status, expected outcomes (comfort and cost), and available choices are integrated into a single screen → Select immediately without interpreting data → Replace repeated adjustments with a single judgment</p>
+              <p class="feat-title" data-en="한 화면에서 판단과 선택을 동시에" data-ko="한 화면에서 판단과 선택을 동시에">한 화면에서 판단과 선택을 동시에</p>
+              <ul class="feat-bullets">
+                <li class="feat-bullet" data-en="냉난방 상태, 예상 결과(쾌적도·비용), 선택지를 한 화면에 통합" data-ko="냉난방 상태, 예상 결과(쾌적도·비용), 선택지를 한 화면에 통합">냉난방 상태, 예상 결과(쾌적도·비용), 선택지를 한 화면에 통합</li>
+                <li class="feat-bullet" data-en="데이터 해석 없이 즉시 선택" data-ko="데이터 해석 없이 즉시 선택">데이터 해석 없이 즉시 선택</li>
+                <li class="feat-bullet" data-en="반복 조정 대신 한 번의 판단으로 전환" data-ko="반복 조정 대신 한 번의 판단으로 전환">반복 조정 대신 한 번의 판단으로 전환</li>
+              </ul>
+              <div class="feat-result">
+                <p class="feat-result-lbl" data-en="결과" data-ko="결과">결과</p>
+                <p class="feat-result-body" data-en="반복 조정 → 한 번의 판단으로 전환" data-ko="반복 조정 → 한 번의 판단으로 전환">반복 조정 → 한 번의 판단으로 전환</p>
+              </div>
             </div>
           </div>
 
+          <!-- Feature 02 -->
           <div class="feat-item">
-            <div class="video-wrap">
+            <div class="video-wrap" style="aspect-ratio:1/1; background:var(--surface);">
               <img src="../assets/images/projects/operator/solution/feature-datalog.jpg?v=2" alt="Feature 02">
               <div class="video-ph">
                 <span class="video-ph-name">Feature 02 — Data Log</span>
@@ -2047,13 +2082,22 @@ Product Perspective & Execution</p>
             </div>
             <div class="feat-card">
               <p class="feat-num" data-en="FEATURE 02" data-ko="기능 02">FEATURE 02</p>
-              <p class="feat-title" data-en="Data Log" data-ko="Data Log">Data Log</p>
-              <p class="feat-body" data-en="HVAC adjustment history and outcomes are recorded and visualized together → Build up a record of what each choice produced → Make decisions based on data, not intuition" data-ko="냉난방 조절 이력과 결과를 함께 기록하고 시각화 → 각 선택이 어떤 결과를 만들었는지 축적 → 직관이 아닌 데이터 기반 판단 가능">HVAC adjustment history and outcomes are recorded and visualized together → Build up a record of what each choice produced → Make decisions based on data, not intuition</p>
+              <p class="feat-title" data-en="선택의 결과를 기록하고 축적" data-ko="선택의 결과를 기록하고 축적">선택의 결과를 기록하고 축적</p>
+              <ul class="feat-bullets">
+                <li class="feat-bullet" data-en="조정 이력과 결과를 함께 기록·시각화" data-ko="조정 이력과 결과를 함께 기록·시각화">조정 이력과 결과를 함께 기록·시각화</li>
+                <li class="feat-bullet" data-en="매 선택이 어떤 결과를 만들었는지 축적" data-ko="매 선택이 어떤 결과를 만들었는지 축적">매 선택이 어떤 결과를 만들었는지 축적</li>
+                <li class="feat-bullet" data-en="직관이 아닌 데이터 기반 판단 가능" data-ko="직관이 아닌 데이터 기반 판단 가능">직관이 아닌 데이터 기반 판단 가능</li>
+              </ul>
+              <div class="feat-result">
+                <p class="feat-result-lbl" data-en="결과" data-ko="결과">결과</p>
+                <p class="feat-result-body" data-en="직관 의존 판단 → 데이터 기반 판단" data-ko="직관 의존 판단 → 데이터 기반 판단">직관 의존 판단 → 데이터 기반 판단</p>
+              </div>
             </div>
           </div>
 
+          <!-- Feature 03 -->
           <div class="feat-item">
-            <div class="video-wrap">
+            <div class="video-wrap" style="aspect-ratio:1/1; background:var(--surface);">
               <img src="../assets/images/projects/operator/solution/feature-scan.jpg?v=2" alt="Feature 03">
               <div class="video-ph">
                 <span class="video-ph-name">Feature 03 — Mode Setup</span>
@@ -2062,11 +2106,133 @@ Product Perspective & Execution</p>
             </div>
             <div class="feat-card">
               <p class="feat-num" data-en="FEATURE 03" data-ko="기능 03">FEATURE 03</p>
-              <p class="feat-title" data-en="Mode Setup" data-ko="Mode Setup">Mode Setup</p>
-              <p class="feat-body" data-en="Set HVAC criteria by time of day and situation in advance → Automate recurring decisions → A structure that doesn't require making the same choice over and over" data-ko="시간대·상황별 냉난방 기준을 미리 설정 → 반복되는 판단을 자동화 → 매번 새로 결정하지 않아도 되는 구조">Set HVAC criteria by time of day and situation in advance → Automate recurring decisions → A structure that doesn't require making the same choice over and over</p>
+              <p class="feat-title" data-en="미리 설정하고, 반복을 줄인다" data-ko="미리 설정하고, 반복을 줄인다">미리 설정하고, 반복을 줄인다</p>
+              <ul class="feat-bullets">
+                <li class="feat-bullet" data-en="시간대·상황별 냉난방 기준 사전 설정" data-ko="시간대·상황별 냉난방 기준 사전 설정">시간대·상황별 냉난방 기준 사전 설정</li>
+                <li class="feat-bullet" data-en="반복되는 판단을 자동화" data-ko="반복되는 판단을 자동화">반복되는 판단을 자동화</li>
+                <li class="feat-bullet" data-en="매번 새로 결정하지 않아도 되는 구조" data-ko="매번 새로 결정하지 않아도 되는 구조">매번 새로 결정하지 않아도 되는 구조</li>
+              </ul>
+              <div class="feat-result">
+                <p class="feat-result-lbl" data-en="결과" data-ko="결과">결과</p>
+                <p class="feat-result-body" data-en="매번 새로 결정 → 기준 설정 후 자동 실행" data-ko="매번 새로 결정 → 기준 설정 후 자동 실행">매번 새로 결정 → 기준 설정 후 자동 실행</p>
+              </div>
             </div>
           </div>
 
+        </div>
+
+        <!-- Mockup Overview -->
+        <div class="video-wrap mt-64" style="aspect-ratio:16/9;">
+          <img src="../assets/images/projects/operator/solution/mockup-overview.jpg?v=3" alt="Mockup Overview">
+          <div class="video-ph">
+            <span class="video-ph-name">Mockup Overview</span>
+            <span class="video-ph-file">operator/solution/mockup-overview.jpg</span>
+          </div>
+        </div>
+
+        <!-- Flow Change -->
+        <div class="sol-flow mt-80">
+          <p class="cs-sub-lbl" data-en="Flow Change">Flow Change</p>
+          <h3 class="cs-h3 reveal-text" data-en="From repeated adjustments to a single judgment" data-ko="반복 조정에서 단 한 번의 판단으로">From repeated adjustments to a single judgment</h3>
+          <div class="sol-flow-grid mt-32">
+            <div class="sol-flow-col">
+              <p class="sol-flow-lbl" data-en="BEFORE" data-ko="BEFORE">BEFORE</p>
+              <div class="sol-flow-steps">
+                <span class="sol-flow-step" data-en="정보 확인" data-ko="정보 확인">정보 확인</span>
+                <span class="sol-flow-arrow">→</span>
+                <span class="sol-flow-step" data-en="해석" data-ko="해석">해석</span>
+                <span class="sol-flow-arrow">→</span>
+                <span class="sol-flow-step" data-en="선택" data-ko="선택">선택</span>
+                <span class="sol-flow-arrow">→</span>
+                <span class="sol-flow-step sol-flow-step--bad" data-en="반복" data-ko="반복">반복</span>
+              </div>
+            </div>
+            <div class="sol-flow-col sol-flow-col--after">
+              <p class="sol-flow-lbl" data-en="AFTER" data-ko="AFTER">AFTER</p>
+              <div class="sol-flow-steps">
+                <span class="sol-flow-step" data-en="상태 확인" data-ko="상태 확인">상태 확인</span>
+                <span class="sol-flow-arrow">→</span>
+                <span class="sol-flow-step" data-en="선택" data-ko="선택">선택</span>
+                <span class="sol-flow-arrow">→</span>
+                <span class="sol-flow-step sol-flow-step--good" data-en="완료" data-ko="완료">완료</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KPI & Impact -->
+        <div class="kpi-section mt-80">
+          <p class="cs-sub-lbl" data-en="KPI & Impact">KPI & Impact</p>
+          <h3 class="cs-h3 reveal-text" data-en="Measurable outcomes across user behavior and operations" data-ko="사용자 행동과 운영 전반에서 측정 가능한 성과">Measurable outcomes across user behavior and operations</h3>
+          <div class="kpi-grid mt-32">
+
+            <!-- User Impact -->
+            <div class="kpi-item">
+              <p class="kpi-item-lbl" data-en="USER IMPACT" data-ko="USER IMPACT">USER IMPACT</p>
+              <ul class="feat-bullets">
+                <li class="feat-bullet" data-en="의사결정 속도 향상" data-ko="의사결정 속도 향상">의사결정 속도 향상</li>
+                <li class="feat-bullet" data-en="반복 조작으로 인한 피로도 감소" data-ko="반복 조작으로 인한 피로도 감소">반복 조작으로 인한 피로도 감소</li>
+                <li class="feat-bullet" data-en="선택에 대한 확신도 증가" data-ko="선택에 대한 확신도 증가">선택에 대한 확신도 증가</li>
+              </ul>
+            </div>
+
+            <!-- Business Impact -->
+            <div class="kpi-item">
+              <p class="kpi-item-lbl" data-en="BUSINESS IMPACT" data-ko="BUSINESS IMPACT">BUSINESS IMPACT</p>
+              <ul class="feat-bullets">
+                <li class="feat-bullet" data-en="운영 효율 향상" data-ko="운영 효율 향상">운영 효율 향상</li>
+                <li class="feat-bullet" data-en="불필요한 조작 빈도 감소" data-ko="불필요한 조작 빈도 감소">불필요한 조작 빈도 감소</li>
+                <li class="feat-bullet" data-en="HVAC 관리 비용 절감 가능성" data-ko="HVAC 관리 비용 절감 가능성">HVAC 관리 비용 절감 가능성</li>
+              </ul>
+            </div>
+
+            <!-- Expected KPI -->
+            <div class="kpi-item">
+              <p class="kpi-item-lbl" data-en="EXPECTED KPI" data-ko="EXPECTED KPI">EXPECTED KPI</p>
+              <div class="kpi-stat-row">
+                <div class="kpi-stat">
+                  <p class="cs-stat-num kpi-stat-num">30</p>
+                  <p class="kpi-stat-desc" data-en="% 판단 시간 단축" data-ko="% 판단 시간 단축">% 판단 시간 단축</p>
+                </div>
+                <div class="kpi-stat">
+                  <p class="cs-stat-num kpi-stat-num">40</p>
+                  <p class="kpi-stat-desc" data-en="% 반복 조작 빈도 감소" data-ko="% 반복 조작 빈도 감소">% 반복 조작 빈도 감소</p>
+                </div>
+                <div class="kpi-stat">
+                  <p class="cs-stat-num kpi-stat-num">15</p>
+                  <p class="kpi-stat-desc" data-en="% 에너지 비용 절감 가능성" data-ko="% 에너지 비용 절감 가능성">% 에너지 비용 절감 가능성</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Behavioral Change -->
+            <div class="kpi-item">
+              <p class="kpi-item-lbl" data-en="BEHAVIORAL CHANGE" data-ko="BEHAVIORAL CHANGE">BEHAVIORAL CHANGE</p>
+              <div class="kpi-behav">
+                <p class="kpi-behav-lbl" data-en="BEFORE" data-ko="BEFORE">BEFORE</p>
+                <div class="sol-flow-steps">
+                  <span class="sol-flow-step">정보 확인</span>
+                  <span class="sol-flow-arrow">→</span>
+                  <span class="sol-flow-step">해석</span>
+                  <span class="sol-flow-arrow">→</span>
+                  <span class="sol-flow-step">조정</span>
+                  <span class="sol-flow-arrow">→</span>
+                  <span class="sol-flow-step">확인</span>
+                  <span class="sol-flow-arrow">→</span>
+                  <span class="sol-flow-step sol-flow-step--bad">반복</span>
+                </div>
+                <p class="kpi-behav-lbl kpi-behav-lbl--after mt-16" data-en="AFTER" data-ko="AFTER">AFTER</p>
+                <div class="sol-flow-steps">
+                  <span class="sol-flow-step">상태 확인</span>
+                  <span class="sol-flow-arrow">→</span>
+                  <span class="sol-flow-step">선택</span>
+                  <span class="sol-flow-arrow">→</span>
+                  <span class="sol-flow-step sol-flow-step--good">완료</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
 
         <!-- Outcome -->
