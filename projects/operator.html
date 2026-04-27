@@ -350,6 +350,7 @@
       text-transform: uppercase;
       letter-spacing: 0.12em;
       margin-bottom: var(--s8);
+      text-align: center;
     }
     .cs-sub-lbl {
       font-size: var(--t12);
@@ -445,7 +446,7 @@
     }
     .cs-insight-body {
       font-size: var(--t15);
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text-1);
       line-height: 1.6;
     }
@@ -483,7 +484,7 @@
     .cs-card-lbl {
       font-size: var(--t12);
       font-weight: 600;
-      color: var(--text-3);
+      color: var(--accent);
       text-transform: uppercase;
       letter-spacing: 0.08em;
       margin-bottom: var(--s12);
@@ -579,8 +580,7 @@
        QUOTE
     ════════════════════════════════════════ */
     .cs-quote {
-      border-left: 3px solid var(--accent);
-      padding: var(--s16) var(--s24);
+      padding: var(--s16) 0;
       margin: var(--s24) 0;
     }
     .cs-quote p {
@@ -976,18 +976,10 @@
     .cs-quote {
       position: relative;
       border-left: none;
-      padding-left: calc(var(--s24) + 3px);
+      padding-left: 0;
+      text-align: center;
     }
-    .cs-quote::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0;
-      width: 3px; height: 0;
-      background: var(--accent);
-      border-radius: 2px;
-      transition: height 0.6s var(--ease-spring) 0.2s;
-    }
-    .cs-quote.is-visible::before { height: 100%; }
+    .cs-quote::before { display: none; }
     .cs-quote p {
       font-family: var(--f-title);
       font-size: var(--t20);
@@ -995,6 +987,7 @@
       color: var(--text-1);
       letter-spacing: -0.015em;
       line-height: 1.5;
+      text-align: center;
     }
 
     /* ═══════════════════════════════════════
@@ -1242,6 +1235,7 @@
     .stack-stage {
       position: sticky;
       top: calc(var(--nav-h) + 80px);
+      background: var(--bg);
     }
     .stack-card {
       position: absolute;
@@ -1476,7 +1470,7 @@ Product Perspective & Execution</p>
       <div class="cs-section">
         <p class="cs-group-lbl" data-en="Overview">Overview</p>
         <p class="cs-sub-lbl" data-en="Project Summary">Project Summary</p>
-        <h2 class="cs-h2 reveal-text" data-en="The Problem Wasn't Control — It Was the Absence of Decision Criteria" data-ko="문제는 제어가 아니라 '판단 기준의 부재'였다">The Problem Wasn't Control — It Was the Absence of Decision Criteria</h2>
+        <h2 class="cs-h2 reveal-text" data-en="The Problem Wasn't Control — It Was the <span style='color:var(--accent)'>Absence of Decision Criteria</span>" data-ko="문제는 냉난방 제어가 아니라 냉난방 <span style='color:var(--accent)'>조정 시 판단 기준의 부재</span>였다">문제는 냉난방 제어가 아니라 냉난방 <span style="color:var(--accent)">조정 시 판단 기준의 부재</span>였다</h2>
 
         <div class="stack-scene mt-48">
           <div class="stack-stage">
@@ -2686,7 +2680,7 @@ Product Perspective & Execution</p>
           } else {
             ty = -sp * 8;
             scale = 1 - Math.min(sp, 5) * 0.03;
-            opacity = Math.max(0, 1 - Math.max(0, sp - 1) * 0.55);
+            opacity = 1;
           }
 
           card.style.transform = `translateY(${ty.toFixed(2)}px) scale(${scale.toFixed(4)})`;
