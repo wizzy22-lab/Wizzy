@@ -469,6 +469,17 @@
     .stack-card .cs-insight + .cs-insight::before { transition-delay: 0.25s; }
     .stack-card .cs-insight-body { color: var(--text-1); }
 
+    .cs-body-list {
+      font-size: var(--t16);
+      line-height: 1.75;
+      color: var(--text-2);
+      padding-left: 1.5em;
+      list-style: disc;
+      max-width: 680px;
+      margin-top: var(--s8);
+    }
+    .cs-body-list li + li { margin-top: var(--s4); }
+
     .cs-body-arrow {
       font-size: var(--t16);
       line-height: 1.75;
@@ -934,6 +945,7 @@
     /* ═══════════════════════════════════════
        UTILITIES
     ════════════════════════════════════════ */
+    .mt-8  { margin-top: var(--s8);  }
     .mt-16 { margin-top: var(--s16); }
     .mt-24 { margin-top: var(--s24); }
     .mt-32 { margin-top: var(--s32); }
@@ -1684,41 +1696,65 @@ Product Perspective & Execution</p>
         <!-- Analysis -->
         <div class="cs-sub">
           <p class="cs-sub-lbl" data-en="Analysis">Analysis</p>
-          <h3 class="cs-h3 reveal-text mt-32" data-en="The problem converged on one thing — not HVAC control, but the absence of criteria for in-store decisions" data-ko="문제는 냉난방기기 제어가 아니라, '매장 상황에 따른 결정 기준의 부재'로 수렴했다">The problem converged on one thing — not HVAC control, but the absence of criteria for in-store decisions</h3>
-          <p class="cs-body mt-24" data-en="Structuring the interview data through affinity mapping and thematic analysis," data-ko="어피니티 매핑과 주제 분석을 통해 인터뷰 데이터를 구조화한 결과,">Structuring the interview data through affinity mapping and thematic analysis,</p>
-          <div class="cs-insight">
-            <p class="cs-insight-body" data-en="→ the problems weren't isolated incidents — they converged on a single repeating pattern" data-ko="→문제는 개별적인 상황이 아니라 하나의 반복되는 패턴으로 수렴했다">→ the problems weren't isolated incidents — they converged on a single repeating pattern</p>
+          <h3 class="cs-h3 reveal-text mt-32"
+              data-ko="문제는 냉난방기기 제어가 아니라,<br><span style='color:var(--accent)'>&#39;매장 상황에 따른 결정 기준의 부재&#39;</span>로 수렴했다"
+              data-en="The problem converged on one thing — not HVAC control,<br>but <span style='color:var(--accent)'>the absence of in-store decision criteria</span>">
+            문제는 냉난방기기 제어가 아니라,<br><span style="color:var(--accent)">'매장 상황에 따른 결정 기준의 부재'</span>로 수렴했다
+          </h3>
+          <p class="cs-body mt-24"
+             data-ko="어피니티 매핑과 주제 분석을 통해 인터뷰 데이터를 구조화한 결과,"
+             data-en="Structuring the interview data through affinity mapping and thematic analysis,">
+            어피니티 매핑과 주제 분석을 통해 인터뷰 데이터를 구조화한 결과,
+          </p>
+          <p class="cs-body mt-16"
+             data-ko="<strong>문제는 개별적인 상황이 아니라 하나의 반복되는 패턴으로 수렴했다</strong>"
+             data-en="<strong>the problems weren't isolated incidents — they converged on a single repeating pattern</strong>">
+            <strong>문제는 개별적인 상황이 아니라 하나의 반복되는 패턴으로 수렴했다</strong>
+          </p>
+          <p class="cs-body mt-16"
+             data-ko="운영자들은 냉난방을 조작하는 데에는 어려움이 없었지만"
+             data-en="Operators had no trouble operating the HVAC system itself — but">
+            운영자들은 냉난방을 조작하는 데에는 어려움이 없었지만
+          </p>
+          <ul class="cs-body-list">
+            <li data-ko="언제 조절할지" data-en="When to adjust">언제 조절할지</li>
+            <li data-ko="얼마나 조절할지" data-en="How much to adjust">얼마나 조절할지</li>
+            <li data-ko="쾌적함과 비용을 어떻게 균형 잡을지" data-en="How to balance comfort against cost">쾌적함과 비용을 어떻게 균형 잡을지</li>
+          </ul>
+          <p class="cs-body mt-8"
+             data-ko="에 대한 <strong>명확한 판단 기준이 없었다</strong>"
+             data-en="— they had <strong>no clear criteria for any of it</strong>">
+            에 대한 <strong>명확한 판단 기준이 없었다</strong>
+          </p>
+          <p class="cs-body mt-16"
+             data-ko="그 결과, 운영자는 매번 새로운 상황처럼 판단해야 했고 같은 의사결정을 반복하면서도 <strong>그 기준을 학습하거나 축적하지 못하고 있었다</strong>"
+             data-en="As a result, every decision felt like starting from scratch — and despite repeating the same choices, <strong>they had no way to learn from or accumulate any criteria</strong>">
+            그 결과, 운영자는 매번 새로운 상황처럼 판단해야 했고 같은 의사결정을 반복하면서도 <strong>그 기준을 학습하거나 축적하지 못하고 있었다</strong>
+          </p>
+          <!-- 이미지: 3:4 centered img-swap -->
+          <div style="display:flex; justify-content:center; margin-top:var(--s32);">
+            <div class="img-swap" style="aspect-ratio:3/4; max-width:480px; width:100%;">
+              <div class="img-swap-item">
+                <img src="../assets/images/projects/operator/approach/affinity-mapping.jpg" alt="Affinity Mapping" style="width:100%; height:100%; object-fit:cover; display:block;">
+                <div class="img-ph" style="position:absolute;inset:0;display:none;">
+                  <span class="img-ph-name">Affinity Mapping</span>
+                  <span class="img-ph-file">operator/approach/affinity-mapping.jpg</span>
+                </div>
+              </div>
+              <div class="img-swap-item img-swap-item--2">
+                <img src="../assets/images/projects/operator/approach/thematic-analysis.jpg" alt="Thematic Analysis" style="width:100%; height:100%; object-fit:cover; display:block;">
+                <div class="img-ph" style="position:absolute;inset:0;display:none;">
+                  <span class="img-ph-name">Thematic Analysis</span>
+                  <span class="img-ph-file">operator/approach/thematic-analysis.jpg</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <p class="cs-body mt-24" data-en="Operators had no trouble operating the HVAC system itself — but when to adjust, how much to adjust, and how to balance comfort against cost:" data-ko="운영자들은 냉난방을 조작하는 데에는 어려움이 없었지만, 언제 조절할지 / 얼마나 조절할지 / 쾌적함과 비용을 어떻게 균형 잡을지에 대한">Operators had no trouble operating the HVAC system itself — but when to adjust, how much to adjust, and how to balance comfort against cost:</p>
-          <div class="cs-insight">
-            <p class="cs-insight-body" data-en="→ they had no clear criteria for any of it" data-ko="→명확한 판단 기준이 없었다">→ they had no clear criteria for any of it</p>
-          </div>
-          <p class="cs-body mt-24" data-en="As a result, every decision felt like starting from scratch — and despite repeating the same choices," data-ko="그 결과, 운영자는 매번 새로운 상황처럼 판단해야 했고 같은 의사결정을 반복하면서도">As a result, every decision felt like starting from scratch — and despite repeating the same choices,</p>
-          <div class="cs-insight">
-            <p class="cs-insight-body" data-en="→ they had no way to learn from or accumulate any criteria" data-ko="→그 기준을 학습하거나 축적하지 못하고 있었다">→ they had no way to learn from or accumulate any criteria</p>
-          </div>
+          <!-- Insight 카드 -->
           <div class="cs-card mt-32">
             <p class="cs-card-lbl" data-en="Insight">Insight</p>
-            <p class="cs-card-title" data-en="Operators want balance — but have no criteria to judge by" data-ko="운영자는 균형을 원하지만, 판단할 기준이 없다">Operators want balance — but have no criteria to judge by</p>
-            <p class="cs-card-body" data-en="They want to make better choices between comfort and cost — but without criteria to compare the two, decisions repeat and inefficiency builds" data-ko="쾌적함과 비용 사이에서 더 나은 선택을 하고 싶지만, 두 요소를 비교할 기준이 없어 결정이 반복되고 비효율이 발생한다">They want to make better choices between comfort and cost — but without criteria to compare the two, decisions repeat and inefficiency builds</p>
-          </div>
-          <div class="g-2 mt-32">
-            <div class="clip-reveal img-wrap ratio-4x3">
-              <img src="../assets/images/projects/operator/approach/affinity-mapping.jpg"
-                   alt="Affinity Mapping">
-              <div class="img-ph">
-                <span class="img-ph-name">Affinity Mapping</span>
-                <span class="img-ph-file">operator/approach/affinity-mapping.jpg</span>
-              </div>
-            </div>
-            <div class="clip-reveal img-wrap ratio-4x3">
-              <img src="../assets/images/projects/operator/approach/thematic-analysis.jpg"
-                   alt="Thematic Analysis">
-              <div class="img-ph">
-                <span class="img-ph-name">Thematic Analysis</span>
-                <span class="img-ph-file">operator/approach/thematic-analysis.jpg</span>
-              </div>
-            </div>
+            <p class="cs-card-title" data-en="Operators want balance — but have no criteria to judge by" data-ko="운영자는 균형을 원하지만, 판단할 기준이 없다">운영자는 균형을 원하지만, 판단할 기준이 없다</p>
+            <p class="cs-card-body" data-en="They want to make better choices between comfort and cost — but without criteria to compare the two, decisions repeat and inefficiency builds" data-ko="쾌적함과 비용 사이에서 더 나은 선택을 하고 싶지만, 두 요소를 비교할 기준이 없어 결정이 반복되고 비효율이 발생한다">쾌적함과 비용 사이에서 더 나은 선택을 하고 싶지만, 두 요소를 비교할 기준이 없어 결정이 반복되고 비효율이 발생한다</p>
           </div>
         </div>
 
