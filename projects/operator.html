@@ -415,39 +415,60 @@
 
     /* Insight block */
     .cs-insight {
-      background: var(--accent-bg);
-      border-radius: 0 var(--r8) var(--r8) 0;
-      padding: var(--s16) var(--s20) var(--s16) calc(var(--s20) + 3px);
+      background: #fff;
+      border: 2px solid #62BFFF;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 24px 16px 16px;
       margin-top: var(--s20);
-      position: relative;
     }
     .cs-insight + .cs-insight { margin-top: var(--s12); }
-    .cs-insight::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0;
-      width: 3px; height: 0;
-      background: var(--accent);
-      border-radius: 2px;
-      transition: height 0.55s var(--ease-spring) 0.1s;
+    .cs-insight::before { display: none; }
+    .cs-insight-icon {
+      width: 64px;
+      flex-shrink: 0;
     }
-    .cs-insight.is-visible::before { height: 100%; }
-    /* 같은 컨테이너 내 두 번째 insight: 딜레이 추가 */
-    .cs-insight + .cs-insight::before { transition-delay: 0.25s; }
+    .cs-insight-icon img { width: 100%; display: block; }
+    .cs-insight-text { flex: 1; }
     .cs-insight-lbl {
       font-size: var(--t11);
       font-weight: 700;
-      color: var(--accent);
+      color: #62BFFF;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      margin-bottom: var(--s6);
+      margin-bottom: var(--s4);
     }
     .cs-insight-body {
       font-size: var(--t15);
       font-weight: 600;
-      color: var(--text-1);
+      color: #111827;
       line-height: 1.6;
     }
+    .cs-body-arrow {
+      font-size: var(--t16);
+      line-height: 1.75;
+      color: var(--text-2);
+      max-width: 680px;
+    }
+    .img-swap {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-radius: var(--r12);
+      border: 1px solid var(--border);
+    }
+    .img-swap-item {
+      position: absolute;
+      inset: 0;
+    }
+    .img-swap-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .img-swap-item--2 {
+      transform: translateY(100%);
+      transition: transform 0.85s var(--ease-spring);
+    }
+    .img-swap-item--2.is-visible { transform: translateY(0); }
 
     /* ═══════════════════════════════════════
        GRIDS
@@ -1551,28 +1572,31 @@ Product Perspective & Execution</p>
           <div class="g-2 mt-32" style="align-items:stretch;">
             <!-- 왼쪽: 텍스트 -->
             <div>
-              <h3 class="cs-h3 reveal-text" data-en="Small business owners repeatedly adjust their HVAC — without any clear criteria" data-ko="Small business owner는 기준 없이 냉난방을 반복적으로 조절하고 있다">Small business owners repeatedly adjust their HVAC — without any clear criteria</h3>
+              <h3 class="cs-h3 reveal-text" data-en="Small business owners repeatedly adjust their HVAC —<br><span style='color:var(--accent)'>without any clear criteria</span>" data-ko="Small business owner는<br><span style='color:var(--accent)'>기준없이 냉난방을 반복적으로 조절</span>하고 있다.">Small business owner는<br><span style="color:var(--accent)">기준없이 냉난방을 반복적으로 조절</span>하고 있다.</h3>
               <p class="cs-body mt-24" data-en="Analysis of user voices showed that operators were adjusting HVAC temperature and modes" data-ko="사용자 보이스를 분석한 결과, 운영자는 냉난방 온도와 모드를">Analysis of user voices showed that operators were adjusting HVAC temperature and modes</p>
-              <div class="cs-insight">
-                <p class="cs-insight-body" data-en="→ Without any clear criteria — again and again" data-ko="→명확한 기준 없이 반복적으로 조절하고 있었다">→ Without any clear criteria — again and again</p>
-              </div>
+              <p class="cs-body-arrow mt-8" data-en="<strong>→ Without any clear criteria</strong> — again and again" data-ko="<strong>→명확한 기준 없이 반복적으로 조절</strong>하고 있었다"><strong>→명확한 기준 없이 반복적으로 조절</strong>하고 있었다</p>
               <p class="cs-body mt-24" data-en="Categorizing review and community data showed" data-ko="리뷰와 커뮤니티 데이터를 카테고리화한 결과,">Categorizing review and community data showed</p>
-              <div class="cs-insight">
-                <p class="cs-insight-body" data-en="→ An ongoing conflict between comfort and cost" data-ko="→쾌적함과 비용 사이에서 지속적인 갈등이 발생하고 있었다">→ An ongoing conflict between comfort and cost</p>
-              </div>
+              <p class="cs-body-arrow mt-8" data-en="<strong>→ An ongoing conflict</strong> between comfort and cost" data-ko="<strong>→쾌적함과 비용</strong> 사이에서 지속적인 갈등이 발생하고 있었다"><strong>→쾌적함과 비용</strong> 사이에서 지속적인 갈등이 발생하고 있었다</p>
               <div class="cs-card mt-32">
                 <p class="cs-card-title" data-en="The problem wasn't discomfort — it was 'a structure with no criteria for judgment'" data-ko="문제는 불편이 아니라 '판단 기준이 없는 구조'였다">The problem wasn't discomfort — it was 'a structure with no criteria for judgment'</p>
                 <p class="cs-card-body" data-en="Operators must make a choice every time — but have no criteria to compare options with" data-ko="운영자는 매번 선택을 해야 하지만 → 그 선택을 비교할 기준이 없다">Operators must make a choice every time — but have no criteria to compare options with</p>
               </div>
             </div>
-            <!-- 오른쪽: 이미지 -->
-            <div class="clip-reveal img-wrap" style="height:100%;">
-              <img src="../assets/images/projects/operator/approach/secondary-research.jpg"
-                   alt="Secondary Research"
-                   style="height:100%; min-height:400px; object-fit:cover;">
-              <div class="img-ph">
-                <span class="img-ph-name">Secondary Research</span>
-                <span class="img-ph-file">operator/approach/secondary-research.jpg</span>
+            <!-- 오른쪽: 이미지 2장 슬라이드 -->
+            <div class="img-swap">
+              <div class="img-swap-item">
+                <img src="../assets/images/projects/operator/approach/secondary-research.jpg" alt="Secondary Research">
+                <div class="img-ph" style="position:absolute;inset:0;display:none;">
+                  <span class="img-ph-name">Secondary Research 1</span>
+                  <span class="img-ph-file">operator/approach/secondary-research.jpg</span>
+                </div>
+              </div>
+              <div class="img-swap-item img-swap-item--2">
+                <img src="../assets/images/projects/operator/approach/secondary-research-2.jpg" alt="Secondary Research 2">
+                <div class="img-ph" style="position:absolute;inset:0;display:none;">
+                  <span class="img-ph-name">Secondary Research 2</span>
+                  <span class="img-ph-file">operator/approach/secondary-research-2.jpg</span>
+                </div>
               </div>
             </div>
           </div>
@@ -2625,8 +2649,30 @@ Product Perspective & Execution</p>
       '.stagger-item',
       '.reflect-item',
       '.cs-stat-num',
+      '.img-swap-item--2',
     ].forEach(sel => {
       document.querySelectorAll(sel).forEach(el => io.observe(el));
+    });
+
+    /* ═══════════════════════════════════════
+       INSIGHT CARD — 아이콘 자동 주입
+    ════════════════════════════════════════ */
+    document.querySelectorAll('.cs-insight').forEach(el => {
+      if (el.querySelector('.cs-insight-icon')) return;
+      const icon = document.createElement('div');
+      icon.className = 'cs-insight-icon';
+      icon.innerHTML = '<img src="../assets/images/ui/insight-pencil.png" alt="">';
+      const textWrap = document.createElement('div');
+      textWrap.className = 'cs-insight-text';
+      while (el.firstChild) textWrap.appendChild(el.firstChild);
+      if (!textWrap.querySelector('.cs-insight-lbl')) {
+        const lbl = document.createElement('p');
+        lbl.className = 'cs-insight-lbl';
+        lbl.textContent = 'Our Insight!';
+        textWrap.insertBefore(lbl, textWrap.firstChild);
+      }
+      el.appendChild(icon);
+      el.appendChild(textWrap);
     });
 
     /* ═══════════════════════════════════════
