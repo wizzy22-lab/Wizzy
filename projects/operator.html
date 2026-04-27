@@ -1226,9 +1226,16 @@
     /* ═══════════════════════════════════════
        STACK CARDS
     ════════════════════════════════════════ */
+    .overview-sticky {
+      position: sticky;
+      top: var(--nav-h);
+      z-index: 5;
+      background: var(--bg);
+      padding-bottom: 32px;
+    }
     .stack-scene {
       position: relative;
-      height: 480vh;
+      height: 200vh;
     }
     .stack-stage {
       position: sticky;
@@ -1466,11 +1473,13 @@ Product Perspective & Execution</p>
     ════════════════════════════════════════ -->
     <section id="overview" class="cs-section-border">
       <div class="cs-section">
-        <p class="cs-group-lbl" data-en="Overview">Overview</p>
-        <p class="cs-sub-lbl" data-en="Project Summary">Project Summary</p>
-        <h2 class="cs-h2 reveal-text" data-en="The Problem Wasn't Control —<br>It Was the <span style='color:var(--accent)'>Absence of Decision Criteria</span>" data-ko="문제는 냉난방 제어가 아니라<br>냉난방 <span style='color:var(--accent)'>조정 시 판단 기준의 부재</span>였다">문제는 냉난방 제어가 아니라<br>냉난방 <span style="color:var(--accent)">조정 시 판단 기준의 부재</span>였다</h2>
+        <div class="overview-sticky">
+          <p class="cs-group-lbl" data-en="Overview">Overview</p>
+          <p class="cs-sub-lbl" data-en="Project Summary">Project Summary</p>
+          <h2 class="cs-h2 reveal-text" data-en="The Problem Wasn't Control —<br>It Was the <span style='color:var(--accent)'>Absence of Decision Criteria</span>" data-ko="문제는 냉난방 제어가 아니라<br>냉난방 <span style='color:var(--accent)'>조정 시 판단 기준의 부재</span>였다">문제는 냉난방 제어가 아니라<br>냉난방 <span style="color:var(--accent)">조정 시 판단 기준의 부재</span>였다</h2>
+        </div>
 
-        <div class="stack-scene mt-48">
+        <div class="stack-scene">
           <div class="stack-stage">
 
             <div class="stack-card cs-card">
@@ -2650,10 +2659,21 @@ Product Perspective & Execution</p>
       const scene = document.querySelector('.stack-scene');
       if (!scene) return;
       const cards = [...scene.querySelectorAll('.stack-card')];
+      const stage = scene.querySelector('.stack-stage');
+      const stickyHeader = document.querySelector('.overview-sticky');
       const N = cards.length;
       let sceneTop = 0;
+      const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'), 10) || 52;
+
+      function updateStageTop() {
+        if (stickyHeader && stage) {
+          const hdrH = stickyHeader.offsetHeight;
+          stage.style.top = (navH + hdrH + 16) + 'px';
+        }
+      }
 
       function cachePos() {
+        updateStageTop();
         sceneTop = scene.getBoundingClientRect().top + window.scrollY;
       }
 
