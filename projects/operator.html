@@ -1022,6 +1022,203 @@
     }
 
     /* ═══════════════════════════════════════
+       DEFINE REDESIGN
+    ════════════════════════════════════════ */
+    .define-hero {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 120px 0;
+    }
+    .define-hero-h {
+      font-family: var(--f-title);
+      font-size: var(--t80);
+      font-weight: 800;
+      line-height: 1.15;
+      color: var(--text-1);
+      letter-spacing: -0.03em;
+    }
+    .define-block {
+      max-width: 800px;
+      margin-bottom: var(--s80);
+    }
+    .define-num {
+      font-size: var(--t12);
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: var(--s16);
+    }
+    .define-body {
+      font-size: var(--t18);
+      color: var(--text-2);
+      line-height: 1.75;
+      margin-bottom: var(--s20);
+    }
+    .define-key {
+      font-size: var(--t20);
+      font-weight: 700;
+      color: var(--text-1);
+      line-height: 1.6;
+      margin-bottom: var(--s20);
+      padding-left: 28px;
+      position: relative;
+    }
+    .define-key::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 400;
+    }
+    .define-sub {
+      font-size: var(--t14);
+      font-weight: 600;
+      color: var(--text-3);
+      letter-spacing: 0.04em;
+      margin: var(--s32) 0 var(--s16);
+    }
+    .define-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .define-list li {
+      font-size: var(--t18);
+      color: var(--text-2);
+      line-height: 1.6;
+      padding-left: 20px;
+      position: relative;
+    }
+    .define-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+    .define-root {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s64);
+      align-items: start;
+      margin-bottom: var(--s80);
+    }
+    .define-diagram {
+      border: 1.5px solid var(--border);
+      border-radius: var(--r16);
+      padding: var(--s32);
+      background: var(--surface);
+    }
+    .define-diagram-lbl {
+      font-size: var(--t12);
+      font-weight: 600;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: var(--s20);
+    }
+    .define-diagram-box {
+      border: 1.5px solid var(--border);
+      border-radius: var(--r8);
+      padding: var(--s20) var(--s24);
+      background: var(--bg);
+    }
+    .define-diagram-box--result {
+      border-color: var(--accent-mid);
+      background: var(--accent-bg);
+    }
+    .define-diagram-box-lbl {
+      font-size: var(--t16);
+      font-weight: 700;
+      color: var(--text-1);
+      margin-bottom: var(--s4);
+    }
+    .define-diagram-box-sub {
+      font-size: var(--t14);
+      color: var(--text-3);
+    }
+    .define-diagram-sep {
+      display: flex;
+      align-items: center;
+      gap: var(--s12);
+      padding: var(--s16) 0;
+      color: var(--text-3);
+      font-size: var(--t12);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .define-diagram-sep::before,
+    .define-diagram-sep::after {
+      content: '';
+      flex: 1;
+      border-top: 2px dashed var(--border);
+    }
+    .define-diagram-note {
+      margin-top: var(--s20);
+      font-size: var(--t14);
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .define-flow-row {
+      display: flex;
+      align-items: center;
+      gap: var(--s16);
+      margin: var(--s24) 0;
+      flex-wrap: wrap;
+    }
+    .define-flow-stage {
+      font-family: var(--f-title);
+      font-size: var(--t20);
+      font-weight: 700;
+      color: var(--text-2);
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r8);
+      padding: var(--s8) var(--s20);
+    }
+    .define-flow-stage--peak {
+      color: var(--accent);
+      border-color: var(--accent-mid);
+      background: var(--accent-bg);
+    }
+    .define-flow-arrow {
+      color: var(--accent);
+      font-size: var(--t24);
+      font-weight: 300;
+    }
+    .define-final {
+      max-width: 900px;
+      background: var(--accent-bg);
+      border: 1.5px solid var(--accent-mid);
+      border-radius: var(--r24);
+      padding: var(--s64);
+    }
+    .define-final-h {
+      font-family: var(--f-title);
+      font-size: var(--t48);
+      font-weight: 800;
+      line-height: 1.25;
+      color: var(--text-1);
+      letter-spacing: -0.02em;
+      margin-bottom: var(--s32);
+    }
+    .define-final-body {
+      font-size: var(--t18);
+      color: var(--text-2);
+      line-height: 1.75;
+    }
+    .define-final-arrow {
+      display: block;
+      margin-top: var(--s16);
+      font-weight: 700;
+      color: var(--text-1);
+    }
+
+    /* ═══════════════════════════════════════
        RESPONSIVE
     ════════════════════════════════════════ */
     @media (max-width: 744px) {
@@ -1035,6 +1232,10 @@
       .page-body { padding-top: var(--nav-h); }
       .g-2, .g-3, .feat-grid, .outcome-grid, .reflect-grid { grid-template-columns: 1fr; }
       .more-grid { grid-template-columns: 1fr 1fr; }
+      .define-root { grid-template-columns: 1fr; }
+      .define-final { padding: var(--s40) var(--s32); }
+      .define-final-h { font-size: var(--t32); }
+      .define-hero { padding: 80px 0; }
     }
 
   </style>
@@ -1416,85 +1617,102 @@ Product Perspective & Execution</p>
 
         <!-- ── DEFINE ── -->
         <div id="define" class="cs-sub">
-          <p class="cs-sub-lbl" data-en="Define">Define</p>
-          <h2 class="cs-h2 reveal-text" data-en="The Problem Is Not Missing Controls — It's Missing Criteria" data-ko="문제는 제어 기능의 부재가 아니다 — 기준의 부재다">The Problem Is Not Missing Controls — It's Missing Criteria</h2>
+          <p class="cs-sub-lbl" data-en="Define" data-ko="Define">Define</p>
 
-          <div class="cs-steps">
-
-            <div class="cs-step">
-              <span class="cs-step-num">01</span>
-              <div class="cs-step-content">
-                <p class="cs-step-title" data-en="Problem Definition" data-ko="문제 정의">Problem Definition</p>
-                <p class="cs-step-body" data-en="Small business owners can control their HVAC systems — but without knowing the outcome of each choice, they cannot make a genuine judgment." data-ko="Small business owner는 냉난방을 조절할 수는 있지만, 선택의 결과를 알 수 없어 판단할 수 없다.">Small business owners can control their HVAC systems — but without knowing the outcome of each choice, they cannot make a genuine judgment.</p>
-                <p class="cs-step-body mt-16" data-en="Because they can't see how each decision affects cost and comfort, users are unable to compare options — and end up repeating adjustments instead." data-ko="각 선택이 비용과 쾌적함에 어떤 영향을 주는지 알 수 없기 때문에, 사용자는 비교하지 못하고 조정을 반복하게 된다.">Because they can't see how each decision affects cost and comfort, users are unable to compare options — and end up repeating adjustments instead.</p>
-              </div>
-            </div>
-
-            <div class="cs-step">
-              <span class="cs-step-num">02</span>
-              <div class="cs-step-content">
-                <p class="cs-step-title" data-en="Root Cause Analysis" data-ko="근본 원인 분석">Root Cause Analysis</p>
-                <p class="cs-step-body" data-en="The system doesn't connect choices to their outcomes in comfort and cost — making comparison and informed judgment impossible." data-ko="시스템은 선택을 쾌적도·비용 결과로 연결하지 않아, 비교와 판단이 불가능하다.">The system doesn't connect choices to their outcomes in comfort and cost — making comparison and informed judgment impossible.</p>
-                <p class="cs-step-body mt-16" data-en="Unable to predict outcomes, operators fall back on intuition and keep repeating the same adjustments." data-ko="운영자는 결과를 예측할 수 없어 직관에 의존한 조정을 반복하게 된다.">Unable to predict outcomes, operators fall back on intuition and keep repeating the same adjustments.</p>
-              </div>
-            </div>
-
-            <div class="cs-step">
-              <span class="cs-step-num">03</span>
-              <div class="cs-step-content">
-                <p class="cs-step-title" data-en="Persona &amp; User Journey" data-ko="페르소나 &amp; 사용자 여정">Persona &amp; User Journey</p>
-                <p class="cs-step-body" data-en="Journey analysis showed that operators continuously adjusted HVAC temperature and mode while accounting for outdoor temperature, store conditions, and customer count. During peak hours especially, there was little time to think through decisions — leading to quick, intuition-based adjustments." data-ko="사용자 여정을 분석한 결과, 운영자는 외부 온도, 매장 상황, 손님 수를 고려하며 냉난방 온도와 모드를 지속적으로 조절하고 있었다. 특히 바쁜 시간대에는 판단에 시간을 쓰기 어려워 직관에 의존한 빠른 조정이 반복되고 있었다.">Journey analysis showed that operators continuously adjusted HVAC temperature and mode while accounting for outdoor temperature, store conditions, and customer count. During peak hours especially, there was little time to think through decisions — leading to quick, intuition-based adjustments.</p>
-                <div class="cs-insight mt-16">
-                  <p class="cs-insight-lbl" data-en="Insight" data-ko="인사이트">Insight</p>
-                  <p class="cs-insight-body" data-en="Under time pressure, deliberate judgment gives way to immediate, reactive adjustments" data-ko="시간 압박이 있는 상황에서는, 판단 대신 즉각적인 조정 행동으로 전환된다">Under time pressure, deliberate judgment gives way to immediate, reactive adjustments</p>
-                </div>
-                <div class="g-2 mt-24">
-                  <div class="clip-reveal img-wrap ratio-4x3">
-                    <img src="../assets/images/projects/operator/define/persona.jpg"
-                         alt="User Persona">
-                    <div class="img-ph">
-                      <span class="img-ph-name">User Persona</span>
-                      <span class="img-ph-file">operator/define/persona.jpg</span>
-                    </div>
-                  </div>
-                  <div class="clip-reveal img-wrap ratio-4x3">
-                    <img src="../assets/images/projects/operator/define/user-journey-map.jpg"
-                         alt="User Journey Map">
-                    <div class="img-ph">
-                      <span class="img-ph-name">User Journey Map</span>
-                      <span class="img-ph-file">operator/define/user-journey-map.jpg</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="cs-step">
-              <span class="cs-step-num">04</span>
-              <div class="cs-step-content">
-                <p class="cs-step-title" data-en="Problem Statement" data-ko="문제 정의">Problem Statement</p>
-                <div class="g-2 mt-24">
-                  <div>
-                    <div class="cs-quote">
-                      <p data-en="Small Business Owners Need to Decide — Not Just Adjust" data-ko="자영업자는 결정해야 한다 — 조작만 하는 게 아니라">Small Business Owners Need to Decide — Not Just Adjust</p>
-                    </div>
-                    <p class="cs-step-body" data-en="Every day, small business owners manage the trade-off between comfort and cost. They make HVAC decisions repeatedly, in conditions that keep changing. Without criteria or feedback, they rely on intuition. The result: unstable, inconsistent, exhausting decisions." data-ko="매일 자영업자는 쾌적함과 비용 사이의 트레이드오프를 관리한다. 변화하는 환경에서 HVAC 결정을 반복적으로 내린다. 기준도 피드백도 없이 직관에 의존한다. 결과: 불안정하고, 일관성 없고, 피로한 결정.">Every day, small business owners manage the trade-off between comfort and cost. They make HVAC decisions repeatedly, in conditions that keep changing. Without criteria or feedback, they rely on intuition. The result: unstable, inconsistent, exhausting decisions.</p>
-                  </div>
-                  <div class="clip-reveal img-wrap ratio-4x3">
-                    <img src="../assets/images/projects/operator/define/kpi-definition-en.jpg"
-                         data-en-src="../assets/images/projects/operator/define/kpi-definition-en.jpg"
-                         data-ko-src="../assets/images/projects/operator/define/kpi-definition-ko.jpg"
-                         alt="KPI Definition">
-                    <div class="img-ph">
-                      <span class="img-ph-name">KPI Definition</span>
-                      <span class="img-ph-file">operator/define/kpi-definition.jpg</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+          <!-- DEFINE HERO -->
+          <div class="define-hero">
+            <h2 class="define-hero-h reveal-text"
+                data-en="HVAC decisions repeat —<br>but the criteria never accumulate"
+                data-ko="냉난방 조정 결정은 반복되지만,<br>조정 기준은 축적되지 않는다">
+              HVAC decisions repeat —<br>but the criteria never accumulate
+            </h2>
           </div>
+
+          <!-- 01 PROBLEM DEFINITION -->
+          <div class="define-block">
+            <p class="define-num" data-en="01 — Problem Definition" data-ko="01 — 문제 정의">01 — Problem Definition</p>
+            <p class="define-body" data-en="Small business owners can adjust their HVAC —" data-ko="Small business owner는 냉난방을 조절할 수는 있지만,">Small business owners can adjust their HVAC —</p>
+            <p class="define-key" data-en="they cannot make a genuine judgment without knowing the outcome of each choice." data-ko="각 선택의 결과를 알 수 없어 판단할 수 없다">they cannot make a genuine judgment without knowing the outcome of each choice.</p>
+            <p class="define-sub" data-en="As a result" data-ko="그 결과">As a result</p>
+            <ul class="define-list">
+              <li data-en="They cannot compare comfort against cost" data-ko="쾌적함과 비용을 비교하지 못하고">They cannot compare comfort against cost</li>
+              <li data-en="They end up repeating the same adjustments" data-ko="동일한 조정을 반복하게 된다">They end up repeating the same adjustments</li>
+            </ul>
+            <div class="g-2 mt-32">
+              <div class="clip-reveal img-wrap ratio-4x3">
+                <img src="../assets/images/projects/operator/define/persona.jpg" alt="User Persona">
+                <div class="img-ph">
+                  <span class="img-ph-name">User Persona</span>
+                  <span class="img-ph-file">operator/define/persona.jpg</span>
+                </div>
+              </div>
+              <div class="clip-reveal img-wrap ratio-4x3">
+                <img src="../assets/images/projects/operator/define/user-journey-map.jpg" alt="User Journey Map">
+                <div class="img-ph">
+                  <span class="img-ph-name">User Journey Map</span>
+                  <span class="img-ph-file">operator/define/user-journey-map.jpg</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 02 ROOT CAUSE -->
+          <div class="define-root">
+            <div>
+              <p class="define-num" data-en="02 — Root Cause" data-ko="02 — 근본 원인">02 — Root Cause</p>
+              <p class="define-body" data-en="The problem isn't a lack of controls —" data-ko="문제는 기능이 부족한 것이 아니라,">The problem isn't a lack of controls —</p>
+              <p class="define-key" data-en="the structure never connects choices to their outcomes." data-ko="선택과 결과가 연결되지 않는 구조에 있다">the structure never connects choices to their outcomes.</p>
+              <p class="define-body mt-32" data-en="The system shows" data-ko="시스템은">The system shows</p>
+              <ul class="define-list">
+                <li data-en="Action (temperature, mode)" data-ko="행동 (온도, 모드)">Action (temperature, mode)</li>
+                <li data-en="Outcome (comfort, cost)" data-ko="결과 (쾌적도, 비용)">Outcome (comfort, cost)</li>
+              </ul>
+              <p class="define-body mt-16" data-en="as separate things — so users can" data-ko="를 분리해서 보여주기 때문에 — 사용자는">as separate things — so users can</p>
+              <p class="define-key" data-en="neither compare nor learn." data-ko="비교도, 학습도 할 수 없다">neither compare nor learn.</p>
+            </div>
+            <div class="define-diagram">
+              <p class="define-diagram-lbl" data-en="What the system shows" data-ko="시스템이 보여주는 것">What the system shows</p>
+              <div class="define-diagram-box">
+                <div class="define-diagram-box-lbl" data-en="Action" data-ko="행동">Action</div>
+                <div class="define-diagram-box-sub" data-en="Temperature · Mode" data-ko="온도 · 모드">Temperature · Mode</div>
+              </div>
+              <div class="define-diagram-sep" data-en="no connection" data-ko="연결 없음">no connection</div>
+              <div class="define-diagram-box define-diagram-box--result">
+                <div class="define-diagram-box-lbl" data-en="Outcome" data-ko="결과">Outcome</div>
+                <div class="define-diagram-box-sub" data-en="Comfort · Cost" data-ko="쾌적도 · 비용">Comfort · Cost</div>
+              </div>
+              <p class="define-diagram-note" data-en="→ Users cannot connect the two" data-ko="→ 사용자는 둘을 연결할 수 없다">→ Users cannot connect the two</p>
+            </div>
+          </div>
+
+          <!-- 03 BEHAVIOR INSIGHT -->
+          <div class="define-block">
+            <p class="define-num" data-en="03 — Behavior Insight" data-ko="03 — 행동 인사이트">03 — Behavior Insight</p>
+            <p class="define-body" data-en="Throughout the day, operators adjust HVAC across the flow of" data-ko="운영자는 하루 동안">Throughout the day, operators adjust HVAC across the flow of</p>
+            <div class="define-flow-row">
+              <span class="define-flow-stage" data-en="Open" data-ko="오픈">Open</span>
+              <span class="define-flow-arrow">→</span>
+              <span class="define-flow-stage define-flow-stage--peak" data-en="Peak" data-ko="피크">Peak</span>
+              <span class="define-flow-arrow">→</span>
+              <span class="define-flow-stage" data-en="Close" data-ko="마감">Close</span>
+            </div>
+            <p class="define-body" data-en="store operations — continuously." data-ko="흐름 속에서 냉난방을 지속적으로 조정한다.">store operations — continuously.</p>
+            <p class="define-body mt-16" data-en="Especially during peak hours —" data-ko="특히 피크 시간에는 —">Especially during peak hours —</p>
+            <p class="define-key" data-en="speed of adjustment takes priority over deliberate judgment." data-ko="판단보다 빠른 조정이 우선된다">speed of adjustment takes priority over deliberate judgment.</p>
+          </div>
+
+          <!-- 04 FINAL DEFINITION -->
+          <div class="define-final">
+            <p class="define-num" data-en="04 — Final Definition" data-ko="04 — 최종 정의">04 — Final Definition</p>
+            <h3 class="define-final-h"
+                data-en="Small business owners are not mere operators —<br>they are decision-makers who must judge every moment."
+                data-ko="Small business owner는 '조작자'가 아니라,<br>판단을 내려야 하는 decision-maker다">
+              Small business owners are not mere operators —<br>they are decision-makers who must judge every moment.
+            </h3>
+            <p class="define-final-body" data-en="Every moment, operators must choose between comfort and cost —" data-ko="운영자는 매 순간 쾌적함과 비용 사이에서 선택해야 하지만,">Every moment, operators must choose between comfort and cost —</p>
+            <p class="define-final-body define-final-arrow" data-en="→ without criteria or feedback to compare against, decisions repeat and never accumulate." data-ko="→ 비교할 기준과 피드백이 없어 결정이 반복되고 축적되지 않는다">→ without criteria or feedback to compare against, decisions repeat and never accumulate.</p>
+          </div>
+
         </div>
 
         <!-- ── IDEATE ── -->
