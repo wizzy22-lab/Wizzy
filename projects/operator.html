@@ -446,6 +446,29 @@
       color: #111827;
       line-height: 1.6;
     }
+    /* stack-card 안의 cs-insight는 기존 스타일 유지 */
+    .stack-card .cs-insight {
+      background: var(--accent-bg);
+      border: none;
+      border-radius: 0 var(--r8) var(--r8) 0;
+      padding: var(--s16) var(--s20) var(--s16) calc(var(--s20) + 3px);
+      display: block;
+      position: relative;
+    }
+    .stack-card .cs-insight::before {
+      display: block;
+      content: '';
+      position: absolute;
+      left: 0; top: 0;
+      width: 3px; height: 0;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: height 0.55s var(--ease-spring) 0.1s;
+    }
+    .stack-card .cs-insight.is-visible::before { height: 100%; }
+    .stack-card .cs-insight + .cs-insight::before { transition-delay: 0.25s; }
+    .stack-card .cs-insight-body { color: var(--text-1); }
+
     .cs-body-arrow {
       font-size: var(--t16);
       line-height: 1.75;
@@ -2659,6 +2682,7 @@ Product Perspective & Execution</p>
     ════════════════════════════════════════ */
     document.querySelectorAll('.cs-insight').forEach(el => {
       if (el.querySelector('.cs-insight-icon')) return;
+      if (el.closest('.stack-card')) return;
       const icon = document.createElement('div');
       icon.className = 'cs-insight-icon';
       icon.innerHTML = '<img src="../assets/images/ui/insight-pencil.png" alt="">';
