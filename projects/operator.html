@@ -480,11 +480,23 @@
     .criteria-item {
       border: 1px solid var(--border);
       border-radius: var(--r12);
-      padding: var(--s20) var(--s24);
-      transition: border-color 0.25s ease, transform 0.25s var(--ease-spring), box-shadow 0.25s ease, opacity 0.4s ease;
+      padding: var(--s28) var(--s28);
+      transition: border-color 0.25s ease, transform 0.25s var(--ease-spring), box-shadow 0.25s ease, opacity 0.4s ease, background 0.25s ease;
       cursor: default;
       opacity: 0;
       transform: translateY(16px);
+      position: relative;
+      overflow: hidden;
+    }
+    .criteria-item::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s var(--ease-spring);
     }
     .criteria-item.is-visible {
       opacity: 1;
@@ -495,19 +507,23 @@
     .criteria-item:hover {
       border-color: var(--accent);
       transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.10);
+      background: rgba(94,95,255,0.03);
+    }
+    .criteria-item:hover::before {
+      transform: scaleX(1);
     }
     .criteria-item-num {
       font-size: var(--t12);
       font-weight: 700;
       color: var(--accent);
       letter-spacing: 0.08em;
-      margin-bottom: var(--s8);
+      margin-bottom: var(--s12);
     }
     .criteria-item-text {
-      font-size: var(--t16);
-      font-weight: 600;
-      line-height: 1.5;
+      font-size: var(--t20);
+      font-weight: 700;
+      line-height: 1.4;
       color: var(--text-1);
     }
 
