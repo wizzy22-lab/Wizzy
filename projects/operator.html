@@ -261,10 +261,23 @@
     .hero {
       background: var(--bg);
     }
+    .hero-cover {
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      animation: fadeUp var(--dur-slow) var(--ease-spring) 480ms both;
+    }
+    .hero-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
     .hero-inner {
       max-width: var(--max-w);
       margin: 0 auto;
-      padding: 48px var(--pad-x) 96px;
+      padding: 64px var(--pad-x) 96px;
     }
     .hero-tag {
       display: inline-flex;
@@ -1025,7 +1038,7 @@
     .hero-sub   { animation: fadeUp var(--dur-slow) var(--ease-spring) 180ms both; }
     .hero-desc  { animation: fadeUp var(--dur-base) var(--ease-spring) 280ms both; }
     .hero-meta  { animation: fadeUp var(--dur-base) var(--ease-spring) 370ms both; }
-    .hero .img-wrap { animation: fadeUp var(--dur-slow) var(--ease-spring) 480ms both; }
+    /* .hero-cover animation defined in .hero-cover rule above */
 
     /* ═══════════════════════════════════════
        TEXT LINE REVEAL (Cuberto style)
@@ -1546,15 +1559,15 @@
          HERO
     ════════════════════════════════════════ -->
     <div class="hero">
-      <div class="hero-inner">
-        <div class="img-wrap ratio-wide">
-          <img src="../assets/images/projects/operator/hero-mockup.jpg?v=2"
-               alt="Operator App Mockup">
-          <div class="img-ph">
-            <span class="img-ph-name">Hero Mockup</span>
-            <span class="img-ph-file">operator/hero-mockup.jpg</span>
-          </div>
+      <div class="hero-cover">
+        <img src="../assets/images/projects/operator/hero-mockup.jpg?v=2"
+             alt="Operator App Mockup">
+        <div class="img-ph">
+          <span class="img-ph-name">Hero Mockup</span>
+          <span class="img-ph-file">operator/hero-mockup.jpg</span>
         </div>
+      </div>
+      <div class="hero-inner">
 
         <div class="hero-tag mt-48" data-en="UX / Product Design · Energy Management" data-ko="UX / 프로덕트 디자인 · 에너지 관리">UX / Product Design · Energy Management</div>
         <h1 class="hero-h1">Operator</h1>
