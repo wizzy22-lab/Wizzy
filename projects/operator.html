@@ -259,13 +259,17 @@
        HERO
     ════════════════════════════════════════ */
     .hero {
-      background: var(--bg);
-    }
-    .hero-cover {
-      width: 100%;
+      position: relative;
       height: 100vh;
       overflow: hidden;
-      position: relative;
+      background: var(--bg);
+      display: flex;
+      align-items: flex-end;
+    }
+    .hero-cover {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
       animation: fadeUp var(--dur-slow) var(--ease-spring) 480ms both;
     }
     .hero-cover img {
@@ -274,10 +278,25 @@
       object-fit: cover;
       display: block;
     }
+    .hero-cover::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 24%,
+        rgba(241, 241, 239, 0.6) 62%,
+        var(--bg) 100%
+      );
+      pointer-events: none;
+    }
     .hero-inner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
       max-width: var(--max-w);
       margin: 0 auto;
-      padding: 64px var(--pad-x) 96px;
+      padding: 0 var(--pad-x) 64px;
     }
     .hero-tag {
       display: inline-flex;
@@ -1569,7 +1588,7 @@
       </div>
       <div class="hero-inner">
 
-        <div class="hero-tag mt-48" data-en="UX / Product Design · Energy Management" data-ko="UX / 프로덕트 디자인 · 에너지 관리">UX / Product Design · Energy Management</div>
+        <div class="hero-tag" data-en="UX / Product Design · Energy Management" data-ko="UX / 프로덕트 디자인 · 에너지 관리">UX / Product Design · Energy Management</div>
         <h1 class="hero-h1">Operator</h1>
         <p class="hero-sub" data-en="Without criteria, every HVAC decision relies on intuition" data-ko="기준이 없으면, 모든 HVAC 결정은 직관에 의존한다">Without criteria, every HVAC decision relies on intuition</p>
         <p class="hero-desc" data-en="Small business owners make HVAC decisions multiple times a day. But the system never tells them when to adjust, what to base it on, or what will happen after. This project gives them the information they need to decide — not just the controls to act." data-ko="자영업자는 하루에도 여러 번 HVAC 결정을 내린다<br><br>하지만 시스템은<br>언제 조절해야 하는지, 무엇을 기준으로 판단해야 하는지,<br>그리고 그 결과가 어떻게 되는지 알려주지 않는다<br><br>이 프로젝트는 단순한 제어 기능이 아니라,<br>결정을 위한 정보를 제공한다">자영업자는 하루에도 여러 번 HVAC 결정을 내린다<br><br>하지만 시스템은<br>언제 조절해야 하는지, 무엇을 기준으로 판단해야 하는지,<br>그리고 그 결과가 어떻게 되는지 알려주지 않는다<br><br>이 프로젝트는 단순한 제어 기능이 아니라,<br>결정을 위한 정보를 제공한다</p>
