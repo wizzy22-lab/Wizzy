@@ -1,13 +1,15 @@
 import { notFound } from "next/navigation";
 import { hasLocale, t } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionaries";
-import { PROJECTS } from "@/content/projects";
+import { PROJECT_CARDS, BUSINESS_CARDS } from "@/content/projects";
 import SiteHeader from "@/components/SiteHeader";
 import RotatingHeadline from "@/components/RotatingHeadline";
 import ProjectSection, { type ProjectCard } from "@/components/ProjectSection";
 import IntroduceSection from "@/components/IntroduceSection";
 import HowIGotHereSection from "@/components/HowIGotHereSection";
-import WordsFromPeopleSection from "@/components/WordsFromPeopleSection";
+// Testimonials are hidden for now — re-add <WordsFromPeopleSection dict={dict} />
+// below the timeline to bring the section back. Component and copy are intact.
+// import WordsFromPeopleSection from "@/components/WordsFromPeopleSection";
 
 export default async function Home({ params }: PageProps<"/[lang]">) {
   const { lang } = await params;
@@ -16,7 +18,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   const dict = await getDictionary(lang);
 
   // Resolve to plain strings here so the client accordion never imports a dictionary.
-  const cards: ProjectCard[] = PROJECTS.map((project) => ({
+  const cards: ProjectCard[] = PROJECT_CARDS.map((project) => ({
     slug: project.slug,
     no: project.no,
     name: project.name,
@@ -30,6 +32,21 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       project.hasCaseStudy || project.externalUrl
         ? dict.projects.viewCase
         : dict.projects.comingSoon,
+  }));
+
+  // Same shape and interaction as the project accordion; these two just have
+  // nowhere to link yet, so `href` stays null and the CTA renders inert.
+  const businessCards: ProjectCard[] = BUSINESS_CARDS.map((project) => ({
+    slug: project.slug,
+    no: project.no,
+    name: project.name,
+    subtitle: t(project.subtitle, lang),
+    tags: project.tags.map((tag) => t(tag, lang)),
+    description: t(project.description, lang),
+    thumbnail: project.thumbnail,
+    href: null,
+    external: false,
+    cta: dict.projects.comingSoon,
   }));
 
   return (
@@ -71,10 +88,14 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         </section>
       </div>
 
-      <ProjectSection label={dict.projects.label} projects={cards} />
+      <ProjectSection id="project" label={dict.projects.label} projects={cards} />
+      <ProjectSection
+        id="business"
+        label={dict.businessBrand.label}
+        projects={businessCards}
+      />
       <IntroduceSection dict={dict} />
       <HowIGotHereSection dict={dict} />
-      <WordsFromPeopleSection dict={dict} />
     </main>
   );
 }

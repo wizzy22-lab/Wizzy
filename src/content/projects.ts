@@ -1,8 +1,15 @@
 import type { Localized } from "@/lib/i18n";
 
+/**
+ * Which main-page section a card renders in. `project` is the scroll-driven
+ * accordion; `business` is the smaller two-column grid below it.
+ */
+export type ProjectGroup = "project" | "business";
+
 export type Project = {
   /** URL segment: /[lang]/projects/[slug] */
   slug: string;
+  group: ProjectGroup;
   /** Display number in the main-page accordion. */
   no: string;
   name: string;
@@ -28,6 +35,7 @@ export type Project = {
 export const PROJECTS: Project[] = [
   {
     slug: "shoot-shoot-penguin",
+    group: "project",
     no: "01",
     name: "Shoot Shoot Penguin",
     subtitle: {
@@ -48,6 +56,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "operator",
+    group: "project",
     no: "02",
     name: "Operator",
     subtitle: {
@@ -69,6 +78,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "bingx",
+    group: "project",
     no: "03",
     name: "BingX",
     subtitle: {
@@ -90,6 +100,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "weekend-greenwich",
+    group: "business",
     no: "04",
     name: "Weekend Greenwich",
     subtitle: {
@@ -110,6 +121,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "wizzy-bakeshop",
+    group: "business",
     no: "05",
     name: "Wizzy Bakeshop",
     subtitle: {
@@ -133,3 +145,9 @@ export const PROJECTS: Project[] = [
 export function getProject(slug: string): Project | undefined {
   return PROJECTS.find((p) => p.slug === slug);
 }
+
+/** Cards for the scroll-driven accordion. */
+export const PROJECT_CARDS = PROJECTS.filter((p) => p.group === "project");
+
+/** Cards for the "Business & Brand" grid. */
+export const BUSINESS_CARDS = PROJECTS.filter((p) => p.group === "business");

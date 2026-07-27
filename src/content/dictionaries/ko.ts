@@ -40,6 +40,10 @@ const ko: Dictionary = {
     comingSoon: "케이스 스터디 준비 중",
   },
 
+  businessBrand: {
+    label: "Business & Brand",
+  },
+
   intro: {
     greeting: "안녕하세요, 프로덕트 디자이너",
     name: "wizzy",

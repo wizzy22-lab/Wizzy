@@ -13,37 +13,57 @@ export type ProjectCard = {
   tags: string[];
   description: string;
   thumbnail: string | null;
-  href: string;
+  /** `null` when there is nothing to link to yet — the card renders inert. */
+  href: string | null;
   /** `href` points off-site — render a plain anchor that opens in a new tab. */
   external: boolean;
   cta: string;
 };
 
-/** `<Link>` for in-app routes, plain `<a>` for external case studies. */
-function CardLink({
-  external,
-  href,
-  children,
-  ...rest
-}: { external: boolean } & React.ComponentProps<typeof Link>) {
+type CardLinkProps = {
+  href: string | null;
+  external: boolean;
+  tabIndex?: number;
+  className?: string;
+  "aria-hidden"?: boolean;
+  children: React.ReactNode;
+};
+
+/**
+ * `<Link>` for in-app routes, plain `<a>` for external case studies, and a
+ * non-interactive `<span>` when there is no destination — deliberately not an
+ * `<a href="#">`, which would be a dead link.
+ */
+function CardLink({ href, external, children, tabIndex, ...rest }: CardLinkProps) {
+  // No `tabIndex` on the inert branch — nothing here should take focus.
+  if (href === null) {
+    return (
+      <span aria-disabled="true" {...rest}>
+        {children}
+      </span>
+    );
+  }
   if (external) {
     return (
-      <a href={String(href)} target="_blank" rel="noopener noreferrer" {...rest}>
+      <a href={href} target="_blank" rel="noopener noreferrer" tabIndex={tabIndex} {...rest}>
         {children}
       </a>
     );
   }
   return (
-    <Link href={href} {...rest}>
+    <Link href={href} tabIndex={tabIndex} {...rest}>
       {children}
     </Link>
   );
 }
 
 export default function ProjectSection({
+  id,
   label,
   projects,
 }: {
+  /** Anchor target — each instance on the page needs its own. */
+  id: string;
   label: string;
   projects: ProjectCard[];
 }) {
@@ -93,7 +113,7 @@ export default function ProjectSection({
 
   return (
     <section
-      id="project"
+      id={id}
       ref={outerRef}
       className="relative w-full bg-background font-sans"
       style={{ height: `${count * 100}vh` }}
@@ -179,9 +199,14 @@ export default function ProjectSection({
                             external={project.external}
                             href={project.href}
                             tabIndex={isOpen ? undefined : -1}
-                            className="mt-6 inline-flex h-11 items-center rounded-full bg-accent px-6 text-base text-foreground transition-transform hover:scale-105"
+                            className={`mt-6 inline-flex h-11 w-fit items-center rounded-full px-6 text-base ${
+                              project.href === null
+                                ? "cursor-not-allowed select-none border border-white/15 bg-white/5 text-muted"
+                                : "bg-accent text-foreground transition-transform hover:scale-105"
+                            }`}
                           >
-                            {project.cta} {project.external ? "↗" : "→"}
+                            {project.cta}
+                            {project.href !== null && ` ${project.external ? "↗" : "→"}`}
                           </CardLink>
                         </div>
 

@@ -36,6 +36,11 @@ const en = {
     comingSoon: "Case study coming soon",
   },
 
+  businessBrand: {
+    // Kept in English in both locales — it reads as a section name, not copy.
+    label: "Business & Brand",
+  },
+
   intro: {
     greeting: "Hi, I’m a Product Designer",
     name: "wizzy",
