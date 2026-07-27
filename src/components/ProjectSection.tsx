@@ -14,8 +14,31 @@ export type ProjectCard = {
   description: string;
   thumbnail: string | null;
   href: string;
+  /** `href` points off-site — render a plain anchor that opens in a new tab. */
+  external: boolean;
   cta: string;
 };
+
+/** `<Link>` for in-app routes, plain `<a>` for external case studies. */
+function CardLink({
+  external,
+  href,
+  children,
+  ...rest
+}: { external: boolean } & React.ComponentProps<typeof Link>) {
+  if (external) {
+    return (
+      <a href={String(href)} target="_blank" rel="noopener noreferrer" {...rest}>
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link href={href} {...rest}>
+      {children}
+    </Link>
+  );
+}
 
 export default function ProjectSection({
   label,
@@ -152,17 +175,19 @@ export default function ProjectSection({
                             {project.description}
                           </p>
 
-                          <Link
+                          <CardLink
+                            external={project.external}
                             href={project.href}
                             tabIndex={isOpen ? undefined : -1}
                             className="mt-6 inline-flex h-11 items-center rounded-full bg-accent px-6 text-base text-foreground transition-transform hover:scale-105"
                           >
-                            {project.cta} →
-                          </Link>
+                            {project.cta} {project.external ? "↗" : "→"}
+                          </CardLink>
                         </div>
 
                         {/* Right: cover */}
-                        <Link
+                        <CardLink
+                          external={project.external}
                           href={project.href}
                           tabIndex={-1}
                           aria-hidden
@@ -179,7 +204,7 @@ export default function ProjectSection({
                           ) : (
                             <span className="text-sm tracking-[0.1em] text-muted">MOCKUP</span>
                           )}
-                        </Link>
+                        </CardLink>
                       </div>
                     </div>
                   </div>

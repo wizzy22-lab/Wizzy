@@ -13,6 +13,11 @@ export type Project = {
   thumbnail: string | null;
   /** Whether a full case study exists in `src/content/case-studies`. */
   hasCaseStudy: boolean;
+  /**
+   * Case study hosted outside this site. When set, the card links straight out
+   * (new tab) instead of to `/[lang]/projects/[slug]`.
+   */
+  externalUrl?: string;
 };
 
 /**
@@ -80,6 +85,7 @@ export const PROJECTS: Project[] = [
     },
     thumbnail: null,
     hasCaseStudy: false,
+    externalUrl: "https://bingx-portfolio.vercel.app/",
   },
   {
     slug: "weekend-greenwich",

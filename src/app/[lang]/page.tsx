@@ -24,8 +24,12 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
     tags: project.tags.map((tag) => t(tag, lang)),
     description: t(project.description, lang),
     thumbnail: project.thumbnail,
-    href: `/${lang}/projects/${project.slug}`,
-    cta: project.hasCaseStudy ? dict.projects.viewCase : dict.projects.comingSoon,
+    href: project.externalUrl ?? `/${lang}/projects/${project.slug}`,
+    external: Boolean(project.externalUrl),
+    cta:
+      project.hasCaseStudy || project.externalUrl
+        ? dict.projects.viewCase
+        : dict.projects.comingSoon,
   }));
 
   return (
