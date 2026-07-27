@@ -65,6 +65,7 @@ export const PROJECTS: Project[] = [
     },
     thumbnail: "/projects/operator/hero-mockup.jpg",
     hasCaseStudy: true,
+    externalUrl: "https://wizzy-s-portfolio.vercel.app/projects/operator.html",
   },
   {
     slug: "bingx",
