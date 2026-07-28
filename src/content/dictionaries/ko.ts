@@ -37,7 +37,6 @@ const ko: Dictionary = {
   projects: {
     label: "프로젝트",
     viewCase: "케이스 스터디 보기",
-    comingSoon: "케이스 스터디 준비 중",
   },
 
   businessBrand: {
@@ -62,7 +61,7 @@ const ko: Dictionary = {
           "복잡하고 실패 비용이 큰 환경에서 구조적으로 판단하는 훈련을 받았습니다. 지금도 디자인 문제에 접근하는 방식의 바탕이 되고 있습니다.",
       },
       {
-        year: "2018",
+        year: "2020",
         title: "베이킹을 만나다",
         description:
           "취미로 시작한 베이킹을 점차 진지한 기술로 발전시켰습니다. 호기심이 몰입으로 이어지는, 이후 계속 반복될 패턴의 첫 신호였습니다.",

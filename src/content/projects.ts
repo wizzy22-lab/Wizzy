@@ -82,17 +82,17 @@ export const PROJECTS: Project[] = [
     no: "03",
     name: "BingX",
     subtitle: {
-      en: "AI Master Onboarding Experience Redesign",
-      ko: "AI Master 온보딩 경험 리디자인",
+      en: "AI Master Decision Flow Redesign",
+      ko: "AI Master 의사결정 플로우 리디자인",
     },
     tags: [
       { en: "UX Research", ko: "UX 리서치" },
       { en: "Design System", ko: "디자인 시스템" },
-      { en: "Growth", ko: "그로스" },
+      { en: "AI UX", ko: "AI UX" },
     ],
     description: {
-      en: "Redesigned the onboarding experience to help users understand AI trading roles and make confident decisions through guided interactions.",
-      ko: "가이드형 인터랙션을 통해 사용자가 AI 트레이딩의 역할을 이해하고 확신을 갖고 결정할 수 있도록 온보딩 경험을 리디자인했다.",
+      en: "Redesigned an AI trading service around its decision flow — matching users to the right Master through onboarding, and making automated trading understandable before money goes in.",
+      ko: "AI 트레이딩 서비스를 의사결정 흐름 중심으로 리디자인했다. 온보딩으로 사용자를 적합한 Master와 연결하고, 돈을 넣기 전에 자동매매를 이해할 수 있게 만들었다.",
     },
     thumbnail: null,
     hasCaseStudy: false,

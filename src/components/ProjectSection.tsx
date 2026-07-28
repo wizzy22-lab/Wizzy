@@ -17,7 +17,8 @@ export type ProjectCard = {
   href: string | null;
   /** `href` points off-site — render a plain anchor that opens in a new tab. */
   external: boolean;
-  cta: string;
+  /** `null` alongside a null `href` — the card shows no button at all. */
+  cta: string | null;
 };
 
 type CardLinkProps = {
@@ -195,19 +196,16 @@ export default function ProjectSection({
                             {project.description}
                           </p>
 
-                          <CardLink
-                            external={project.external}
-                            href={project.href}
-                            tabIndex={isOpen ? undefined : -1}
-                            className={`mt-6 inline-flex h-11 w-fit items-center rounded-full px-6 text-base ${
-                              project.href === null
-                                ? "cursor-not-allowed select-none border border-white/15 bg-white/5 text-muted"
-                                : "bg-accent text-foreground transition-transform hover:scale-105"
-                            }`}
-                          >
-                            {project.cta}
-                            {project.href !== null && ` ${project.external ? "↗" : "→"}`}
-                          </CardLink>
+                          {project.cta !== null && (
+                            <CardLink
+                              external={project.external}
+                              href={project.href}
+                              tabIndex={isOpen ? undefined : -1}
+                              className="mt-6 inline-flex h-11 w-fit items-center rounded-full bg-accent px-6 text-base text-foreground transition-transform hover:scale-105"
+                            >
+                              {project.cta} {project.external ? "↗" : "→"}
+                            </CardLink>
+                          )}
                         </div>
 
                         {/* Right: cover */}

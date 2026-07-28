@@ -26,16 +26,16 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
     tags: project.tags.map((tag) => t(tag, lang)),
     description: t(project.description, lang),
     thumbnail: project.thumbnail,
-    href: project.externalUrl ?? `/${lang}/projects/${project.slug}`,
+    // Only link when there is something to read — a card with no case study
+    // (written or hosted elsewhere) renders fully inert rather than pointing at
+    // a placeholder page.
+    href: project.externalUrl ?? (project.hasCaseStudy ? `/${lang}/projects/${project.slug}` : null),
     external: Boolean(project.externalUrl),
-    cta:
-      project.hasCaseStudy || project.externalUrl
-        ? dict.projects.viewCase
-        : dict.projects.comingSoon,
+    cta: project.hasCaseStudy || project.externalUrl ? dict.projects.viewCase : null,
   }));
 
   // Same shape and interaction as the project accordion; these two just have
-  // nowhere to link yet, so `href` stays null and the CTA renders inert.
+  // nowhere to link yet, so `href` stays null and no CTA renders.
   const businessCards: ProjectCard[] = BUSINESS_CARDS.map((project) => ({
     slug: project.slug,
     no: project.no,
@@ -46,7 +46,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
     thumbnail: project.thumbnail,
     href: null,
     external: false,
-    cta: dict.projects.comingSoon,
+    cta: null,
   }));
 
   return (

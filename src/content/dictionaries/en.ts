@@ -32,8 +32,8 @@ const en = {
 
   projects: {
     label: "PROJECT",
+    // No "coming soon" label: cards without a case study render no button.
     viewCase: "View case study",
-    comingSoon: "Case study coming soon",
   },
 
   businessBrand: {
@@ -59,7 +59,7 @@ const en = {
           "Built a foundation for sharp, structured decision-making in complex, high-stakes environments — a discipline that still shapes how I approach design problems today.",
       },
       {
-        year: "2018",
+        year: "2020",
         title: "Discovered Baking",
         description:
           "Started baking as a hobby and gradually turned it into a serious craft — the first sign of a pattern that would repeat throughout my career: curiosity becoming commitment.",
