@@ -1,0 +1,8 @@
+# Photo slots for the Weekend Greenwich mini case.
+# Referenced from src/content/business-cases/weekend-greenwich.ts:
+#   hero.jpg              wide 16:9 hero
+#   pudding-01.jpg        4:3 grid
+#   repackage-before.jpg  4:3 grid
+#   repackage-after.jpg   4:3 grid
+#   popup-01.jpg          4:3 grid
+#   brunch.jpg            4:3 grid

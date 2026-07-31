@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { hasLocale, t } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionaries";
@@ -34,8 +35,8 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
     cta: project.hasCaseStudy || project.externalUrl ? dict.projects.viewCase : null,
   }));
 
-  // Same shape and interaction as the project accordion; these two just have
-  // nowhere to link yet, so `href` stays null and no CTA renders.
+  // Same shape, interaction, and linking rule as the project accordion — a card
+  // without a case study still renders inert.
   const businessCards: ProjectCard[] = BUSINESS_CARDS.map((project) => ({
     slug: project.slug,
     no: project.no,
@@ -44,9 +45,9 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
     tags: project.tags.map((tag) => t(tag, lang)),
     description: t(project.description, lang),
     thumbnail: project.thumbnail,
-    href: null,
-    external: false,
-    cta: null,
+    href: project.externalUrl ?? (project.hasCaseStudy ? `/${lang}/projects/${project.slug}` : null),
+    external: Boolean(project.externalUrl),
+    cta: project.hasCaseStudy || project.externalUrl ? dict.projects.viewCase : null,
   }));
 
   return (
@@ -73,9 +74,16 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             ))}
           </p>
 
-          {/* Photo placeholder — swap for the real cut-out portrait later */}
-          <div className="mt-[72px] flex h-[410px] w-[300px] max-w-full items-center justify-center rounded-2xl border border-dashed border-white/15 bg-white/5">
-            <span className="text-sm tracking-[0.1em] text-muted">PHOTO</span>
+          {/* Portrait — above the fold, so it preloads rather than lazy-loads */}
+          <div className="relative mt-[72px] h-[410px] w-[300px] max-w-full overflow-hidden rounded-2xl border border-dashed border-white/15 bg-white/5">
+            <Image
+              src="/about/hero-profile.jpg"
+              alt={`${dict.brand.name} — ${dict.brand.role}`}
+              fill
+              sizes="300px"
+              preload
+              className="object-cover"
+            />
           </div>
 
           {/* CONTACT button — bottom right of the hero */}

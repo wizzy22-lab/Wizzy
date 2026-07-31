@@ -117,7 +117,8 @@ export const PROJECTS: Project[] = [
       ko: "브랜드 아이덴티티를 기반으로 제품 디자인과 개발을 이끌며, 실제 고객과 직접 연결되는 오프라인 브랜드 경험을 만들었다.",
     },
     thumbnail: null,
-    hasCaseStudy: false,
+    // Renders through `BusinessCasePage` — see `content/business-cases`.
+    hasCaseStudy: true,
   },
   {
     slug: "wizzy-bakeshop",
@@ -138,7 +139,8 @@ export const PROJECTS: Project[] = [
       ko: "디저트 브랜드를 직접 만들고 운영하며, 실제 비즈니스 환경에서 제품부터 서비스까지 전체 고객 경험을 디자인했다.",
     },
     thumbnail: null,
-    hasCaseStudy: false,
+    // Renders through `BusinessCasePage` — see `content/business-cases`.
+    hasCaseStudy: true,
   },
 ];
 

@@ -6,8 +6,10 @@ import { LOCALES, hasLocale, t } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionaries";
 import { PROJECTS, getProject } from "@/content/projects";
 import { getCaseStudy } from "@/content/case-studies";
+import { getBusinessCase } from "@/content/business-cases";
 import SiteHeader from "@/components/SiteHeader";
 import CaseStudyBody from "@/components/CaseStudyBody";
+import BusinessCasePage from "@/components/BusinessCasePage";
 
 export function generateStaticParams() {
   return LOCALES.flatMap((lang) => PROJECTS.map((project) => ({ lang, slug: project.slug })));
@@ -37,6 +39,19 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
   if (!project) notFound();
 
   const dict = await getDictionary(lang);
+
+  // A business mini case owns its whole page — four fixed sections and its own
+  // cross-link — so it replaces the case-study layout rather than nesting in it.
+  const businessCase = getBusinessCase(slug);
+  if (businessCase) {
+    return (
+      <main className="relative min-h-screen w-full bg-background font-sans">
+        <SiteHeader lang={lang} dict={dict} />
+        <BusinessCasePage data={businessCase} locale={lang} />
+      </main>
+    );
+  }
+
   const caseStudy = getCaseStudy(slug);
 
   const index = PROJECTS.findIndex((p) => p.slug === slug);

@@ -1,4 +1,6 @@
+import Image from "next/image";
 import type { Dictionary } from "@/content/dictionaries";
+import { TIMELINE_PHOTOS } from "@/content/timeline";
 
 export default function HowIGotHereSection({ dict }: { dict: Dictionary }) {
   const { timeline } = dict;
@@ -14,6 +16,7 @@ export default function HowIGotHereSection({ dict }: { dict: Dictionary }) {
           {timeline.items.map((item, i) => {
             // Zigzag: odd rows (1st, 3rd, 5th) sit in the right lane, even rows in the left lane.
             const rightLane = i % 2 === 0;
+            const photo = TIMELINE_PHOTOS[i];
             return (
               <div key={i} className="relative flex flex-col gap-4 lg:block">
                 {/* Year — fixed at the far left */}
@@ -27,9 +30,19 @@ export default function HowIGotHereSection({ dict }: { dict: Dictionary }) {
                     rightLane ? "lg:ml-[288px]" : "lg:ml-[188px]"
                   }`}
                 >
-                  {/* Image placeholder */}
-                  <div className="flex h-40 w-40 shrink-0 items-center justify-center rounded-xl border border-dashed border-white/15 bg-white/5">
-                    <span className="text-xs tracking-[0.1em] text-muted">PHOTO</span>
+                  {/* Photo — falls back to the dashed placeholder if a row has no image yet */}
+                  <div className="relative flex h-40 w-40 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-dashed border-white/15 bg-white/5">
+                    {photo ? (
+                      <Image
+                        src={photo}
+                        alt={item.title}
+                        fill
+                        sizes="160px"
+                        className="object-cover"
+                      />
+                    ) : (
+                      <span className="text-xs tracking-[0.1em] text-muted">PHOTO</span>
+                    )}
                   </div>
 
                   {/* Text */}

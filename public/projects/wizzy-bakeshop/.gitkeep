@@ -1,0 +1,8 @@
+# Photo slots for the Wizzy Bakeshop mini case.
+# Referenced from src/content/business-cases/wizzy-bakeshop.ts:
+#   hero.jpg            wide 16:9 hero
+#   product-01.jpg      4:3 grid
+#   product-02.jpg      4:3 grid
+#   package-before.jpg  4:3 grid
+#   package-after.jpg   4:3 grid
+#   operation.jpg       4:3 grid
