@@ -19,7 +19,11 @@ export type BusinessCaseMeta = {
 };
 
 export type BusinessCasePhoto = {
-  src: string;
+  /**
+   * Path under `public/`. `resolvePhotos()` nulls it out when the file isn't
+   * in the repo yet, and the template draws an empty slot in its place.
+   */
+  src: string | null;
   alt: Localized;
   caption: Localized;
 };
@@ -54,7 +58,8 @@ export type BusinessCase = {
     keyFact: { value: Localized; label: Localized };
     /** Optional lead paragraph, below the key fact. */
     lead?: Localized;
-    image: { src: string; alt: Localized } | null;
+    /** `src` follows the same rule as `BusinessCasePhoto.src`. */
+    image: { src: string | null; alt: Localized } | null;
   };
 
   /** ② What I Built — captioned 4:3 photo grid. */

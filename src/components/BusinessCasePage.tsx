@@ -31,6 +31,21 @@ const GRID_SIZES: Record<2 | 3, string> = {
   3: "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 340px",
 };
 
+/**
+ * Stand-in for a photo that isn't in the repo yet. Same dashed language the
+ * main page uses for an unfilled slot, so a case reads as in-progress rather
+ * than broken.
+ */
+function EmptySlot({ ratio }: { ratio: string }) {
+  return (
+    <div
+      className={`flex ${ratio} items-center justify-center rounded-2xl border border-dashed border-white/15 bg-white/5`}
+    >
+      <span className="text-sm tracking-[0.1em] text-muted">PHOTO</span>
+    </div>
+  );
+}
+
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
     <h2 className="font-serif text-[clamp(28px,3vw,44px)] leading-[1.25] tracking-[-0.03em] text-accent">
@@ -96,18 +111,23 @@ export default function BusinessCasePage({
           </p>
         )}
 
-        {hero.image && (
-          <div className="relative mt-12 aspect-[16/9] overflow-hidden rounded-3xl border border-white/10 bg-white/5">
-            <Image
-              src={hero.image.src}
-              alt={t(hero.image.alt, locale)}
-              fill
-              preload
-              sizes="(max-width: 1100px) 100vw, 1040px"
-              className="object-cover"
-            />
-          </div>
-        )}
+        {hero.image &&
+          (hero.image.src ? (
+            <div className="relative mt-12 aspect-[16/9] overflow-hidden rounded-3xl border border-white/10 bg-white/5">
+              <Image
+                src={hero.image.src}
+                alt={t(hero.image.alt, locale)}
+                fill
+                preload
+                sizes="(max-width: 1100px) 100vw, 1040px"
+                className="object-cover"
+              />
+            </div>
+          ) : (
+            <div className="mt-12">
+              <EmptySlot ratio="aspect-[16/9]" />
+            </div>
+          ))}
       </header>
 
       {/* ② What I Built */}
@@ -124,15 +144,19 @@ export default function BusinessCasePage({
           <div className={`mt-10 grid gap-x-6 gap-y-10 ${GRID_COLUMNS[columns]}`}>
             {built.photos.map((photo, i) => (
               <figure key={i}>
-                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 bg-white/5">
-                  <Image
-                    src={photo.src}
-                    alt={t(photo.alt, locale)}
-                    fill
-                    sizes={GRID_SIZES[columns]}
-                    className="object-cover"
-                  />
-                </div>
+                {photo.src ? (
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+                    <Image
+                      src={photo.src}
+                      alt={t(photo.alt, locale)}
+                      fill
+                      sizes={GRID_SIZES[columns]}
+                      className="object-cover"
+                    />
+                  </div>
+                ) : (
+                  <EmptySlot ratio="aspect-[4/3]" />
+                )}
                 <figcaption className="mt-3 text-base leading-[1.6] text-muted">
                   {t(photo.caption, locale)}
                 </figcaption>

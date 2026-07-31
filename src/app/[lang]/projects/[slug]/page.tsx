@@ -6,7 +6,7 @@ import { LOCALES, hasLocale, t } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionaries";
 import { PROJECTS, getProject } from "@/content/projects";
 import { getCaseStudy } from "@/content/case-studies";
-import { getBusinessCase } from "@/content/business-cases";
+import { getBusinessCase, resolvePhotos } from "@/content/business-cases";
 import SiteHeader from "@/components/SiteHeader";
 import CaseStudyBody from "@/components/CaseStudyBody";
 import BusinessCasePage from "@/components/BusinessCasePage";
@@ -47,7 +47,7 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
     return (
       <main className="relative min-h-screen w-full bg-background font-sans">
         <SiteHeader lang={lang} dict={dict} />
-        <BusinessCasePage data={businessCase} locale={lang} />
+        <BusinessCasePage data={resolvePhotos(businessCase)} locale={lang} />
       </main>
     );
   }

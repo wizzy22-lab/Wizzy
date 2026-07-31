@@ -15,6 +15,8 @@ export function getBusinessCase(slug: string): BusinessCase | undefined {
   return BUSINESS_CASES[slug];
 }
 
+export { resolvePhotos } from "./assets";
+
 export type {
   BusinessCase,
   BusinessCaseCard,
