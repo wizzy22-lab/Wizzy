@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { hasLocale, t } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionaries";
@@ -6,8 +5,8 @@ import { PROJECT_CARDS, BUSINESS_CARDS } from "@/content/projects";
 import SiteHeader from "@/components/SiteHeader";
 import RotatingHeadline from "@/components/RotatingHeadline";
 import ProjectSection, { type ProjectCard } from "@/components/ProjectSection";
-import IntroduceSection from "@/components/IntroduceSection";
 import HowIGotHereSection from "@/components/HowIGotHereSection";
+import SiteFooter from "@/components/SiteFooter";
 // Testimonials are hidden for now — re-add <WordsFromPeopleSection dict={dict} />
 // below the timeline to bring the section back. Component and copy are intact.
 // import WordsFromPeopleSection from "@/components/WordsFromPeopleSection";
@@ -51,21 +50,27 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   }));
 
   return (
-    <main className="relative min-h-screen w-full bg-background font-sans">
+    <main className="relative min-h-screen w-full bg-bg font-sans">
       <SiteHeader lang={lang} dict={dict} />
 
-      <div className="mx-auto flex min-h-screen w-full max-w-[1920px] flex-col overflow-hidden px-6 pt-[99px] md:px-16 xl:px-[180px] 2xl:px-[360px]">
+      {/*
+        80vh, not 100 — the remaining fifth of the first screen belongs to the
+        section below, so the light band under the fold reads as "keep going".
+        The space the portrait used to occupy is left empty on purpose.
+      */}
+      <div
+        data-theme="dark"
+        className="mx-auto flex min-h-[80vh] w-full max-w-[1920px] flex-col overflow-hidden px-6 pt-[99px] md:px-16 xl:px-[180px] 2xl:px-[360px]"
+      >
         {/* Hero */}
         <section className="relative flex flex-1 flex-col items-center justify-center pb-24 text-center">
           {dict.hero.eyebrow && (
-            <p className="text-base tracking-[0.1em] text-muted md:text-xl">
-              {dict.hero.eyebrow}
-            </p>
+            <p className="type-label text-dim">{dict.hero.eyebrow}</p>
           )}
 
           <RotatingHeadline phrases={dict.hero.phrases} />
 
-          <p className="mt-2 text-base uppercase leading-[1.2] tracking-[0.06em] text-muted md:text-xl">
+          <p className="mt-2 text-body text-dim">
             {dict.hero.tail.map((line, i) => (
               <span key={i}>
                 {i > 0 && <br />}
@@ -74,36 +79,40 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             ))}
           </p>
 
-          {/* Portrait — above the fold, so it preloads rather than lazy-loads */}
-          <div className="relative mt-[72px] h-[410px] w-[300px] max-w-full overflow-hidden rounded-2xl border border-dashed border-white/15 bg-white/5">
-            <Image
-              src="/about/hero-profile.jpg"
-              alt={`${dict.brand.name} — ${dict.brand.role}`}
-              fill
-              sizes="300px"
-              preload
-              className="object-cover"
-            />
-          </div>
-
-          {/* CONTACT button — bottom right of the hero */}
+          {/*
+            Scroll hint — the only affordance left in the hero. Presence comes
+            from the motion, not from size: the type stays at label scale and
+            the box only grows to meet the 44px touch minimum.
+          */}
           <a
-            href="#contact"
-            className="absolute bottom-0 right-0 inline-flex h-[43px] items-center justify-center rounded-full bg-accent px-8 text-base tracking-[0.02em] text-foreground transition-transform hover:scale-105"
+            href="#project"
+            className="type-label absolute bottom-0 left-1/2 inline-flex min-h-[44px] min-w-[44px] -translate-x-1/2 flex-col items-center justify-end gap-1 text-dim transition-opacity hover:opacity-70"
           >
-            {dict.nav.contact}
+            {dict.hero.scrollHint}
+            <span
+              aria-hidden
+              className="animate-scroll-hint motion-reduce:animate-none"
+            >
+              ↓
+            </span>
           </a>
         </section>
       </div>
 
-      <ProjectSection id="project" label={dict.projects.label} projects={cards} />
+      <ProjectSection
+        id="project"
+        theme="light"
+        label={dict.projects.label}
+        projects={cards}
+      />
       <ProjectSection
         id="business"
+        theme="dark"
         label={dict.businessBrand.label}
         projects={businessCards}
       />
-      <IntroduceSection dict={dict} />
       <HowIGotHereSection dict={dict} />
+      <SiteFooter lang={lang} dict={dict} />
     </main>
   );
 }

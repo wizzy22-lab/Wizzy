@@ -53,6 +53,7 @@ export const PROJECTS: Project[] = [
     },
     thumbnail: null,
     hasCaseStudy: false,
+    externalUrl: "https://shoot-shoot-penguin.vercel.app/",
   },
   {
     slug: "operator",

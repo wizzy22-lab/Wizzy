@@ -18,11 +18,11 @@ export default function LangToggle({ current }: { current: Locale }) {
   const pathname = usePathname();
 
   return (
-    <div className="flex items-center gap-2 text-sm">
+    <div className="type-label flex items-center gap-2">
       {LOCALES.map((locale, i) => (
         <span key={locale} className="flex items-center gap-2">
           {i > 0 && (
-            <span aria-hidden className="text-muted/40">
+            <span aria-hidden className="text-faint">
               /
             </span>
           )}
@@ -34,7 +34,7 @@ export default function LangToggle({ current }: { current: Locale }) {
             <Link
               href={pathForLocale(pathname, locale)}
               hrefLang={locale}
-              className="text-muted transition-opacity hover:opacity-70"
+              className="text-dim transition-opacity hover:opacity-70"
             >
               {LOCALE_LABEL[locale]}
             </Link>

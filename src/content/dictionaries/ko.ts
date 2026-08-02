@@ -32,6 +32,8 @@ const ko: Dictionary = {
     phrases: ["비즈니스 문제를", "복잡한 운영을", "사용자의 불편을"],
     tail: ["성장하는 제품으로", "바꿉니다"],
     photoAlt: "위해지",
+    // Left in English on both locales — a mono uppercase affordance, not prose.
+    scrollHint: "scroll",
   },
 
   projects: {
@@ -130,6 +132,16 @@ const ko: Dictionary = {
       body: "이 프로젝트는 아직 케이스 스터디가 작성되지 않았습니다. 우선 어떤 프로젝트였는지 소개합니다.",
     },
     nextProject: "다음 프로젝트",
+  },
+
+  footer: {
+    connect: "연결",
+    getInTouch: "연락하기",
+    location: "위치",
+    locationValue: "서울, 대한민국",
+    copied: "복사했습니다",
+    // The mark stays lowercase Latin in both locales.
+    copyright: "© 2026 wizzy",
   },
 };
 

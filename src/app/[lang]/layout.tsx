@@ -1,24 +1,20 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Manrope, Cormorant_Garamond } from "next/font/google";
+import { Manrope, Azeret_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { LOCALES, hasLocale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionaries";
 import "../globals.css";
-
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-});
 
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin"],
 });
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+// Label face — only the two weights the scale uses.
+const azeretMono = Azeret_Mono({
+  variable: "--font-azeret",
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "500"],
 });
 
 export function generateStaticParams() {
@@ -46,10 +42,23 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   if (!hasLocale(lang)) notFound();
 
   return (
+    // Dark is the document default — case-study routes inherit it, and only the
+    // main page's light sections opt out.
     <html
       lang={lang}
-      className={`${playfair.variable} ${manrope.variable} ${cormorant.variable} h-full antialiased`}
+      data-theme="dark"
+      className={`${manrope.variable} ${azeretMono.variable} h-full antialiased`}
     >
+      <head>
+        {/* Korean face. Not available through next/font, so it loads from the
+            CDN — the variable dynamic subset (60KB of CSS vs 614KB for the
+            static one) covers the 400/500 the scale needs. */}
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"
+        />
+      </head>
       <body className="min-h-full">{children}</body>
     </html>
   );

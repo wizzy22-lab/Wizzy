@@ -39,16 +39,16 @@ const GRID_SIZES: Record<2 | 3, string> = {
 function EmptySlot({ ratio }: { ratio: string }) {
   return (
     <div
-      className={`flex ${ratio} items-center justify-center rounded-2xl border border-dashed border-white/15 bg-white/5`}
+      className={`flex ${ratio} items-center justify-center rounded-2xl border border-dashed border-border bg-surface`}
     >
-      <span className="text-sm tracking-[0.1em] text-muted">PHOTO</span>
+      <span className="type-label text-dim">PHOTO</span>
     </div>
   );
 }
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="font-serif text-[clamp(28px,3vw,44px)] leading-[1.25] tracking-[-0.03em] text-accent">
+    <h2 className=" text-heading text-accent">
       {children}
     </h2>
   );
@@ -72,22 +72,22 @@ export default function BusinessCasePage({
     <article className="mx-auto w-full max-w-[1100px] px-6 pb-32 pt-[140px] md:px-10">
       {/* ① Hero */}
       <header>
-        <h1 className="max-w-[900px] font-serif text-[clamp(32px,4vw,60px)] leading-[1.2] tracking-[-0.04em] text-accent">
+        <h1 className="max-w-[900px] text-display text-accent">
           {t(hero.title, locale)}
         </h1>
 
-        <p className="mt-6 max-w-[820px] whitespace-pre-line text-lg leading-[1.6] text-muted">
+        <p className="mt-6 max-w-[820px] whitespace-pre-line text-body text-dim">
           {t(hero.subtitle, locale)}
         </p>
 
         {hero.meta.length > 0 && (
-          <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-white/10 pt-8 md:grid-cols-4">
+          <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-border pt-8 md:grid-cols-4">
             {hero.meta.map((item, i) => (
               <div key={i}>
-                <dt className="text-xs uppercase tracking-[0.14em] text-muted/70">
+                <dt className="type-label text-faint">
                   {t(item.label, locale)}
                 </dt>
-                <dd className="mt-2 whitespace-pre-line text-sm leading-[1.5] text-white/85">
+                <dd className="mt-2 whitespace-pre-line text-body text-text">
                   {t(item.value, locale)}
                 </dd>
               </div>
@@ -97,23 +97,23 @@ export default function BusinessCasePage({
 
         {/* The one number worth remembering */}
         <div className="mt-12">
-          <p className="font-serif text-[clamp(48px,7vw,96px)] leading-[1] tracking-[-0.04em] text-accent">
+          <p className=" text-heading text-accent">
             {t(hero.keyFact.value, locale)}
           </p>
-          <p className="mt-3 text-sm uppercase tracking-[0.16em] text-sky">
+          <p className="mt-3 type-label text-dim">
             {t(hero.keyFact.label, locale)}
           </p>
         </div>
 
         {hero.lead && (
-          <p className="mt-10 max-w-[820px] whitespace-pre-line text-lg leading-[1.6] text-muted">
+          <p className="mt-10 max-w-[820px] whitespace-pre-line text-body text-dim">
             {t(hero.lead, locale)}
           </p>
         )}
 
         {hero.image &&
           (hero.image.src ? (
-            <div className="relative mt-12 aspect-[16/9] overflow-hidden rounded-3xl border border-white/10 bg-white/5">
+            <div className="relative mt-12 aspect-[16/9] overflow-hidden rounded-3xl border border-border bg-surface">
               <Image
                 src={hero.image.src}
                 alt={t(hero.image.alt, locale)}
@@ -136,7 +136,7 @@ export default function BusinessCasePage({
           <SectionHeading>{t(built.title, locale)}</SectionHeading>
 
           {built.intro && (
-            <p className="mt-6 max-w-[820px] whitespace-pre-line text-lg leading-[1.6] text-muted">
+            <p className="mt-6 max-w-[820px] whitespace-pre-line text-body text-dim">
               {t(built.intro, locale)}
             </p>
           )}
@@ -145,7 +145,7 @@ export default function BusinessCasePage({
             {built.photos.map((photo, i) => (
               <figure key={i}>
                 {photo.src ? (
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-surface">
                     <Image
                       src={photo.src}
                       alt={t(photo.alt, locale)}
@@ -157,7 +157,7 @@ export default function BusinessCasePage({
                 ) : (
                   <EmptySlot ratio="aspect-[4/3]" />
                 )}
-                <figcaption className="mt-3 text-base leading-[1.6] text-muted">
+                <figcaption className="mt-3 text-body text-dim">
                   {t(photo.caption, locale)}
                 </figcaption>
               </figure>
@@ -172,7 +172,7 @@ export default function BusinessCasePage({
           <SectionHeading>{t(cases.title, locale)}</SectionHeading>
 
           {cases.intro && (
-            <p className="mt-6 max-w-[820px] whitespace-pre-line text-lg leading-[1.6] text-muted">
+            <p className="mt-6 max-w-[820px] whitespace-pre-line text-body text-dim">
               {t(cases.intro, locale)}
             </p>
           )}
@@ -181,13 +181,13 @@ export default function BusinessCasePage({
             {cases.items.map((item, i) => (
               <div
                 key={i}
-                className="rounded-3xl border border-white/10 bg-white/5 p-8 md:p-10"
+                className="rounded-3xl border border-border bg-surface p-8 md:p-10"
               >
-                <p className="font-serif text-3xl leading-none tracking-[-0.03em] text-accent/70">
+                <p className=" text-heading text-accent/70">
                   {String(i + 1).padStart(2, "0")}
                 </p>
 
-                <h3 className="mt-4 max-w-[860px] font-serif text-[clamp(22px,2vw,32px)] leading-[1.3] tracking-[-0.03em] text-white/90">
+                <h3 className="mt-4 max-w-[860px] text-heading text-text">
                   {t(item.title, locale)}
                 </h3>
 
@@ -201,12 +201,12 @@ export default function BusinessCasePage({
                         key={si}
                         className="grid gap-2 md:grid-cols-[140px_1fr] md:gap-6"
                       >
-                        <dt className="text-sm uppercase tracking-[0.14em] text-sky md:pt-1">
+                        <dt className="type-label text-dim md:pt-1">
                           {t(step.label, locale)}
                         </dt>
                         <dd
-                          className={`max-w-[720px] whitespace-pre-line text-lg leading-[1.6] ${
-                            closing ? "text-accent" : "text-white/85"
+                          className={`max-w-[720px] whitespace-pre-line text-body ${
+                            closing ? "text-accent" : "text-text"
                           }`}
                         >
                           {t(step.body, locale)}
@@ -221,11 +221,11 @@ export default function BusinessCasePage({
 
           {/* Shorter aside — same card language, no four-beat structure. */}
           {cases.note && (
-            <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-8">
-              <h3 className="text-sm uppercase tracking-[0.14em] text-sky">
+            <div className="mt-8 rounded-2xl border border-border bg-surface p-8">
+              <h3 className="type-label text-dim">
                 {t(cases.note.title, locale)}
               </h3>
-              <p className="mt-4 max-w-[820px] whitespace-pre-line text-lg leading-[1.6] text-white/85">
+              <p className="mt-4 max-w-[820px] whitespace-pre-line text-body text-text">
                 {t(cases.note.body, locale)}
               </p>
             </div>
@@ -243,8 +243,8 @@ export default function BusinessCasePage({
               key={i}
               className={
                 paragraph.emphasis
-                  ? "max-w-[820px] border-l-2 border-accent/60 pl-5 text-lg leading-[1.6] text-white/90"
-                  : "max-w-[820px] whitespace-pre-line text-lg leading-[1.6] text-muted"
+                  ? "max-w-[820px] border-l-2 border-accent/60 pl-5 text-body text-text"
+                  : "max-w-[820px] whitespace-pre-line text-body text-dim"
               }
             >
               {t(paragraph.text, locale)}
@@ -258,14 +258,14 @@ export default function BusinessCasePage({
               href={next.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-12 inline-flex min-h-[43px] items-center justify-center rounded-full bg-accent px-8 py-2 text-base tracking-[0.02em] text-foreground transition-transform hover:scale-105"
+              className="mt-12 inline-flex min-h-[43px] items-center justify-center rounded-full bg-accent px-8 py-2 type-label text-accent-ink transition-transform hover:scale-105"
             >
               {t(next.label, locale)} →
             </a>
           ) : (
             <Link
               href={`/${locale}${next.href}`}
-              className="mt-12 inline-flex min-h-[43px] items-center justify-center rounded-full bg-accent px-8 py-2 text-base tracking-[0.02em] text-foreground transition-transform hover:scale-105"
+              className="mt-12 inline-flex min-h-[43px] items-center justify-center rounded-full bg-accent px-8 py-2 type-label text-accent-ink transition-transform hover:scale-105"
             >
               {t(next.label, locale)} →
             </Link>

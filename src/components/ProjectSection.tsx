@@ -62,11 +62,14 @@ export default function ProjectSection({
   id,
   label,
   projects,
+  theme = "dark",
 }: {
   /** Anchor target — each instance on the page needs its own. */
   id: string;
   label: string;
   projects: ProjectCard[];
+  /** Which token set the section paints with. */
+  theme?: "dark" | "light";
 }) {
   const [openIndex, setOpenIndex] = useState(0);
   const baseId = useId();
@@ -116,13 +119,14 @@ export default function ProjectSection({
     <section
       id={id}
       ref={outerRef}
-      className="relative w-full bg-background font-sans"
+      data-theme={theme}
+      className="relative w-full bg-bg font-sans"
       style={{ height: `${count * 100}vh` }}
     >
       {/* Pinned viewport */}
       <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden py-16">
         <div className="mx-auto w-full max-w-[1920px] px-6 md:px-16 xl:px-[180px] 2xl:px-[360px]">
-          <p className="text-center text-2xl text-sky">{label}</p>
+          <p className="type-label text-center text-dim">{label}</p>
 
           <div className="mt-10">
             {projects.map((project, i) => {
@@ -140,22 +144,22 @@ export default function ProjectSection({
                     aria-controls={panelId}
                     onClick={() => scrollToIndex(i)}
                     className={`group block w-full cursor-pointer text-left ${
-                      isOpen ? "pt-1" : "flex h-[72px] items-center border-t border-white/10"
+                      isOpen ? "pt-1" : "flex h-[72px] items-center border-t border-border"
                     }`}
                   >
                     {isOpen ? (
-                      <span className="font-bold tracking-[-0.05em] text-[clamp(28px,2.5vw,48px)] text-accent">
+                      <span className="text-heading font-medium text-accent">
                         {project.no}.{project.name}
                       </span>
                     ) : (
-                      <span className="flex w-full items-center text-sky">
-                        <span className="w-16 shrink-0 text-lg font-bold tracking-[-0.05em]">
+                      <span className="flex w-full items-center text-dim">
+                        <span className="type-label w-16 shrink-0">
                           {project.no}
                         </span>
-                        <span className="flex-1 text-center font-bold tracking-[-0.05em] text-[clamp(20px,2vw,32px)]">
+                        <span className="flex-1 text-center text-heading font-medium">
                           {project.name}
                         </span>
-                        <span className="w-16 shrink-0 text-right text-[clamp(20px,2vw,32px)] font-bold transition-transform duration-300 group-hover:translate-x-1">
+                        <span className="w-16 shrink-0 text-right text-heading font-medium transition-transform duration-300 group-hover:translate-x-1">
                           →
                         </span>
                       </span>
@@ -179,20 +183,20 @@ export default function ProjectSection({
                       >
                         {/* Left: text content */}
                         <div className="lg:max-w-[460px]">
-                          <p className="text-lg text-muted">{project.subtitle}</p>
+                          <p className="text-body text-dim">{project.subtitle}</p>
 
                           <div className="mt-5 flex flex-wrap gap-3">
                             {project.tags.map((tag) => (
                               <span
                                 key={tag}
-                                className="inline-flex h-10 items-center rounded-full border border-sky/50 px-4 text-base text-sky"
+                                className="type-label inline-flex h-10 items-center rounded-full border border-faint px-4 text-dim"
                               >
                                 {tag}
                               </span>
                             ))}
                           </div>
 
-                          <p className="mt-5 text-lg leading-[1.5] text-muted">
+                          <p className="mt-5 text-body text-dim">
                             {project.description}
                           </p>
 
@@ -201,7 +205,7 @@ export default function ProjectSection({
                               external={project.external}
                               href={project.href}
                               tabIndex={isOpen ? undefined : -1}
-                              className="mt-6 inline-flex h-11 w-fit items-center rounded-full bg-accent px-6 text-base text-foreground transition-transform hover:scale-105"
+                              className="type-label mt-6 inline-flex h-11 w-fit items-center rounded-full bg-accent px-6 text-accent-ink transition-transform hover:scale-105"
                             >
                               {project.cta} {project.external ? "↗" : "→"}
                             </CardLink>
@@ -214,7 +218,7 @@ export default function ProjectSection({
                           href={project.href}
                           tabIndex={-1}
                           aria-hidden
-                          className="relative flex aspect-square h-[min(600px,42vh)] w-[min(600px,42vh)] max-w-full items-center justify-center overflow-hidden rounded-3xl border border-dashed border-white/15 bg-white/5"
+                          className="relative flex aspect-square h-[min(600px,42vh)] w-[min(600px,42vh)] max-w-full items-center justify-center overflow-hidden rounded-3xl border border-dashed border-border bg-surface"
                         >
                           {project.thumbnail ? (
                             <Image
@@ -225,7 +229,7 @@ export default function ProjectSection({
                               className="object-cover"
                             />
                           ) : (
-                            <span className="text-sm tracking-[0.1em] text-muted">MOCKUP</span>
+                            <span className="type-label text-faint">MOCKUP</span>
                           )}
                         </CardLink>
                       </div>

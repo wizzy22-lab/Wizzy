@@ -1,27 +1,176 @@
 @import "tailwindcss";
 
-:root {
-  --background: #0d1213;
-  --foreground: #1a1a1a; /* used as CONTACT label on the yellow pill */
+/*
+ * Two token sets, one per theme. Sections opt in by carrying `data-theme`;
+ * everything nested inherits, so a page is dark unless a section says otherwise.
+ *
+ * Nothing outside this file should name a colour. Every utility in the app
+ * resolves through the `@theme inline` block below, which means retheming —
+ * including dropping the brand colour entirely — is a value change here rather
+ * than a sweep across components.
+ */
 
-  /* Brand palette (from Figma) */
-  --color-accent: #fdf89c; /* logo / heading / CONTACT */
-  --color-sky: #b1e0ff; /* nav links */
-  --color-muted: #c9c9c9; /* eyebrow / subtitle / role */
+[data-theme="dark"] {
+  --bg: #1a1a1a; /* warm soft black, never pure */
+  --surface: #242423;
+  --text: #f5f5f2; /* warm off-white, never pure */
+  --text-dim: #8b8b88;
+  --text-faint: #5c5c59;
+  --border: rgba(255, 255, 255, 0.08);
+
+  --accent: #fdf89c; /* the one brand colour */
+  --accent-ink: #1a1a1a; /* text sitting on an accent fill */
+}
+
+[data-theme="light"] {
+  --bg: #f5f7f2; /* warm off-white */
+  --surface: #eaece7;
+  --text: #1e1e1e;
+  --text-dim: #747370;
+  --text-faint: #a3a19e;
+  --border: rgba(0, 0, 0, 0.08);
+
+  /* The brand yellow reads 1.02:1 on this background — invisible. Light
+     sections carry the accent as neutral emphasis instead of inventing a
+     second yellow that a later pass would only have to remove. */
+  --accent: #1e1e1e;
+  --accent-ink: #f5f7f2;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-accent: var(--color-accent);
-  --color-sky: var(--color-sky);
-  --color-muted: var(--color-muted);
-  --font-serif: var(--font-playfair);
-  --font-sans: var(--font-manrope);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-text: var(--text);
+  /* Exposed as `text-dim` / `text-faint` — `text-text-dim` reads badly. */
+  --color-dim: var(--text-dim);
+  --color-faint: var(--text-faint);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+
+  /* Latin is set by Manrope; Korean falls through to Pretendard, which the
+     Latin face never claims. One stack, two scripts, no per-language classes. */
+  --font-sans: var(--font-manrope), "Pretendard Variable", Pretendard, sans-serif;
+  --font-mono: var(--font-azeret), monospace;
+
+  /*
+   * Four steps, and nothing between them. Each carries its own line-height and
+   * tracking, so `text-heading` is the whole decision — there is no way to set a
+   * size without also getting the leading and tracking that belong to it.
+   */
+  --text-display: clamp(2.25rem, 4.5vw, 3.5rem);
+  --text-display--line-height: 1.15;
+  --text-display--letter-spacing: -0.02em;
+
+  --text-heading: clamp(1.5rem, 2.5vw, 2rem);
+  --text-heading--line-height: 1.25;
+  --text-heading--letter-spacing: -0.02em;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.08em;
+
+  /* Scroll affordance: a short fall and back, slow enough to read as breathing
+     rather than blinking. Applied to the glyph alone, never the label. */
+  --animate-scroll-hint: scroll-hint 2.4s ease-in-out infinite;
+}
+
+@keyframes scroll-hint {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+/* Anchor jumps ease instead of cutting — matches the accordion, which already
+   scrolls smoothly on click. Suppressed when the visitor asks for less motion. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/*
+ * Korean has no uppercase and its glyphs sit on a wider body, so -0.02em that
+ * looks tight on Manrope reads as cramped on Pretendard. Hangul pages get half.
+ */
+:lang(ko) {
+  --tracking-display: -0.01em;
+  --tracking-heading: -0.01em;
+  /* 0.08em is a Latin small-caps convention. Hangul has no uppercase and its
+     glyphs are already full-width, so that much tracking reads as a double
+     space between every word — "엔드투엔드  디자인". Latin runs inside a Korean
+     label keep enough to still feel tracked. */
+  --tracking-label: 0.02em;
+}
+
+.type-label {
+  letter-spacing: var(--tracking-label, 0.08em);
+}
+
+.text-display {
+  letter-spacing: var(--tracking-display, -0.02em);
+}
+
+.text-heading {
+  letter-spacing: var(--tracking-heading, -0.02em);
+}
+
+/*
+ * Section numbers, tags, meta, eyebrows — mono, uppercase, tracked out.
+ *
+ * Colour is deliberately NOT baked in. Labels are `text-dim` almost everywhere,
+ * but the CONTACT pill needs `text-accent-ink`, and a utility that hardcoded the
+ * colour would have to be fought with specificity at exactly that one spot.
+ */
+@utility type-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  line-height: var(--text-label--line-height);
+  letter-spacing: var(--text-label--letter-spacing);
+  text-transform: uppercase;
+}
+
+/*
+ * The wordmark. Deliberately off the four-step scale — a logo is a fixed mark,
+ * not running text, so it owns its size rather than borrowing a tier. Lowercase
+ * comes from the transform so the dictionary keeps the proper noun intact.
+ */
+@utility wordmark {
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  font-weight: 400;
+  letter-spacing: 0.025em;
+  text-transform: lowercase;
+  color: var(--text);
+}
+
+/*
+ * The same mark at closing scale. Spelled out rather than composed from
+ * `wordmark` + `text-display`, because that tier carries -0.02em tracking and
+ * would quietly overwrite the mark's own 0.025em.
+ *
+ * Full-strength `--text`: it sits beside the footer columns as a peer, not as a
+ * watermark behind them.
+ */
+@utility wordmark-display {
+  font-family: var(--font-sans);
+  font-size: var(--text-display);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.025em;
+  text-transform: lowercase;
+  color: var(--text);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-manrope), Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-manrope), "Pretendard Variable", Pretendard, sans-serif;
 }

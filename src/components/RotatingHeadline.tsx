@@ -20,7 +20,7 @@ export default function RotatingHeadline({ phrases }: { phrases: string[] }) {
   return (
     <h1
       aria-live="polite"
-      className="relative mt-2 flex h-[1.2em] w-full items-center justify-center font-serif text-[clamp(40px,5vw,64px)] font-semibold leading-[1.2] tracking-[-0.05em] text-accent"
+      className="relative mt-2 flex h-[1.2em] w-full items-center justify-center text-display font-medium text-accent"
     >
       {phrases.map((phrase, i) => {
         const isActive = i === active;

@@ -26,20 +26,20 @@ function Lines({ text }: { text: string }) {
 }
 
 const PARAGRAPH_STYLES: Partial<Record<Block["role"], string>> = {
-  body: "max-w-[820px] text-lg leading-[1.6] text-muted",
-  cardBody: "text-lg leading-[1.6] text-white/85",
-  defineBody: "max-w-[820px] text-lg leading-[1.6] text-muted",
-  featureBody: "max-w-[820px] text-lg leading-[1.6] text-muted",
-  reflectBody: "max-w-[820px] text-lg leading-[1.6] text-muted",
-  resultBody: "text-lg leading-[1.6] text-white/85",
-  kpiDesc: "text-lg leading-[1.6] text-muted",
-  diagramSub: "text-base leading-[1.6] text-muted",
+  body: "max-w-[820px] text-body text-dim",
+  cardBody: "text-body text-text",
+  defineBody: "max-w-[820px] text-body text-dim",
+  featureBody: "max-w-[820px] text-body text-dim",
+  reflectBody: "max-w-[820px] text-body text-dim",
+  resultBody: "text-body text-text",
+  kpiDesc: "text-body text-dim",
+  diagramSub: "text-body text-dim",
 };
 
 function BlockView({ block, locale }: { block: Block; locale: Locale }) {
   if (block.role === "image") {
     return (
-      <figure className="my-10 overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+      <figure className="my-10 overflow-hidden rounded-2xl border border-border bg-surface">
         <Image
           src={block.src}
           alt={block.alt}
@@ -57,31 +57,31 @@ function BlockView({ block, locale }: { block: Block; locale: Locale }) {
   switch (block.role) {
     case "groupLabel":
       return (
-        <p className="mt-24 text-sm uppercase tracking-[0.2em] text-sky first:mt-0">{text}</p>
+        <p className="mt-24 type-label text-dim first:mt-0">{text}</p>
       );
 
     case "subLabel":
       return (
-        <p className="mt-16 text-xs uppercase tracking-[0.2em] text-muted/70">{text}</p>
+        <p className="mt-16 type-label text-faint">{text}</p>
       );
 
     case "h2":
       return (
-        <h2 className="mt-6 max-w-[900px] font-serif text-[clamp(28px,3vw,44px)] leading-[1.25] tracking-[-0.03em] text-accent">
+        <h2 className="mt-6 max-w-[900px] text-heading text-accent">
           <Lines text={text} />
         </h2>
       );
 
     case "h3":
       return (
-        <h3 className="mt-8 max-w-[860px] font-serif text-[clamp(22px,2vw,32px)] leading-[1.3] tracking-[-0.03em] text-white/90">
+        <h3 className="mt-8 max-w-[860px] text-heading text-text">
           <Lines text={text} />
         </h3>
       );
 
     case "insight":
       return (
-        <p className="my-6 max-w-[820px] border-l-2 border-accent/60 pl-5 text-lg leading-[1.6] text-accent">
+        <p className="my-6 max-w-[820px] border-l-2 border-accent/60 pl-5 text-body text-accent">
           <Lines text={text} />
         </p>
       );
@@ -93,14 +93,14 @@ function BlockView({ block, locale }: { block: Block; locale: Locale }) {
     case "diagramLabel":
     case "resultLabel":
       return (
-        <p className="mt-8 text-sm uppercase tracking-[0.14em] text-sky">{text}</p>
+        <p className="mt-8 type-label text-dim">{text}</p>
       );
 
     case "cardTitle":
     case "featureTitle":
     case "reflectTitle":
       return (
-        <h4 className="mt-8 text-xl font-semibold tracking-[-0.02em] text-white/90">
+        <h4 className="mt-8 text-heading font-medium text-text">
           <Lines text={text} />
         </h4>
       );
@@ -109,7 +109,7 @@ function BlockView({ block, locale }: { block: Block; locale: Locale }) {
     case "featureBullet":
     case "flowStep":
       return (
-        <li className="ml-5 list-disc text-lg leading-[1.6] text-muted marker:text-sky">
+        <li className="ml-5 list-disc text-body text-dim marker:text-dim">
           <Lines text={text} />
         </li>
       );
@@ -117,15 +117,15 @@ function BlockView({ block, locale }: { block: Block; locale: Locale }) {
     case "featureNum":
     case "defineNum":
       return (
-        <p className="mt-10 font-serif text-3xl tracking-[-0.03em] text-accent/70">{text}</p>
+        <p className="mt-10 text-heading text-accent/70">{text}</p>
       );
 
     case "defineKey":
-      return <p className="mt-6 text-lg font-semibold text-white/90">{text}</p>;
+      return <p className="mt-6 text-body font-medium text-text">{text}</p>;
 
     default:
       return (
-        <p className={`mt-4 ${PARAGRAPH_STYLES[block.role] ?? "text-lg leading-[1.6] text-muted"}`}>
+        <p className={`mt-4 ${PARAGRAPH_STYLES[block.role] ?? "text-body text-dim"}`}>
           <Lines text={text} />
         </p>
       );

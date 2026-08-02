@@ -28,6 +28,9 @@ const en = {
     phrases: ["Business Problem", "Messy Operation", "User frustration"],
     tail: ["into products", "that grow business"],
     photoAlt: "Haeji Wi",
+    // Rendered uppercase in the mono label face; kept in the dictionary so it
+    // can be localised later rather than sitting hardcoded in the component.
+    scrollHint: "scroll",
   },
 
   projects: {
@@ -129,6 +132,15 @@ const en = {
       body: "This project doesn’t have a written case study yet. In the meantime, here’s what it was about.",
     },
     nextProject: "Next project",
+  },
+
+  footer: {
+    connect: "Connect",
+    getInTouch: "Get in touch",
+    location: "Location",
+    locationValue: "Seoul, South Korea",
+    copied: "Copied!",
+    copyright: "© 2026 wizzy",
   },
 };
 
