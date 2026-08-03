@@ -16,7 +16,10 @@ export type Project = {
   subtitle: Localized;
   tags: Localized[];
   description: Localized;
-  /** Square thumbnail shown in the accordion. `null` renders a placeholder. */
+  /**
+   * Square (1:1) thumbnail shown in the accordion, cropped to fill. `null`
+   * leaves the slot empty rather than drawing a stand-in.
+   */
   thumbnail: string | null;
   /** Whether a full case study exists in `src/content/case-studies`. */
   hasCaseStudy: boolean;
@@ -52,7 +55,7 @@ export const PROJECTS: Project[] = [
       en: "Co-founded and designed a mobile platform that transforms complex team management and guest matching into clear, actionable experiences — from problem definition to launch.",
       ko: "복잡한 팀 운영과 게스트 매칭을 명확하고 실행 가능한 경험으로 바꾸는 모바일 플랫폼을 공동 창업하고 디자인했다. 문제 정의부터 런칭까지 전 과정을 담당했다.",
     },
-    thumbnail: null,
+    thumbnail: "/thumbs/ssp-thumb.webp",
     hasCaseStudy: false,
     externalUrl: "https://shoot-shoot-penguin.vercel.app/",
   },
@@ -74,7 +77,7 @@ export const PROJECTS: Project[] = [
       en: "Designed an operational UX system that helps small business owners reduce HVAC costs by making clear, data-driven decisions within complex pricing structures and environments.",
       ko: "복잡한 요금 구조와 환경 속에서 자영업자가 데이터 기반의 명확한 판단을 내려 냉난방 비용을 줄일 수 있도록 돕는 운영 UX 시스템을 디자인했다.",
     },
-    thumbnail: "/projects/operator/hero-mockup.jpg",
+    thumbnail: "/thumbs/operator-thumb.webp",
     hasCaseStudy: true,
     externalUrl: "https://wizzy-s-portfolio.vercel.app/projects/operator.html",
   },
@@ -96,7 +99,7 @@ export const PROJECTS: Project[] = [
       en: "Redesigned an AI trading service around its decision flow — matching users to the right Master through onboarding, and making automated trading understandable before money goes in.",
       ko: "AI 트레이딩 서비스를 의사결정 흐름 중심으로 리디자인했다. 온보딩으로 사용자를 적합한 Master와 연결하고, 돈을 넣기 전에 자동매매를 이해할 수 있게 만들었다.",
     },
-    thumbnail: null,
+    thumbnail: "/thumbs/bingx-thumb.webp",
     hasCaseStudy: false,
     externalUrl: "https://bingx-portfolio.vercel.app/",
   },

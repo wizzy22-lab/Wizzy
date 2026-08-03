@@ -219,24 +219,28 @@ export default function ProjectSection({
                           )}
                         </div>
 
-                        {/* Right: cover */}
+                        {/* Right: cover. Always 1:1 — the art is square, and a
+                            card with nothing on file keeps the same footprint
+                            so the row doesn't reflow. The dashed outline is the
+                            empty state alone; a real thumbnail fills the slot
+                            edge to edge. */}
                         <CardLink
                           external={project.external}
                           href={project.href}
                           tabIndex={-1}
                           aria-hidden
-                          className="relative flex aspect-square h-[min(600px,42vh)] w-[min(600px,42vh)] max-w-full items-center justify-center overflow-hidden rounded-3xl border border-dashed border-border bg-surface"
+                          className={`relative flex aspect-square h-[min(600px,42vh)] w-[min(600px,42vh)] max-w-full items-center justify-center overflow-hidden rounded-3xl bg-surface ${
+                            project.thumbnail ? "" : "border border-dashed border-border"
+                          }`}
                         >
-                          {project.thumbnail ? (
+                          {project.thumbnail && (
                             <Image
                               src={project.thumbnail}
-                              alt=""
+                              alt={`${project.name} app screens on device mockup`}
                               fill
                               sizes="(max-width: 1024px) 100vw, 600px"
                               className="object-cover"
                             />
-                          ) : (
-                            <span className="type-label text-faint">MOCKUP</span>
                           )}
                         </CardLink>
                       </div>
