@@ -81,20 +81,19 @@ export default function SiteFooter({
               <p className="mt-6 text-body text-dim">{footer.locationValue}</p>
             </div>
 
-            {/* The notice is the fourth column, not a line under the mark —
-                the row reads Connect / Get in touch / Location / ©. Label
-                scale, but `normal-case`: uppercasing it to WIZZY would
-                contradict the lowercase wordmark it names. */}
-            <p className="type-label normal-case text-dim">
-              {footer.copyright}
-            </p>
           </div>
 
-          {/* The mark. Left-aligned on mobile, where it has dropped below the
-              columns rather than beside them. */}
+          {/* The mark, and the notice sitting under it. Left-aligned on mobile,
+              where it has dropped below the columns rather than beside them. */}
           <div className="shrink-0 lg:text-right">
             <p aria-hidden className="wordmark-display">
               {dict.brand.name}
+            </p>
+            {/* Label scale, but `normal-case`: the notice names the mark, and
+                uppercasing it to WIZZY would contradict the lowercase wordmark
+                directly above. */}
+            <p className="type-label mt-5 normal-case text-dim">
+              {footer.copyright}
             </p>
           </div>
         </div>
