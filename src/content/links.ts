@@ -9,8 +9,10 @@ export const RESUME_PDF: Record<Locale, string> = {
 export const EMAIL = "hazzysw@gmail.com";
 
 /**
- * Social profiles, in render order. Empty on purpose — no profile URL exists in
- * the project yet, and the footer drops its "Connect" column entirely rather
- * than showing a heading with nothing under it. Add an entry to bring it back.
+ * Social profiles, in render order — the footer's "Connect" column. Genuinely
+ * third-party destinations, so these are the links that keep `target="_blank"`.
+ * The column disappears entirely if this list is emptied.
  */
-export const SOCIAL_LINKS: { label: string; href: string }[] = [];
+export const SOCIAL_LINKS: { label: string; href: string }[] = [
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/haeji-wi" },
+];

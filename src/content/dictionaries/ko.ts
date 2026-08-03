@@ -95,7 +95,7 @@ const ko: Dictionary = {
   },
 
   testimonials: {
-    title: { accent: "사람들이", muted: "전하는 말" },
+    title: { lead: "사람들이", muted: "전하는 말" },
     // TODO: 실제 추천사로 교체 — Figma와 동일하게 플레이스홀더가 반복됩니다.
     items: [
       {
@@ -137,6 +137,7 @@ const ko: Dictionary = {
   footer: {
     connect: "연결",
     getInTouch: "연락하기",
+    resume: "이력서",
     location: "위치",
     locationValue: "서울, 대한민국",
     copied: "복사했습니다",

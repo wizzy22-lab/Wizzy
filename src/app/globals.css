@@ -5,9 +5,12 @@
  * everything nested inherits, so a page is dark unless a section says otherwise.
  *
  * Nothing outside this file should name a colour. Every utility in the app
- * resolves through the `@theme inline` block below, which means retheming —
- * including dropping the brand colour entirely — is a value change here rather
- * than a sweep across components.
+ * resolves through the `@theme inline` block below, which means retheming is a
+ * value change here rather than a sweep across components.
+ *
+ * The palette is monochrome by design: there is no brand hue. Emphasis is a
+ * step up the text ramp (`faint` → `dim` → `text`), never a second colour, so
+ * both themes stay legible without a highlight that has to earn its contrast.
  */
 
 [data-theme="dark"] {
@@ -17,9 +20,6 @@
   --text-dim: #8b8b88;
   --text-faint: #5c5c59;
   --border: rgba(255, 255, 255, 0.08);
-
-  --accent: #fdf89c; /* the one brand colour */
-  --accent-ink: #1a1a1a; /* text sitting on an accent fill */
 }
 
 [data-theme="light"] {
@@ -29,12 +29,6 @@
   --text-dim: #747370;
   --text-faint: #a3a19e;
   --border: rgba(0, 0, 0, 0.08);
-
-  /* The brand yellow reads 1.02:1 on this background — invisible. Light
-     sections carry the accent as neutral emphasis instead of inventing a
-     second yellow that a later pass would only have to remove. */
-  --accent: #1e1e1e;
-  --accent-ink: #f5f7f2;
 }
 
 @theme inline {
@@ -45,8 +39,6 @@
   --color-dim: var(--text-dim);
   --color-faint: var(--text-faint);
   --color-border: var(--border);
-  --color-accent: var(--accent);
-  --color-accent-ink: var(--accent-ink);
 
   /* Latin is set by Manrope; Korean falls through to Pretendard, which the
      Latin face never claims. One stack, two scripts, no per-language classes. */
@@ -126,8 +118,8 @@
  * Section numbers, tags, meta, eyebrows — mono, uppercase, tracked out.
  *
  * Colour is deliberately NOT baked in. Labels are `text-dim` almost everywhere,
- * but the CONTACT pill needs `text-accent-ink`, and a utility that hardcoded the
- * colour would have to be fought with specificity at exactly that one spot.
+ * but a filled pill needs `text-bg`, and a utility that hardcoded the colour
+ * would have to be fought with specificity at exactly that one spot.
  */
 @utility type-label {
   font-family: var(--font-mono);

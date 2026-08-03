@@ -14,11 +14,13 @@ const en = {
     role: "Product designer",
   },
 
+  // Lowercase in the source, not uppercased by a utility: the bar sets these in
+  // the body face at 1rem, so what is written here is what renders.
   nav: {
-    project: "PROJECT",
-    about: "ABOUT",
-    resume: "RESUME",
-    contact: "CONTACT",
+    project: "project",
+    about: "about",
+    resume: "resume",
+    contact: "contact",
   },
 
   hero: {
@@ -95,7 +97,7 @@ const en = {
   },
 
   testimonials: {
-    title: { accent: "Words", muted: "from people" },
+    title: { lead: "Words", muted: "from people" },
     // TODO: replace with real quotes — these repeat one placeholder, as in Figma.
     items: [
       {
@@ -137,6 +139,9 @@ const en = {
   footer: {
     connect: "Connect",
     getInTouch: "Get in touch",
+    // Its own key rather than `nav.resume`: the bar runs lowercase, the footer
+    // sets its links in sentence case beside the address.
+    resume: "Resume",
     location: "Location",
     locationValue: "Seoul, South Korea",
     copied: "Copied!",

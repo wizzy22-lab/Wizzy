@@ -22,7 +22,8 @@ export type Project = {
   hasCaseStudy: boolean;
   /**
    * Case study hosted outside this site. When set, the card links straight out
-   * (new tab) instead of to `/[lang]/projects/[slug]`.
+   * instead of to `/[lang]/projects/[slug]` — same tab either way, since it is
+   * still a case study rather than an outside service.
    */
   externalUrl?: string;
 };

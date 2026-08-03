@@ -20,7 +20,10 @@ export default function RotatingHeadline({ phrases }: { phrases: string[] }) {
   return (
     <h1
       aria-live="polite"
-      className="relative mt-2 flex h-[1.2em] w-full items-center justify-center text-display font-medium text-accent"
+      // Full-strength `--text`: the rotating word is the only thing in the hero
+      // that is not dimmed, so the contrast step alone carries the emphasis the
+      // brand colour used to.
+      className="relative mt-2 flex h-[1.2em] w-full items-center justify-center text-display font-medium text-text"
     >
       {phrases.map((phrase, i) => {
         const isActive = i === active;

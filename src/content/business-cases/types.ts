@@ -83,12 +83,14 @@ export type BusinessCase = {
   /** ④ Takeaway — closing paragraphs and the cross-link to the next case. */
   takeaway: {
     title: Localized;
-    /** Rendered in order; `emphasis` pulls a paragraph out with an accent rule. */
+    /** Rendered in order; `emphasis` pulls a paragraph out with a side rule. */
     paragraphs: { text: Localized; emphasis?: boolean }[];
     /**
      * Cross-link to another case. `href` is locale-agnostic — an in-app path
      * like `/projects/bingx` gets the current locale prefixed automatically;
-     * an absolute `http(s)` URL opens in a new tab. `null` renders no button.
+     * an absolute `http(s)` URL is used as-is. Either way the link opens in the
+     * same tab — it is another case study, not an outside service. `null`
+     * renders no button.
      */
     next: { href: string; label: Localized } | null;
   };

@@ -67,7 +67,7 @@ function BlockView({ block, locale }: { block: Block; locale: Locale }) {
 
     case "h2":
       return (
-        <h2 className="mt-6 max-w-[900px] text-heading text-accent">
+        <h2 className="mt-6 max-w-[900px] text-heading text-text">
           <Lines text={text} />
         </h2>
       );
@@ -81,7 +81,7 @@ function BlockView({ block, locale }: { block: Block; locale: Locale }) {
 
     case "insight":
       return (
-        <p className="my-6 max-w-[820px] border-l-2 border-accent/60 pl-5 text-body text-accent">
+        <p className="my-6 max-w-[820px] border-l-2 border-faint pl-5 text-body text-text">
           <Lines text={text} />
         </p>
       );
@@ -117,7 +117,7 @@ function BlockView({ block, locale }: { block: Block; locale: Locale }) {
     case "featureNum":
     case "defineNum":
       return (
-        <p className="mt-10 text-heading text-accent/70">{text}</p>
+        <p className="mt-10 text-heading text-dim">{text}</p>
       );
 
     case "defineKey":

@@ -7,7 +7,7 @@ export default function WordsFromPeopleSection({ dict }: { dict: Dictionary }) {
     <section className="w-full bg-bg py-32 font-sans">
       <div className="mx-auto w-full max-w-[1920px] px-6 md:px-16 xl:px-[180px] 2xl:px-[360px]">
         <h2 className=" text-heading">
-          <span className="text-accent">{testimonials.title.accent}</span>{" "}
+          <span className="text-text">{testimonials.title.lead}</span>{" "}
           <span className="text-dim">{testimonials.title.muted}</span>
         </h2>
 

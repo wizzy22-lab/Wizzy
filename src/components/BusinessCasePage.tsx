@@ -10,10 +10,10 @@ import type { BusinessCase } from "@/content/business-cases";
  * layout and nothing else, so a new case is a data file, not a new page.
  * Four sections, always in this order: Hero, What I Built, Cases, Takeaway.
  *
- * Styling stays on the main page's tokens (`accent`, `sky`, `muted`, the serif
- * display face, the `rounded-2xl/3xl` scale). No new colours or fonts: `accent`
- * is the one highlight, used for the display headings, the key fact, each
- * card's closing beat, the rule beside an emphasised paragraph, and the button.
+ * Styling stays on the main page's tokens (the `text`/`dim`/`faint` ramp, the
+ * display face, the `rounded-2xl/3xl` scale). No new colours or fonts: emphasis
+ * is full-strength `text` against dimmed body copy — the display headings, the
+ * key fact, each card's closing beat, and the button all read that way.
  *
  * The site header is intentionally not included — mount it in the route
  * alongside this component, the way `projects/[slug]/page.tsx` does.
@@ -48,7 +48,7 @@ function EmptySlot({ ratio }: { ratio: string }) {
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className=" text-heading text-accent">
+    <h2 className=" text-heading text-text">
       {children}
     </h2>
   );
@@ -72,7 +72,7 @@ export default function BusinessCasePage({
     <article className="mx-auto w-full max-w-[1100px] px-6 pb-32 pt-[140px] md:px-10">
       {/* ① Hero */}
       <header>
-        <h1 className="max-w-[900px] text-display text-accent">
+        <h1 className="max-w-[900px] text-display text-text">
           {t(hero.title, locale)}
         </h1>
 
@@ -97,7 +97,7 @@ export default function BusinessCasePage({
 
         {/* The one number worth remembering */}
         <div className="mt-12">
-          <p className=" text-heading text-accent">
+          <p className=" text-heading text-text">
             {t(hero.keyFact.value, locale)}
           </p>
           <p className="mt-3 type-label text-dim">
@@ -183,7 +183,7 @@ export default function BusinessCasePage({
                 key={i}
                 className="rounded-3xl border border-border bg-surface p-8 md:p-10"
               >
-                <p className=" text-heading text-accent/70">
+                <p className=" text-heading text-dim">
                   {String(i + 1).padStart(2, "0")}
                 </p>
 
@@ -194,7 +194,7 @@ export default function BusinessCasePage({
                 <dl className="mt-8 flex flex-col gap-6">
                   {item.steps.map((step, si) => {
                     // The last beat is the payoff — result, lesson, whatever the
-                    // card lands on — so it carries the accent.
+                    // card lands on — so it sits a step brighter than the rest.
                     const closing = si === item.steps.length - 1;
                     return (
                       <div
@@ -206,7 +206,7 @@ export default function BusinessCasePage({
                         </dt>
                         <dd
                           className={`max-w-[720px] whitespace-pre-line text-body ${
-                            closing ? "text-accent" : "text-text"
+                            closing ? "text-text" : "text-dim"
                           }`}
                         >
                           {t(step.body, locale)}
@@ -243,7 +243,7 @@ export default function BusinessCasePage({
               key={i}
               className={
                 paragraph.emphasis
-                  ? "max-w-[820px] border-l-2 border-accent/60 pl-5 text-body text-text"
+                  ? "max-w-[820px] border-l-2 border-faint pl-5 text-body text-text"
                   : "max-w-[820px] whitespace-pre-line text-body text-dim"
               }
             >
@@ -254,18 +254,18 @@ export default function BusinessCasePage({
 
         {next &&
           (nextExternal ? (
+            // Still a case study, just hosted elsewhere — it replaces the page
+            // like every other case link rather than opening a second tab.
             <a
               href={next.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-12 inline-flex min-h-[43px] items-center justify-center rounded-full bg-accent px-8 py-2 type-label text-accent-ink transition-transform hover:scale-105"
+              className="mt-12 inline-flex min-h-[43px] items-center justify-center rounded-full bg-text px-8 py-2 type-label text-bg transition-transform hover:scale-105"
             >
               {t(next.label, locale)} →
             </a>
           ) : (
             <Link
               href={`/${locale}${next.href}`}
-              className="mt-12 inline-flex min-h-[43px] items-center justify-center rounded-full bg-accent px-8 py-2 type-label text-accent-ink transition-transform hover:scale-105"
+              className="mt-12 inline-flex min-h-[43px] items-center justify-center rounded-full bg-text px-8 py-2 type-label text-bg transition-transform hover:scale-105"
             >
               {t(next.label, locale)} →
             </Link>

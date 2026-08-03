@@ -16,6 +16,8 @@ export default function SiteHeader({
   // routes too, where these sections don't exist.
   // ABOUT now resolves to the timeline — the standalone intro section is gone,
   // and "How I got here" is what the about anchor describes.
+  // CONTACT resolves to the footer, which carries `id="contact"` — there is no
+  // separate contact section, and a dead anchor would scroll nowhere.
   const links = [
     { label: dict.nav.project, href: `/${lang}#project`, file: false },
     { label: dict.nav.about, href: `/${lang}#about`, file: false },
@@ -28,7 +30,7 @@ export default function SiteHeader({
     // `HeaderShell` owns the <header> element and tracks which section is
     // underneath; everything below stays server-rendered.
     <HeaderShell>
-      <div className="mx-auto flex h-[99px] w-full max-w-[1920px] items-center justify-between px-6 md:px-16 xl:px-[180px] 2xl:px-[360px]">
+      <div className="mx-auto flex h-[70px] w-full max-w-[1920px] items-center justify-between px-6 md:px-16 xl:px-[180px] 2xl:px-[360px]">
         {/* The role line moved out — the hero label already says it. */}
         <Link
           href={`/${lang}`}
@@ -47,7 +49,9 @@ export default function SiteHeader({
                 {...(link.file
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}
-                className="type-label text-dim transition-opacity hover:opacity-70"
+                // Body face at 1rem, lowercase as written in the dictionary —
+                // not the tracked-out mono label the rest of the page uses.
+                className="text-body font-normal text-dim transition-opacity hover:opacity-70"
               >
                 {link.label}
               </a>

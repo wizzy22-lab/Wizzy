@@ -60,7 +60,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       */}
       <div
         data-theme="dark"
-        className="mx-auto flex min-h-[80vh] w-full max-w-[1920px] flex-col overflow-hidden px-6 pt-[99px] md:px-16 xl:px-[180px] 2xl:px-[360px]"
+        className="mx-auto flex min-h-[80vh] w-full max-w-[1920px] flex-col overflow-hidden px-6 pt-[70px] md:px-16 xl:px-[180px] 2xl:px-[360px]"
       >
         {/* Hero */}
         <section className="relative flex flex-1 flex-col items-center justify-center pb-24 text-center">

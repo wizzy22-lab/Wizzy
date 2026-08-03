@@ -9,10 +9,10 @@ export default function HowIGotHereSection({ dict }: { dict: Dictionary }) {
     <section
       id="about"
       data-theme="light"
-      className="w-full scroll-mt-[99px] bg-bg py-16 font-sans"
+      className="w-full scroll-mt-[70px] bg-bg py-16 font-sans"
     >
       <div className="mx-auto w-full max-w-[1920px] px-6 md:px-16 xl:px-[180px] 2xl:px-[360px]">
-        <h2 className="text-center text-heading font-medium text-accent">
+        <h2 className="text-center text-heading font-medium text-text">
           {timeline.title}
         </h2>
 

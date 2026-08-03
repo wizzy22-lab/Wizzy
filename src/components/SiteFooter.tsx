@@ -15,16 +15,17 @@ export default function SiteFooter({
   dict: Dictionary;
 }) {
   const { footer } = dict;
-  // No profile URLs on file yet, so the column is dropped rather than rendered
-  // empty — see `SOCIAL_LINKS`.
+  // Rendered only when there is something to list — an empty `SOCIAL_LINKS`
+  // drops the column rather than leaving a heading with nothing under it.
   const hasSocial = SOCIAL_LINKS.length > 0;
 
   return (
-    // Closes the page on the light set, and `#contact` is the header's target.
+    // Closes the page on the light set. `#contact` is the header's target —
+    // there is no separate contact section, so the nav lands here.
     <footer
       id="contact"
       data-theme="light"
-      className="w-full scroll-mt-[99px] bg-bg pb-16 pt-32 font-sans"
+      className="w-full scroll-mt-[70px] bg-bg pb-16 pt-32 font-sans"
     >
       <div className="mx-auto w-full max-w-[1920px] px-6 md:px-16 xl:px-[180px] 2xl:px-[360px]">
         {/*
@@ -69,7 +70,7 @@ export default function SiteFooter({
                     rel="noopener noreferrer"
                     className="text-body text-dim transition-opacity hover:opacity-70"
                   >
-                    {dict.nav.resume}
+                    {footer.resume}
                   </a>
                 </li>
               </ul>
@@ -79,19 +80,21 @@ export default function SiteFooter({
               <ColumnLabel>{footer.location}</ColumnLabel>
               <p className="mt-6 text-body text-dim">{footer.locationValue}</p>
             </div>
+
+            {/* The notice is the fourth column, not a line under the mark —
+                the row reads Connect / Get in touch / Location / ©. Label
+                scale, but `normal-case`: uppercasing it to WIZZY would
+                contradict the lowercase wordmark it names. */}
+            <p className="type-label normal-case text-dim">
+              {footer.copyright}
+            </p>
           </div>
 
-          {/* The mark, and the notice tucked under it. Left-aligned on mobile,
-              where it has dropped below the columns rather than beside them. */}
+          {/* The mark. Left-aligned on mobile, where it has dropped below the
+              columns rather than beside them. */}
           <div className="shrink-0 lg:text-right">
             <p aria-hidden className="wordmark-display">
               {dict.brand.name}
-            </p>
-            {/* Label scale, but `normal-case`: the notice carries the mark, and
-                uppercasing it to WIZZY would contradict the lowercase wordmark
-                directly above. */}
-            <p className="type-label mt-5 normal-case text-dim">
-              {footer.copyright}
             </p>
           </div>
         </div>

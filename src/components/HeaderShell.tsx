@@ -5,9 +5,9 @@ import { useEffect, useRef, useState } from "react";
 type Theme = "dark" | "light";
 
 /** Where we sample the page to decide what the bar is sitting on — the
- *  vertical middle of the 99px header, so the reading matches what the
+ *  vertical middle of the 70px header, so the reading matches what the
  *  translucent background is actually blurring. */
-const PROBE_Y = 50;
+const PROBE_Y = 35;
 
 /**
  * The bar is `fixed`, so it crosses sections of both themes. Rather than pick

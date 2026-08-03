@@ -15,7 +15,7 @@ export type ProjectCard = {
   thumbnail: string | null;
   /** `null` when there is nothing to link to yet — the card renders inert. */
   href: string | null;
-  /** `href` points off-site — render a plain anchor that opens in a new tab. */
+  /** `href` points off-site — render a plain anchor instead of `<Link>`. */
   external: boolean;
   /** `null` alongside a null `href` — the card shows no button at all. */
   cta: string | null;
@@ -34,6 +34,10 @@ type CardLinkProps = {
  * `<Link>` for in-app routes, plain `<a>` for external case studies, and a
  * non-interactive `<span>` when there is no destination — deliberately not an
  * `<a href="#">`, which would be a dead link.
+ *
+ * Off-site case studies are still this portfolio's work, so they load in the
+ * same tab. Only genuinely third-party destinations (the CV file, social
+ * profiles) get `target="_blank"`.
  */
 function CardLink({ href, external, children, tabIndex, ...rest }: CardLinkProps) {
   // No `tabIndex` on the inert branch — nothing here should take focus.
@@ -46,7 +50,7 @@ function CardLink({ href, external, children, tabIndex, ...rest }: CardLinkProps
   }
   if (external) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" tabIndex={tabIndex} {...rest}>
+      <a href={href} tabIndex={tabIndex} {...rest}>
         {children}
       </a>
     );
@@ -148,7 +152,7 @@ export default function ProjectSection({
                     }`}
                   >
                     {isOpen ? (
-                      <span className="text-heading font-medium text-accent">
+                      <span className="text-heading font-medium text-text">
                         {project.no}.{project.name}
                       </span>
                     ) : (
@@ -205,9 +209,12 @@ export default function ProjectSection({
                               external={project.external}
                               href={project.href}
                               tabIndex={isOpen ? undefined : -1}
-                              className="type-label mt-6 inline-flex h-11 w-fit items-center rounded-full bg-accent px-6 text-accent-ink transition-transform hover:scale-105"
+                              className="type-label mt-6 inline-flex h-11 w-fit items-center rounded-full bg-text px-6 text-bg transition-transform hover:scale-105"
                             >
-                              {project.cta} {project.external ? "↗" : "→"}
+                              {/* One arrow for both branches: an off-site case
+                                  study now behaves exactly like an in-app one,
+                                  so ↗ would promise a new tab it won't open. */}
+                              {project.cta} →
                             </CardLink>
                           )}
                         </div>

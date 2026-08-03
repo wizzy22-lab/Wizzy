@@ -75,7 +75,7 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
             {caseStudy ? t(caseStudy.hero.tag, lang) : t(project.subtitle, lang)}
           </p>
 
-          <h1 className="mt-5 max-w-[900px] text-display text-accent">
+          <h1 className="mt-5 max-w-[900px] text-display text-text">
             {caseStudy ? t(caseStudy.hero.headline, lang) : project.name}
           </h1>
 
@@ -120,7 +120,7 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
           </div>
         ) : (
           <div className="mt-16 rounded-2xl border border-dashed border-border bg-surface p-10">
-            <h2 className=" text-heading text-accent">
+            <h2 className=" text-heading text-text">
               {dict.caseStudy.inProgress.title}
             </h2>
             <p className="mt-3 max-w-[640px] text-body text-dim">
@@ -148,7 +148,7 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
             href={`/${lang}/projects/${next.slug}`}
             className="group mt-4 flex items-baseline gap-4"
           >
-            <span className=" text-heading text-accent">
+            <span className=" text-heading text-text">
               {next.no}. {next.name}
             </span>
             <span className="text-heading text-dim transition-transform duration-300 group-hover:translate-x-1">

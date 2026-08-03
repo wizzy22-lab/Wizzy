@@ -27,7 +27,7 @@ export default function LangToggle({ current }: { current: Locale }) {
             </span>
           )}
           {locale === current ? (
-            <span aria-current="true" className="text-accent">
+            <span aria-current="true" className="text-text">
               {LOCALE_LABEL[locale]}
             </span>
           ) : (
