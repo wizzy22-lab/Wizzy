@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Manrope, Azeret_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
+import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import { LOCALES, hasLocale } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionaries";
 import "../globals.css";
@@ -59,7 +61,21 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"
         />
       </head>
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        {children}
+
+        {/* Contentsquare. `afterInteractive` hands the tag to next/script,
+            which injects it once hydration has started — so it lands in the
+            document rather than in the server-rendered <head>, and needs no
+            `defer` of its own. Switch to `beforeInteractive` if the session
+            has to be recorded from the very first paint. */}
+        <Script
+          src="https://t.contentsquare.net/uxa/c15c6a0ad1b24.js"
+          strategy="afterInteractive"
+        />
+
+        <Analytics />
+      </body>
     </html>
   );
 }
