@@ -10,6 +10,7 @@ export type ProjectCard = {
   no: string;
   name: string;
   subtitle: string;
+  outcome: string;
   tags: string[];
   description: string;
   thumbnail: string | null;
@@ -127,8 +128,12 @@ export default function ProjectSection({
       className="relative w-full bg-bg font-sans"
       style={{ height: `${count * 100}vh` }}
     >
-      {/* Pinned viewport */}
-      <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden py-16">
+      {/* Pinned viewport.
+          The padding only ever shows on a short window: the panel is centred,
+          so on a tall one the slack around it is already larger than any value
+          here. It is kept low so the open card — down to its button — still
+          clears `overflow-hidden` on a laptop-height viewport. */}
+      <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden py-8">
         <div className="mx-auto w-full max-w-[1920px] px-6 md:px-16 xl:px-[180px] 2xl:px-[360px]">
           <p className="type-label text-center text-dim">{label}</p>
 
@@ -152,8 +157,18 @@ export default function ProjectSection({
                     }`}
                   >
                     {isOpen ? (
-                      <span className="text-heading font-medium text-text">
-                        {project.no}.{project.name}
+                      // Same number treatment as the collapsed row and the
+                      // next-project link: the mono label carries it everywhere,
+                      // so it never switches to heading type mid-page.
+                      <span className="flex items-baseline text-text">
+                        {/* Same 64px number column as the collapsed row, so the
+                            numbers stay on one axis as rows open and close. */}
+                        <span className="type-label w-16 shrink-0 text-dim">
+                          {project.no}
+                        </span>
+                        <span className="text-heading font-medium">
+                          {project.name}
+                        </span>
                       </span>
                     ) : (
                       <span className="flex w-full items-center text-dim">
@@ -189,11 +204,27 @@ export default function ProjectSection({
                         <div className="lg:max-w-[460px]">
                           <p className="text-body text-dim">{project.subtitle}</p>
 
+                          {/* The result, in one line. Same body size as the
+                              subtitle and the paragraph below it — the only
+                              thing that ranks it is brightness and weight, so
+                              nothing new enters the type scale. `text-pretty`
+                              keeps a single word off the last line without
+                              touching the copy. */}
+                          <p className="mt-3 text-pretty text-body font-medium text-text">
+                            {project.outcome}
+                          </p>
+
+                          {/* Chips are one size and one shape; the only thing
+                              that ranks them is colour. The first tag names the
+                              discipline, so it carries full-strength text and
+                              the rest sit a step down at `dim`. */}
                           <div className="mt-5 flex flex-wrap gap-3">
-                            {project.tags.map((tag) => (
+                            {project.tags.map((tag, ti) => (
                               <span
                                 key={tag}
-                                className="type-label inline-flex h-10 items-center rounded-full border border-faint px-4 text-dim"
+                                className={`type-label inline-flex h-10 items-center rounded-full border border-border px-4 ${
+                                  ti === 0 ? "text-text" : "text-dim"
+                                }`}
                               >
                                 {tag}
                               </span>
@@ -229,7 +260,7 @@ export default function ProjectSection({
                           href={project.href}
                           tabIndex={-1}
                           aria-hidden
-                          className={`relative flex aspect-square h-[min(600px,42vh)] w-[min(600px,42vh)] max-w-full items-center justify-center overflow-hidden rounded-3xl bg-surface ${
+                          className={`relative flex aspect-square h-[min(600px,42vh)] w-[min(600px,42vh)] max-w-full items-center justify-center overflow-hidden rounded-[var(--radius-card)] bg-surface ${
                             project.thumbnail ? "" : "border border-dashed border-border"
                           }`}
                         >
