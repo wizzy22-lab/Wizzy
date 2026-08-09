@@ -9,7 +9,7 @@ export default function HowIGotHereSection({ dict }: { dict: Dictionary }) {
     <section
       id="about"
       data-theme="light"
-      className="w-full scroll-mt-[70px] bg-bg py-16 font-sans"
+      className="w-full scroll-mt-[70px] bg-bg py-[var(--section-gap)] font-sans"
     >
       <div className="mx-auto w-full max-w-[1920px] px-6 md:px-16 xl:px-[180px] 2xl:px-[360px]">
         <h2 className="text-center text-heading font-medium text-text">
@@ -39,11 +39,11 @@ export default function HowIGotHereSection({ dict }: { dict: Dictionary }) {
           from the text they no longer need to be the same height as a
           paragraph, so they can all share one square format.
         */}
-        <ul className="mt-12 grid grid-cols-3 gap-4 sm:grid-cols-6">
+        <ul className="mt-12 grid grid-cols-3 gap-5 sm:grid-cols-6">
           {TIMELINE_PHOTOS.map((photo, i) => (
             <li
               key={photo}
-              className="relative aspect-square overflow-hidden rounded-xl bg-surface"
+              className="relative aspect-square overflow-hidden rounded-[var(--radius-card)] bg-surface"
             >
               <Image
                 src={photo}

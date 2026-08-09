@@ -31,6 +31,29 @@
   --border: rgba(0, 0, 0, 0.08);
 }
 
+/*
+ * Layout constants that are not colours.
+ *
+ * `--section-gap` is the only vertical rhythm a section is allowed to name, so
+ * the distance between two sections is one value rather than a per-component
+ * guess. Phones get a flat 80px; from tablet up it scales with the viewport
+ * between 120 and 160.
+ *
+ * `--radius-card` is the one radius every card-like surface uses — photo
+ * frames, covers, case cards, the hero slot. Pills stay fully round; that is a
+ * shape, not a card.
+ */
+:root {
+  --section-gap: 80px;
+  --radius-card: 24px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --section-gap: clamp(120px, 14vh, 160px);
+  }
+}
+
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
@@ -93,6 +116,13 @@
  * looks tight on Manrope reads as cramped on Pretendard. Hangul pages get half.
  */
 :lang(ko) {
+  /*
+   * Korean breaks anywhere by default, which splits words mid-token and leaves
+   * a stray syllable on its own line. `keep-all` moves the break to the space
+   * between words, the way the language is actually read.
+   */
+  word-break: keep-all;
+
   --tracking-display: -0.01em;
   --tracking-heading: -0.01em;
   /* 0.08em is a Latin small-caps convention. Hangul has no uppercase and its
@@ -165,4 +195,21 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-manrope), "Pretendard Variable", Pretendard, sans-serif;
+}
+
+/*
+ * Line breaking, set once for the whole document.
+ *
+ * Headings balance — a two-line heading splits evenly instead of dropping one
+ * short word onto line two. Paragraphs get `pretty`, which only guards the last
+ * line against orphans and leaves the rest of the rag alone.
+ */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
 }

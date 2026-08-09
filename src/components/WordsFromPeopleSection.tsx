@@ -13,7 +13,7 @@ export default function WordsFromPeopleSection({ dict }: { dict: Dictionary }) {
 
         <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {testimonials.items.map((item, i) => (
-            <figure key={i} className="flex min-h-[360px] flex-col rounded-xl bg-surface p-6">
+            <figure key={i} className="flex min-h-[360px] flex-col rounded-[var(--radius-card)] bg-surface p-6">
               <blockquote className="text-body text-text">
                 {item.quote}
               </blockquote>

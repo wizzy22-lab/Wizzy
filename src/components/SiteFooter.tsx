@@ -25,7 +25,7 @@ export default function SiteFooter({
     <footer
       id="contact"
       data-theme="light"
-      className="w-full scroll-mt-[70px] bg-bg pb-16 pt-32 font-sans"
+      className="w-full scroll-mt-[70px] bg-bg pb-16 pt-[var(--section-gap)] font-sans"
     >
       <div className="mx-auto w-full max-w-[1920px] px-6 md:px-16 xl:px-[180px] 2xl:px-[360px]">
         {/*

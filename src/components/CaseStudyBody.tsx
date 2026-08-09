@@ -26,11 +26,11 @@ function Lines({ text }: { text: string }) {
 }
 
 const PARAGRAPH_STYLES: Partial<Record<Block["role"], string>> = {
-  body: "max-w-[820px] text-body text-dim",
+  body: "max-w-[640px] text-body text-dim",
   cardBody: "text-body text-text",
-  defineBody: "max-w-[820px] text-body text-dim",
-  featureBody: "max-w-[820px] text-body text-dim",
-  reflectBody: "max-w-[820px] text-body text-dim",
+  defineBody: "max-w-[640px] text-body text-dim",
+  featureBody: "max-w-[640px] text-body text-dim",
+  reflectBody: "max-w-[640px] text-body text-dim",
   resultBody: "text-body text-text",
   kpiDesc: "text-body text-dim",
   diagramSub: "text-body text-dim",
@@ -39,7 +39,7 @@ const PARAGRAPH_STYLES: Partial<Record<Block["role"], string>> = {
 function BlockView({ block, locale }: { block: Block; locale: Locale }) {
   if (block.role === "image") {
     return (
-      <figure className="my-10 overflow-hidden rounded-2xl border border-border bg-surface">
+      <figure className="my-10 overflow-hidden rounded-[var(--radius-card)] border border-border bg-surface">
         <Image
           src={block.src}
           alt={block.alt}
@@ -81,7 +81,7 @@ function BlockView({ block, locale }: { block: Block; locale: Locale }) {
 
     case "insight":
       return (
-        <p className="my-6 max-w-[820px] border-l-2 border-faint pl-5 text-body text-text">
+        <p className="my-6 max-w-[640px] border-l-2 border-faint pl-5 text-body text-text">
           <Lines text={text} />
         </p>
       );

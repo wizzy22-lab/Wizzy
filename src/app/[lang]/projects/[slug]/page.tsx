@@ -79,7 +79,7 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
             {caseStudy ? t(caseStudy.hero.headline, lang) : project.name}
           </h1>
 
-          <p className="mt-6 max-w-[820px] text-body text-dim">
+          <p className="mt-6 max-w-[640px] text-body text-dim">
             {caseStudy ? t(caseStudy.hero.description, lang) : t(project.description, lang)}
           </p>
 
@@ -99,7 +99,7 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
           )}
 
           {caseStudy?.hero.image && (
-            <div className="mt-12 overflow-hidden rounded-3xl border border-border bg-surface">
+            <div className="mt-12 overflow-hidden rounded-[var(--radius-card)] border border-border bg-surface">
               <Image
                 src={caseStudy.hero.image}
                 alt={project.name}
@@ -119,7 +119,7 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
             <CaseStudyBody caseStudy={caseStudy} locale={lang} />
           </div>
         ) : (
-          <div className="mt-16 rounded-2xl border border-dashed border-border bg-surface p-10">
+          <div className="mt-16 rounded-[var(--radius-card)] border border-dashed border-border bg-surface p-6">
             <h2 className=" text-heading text-text">
               {dict.caseStudy.inProgress.title}
             </h2>
@@ -127,10 +127,14 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
               {dict.caseStudy.inProgress.body}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
+              {/* Same ranking as the main page's chips — first tag at full
+                  strength, the rest a step down. Size never changes. */}
               {project.tags.map((tag, i) => (
                 <span
                   key={i}
-                  className="inline-flex h-10 items-center rounded-full border border-faint px-4 text-body text-dim"
+                  className={`inline-flex h-10 items-center rounded-full border border-border px-4 text-body ${
+                    i === 0 ? "text-text" : "text-dim"
+                  }`}
                 >
                   {t(tag, lang)}
                 </span>
@@ -140,7 +144,7 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
         )}
 
         {/* Next project */}
-        <nav className="mt-28 border-t border-border pt-10">
+        <nav className="mt-[var(--section-gap)] border-t border-border pt-10">
           <p className="type-label text-faint">
             {dict.caseStudy.nextProject}
           </p>
@@ -148,9 +152,8 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
             href={`/${lang}/projects/${next.slug}`}
             className="group mt-4 flex items-baseline gap-4"
           >
-            <span className=" text-heading text-text">
-              {next.no}. {next.name}
-            </span>
+            <span className="type-label text-dim">{next.no}</span>
+            <span className="text-heading text-text">{next.name}</span>
             <span className="text-heading text-dim transition-transform duration-300 group-hover:translate-x-1">
               →
             </span>
