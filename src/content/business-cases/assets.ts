@@ -1,6 +1,6 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import type { BusinessCase } from "./types";
+import type { BusinessCase, BusinessCasePhotoBlock } from "./types";
 
 /**
  * A case is authored with every photo path it expects, but the photos land in
@@ -21,7 +21,23 @@ function resolve(src: string | null): string | null {
   return existsSync(join(process.cwd(), "public", src)) ? src : null;
 }
 
+function resolveBlock(block: BusinessCasePhotoBlock): BusinessCasePhotoBlock {
+  return {
+    ...block,
+    photos: block.photos.map((photo) => ({ ...photo, src: resolve(photo.src) })),
+    ...(block.video && {
+      video: {
+        ...block.video,
+        src: resolve(block.video.src),
+        poster: resolve(block.video.poster),
+      },
+    }),
+  };
+}
+
 export function resolvePhotos(businessCase: BusinessCase): BusinessCase {
+  const { blocks, closingBlocks } = businessCase;
+
   return {
     ...businessCase,
     hero: {
@@ -30,12 +46,7 @@ export function resolvePhotos(businessCase: BusinessCase): BusinessCase {
         ? { ...businessCase.hero.image, src: resolve(businessCase.hero.image.src) }
         : null,
     },
-    built: {
-      ...businessCase.built,
-      photos: businessCase.built.photos.map((photo) => ({
-        ...photo,
-        src: resolve(photo.src),
-      })),
-    },
+    ...(blocks && { blocks: blocks.map(resolveBlock) }),
+    ...(closingBlocks && { closingBlocks: closingBlocks.map(resolveBlock) }),
   };
 }

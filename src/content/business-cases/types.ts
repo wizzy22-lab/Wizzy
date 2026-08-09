@@ -25,7 +25,59 @@ export type BusinessCasePhoto = {
    */
   src: string | null;
   alt: Localized;
-  caption: Localized;
+  /** Omit when the block carries one caption for the whole grid instead. */
+  caption?: Localized;
+};
+
+/**
+ * Frame proportion for a photo grid, matched to how the photos were shot —
+ * every frame in a block shares one ratio so the grid stays on a single
+ * baseline. Square for product shots, portrait for posters and store photos.
+ */
+export type BusinessCasePhotoRatio = "landscape" | "square" | "portrait";
+
+/**
+ * A looping clip. Autoplays muted and inline, so it reads as a moving still
+ * rather than as a player — no controls, no sound, nothing to press.
+ */
+export type BusinessCaseVideo = {
+  /** Path under `public/`, same null rule as `BusinessCasePhoto.src`. */
+  src: string | null;
+  /** Still held before the first frame decodes; same null rule again. */
+  poster: string | null;
+  alt: Localized;
+  caption?: Localized;
+};
+
+/**
+ * A captioned photo grid, optionally led by a clip. Every block on every case
+ * page renders through one component, so radius, gap, and frame are identical
+ * wherever a block appears — only the ratio and column count vary.
+ */
+export type BusinessCasePhotoBlock = {
+  title: Localized;
+  intro?: Localized;
+  photos: BusinessCasePhoto[];
+  /**
+   * Leads the block, above the grid — for a set that starts with something in
+   * motion and continues as stills.
+   */
+  video?: BusinessCaseVideo;
+  /** Grid width on large screens. Defaults to 3. */
+  columns?: 1 | 2 | 3;
+  /** Defaults to landscape (4:3). */
+  ratio?: BusinessCasePhotoRatio;
+  /**
+   * Caption treatment. `"label"` is the mono tag used where a caption names
+   * the photo in a few words; the default reads as running text, for captions
+   * that carry a sentence of their own.
+   */
+  captions?: "body" | "label";
+  /**
+   * One caption under the whole grid, for a set where per-photo captions would
+   * just repeat each other. Photos in such a block leave `caption` unset.
+   */
+  caption?: Localized;
 };
 
 /**
@@ -58,18 +110,24 @@ export type BusinessCase = {
     keyFact: { value: Localized; label: Localized };
     /** Optional lead paragraph, below the key fact. */
     lead?: Localized;
-    /** `src` follows the same rule as `BusinessCasePhoto.src`. */
-    image: { src: string | null; alt: Localized } | null;
+    /**
+     * `src` follows the same rule as `BusinessCasePhoto.src`. The frame is a
+     * 16:9 band by default; a photo shot square sets `"square"` and gets a
+     * narrower centred frame instead of being cropped to a letterbox.
+     */
+    image: {
+      src: string | null;
+      alt: Localized;
+      ratio?: "wide" | "square";
+    } | null;
   };
 
-  /** ② What I Built — captioned 4:3 photo grid. */
-  built: {
-    title: Localized;
-    intro?: Localized;
-    photos: BusinessCasePhoto[];
-    /** Grid width on large screens. Defaults to 3. */
-    columns?: 2 | 3;
-  };
+  /**
+   * ② Photo blocks between the hero and the cases, rendered in order — the
+   * products, the brand graphics, whatever the case is showing before it
+   * starts explaining.
+   */
+  blocks?: BusinessCasePhotoBlock[];
 
   /** ③ Cases — two or three cards, each in the four-beat structure. */
   cases: {
@@ -79,6 +137,12 @@ export type BusinessCase = {
     /** A shorter aside that doesn't warrant the full four beats. */
     note?: { title: Localized; body: Localized };
   };
+
+  /**
+   * ③b Photo blocks after the cases, rendered in order — evidence for the
+   * stories just told, which is why they sit below rather than above them.
+   */
+  closingBlocks?: BusinessCasePhotoBlock[];
 
   /** ④ Takeaway — closing paragraphs and the cross-link to the next case. */
   takeaway: {

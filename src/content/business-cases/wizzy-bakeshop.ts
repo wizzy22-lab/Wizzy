@@ -8,9 +8,9 @@ import type { BusinessCase } from "./types";
  * Butter Apple and salt bread outcomes). Nothing is stronger in one language
  * than the other.
  *
- * Photos are not in the repo yet — the six slots under
- * `public/projects/wizzy-bakeshop/` are referenced by the filenames below and
- * will 404 until the files land.
+ * Photos live under `public/projects/wizzy-bakeshop/`, shot square for the
+ * products and 3:4 for the posters and the shop, so each block declares the
+ * ratio its own frames use.
  */
 
 const PHOTOS = "/projects/wizzy-bakeshop";
@@ -47,58 +47,108 @@ export const wizzyBakeshopCase: BusinessCase = {
       ko: "좋아하는 것을 나누고 싶어 시작했고, 돈과 손님으로 매일 검증받으며 운영을 배웠습니다.",
     },
     image: {
-      src: `${PHOTOS}/hero.jpg`,
-      alt: { en: "Wizzy Bakeshop", ko: "Wizzy Bakeshop" },
+      src: `${PHOTOS}/bakeshop-product-02.webp`,
+      ratio: "square",
+      alt: {
+        en: "Two Wizzy Bakeshop cakes — one topped with strawberries and edible flowers, one with a chocolate drip",
+        ko: "딸기와 식용꽃을 올린 케이크와 초콜릿을 흘려 덮은 케이크, Wizzy Bakeshop 케이크 2종",
+      },
     },
   },
 
-  built: {
-    title: { en: "What I Built", ko: "내가 만든 것" },
-    // Two columns so the packaging before/after sits side by side.
-    columns: 2,
-    photos: [
-      {
-        src: `${PHOTOS}/product-01.jpg`,
-        alt: { en: "The weekly pastry-led menu", ko: "매주 바뀌는 제과 중심 메뉴" },
-        caption: {
-          en: "A pastry-led menu that changed every week, built on seasonal ingredients",
-          ko: "매주 바뀌는 제과 중심 메뉴, 계절 재료 기반",
-        },
+  blocks: [
+    // Three products, each one the evidence for a case below: the weekly menu
+    // system, the group orders, and the gift set. Shot square, so the frames
+    // are.
+    {
+      title: { en: "What I Built", ko: "내가 만든 것" },
+      columns: 3,
+      ratio: "square",
+      captions: "label",
+      intro: {
+        en: "The moment a dessert becomes a gift, the buyer and the consumer are no longer the same person. The recipient eats it; the buyer judges the packaging. So I redesigned the package, and it led to Lunar New Year gift-set pre-orders.",
+        ko: "디저트는 선물되는 순간 구매자와 소비자가 달라집니다. 받는 사람이 먹고, 사는 사람은 포장을 평가합니다. 그래서 패키지를 다시 설계했고, 설 선물세트 예약으로 이어졌습니다.",
       },
-      {
-        src: `${PHOTOS}/product-02.jpg`,
-        alt: { en: "The weekly lineup", ko: "주간 라인업" },
-        caption: {
-          en: "A weekly lineup of 70% fixed menu and 30% new items",
-          ko: "고정 70% + 신메뉴 30%의 주간 라인업",
+      photos: [
+        {
+          src: `${PHOTOS}/bakeshop-product-01.webp`,
+          alt: {
+            en: "A tray of cupcakes topped with cream, strawberries and chocolate chips",
+            ko: "크림과 딸기, 초코칩을 올린 컵케이크가 담긴 트레이",
+          },
+          caption: {
+            en: "Cupcakes — the 70/30 menu system",
+            ko: "컵케이크 — 70/30 메뉴 시스템",
+          },
         },
-      },
-      {
-        src: `${PHOTOS}/package-before.jpg`,
-        alt: { en: "The early sandwich-box packaging", ko: "초기 샌드위치 박스 포장" },
-        caption: {
-          en: "Early on: sandwich-box packaging",
-          ko: "초기: 샌드위치 박스 포장",
+        {
+          src: `${PHOTOS}/bakeshop-product-03.webp`,
+          alt: {
+            en: "Sandwiches packed into takeout boxes for a bulk order",
+            ko: "대량 주문용 테이크아웃 용기에 담긴 샌드위치",
+          },
+          caption: {
+            en: "Sandwiches in bulk — group orders",
+            ko: "샌드위치 대량 — 단체 주문",
+          },
         },
-      },
-      {
-        src: `${PHOTOS}/package-after.jpg`,
-        alt: { en: "The redesigned gift box", ko: "선물 상자로 디벨롭한 패키지" },
-        caption: {
-          en: "Developed into a gift box — “The moment a dessert becomes a gift, the buyer and the consumer are no longer the same person. The recipient eats it; the buyer judges the packaging. So I redesigned the package, and it led to Lunar New Year gift-set pre-orders.”",
-          ko: "선물 상자로 디벨롭 — “디저트는 선물되는 순간 구매자와 소비자가 달라집니다. 받는 사람이 먹고, 사는 사람은 포장을 평가합니다. 그래서 패키지를 다시 설계했고, 설 선물세트 예약으로 이어졌습니다.”",
+        {
+          src: `${PHOTOS}/bakeshop-product-05.webp`,
+          alt: {
+            en: "Striped gift boxes and a wrapped holiday cake on a plaid cloth",
+            ko: "체크 천 위에 놓인 줄무늬 선물 상자와 포장된 홀리데이 케이크",
+          },
+          caption: {
+            en: "Gift packaging — the holiday gift set",
+            ko: "선물 패키지 — 명절 선물세트",
+          },
         },
+      ],
+    },
+
+    {
+      title: { en: "Brand Graphics", ko: "브랜드 그래픽" },
+      // 2×2 — the posters are 3:4, so two per row keeps them readable.
+      columns: 2,
+      ratio: "portrait",
+      captions: "label",
+      // One caption for the set: four posters, one job.
+      caption: {
+        en: "Weekly menu posters I designed",
+        ko: "직접 디자인한 주간 메뉴 포스터",
       },
-      {
-        src: `${PHOTOS}/operation.jpg`,
-        alt: { en: "Running the shop day to day", ko: "매장 운영" },
-        caption: {
-          en: "Remembering customers, and running the shop through Instagram notices and menu votes",
-          ko: "손님 기억하기, 인스타그램 공지·메뉴 투표로 운영",
+      photos: [
+        {
+          src: `${PHOTOS}/bakeshop-poster-01.webp`,
+          alt: {
+            en: "Poster for the sandwich sets — soup set, coffee set and couple set with their prices",
+            ko: "샌드위치 세트 포스터 — 수프 세트, 커피 세트, 커플 세트와 가격 안내",
+          },
         },
-      },
-    ],
-  },
+        {
+          src: `${PHOTOS}/bakeshop-poster-02.webp`,
+          alt: {
+            en: "Poster for the sandwich menu — club sandwich, jambon salt bread and the weekly sandwich",
+            ko: "샌드위치 메뉴 포스터 — 클럽 샌드위치, 잠봉 소금빵, 주간 샌드위치",
+          },
+        },
+        {
+          src: `${PHOTOS}/bakeshop-poster-03.webp`,
+          alt: {
+            en: "Poster for the holiday cakes — triple berry summer cake, fruits flower cake and the weekly cake",
+            ko: "홀리데이 케이크 포스터 — 트리플베리 서머 케이크, 프루츠 플라워 케이크, 주간 케이크",
+          },
+        },
+        {
+          src: `${PHOTOS}/bakeshop-poster-04.webp`,
+          alt: {
+            en: "Poster for the weekly soups — pumpkin, potato and corn",
+            ko: "주간 수프 포스터 — 단호박, 감자, 콘 수프",
+          },
+        },
+      ],
+    },
+  ],
 
   cases: {
     title: { en: "Cases", ko: "사례" },
@@ -220,6 +270,51 @@ export const wizzyBakeshopCase: BusinessCase = {
       },
     },
   },
+
+  closingBlocks: [
+    // In the order it happened: the fit-out, then open in daylight, then a
+    // season on the storefront, then a working evening behind the counter.
+    {
+      title: { en: "Traces of Operation", ko: "운영의 흔적" },
+      columns: 2,
+      ratio: "portrait",
+      captions: "label",
+      photos: [
+        {
+          src: `${PHOTOS}/bakeshop-store-04.webp`,
+          alt: {
+            en: "The empty shop during fit-out, with the display case being installed",
+            ko: "쇼케이스를 설치 중인 공사 중의 빈 매장",
+          },
+          caption: { en: "Setting up the space", ko: "매장 셋업 공사" },
+        },
+        {
+          src: `${PHOTOS}/bakeshop-store-01.webp`,
+          alt: {
+            en: "The shop in daylight, menu posters taped to the window over an autumn street",
+            ko: "가을 거리를 향한 창에 메뉴 포스터를 붙인, 낮의 매장 내부",
+          },
+          caption: { en: "Open, in daylight", ko: "영업 중인 매장, 낮" },
+        },
+        {
+          src: `${PHOTOS}/bakeshop-store-02.webp`,
+          alt: {
+            en: "The lit storefront at night, dressed with Halloween decorations",
+            ko: "핼러윈 장식을 한 밤의 매장 외관",
+          },
+          caption: { en: "A season, at night", ko: "시즌 야간의 매장" },
+        },
+        {
+          src: `${PHOTOS}/bakeshop-store-06.webp`,
+          alt: {
+            en: "Reading a pastry reference book at the counter in the evening light",
+            ko: "저녁 빛이 드는 매장에서 제과 서적을 보고 있는 모습",
+          },
+          caption: { en: "At work behind the counter", ko: "매장에서 작업 중" },
+        },
+      ],
+    },
+  ],
 
   takeaway: {
     title: { en: "Takeaway", ko: "정리" },

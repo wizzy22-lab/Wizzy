@@ -9,8 +9,10 @@ import type { BusinessCase } from "./types";
  * dessert growth, 3 + 1 department stores across 2 pop-ups, ~6% vendor and ~15%
  * department-store fees, under 10 sales a week, 30 minutes of baking).
  *
- * Photos are not in the repo yet — the six slots under
- * `public/projects/weekend-greenwich/` are referenced by the filenames below.
+ * Photos live under `public/projects/weekend-greenwich/`. The blocks sit either
+ * side of the cases: the POS and cost records set up the data story before it
+ * is told, while the butter-tteok and department-store photos are evidence for
+ * stories already told, so they close the page instead.
  */
 
 const PHOTOS = "/projects/weekend-greenwich";
@@ -60,55 +62,47 @@ export const weekendGreenwichCase: BusinessCase = {
       ko: "2023년 뉴욕 감성 카페로 시작해 자리를 잡았지만, 여러 작업자를 거치며 시그니처 메뉴와 브랜드 정체성이 흐려진 상태였습니다. 저는 데이터와 메뉴 구조로 브랜드를 다시 조립하는 역할로 합류했습니다.",
     },
     image: {
-      src: `${PHOTOS}/hero.jpg`,
-      alt: { en: "Weekend Greenwich", ko: "Weekend Greenwich" },
+      src: `${PHOTOS}/wg-product-01.webp`,
+      // Shot portrait, so it takes the centred frame rather than a letterbox.
+      ratio: "square",
+      alt: {
+        en: "Cookies cooling on wire racks, each tray labelled by flavour in handwriting",
+        ko: "식힘망 위에 놓인 쿠키들, 트레이마다 손글씨 맛 표시가 세워져 있다",
+      },
     },
   },
 
-  built: {
-    title: { en: "What I Built", ko: "내가 만든 것" },
-    // Two columns so the repackaging before/after sits side by side.
-    columns: 2,
-    photos: [
-      {
-        src: `${PHOTOS}/pudding-01.jpg`,
-        alt: {
-          en: "The signature New York cream pudding",
-          ko: "시그니처 뉴욕 크림 푸딩",
+  blocks: [
+    // The two records the data story rests on: the POS that started it, and
+    // the cost sheets it produced. Both shot portrait.
+    {
+      title: { en: "Reassembled on Data", ko: "데이터로 다시 조립" },
+      columns: 2,
+      ratio: "portrait",
+      captions: "label",
+      photos: [
+        {
+          src: `${PHOTOS}/wg-pos-01.webp`,
+          alt: {
+            en: "The Toss POS terminal on the counter, the café's tables and windows behind it",
+            ko: "카운터 위의 토스포스 단말기, 뒤로 매장 테이블과 창이 보인다",
+          },
+          caption: { en: "Toss POS brought in", ko: "토스포스 도입" },
         },
-        caption: {
-          en: "The signature New York cream pudding — the line reorganized through repackaging and flavor extensions (lemon, blueberry Oreo)",
-          ko: "시그니처 뉴욕 크림 푸딩 — 리패키징과 맛 확장(레몬·블루베리 오레오)으로 라인 정비",
+        {
+          src: `${PHOTOS}/wg-data-01.webp`,
+          alt: {
+            en: "A cost and recipe sheet, deliberately blurred",
+            ko: "의도적으로 흐리게 처리한 원가·배합 시트",
+          },
+          caption: {
+            en: "Operating records (details withheld)",
+            ko: "운영 데이터 기록 (상세 비공개)",
+          },
         },
-      },
-      {
-        src: `${PHOTOS}/repackage-before.jpg`,
-        alt: { en: "Packaging before the redesign", ko: "리패키징 전 포장" },
-        caption: { en: "Before repackaging", ko: "리패키징 전" },
-      },
-      {
-        src: `${PHOTOS}/repackage-after.jpg`,
-        alt: { en: "Packaging after the redesign", ko: "리패키징 후 포장" },
-        caption: { en: "After repackaging", ko: "리패키징 후" },
-      },
-      {
-        src: `${PHOTOS}/popup-01.jpg`,
-        alt: { en: "A department store pop-up", ko: "백화점 팝업" },
-        caption: {
-          en: "Department store pop-ups — 3 locations plus 1, across 2 runs",
-          ko: "백화점 팝업 — 3곳+1곳, 총 2회 진행",
-        },
-      },
-      {
-        src: `${PHOTOS}/brunch.jpg`,
-        alt: { en: "The brunch line", ko: "브런치 라인" },
-        caption: {
-          en: "A brunch line introduced in response to spoken requests shaped by the location",
-          ko: "입지 특성의 구두 요청을 반영해 도입한 브런치 라인",
-        },
-      },
-    ],
-  },
+      ],
+    },
+  ],
 
   cases: {
     title: { en: "Cases", ko: "사례" },
@@ -244,6 +238,79 @@ export const weekendGreenwichCase: BusinessCase = {
       },
     ],
   },
+
+  closingBlocks: [
+    // The butter-tteok run in the order it happened: the week-1 queue, the
+    // counter it sold from, the delivery packing the scale-up forced, and the
+    // booth at the end of it.
+    {
+      title: {
+        en: "Anatomy of the Butter-Tteok Failure",
+        ko: "버터떡 실패 해부",
+      },
+      columns: 3,
+      ratio: "portrait",
+      captions: "label",
+      video: {
+        src: `${PHOTOS}/wg-queue-loop.mp4`,
+        poster: `${PHOTOS}/wg-queue-poster.webp`,
+        alt: {
+          en: "Customers queueing at the butter-tteok pop-up counter in a department store food hall",
+          ko: "백화점 식품관 버터떡 팝업 매대 앞에 줄을 선 손님들",
+        },
+        caption: {
+          en: "Week 1 — the queue at the department store pop-up",
+          ko: "1주차 — 백화점 팝업 대기줄",
+        },
+      },
+      photos: [
+        {
+          src: `${PHOTOS}/wg-popup-06.webp`,
+          alt: {
+            en: "Boxed butter-tteok stacked on the pop-up counter behind BUTTER DDEOK price cards",
+            ko: "BUTTER DDEOK 가격 안내판 뒤로 포장된 버터떡이 쌓인 팝업 매대",
+          },
+          caption: { en: "The pop-up display", ko: "팝업 진열" },
+        },
+        {
+          src: `${PHOTOS}/wg-popup-03.webp`,
+          alt: {
+            en: "Butter-tteok boxed and bagged on a prep table, each bag tagged BUTTER DDEOK",
+            ko: "작업대 위에 포장된 버터떡, 봉투마다 BUTTER DDEOK 택이 붙어 있다",
+          },
+          caption: { en: "Packed for delivery", ko: "납품 포장" },
+        },
+        {
+          src: `${PHOTOS}/wg-popup-04.webp`,
+          alt: {
+            en: "The BUTTER DDEOK pop-up counter stacked with boxed tteok under its price cards and standing sign",
+            ko: "가격 안내판과 입간판 아래 포장된 버터떡이 쌓인 BUTTER DDEOK 팝업 매대",
+          },
+          caption: { en: "The pop-up booth", ko: "팝업 부스" },
+        },
+      ],
+    },
+
+    {
+      title: { en: "Distribution Expansion", ko: "유통 확장" },
+      columns: 1,
+      ratio: "landscape",
+      captions: "label",
+      photos: [
+        {
+          src: `${PHOTOS}/wg-popup-05.webp`,
+          alt: {
+            en: "The full department store booth seen down the food hall aisle, staff restocking behind it",
+            ko: "식품관 통로에서 바라본 백화점 부스 전경, 뒤에서 직원이 상품을 채우고 있다",
+          },
+          caption: {
+            en: "The department store booth",
+            ko: "백화점 부스 전경",
+          },
+        },
+      ],
+    },
+  ],
 
   takeaway: {
     title: { en: "Takeaway", ko: "정리" },

@@ -22,5 +22,8 @@ export type {
   BusinessCaseCard,
   BusinessCaseMeta,
   BusinessCasePhoto,
+  BusinessCasePhotoBlock,
+  BusinessCasePhotoRatio,
   BusinessCaseStep,
+  BusinessCaseVideo,
 } from "./types";
