@@ -29,7 +29,7 @@ const en = {
     eyebrow: "I TURN",
     phrases: ["Business Problem", "Messy Operation", "User frustration"],
     tail: ["into products", "that grow business"],
-    photoAlt: "Haeji Wi",
+    mediaAlt: "Shoot Shoot Penguin app screens on a device mockup",
     // Rendered uppercase in the mono label face; kept in the dictionary so it
     // can be localised later rather than sitting hardcoded in the component.
     scrollHint: "scroll",
@@ -58,28 +58,28 @@ const en = {
     title: "How I got here",
     items: [
       {
+        year: "2016",
+        title: "Discovered Baking",
+        description:
+          "Started baking as a hobby and turned it into a serious craft — curiosity becoming commitment, a pattern that has repeated ever since.",
+      },
+      {
         year: "2018",
         title: "Studied Navigation, Maritime Trade & Regulations",
         description:
-          "Built a foundation for sharp, structured decision-making in complex, high-stakes environments — a discipline that still shapes how I approach design problems today.",
+          "Trained to make structured decisions in complex, high-stakes environments — a discipline that still shapes how I approach design problems.",
       },
       {
-        year: "2020",
-        title: "Discovered Baking",
-        description:
-          "Started baking as a hobby and gradually turned it into a serious craft — the first sign of a pattern that would repeat throughout my career: curiosity becoming commitment.",
-      },
-      {
-        year: "2018–2021",
+        year: "2020–2021",
         title: "Trained Professionally",
         description:
-          "Advanced my baking skills to a professional level, working at a bakery in Seoul.",
+          "Advanced my baking to a professional level, working at a bakery in Seoul.",
       },
       {
         year: "2022",
         title: "Founded Wizzy Bakeshop",
         description:
-          "Launched Wizzy Bakeshop, leading product development, store operations, and the end-to-end customer experience. It remains one of the most rewarding chapters of my life.",
+          "Launched Wizzy Bakeshop, leading product development, store operations, and the end-to-end customer experience.",
       },
       {
         year: "2025",

@@ -31,7 +31,7 @@ const ko: Dictionary = {
     eyebrow: "저는",
     phrases: ["비즈니스 문제를", "복잡한 운영을", "사용자의 불편을"],
     tail: ["성장하는 제품으로", "바꿉니다"],
-    photoAlt: "위해지",
+    mediaAlt: "디바이스 목업 위의 Shoot Shoot Penguin 앱 화면",
     // Left in English on both locales — a mono uppercase affordance, not prose.
     scrollHint: "scroll",
   },
@@ -57,19 +57,19 @@ const ko: Dictionary = {
     title: "지금까지의 여정",
     items: [
       {
+        year: "2016",
+        title: "베이킹을 만나다",
+        description:
+          "취미로 시작한 베이킹을 진지한 기술로 발전시켰습니다 — 호기심이 몰입으로 이어지는, 이후로도 계속 반복된 패턴이었습니다.",
+      },
+      {
         year: "2018",
         title: "항해학·해상무역·해사법규 전공",
         description:
-          "복잡하고 실패 비용이 큰 환경에서 구조적으로 판단하는 훈련을 받았습니다. 지금도 디자인 문제에 접근하는 방식의 바탕이 되고 있습니다.",
+          "복잡하고 실패 비용이 큰 환경에서 구조적으로 판단하는 훈련을 받았고, 지금도 디자인 문제에 접근하는 방식의 바탕이 되고 있습니다.",
       },
       {
-        year: "2020",
-        title: "베이킹을 만나다",
-        description:
-          "취미로 시작한 베이킹을 점차 진지한 기술로 발전시켰습니다. 호기심이 몰입으로 이어지는, 이후 계속 반복될 패턴의 첫 신호였습니다.",
-      },
-      {
-        year: "2018–2021",
+        year: "2020–2021",
         title: "전문가 과정",
         description: "서울의 베이커리에서 일하며 베이킹을 전문가 수준으로 끌어올렸습니다.",
       },
@@ -77,7 +77,7 @@ const ko: Dictionary = {
         year: "2022",
         title: "Wizzy Bakeshop 창업",
         description:
-          "Wizzy Bakeshop을 런칭해 제품 개발, 매장 운영, 고객 경험 전반을 이끌었습니다. 지금도 가장 값진 시간으로 남아 있습니다.",
+          "Wizzy Bakeshop을 런칭해 제품 개발, 매장 운영, 고객 경험 전반을 이끌었습니다.",
       },
       {
         year: "2025",
