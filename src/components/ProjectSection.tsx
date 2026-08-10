@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 
 /** Locale-resolved project card — plain strings so it crosses the server boundary. */
 export type ProjectCard = {
@@ -63,6 +63,34 @@ function CardLink({ href, external, children, tabIndex, ...rest }: CardLinkProps
   );
 }
 
+/**
+ * The scrollytelling pin is a desktop affordance. It needs a viewport tall
+ * enough to hold an open card whole, and a phone does not have one — so below
+ * `lg` the section falls back to ordinary flow and the accordion is driven by
+ * taps. This is the JS half of that switch; the layout half is `lg:` classes,
+ * which is why the breakpoint is written out here rather than imported.
+ */
+const PIN_QUERY = "(min-width: 1024px)";
+
+function subscribeToPin(onChange: () => void) {
+  const mq = window.matchMedia(PIN_QUERY);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
+/**
+ * `true` on the server and through hydration, so the markup React reconciles
+ * against is the one the server sent. A phone corrects itself on the first
+ * client render after that, before paint of anything below the fold.
+ */
+function useIsPinned() {
+  return useSyncExternalStore(
+    subscribeToPin,
+    () => window.matchMedia(PIN_QUERY).matches,
+    () => true,
+  );
+}
+
 export default function ProjectSection({
   id,
   label,
@@ -76,16 +104,23 @@ export default function ProjectSection({
   /** Which token set the section paints with. */
   theme?: "dark" | "light";
 }) {
+  // `-1` is reachable only off the pin, where a tap can close the card it
+  // opened. Under the pin some card is always the one the scroll is on.
   const [openIndex, setOpenIndex] = useState(0);
   const baseId = useId();
   const outerRef = useRef<HTMLElement | null>(null);
   const count = projects.length;
+  const isPinned = useIsPinned();
 
   // Scroll-driven accordion (scrollytelling):
   // the tall outer section provides scroll distance; the inner panel is pinned (sticky).
   // openIndex = which slice of the section's scroll progress we're in → every item is reachable,
   // and items expand/collapse in place with no layout jump.
+  //
+  // Off the pin the section is ordinary flow: its height is its content, so
+  // scroll progress through it means nothing and the listener stays off.
   useEffect(() => {
+    if (!isPinned) return;
     let raf = 0;
     const update = () => {
       raf = 0;
@@ -108,10 +143,19 @@ export default function ProjectSection({
       window.removeEventListener("resize", onScroll);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, [count]);
+  }, [count, isPinned]);
 
-  // Clicking a header scrolls to the middle of that project's scroll slice.
-  const scrollToIndex = (i: number) => {
+  /**
+   * Under the pin a header click scrolls to the middle of that project's
+   * scroll slice and the scroll listener opens the card — the click never sets
+   * the state itself. Off the pin there is no slice to scroll to, so the tap is
+   * the toggle: it opens the card, or closes the one already open.
+   */
+  const onHeaderClick = (i: number) => {
+    if (!isPinned) {
+      setOpenIndex((prev) => (prev === i ? -1 : i));
+      return;
+    }
     const el = outerRef.current;
     if (!el) return;
     const total = el.offsetHeight - window.innerHeight;
@@ -125,15 +169,22 @@ export default function ProjectSection({
       id={id}
       ref={outerRef}
       data-theme={theme}
-      className="relative w-full bg-bg font-sans"
-      style={{ height: `${count * 100}vh` }}
+      // One screen of scroll distance per project, but only where the panel is
+      // pinned. Below `lg` the height is the content's own, so the section is
+      // as tall as the cards need and no taller.
+      className="relative w-full bg-bg font-sans lg:h-[calc(var(--pin-slides)*100vh)]"
+      style={{ "--pin-slides": count } as React.CSSProperties}
     >
-      {/* Pinned viewport.
+      {/* Pinned viewport — from `lg` up.
           The padding only ever shows on a short window: the panel is centred,
           so on a tall one the slack around it is already larger than any value
           here. It is kept low so the open card — down to its button — still
-          clears `overflow-hidden` on a laptop-height viewport. */}
-      <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden py-8">
+          clears `overflow-hidden` on a laptop-height viewport.
+
+          Below `lg` none of that applies. Nothing is pinned, nothing is clipped,
+          and the section takes the same `--section-gap` as every other section
+          on the page. */}
+      <div className="flex flex-col py-[var(--section-gap)] lg:sticky lg:top-0 lg:h-screen lg:justify-center lg:overflow-hidden lg:py-8">
         <div className="mx-auto w-full max-w-[1920px] px-6 md:px-16 xl:px-[180px] 2xl:px-[360px]">
           <p className="type-label text-center text-dim">{label}</p>
 
@@ -151,7 +202,7 @@ export default function ProjectSection({
                     type="button"
                     aria-expanded={isOpen}
                     aria-controls={panelId}
-                    onClick={() => scrollToIndex(i)}
+                    onClick={() => onHeaderClick(i)}
                     className={`group block w-full cursor-pointer text-left ${
                       isOpen ? "pt-1" : "flex h-[72px] items-center border-t border-border"
                     }`}
