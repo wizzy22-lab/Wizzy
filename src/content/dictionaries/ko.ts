@@ -30,7 +30,7 @@ const ko: Dictionary = {
     // own object particle and the tail completes the sentence.
     eyebrow: "저는",
     phrases: ["비즈니스 문제를", "복잡한 운영을", "사용자의 불편을"],
-    tail: ["성장하는 제품으로", "바꿉니다"],
+    tail: ["성장하는 제품으로 바꿉니다"],
     mediaAlt: "디바이스 목업 위의 Shoot Shoot Penguin 앱 화면",
     // Left in English on both locales — a mono uppercase affordance, not prose.
     scrollHint: "scroll",
