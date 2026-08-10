@@ -136,6 +136,66 @@
   letter-spacing: var(--tracking-label, 0.08em);
 }
 
+/*
+ * The open project card's fill.
+ *
+ * `--surface` at full strength is what something nested uses — the cover sits
+ * on it — and across a panel this wide it reads as a slab rather than a card.
+ * Thirty percent of it over the page background lifts the card just enough to
+ * bound it, which is why this is a mix of two existing tokens and not a third
+ * token of its own. One flat plane does the bounding: no border, no shadow.
+ *
+ * The flat colour above each mix is the fallback. A browser without
+ * `color-mix()` keeps it and drops the line after it, so both themes need
+ * their own — the mix resolves to a different value in each.
+ */
+.project-card {
+  background: #f2f4ef;
+  background: color-mix(in srgb, var(--surface) 30%, var(--bg));
+  border-radius: 12px;
+}
+
+[data-theme="dark"] .project-card {
+  background: #1d1d1d;
+  background: color-mix(in srgb, var(--surface) 30%, var(--bg));
+}
+
+/*
+ * Labels made of words rather than codes.
+ *
+ * Azeret Mono carries no Hangul, so a Korean label silently falls through to
+ * Pretendard — and the mono treatment stays behind on top of it. 0.08em between
+ * glyphs that are already full-width reads as a double space between every
+ * word, and uppercase does nothing at all to a script that has no case.
+ *
+ * So the treatment follows the script: Latin keeps the mono face, tracked;
+ * Hangul gets the sans face at its own natural tracking. Sizes are untouched
+ * either way — this splits the family and the spacing, not the type scale.
+ *
+ * Unlayered on purpose, like `.type-label` above: these have to win against the
+ * tracking that comes bundled with the `text-label` size utility.
+ */
+.label-script {
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+/* Chips alone stay uppercase — two or three words, not a running phrase. */
+.label-script-caps {
+  text-transform: uppercase;
+}
+
+:lang(ko) .label-script {
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+  word-break: keep-all;
+}
+
+:lang(ko) .label-script-caps {
+  text-transform: none;
+}
+
 .text-display {
   letter-spacing: var(--tracking-display, -0.02em);
 }

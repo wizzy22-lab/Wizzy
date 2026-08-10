@@ -195,7 +195,23 @@ export default function ProjectSection({
               const headerId = `${baseId}-header-${i}`;
 
               return (
-                <div key={project.slug}>
+                // The card is the whole accordion item, number and title
+                // included — an edge that started below the title would cut
+                // through the thing it is supposed to contain.
+                //
+                // It bleeds: the horizontal padding is cancelled by an equal
+                // negative margin, so the fill widens outward while every line
+                // inside it stays on the axis the collapsed rows use. Vertical
+                // padding does not bleed. A collapsed item gets none of this —
+                // the closed rhythm is untouched.
+                <div
+                  key={project.slug}
+                  className={
+                    isOpen
+                      ? "project-card -mx-6 px-6 py-10 lg:-mx-10 lg:px-10"
+                      : undefined
+                  }
+                >
                   {/* Header / toggle */}
                   <button
                     id={headerId}
@@ -204,7 +220,7 @@ export default function ProjectSection({
                     aria-controls={panelId}
                     onClick={() => onHeaderClick(i)}
                     className={`group block w-full cursor-pointer text-left ${
-                      isOpen ? "pt-1" : "flex h-[72px] items-center border-t border-border"
+                      isOpen ? "" : "flex h-[72px] items-center border-t border-border"
                     }`}
                   >
                     {isOpen ? (
@@ -246,29 +262,17 @@ export default function ProjectSection({
                     }`}
                   >
                     <div className="overflow-hidden">
-                      {/* No top padding: the outcome now leads the card and
-                          wants to read as part of the title, so the only thing
-                          between them is the container's own 32px. */}
-                      <div className="pb-6">
-                        {/* One surface holds the whole open card — subtitle,
-                            outcome, chips, paragraph, button and cover. Before
-                            this the parts sat loose on the section background
-                            and only their own alignment implied they belonged
-                            together; the container says it outright.
-
-                            `--surface` resolves per theme, so the same class
-                            gives #EAECE7 in the light section and #242423 in
-                            the dark one. The radius is the shared card radius
-                            the cover already uses, so the outer corner and the
-                            corner inside it are cut to one value. */}
+                        {/* 16px to the title above it. The card's own padding
+                            no longer sits between the two, so the outcome can
+                            finally close up under the name it belongs to. */}
                         <div
-                          className={`rounded-[var(--radius-card)] bg-surface p-8 transition-opacity duration-500 motion-reduce:transition-none ${
+                          className={`pt-4 transition-opacity duration-500 motion-reduce:transition-none ${
                             isOpen ? "opacity-100" : "opacity-0"
                           }`}
                         >
                           <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
                             {/* Left: text content.
-                                Reading order is claim first: the outcome sits
+                                Reading order is claim-first: the outcome sits
                                 directly under the title, and everything that
                                 only identifies the project — what it is, what
                                 disciplines it used — drops below it into one
@@ -294,7 +298,7 @@ export default function ProjectSection({
                                   label token's uppercase is sized for two or
                                   three words, not a full descriptor. */}
                               <div className="mt-8">
-                                <p className="type-label normal-case text-dim lg:max-w-[460px]">
+                                <p className="label-script text-label text-dim lg:max-w-[460px]">
                                   {project.subtitle}
                                 </p>
 
@@ -322,7 +326,7 @@ export default function ProjectSection({
                                     // its own, narrower value.
                                     <span
                                       key={tag}
-                                      className={`type-label inline-flex h-10 shrink-0 items-center whitespace-nowrap rounded-full border border-border px-[14px] text-[11px] lg:px-4 lg:text-label ${
+                                      className={`label-script label-script-caps inline-flex h-10 shrink-0 items-center whitespace-nowrap rounded-full border border-border px-[14px] text-[11px] lg:px-4 lg:text-label ${
                                         ti === 0 ? "text-text" : "text-dim"
                                       }`}
                                     >
@@ -341,7 +345,7 @@ export default function ProjectSection({
                                   external={project.external}
                                   href={project.href}
                                   tabIndex={isOpen ? undefined : -1}
-                                  className="type-label mt-8 inline-flex h-11 w-fit items-center rounded-full bg-text px-6 text-bg transition-transform hover:scale-105"
+                                  className="label-script text-label mt-8 inline-flex h-11 w-fit items-center rounded-full bg-text px-6 text-bg transition-transform hover:scale-105"
                                 >
                                   {/* One arrow for both branches: an off-site case
                                       study now behaves exactly like an in-app one,
@@ -355,13 +359,18 @@ export default function ProjectSection({
                                 card with nothing on file keeps the same footprint
                                 so the row doesn't reflow. The dashed outline is the
                                 empty state alone; a real thumbnail fills the slot
-                                edge to edge. */}
+                                edge to edge.
+
+                                Cut to the same 12px as the card around it, so
+                                there is one corner in the accordion rather than
+                                a smaller box wearing a rounder corner than its
+                                container. */}
                             <CardLink
                               external={project.external}
                               href={project.href}
                               tabIndex={-1}
                               aria-hidden
-                              className={`relative flex aspect-square h-[min(600px,42vh)] w-[min(600px,42vh)] max-w-full items-center justify-center overflow-hidden rounded-[var(--radius-card)] bg-surface ${
+                              className={`relative flex aspect-square h-[min(600px,42vh)] w-[min(600px,42vh)] max-w-full items-center justify-center overflow-hidden rounded-xl bg-surface ${
                                 project.thumbnail ? "" : "border border-dashed border-border"
                               }`}
                             >
@@ -377,7 +386,6 @@ export default function ProjectSection({
                             </CardLink>
                           </div>
                         </div>
-                      </div>
                     </div>
                   </div>
                 </div>
