@@ -23,6 +23,7 @@ const ko: Dictionary = {
     about: "소개",
     resume: "이력서",
     contact: "연락처",
+    menu: "메뉴",
   },
 
   hero: {

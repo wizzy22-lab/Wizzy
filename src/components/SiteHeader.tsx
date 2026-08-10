@@ -4,6 +4,7 @@ import type { Dictionary } from "@/content/dictionaries";
 import { RESUME_PDF } from "@/content/links";
 import HeaderShell from "./HeaderShell";
 import LangToggle from "./LangToggle";
+import MobileMenu from "./MobileMenu";
 
 export default function SiteHeader({
   lang,
@@ -39,7 +40,9 @@ export default function SiteHeader({
           {dict.brand.name}
         </Link>
 
-        <div className="flex items-center gap-8 md:gap-[52px]">
+        {/* From `lg` up the links sit in the bar. Below it they don't fit —
+            see `MobileMenu`, which carries the same links and toggle. */}
+        <div className="hidden items-center gap-8 md:gap-[52px] lg:flex">
           <nav className="flex items-center gap-8 md:gap-[52px]">
             {links.map((link) => (
               <a
@@ -60,6 +63,10 @@ export default function SiteHeader({
 
           <LangToggle current={lang} />
         </div>
+
+        <MobileMenu links={links} label={dict.nav.menu}>
+          <LangToggle current={lang} />
+        </MobileMenu>
       </div>
     </HeaderShell>
   );

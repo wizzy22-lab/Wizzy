@@ -21,6 +21,9 @@ const en = {
     about: "about",
     resume: "resume",
     contact: "contact",
+    // Never rendered as text — the accessible name of the button the links
+    // fold behind below `lg`.
+    menu: "Menu",
   },
 
   hero: {
