@@ -246,7 +246,10 @@ export default function ProjectSection({
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <div className="py-6">
+                      {/* No top padding: the outcome now leads the card and
+                          wants to read as part of the title, so the only thing
+                          between them is the container's own 32px. */}
+                      <div className="pb-6">
                         {/* One surface holds the whole open card — subtitle,
                             outcome, chips, paragraph, button and cover. Before
                             this the parts sat loose on the section background
@@ -264,38 +267,72 @@ export default function ProjectSection({
                           }`}
                         >
                           <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
-                            {/* Left: text content */}
-                            <div className="lg:max-w-[460px]">
-                              <p className="text-body text-dim">{project.subtitle}</p>
-
-                              {/* The result, in one line. Same body size as the
-                                  subtitle and the paragraph below it — the only
-                                  thing that ranks it is brightness and weight, so
-                                  nothing new enters the type scale. `text-pretty`
-                                  keeps a single word off the last line without
-                                  touching the copy. */}
-                              <p className="mt-3 text-pretty text-body font-medium text-text">
+                            {/* Left: text content.
+                                Reading order is claim first: the outcome sits
+                                directly under the title, and everything that
+                                only identifies the project — what it is, what
+                                disciplines it used — drops below it into one
+                                meta group. */}
+                            <div className="lg:flex-1">
+                              {/* The result, in one line, and now the first
+                                  thing under the title. Same body size as the
+                                  paragraph below it — the only thing that ranks
+                                  it is brightness and weight, so nothing new
+                                  enters the type scale. `text-pretty` keeps a
+                                  single word off the last line without touching
+                                  the copy. */}
+                              <p className="text-pretty text-body font-medium text-text lg:max-w-[460px]">
                                 {project.outcome}
                               </p>
 
-                              {/* Chips are one size and one shape; the only thing
-                                  that ranks them is colour. The first tag names the
-                                  discipline, so it carries full-strength text and
-                                  the rest sit a step down at `dim`. */}
-                              <div className="mt-5 flex flex-wrap gap-3">
-                                {project.tags.map((tag, ti) => (
-                                  <span
-                                    key={tag}
-                                    className={`type-label inline-flex h-10 items-center rounded-full border border-border px-4 ${
-                                      ti === 0 ? "text-text" : "text-dim"
-                                    }`}
-                                  >
-                                    {tag}
-                                  </span>
-                                ))}
+                              {/* Meta group: what the project is, then which
+                                  disciplines built it. The subtitle used to run
+                                  as prose at body size, which put it in
+                                  competition with the outcome; as a label it
+                                  reads as the caption to the chip row instead.
+                                  `normal-case` because these run long — the
+                                  label token's uppercase is sized for two or
+                                  three words, not a full descriptor. */}
+                              <div className="mt-8">
+                                <p className="type-label normal-case text-dim lg:max-w-[460px]">
+                                  {project.subtitle}
+                                </p>
+
+                                {/* Chips are one size and one shape; the only
+                                    thing that ranks them is colour. The first
+                                    tag names the discipline, so it carries
+                                    full-strength text and the rest sit a step
+                                    down at `dim`.
+
+                                    They are metadata, not prose, so the 460px
+                                    reading measure now sits on the paragraphs
+                                    themselves rather than on the column, and
+                                    the row is free to use the full width beside
+                                    the cover. It still wraps rather than
+                                    forcing one line: the widest set needs 583px
+                                    and only the roomiest breakpoints have it. */}
+                                <div className="mt-2 flex flex-wrap gap-1.5 lg:gap-2">
+                                  {project.tags.map((tag, ti) => (
+                                    // A phone gets a smaller face and tighter
+                                    // sides — 278px of usable width is not
+                                    // enough for these at full size, and the
+                                    // tags say things like "In Development"
+                                    // that are worth keeping whole. Tracking
+                                    // stays on the label token so Korean keeps
+                                    // its own, narrower value.
+                                    <span
+                                      key={tag}
+                                      className={`type-label inline-flex h-10 shrink-0 items-center whitespace-nowrap rounded-full border border-border px-[14px] text-[11px] lg:px-4 lg:text-label ${
+                                        ti === 0 ? "text-text" : "text-dim"
+                                      }`}
+                                    >
+                                      {tag}
+                                    </span>
+                                  ))}
+                                </div>
                               </div>
 
-                              <p className="mt-5 text-body text-dim">
+                              <p className="mt-6 text-body text-dim lg:max-w-[460px]">
                                 {project.description}
                               </p>
 
@@ -304,7 +341,7 @@ export default function ProjectSection({
                                   external={project.external}
                                   href={project.href}
                                   tabIndex={isOpen ? undefined : -1}
-                                  className="type-label mt-6 inline-flex h-11 w-fit items-center rounded-full bg-text px-6 text-bg transition-transform hover:scale-105"
+                                  className="type-label mt-8 inline-flex h-11 w-fit items-center rounded-full bg-text px-6 text-bg transition-transform hover:scale-105"
                                 >
                                   {/* One arrow for both branches: an off-site case
                                       study now behaves exactly like an in-app one,
