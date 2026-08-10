@@ -39,35 +39,38 @@ export type Project = {
 
 /**
  * Copy carried over from the legacy site's project cards, with the newer
- * naming used in the current Figma direction (project 01 is "Shoot Shoot
- * Penguin", previously shipped as "GEME").
+ * naming used in the current Figma direction ("Shoot Shoot Penguin" was
+ * previously shipped as "GEME").
+ *
+ * Array order is the display order — `no` only labels the card, so both move
+ * together when a project is reordered.
  */
 export const PROJECTS: Project[] = [
   {
-    slug: "shoot-shoot-penguin",
+    slug: "bingx",
     group: "project",
     no: "01",
-    name: "Shoot Shoot Penguin",
+    name: "BingX",
     subtitle: {
-      en: "AI-Assisted Basketball Team Management Platform",
-      ko: "AI 기반 농구 팀 운영 플랫폼",
+      en: "AI Master Decision Flow Redesign",
+      ko: "AI Master 의사결정 플로우 리디자인",
     },
     outcome: {
-      en: "Two-sided platform that automates guest recruiting — designed end-to-end with a developer, from IA to handoff",
-      ko: "개발자와 2인, IA부터 핸드오프까지 — 게스트 모집을 자동화하는 양면 플랫폼",
+      en: "AI trading redesigned around decisions — SUS 88 (n=5) across a 7-Master selection flow",
+      ko: "의사결정 중심으로 재설계한 AI 트레이딩 — SUS 88(n=5) · 7인 Master 선택 구조",
     },
     tags: [
-      { en: "End to End Design", ko: "엔드투엔드 디자인" },
-      { en: "Mobile UX", ko: "모바일 UX" },
-      { en: "In Development", ko: "개발 중" },
+      { en: "UX Research", ko: "UX 리서치" },
+      { en: "Design System", ko: "디자인 시스템" },
+      { en: "AI UX", ko: "AI UX" },
     ],
     description: {
-      en: "Co-founded and designed a mobile platform that transforms complex team management and guest matching into clear, actionable experiences — from problem definition to developer handoff.",
-      ko: "복잡한 팀 운영과 게스트 매칭을 명확하고 실행 가능한 경험으로 바꾸는 모바일 플랫폼을 공동 창업하고 디자인했다. 문제 정의부터 개발 핸드오프까지 전 과정을 담당했다.",
+      en: "Redesigned an AI trading service around its decision flow — matching users to the right Master through onboarding, and making automated trading understandable before money goes in.",
+      ko: "AI 트레이딩 서비스를 의사결정 흐름 중심으로 리디자인했다. 온보딩으로 사용자를 적합한 Master와 연결하고, 돈을 넣기 전에 자동매매를 이해할 수 있게 만들었다.",
     },
-    thumbnail: "/thumbs/ssp-thumb.webp",
+    thumbnail: "/thumbs/bingx-thumb.webp",
     hasCaseStudy: false,
-    externalUrl: "https://shoot-shoot-penguin.vercel.app/",
+    externalUrl: "https://bingx-portfolio.vercel.app/",
   },
   {
     slug: "operator",
@@ -96,30 +99,30 @@ export const PROJECTS: Project[] = [
     externalUrl: "https://wizzy-s-portfolio.vercel.app/projects/operator.html",
   },
   {
-    slug: "bingx",
+    slug: "shoot-shoot-penguin",
     group: "project",
     no: "03",
-    name: "BingX",
+    name: "Shoot Shoot Penguin",
     subtitle: {
-      en: "AI Master Decision Flow Redesign",
-      ko: "AI Master 의사결정 플로우 리디자인",
+      en: "AI-Assisted Basketball Team Management Platform",
+      ko: "AI 기반 농구 팀 운영 플랫폼",
     },
     outcome: {
-      en: "AI trading redesigned around decisions — SUS 88 (n=5) across a 7-Master selection flow",
-      ko: "의사결정 중심으로 재설계한 AI 트레이딩 — SUS 88(n=5) · 7인 Master 선택 구조",
+      en: "Two-sided platform that automates guest recruiting — designed end-to-end with a developer, from IA to handoff",
+      ko: "개발자와 2인, IA부터 핸드오프까지 — 게스트 모집을 자동화하는 양면 플랫폼",
     },
     tags: [
-      { en: "UX Research", ko: "UX 리서치" },
-      { en: "Design System", ko: "디자인 시스템" },
-      { en: "AI UX", ko: "AI UX" },
+      { en: "End to End Design", ko: "엔드투엔드 디자인" },
+      { en: "Mobile UX", ko: "모바일 UX" },
+      { en: "In Development", ko: "개발 중" },
     ],
     description: {
-      en: "Redesigned an AI trading service around its decision flow — matching users to the right Master through onboarding, and making automated trading understandable before money goes in.",
-      ko: "AI 트레이딩 서비스를 의사결정 흐름 중심으로 리디자인했다. 온보딩으로 사용자를 적합한 Master와 연결하고, 돈을 넣기 전에 자동매매를 이해할 수 있게 만들었다.",
+      en: "Co-founded and designed a mobile platform that transforms complex team management and guest matching into clear, actionable experiences — from problem definition to developer handoff.",
+      ko: "복잡한 팀 운영과 게스트 매칭을 명확하고 실행 가능한 경험으로 바꾸는 모바일 플랫폼을 공동 창업하고 디자인했다. 문제 정의부터 개발 핸드오프까지 전 과정을 담당했다.",
     },
-    thumbnail: "/thumbs/bingx-thumb.webp",
+    thumbnail: "/thumbs/ssp-thumb.webp",
     hasCaseStudy: false,
-    externalUrl: "https://bingx-portfolio.vercel.app/",
+    externalUrl: "https://shoot-shoot-penguin.vercel.app/",
   },
   {
     slug: "weekend-greenwich",
