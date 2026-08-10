@@ -141,23 +141,23 @@
  *
  * `--surface` at full strength is what something nested uses — the cover sits
  * on it — and across a panel this wide it reads as a slab rather than a card.
- * Thirty percent of it over the page background lifts the card just enough to
- * bound it, which is why this is a mix of two existing tokens and not a third
- * token of its own. One flat plane does the bounding: no border, no shadow.
+ * A third of it over the page background lifts the card just enough to bound
+ * it, which is why this is a mix of two existing tokens and not a third token
+ * of its own. One flat plane does the bounding: no border, no shadow.
  *
  * The flat colour above each mix is the fallback. A browser without
  * `color-mix()` keeps it and drops the line after it, so both themes need
  * their own — the mix resolves to a different value in each.
  */
 .project-card {
-  background: #f2f4ef;
-  background: color-mix(in srgb, var(--surface) 30%, var(--bg));
+  background: #f1f3ee;
+  background: color-mix(in srgb, var(--surface) 36%, var(--bg));
   border-radius: 12px;
 }
 
 [data-theme="dark"] .project-card {
-  background: #1d1d1d;
-  background: color-mix(in srgb, var(--surface) 30%, var(--bg));
+  background: #1e1e1d;
+  background: color-mix(in srgb, var(--surface) 36%, var(--bg));
 }
 
 /*
