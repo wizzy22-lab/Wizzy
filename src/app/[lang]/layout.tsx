@@ -19,6 +19,12 @@ const azeretMono = Azeret_Mono({
   weight: ["400", "500"],
 });
 
+/**
+ * Canonical origin. `www` is where the apex redirects to, so this is the host a
+ * shared link ends up on — and the one the preview image must be fetched from.
+ */
+const SITE_URL = "https://www.wizzydesign.space";
+
 export function generateStaticParams() {
   return LOCALES.map((lang) => ({ lang }));
 }
@@ -31,10 +37,38 @@ export async function generateMetadata({
 
   const dict = await getDictionary(lang);
   return {
+    // Every URL below resolves against this, and a link preview needs absolute
+    // ones — a relative `/og/…` is dropped by the crawlers.
+    metadataBase: new URL(SITE_URL),
     title: dict.meta.title,
     description: dict.meta.description,
     alternates: {
       languages: Object.fromEntries(LOCALES.map((l) => [l, `/${l}`])),
+    },
+    // The card a shared link unfurls into: the hero itself, in the language of
+    // the page being shared, rather than whatever image a crawler picks off the
+    // page on its own.
+    openGraph: {
+      type: "website",
+      siteName: dict.brand.name,
+      locale: lang === "ko" ? "ko_KR" : "en_US",
+      title: dict.meta.title,
+      description: dict.meta.description,
+      url: `/${lang}`,
+      images: [
+        {
+          url: `/og/hero-${lang}.png`,
+          width: 1200,
+          height: 630,
+          alt: dict.meta.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: dict.meta.title,
+      description: dict.meta.description,
+      images: [`/og/hero-${lang}.png`],
     },
   };
 }
