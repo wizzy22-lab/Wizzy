@@ -246,85 +246,100 @@ export default function ProjectSection({
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <div
-                        className={`flex flex-col gap-10 py-6 transition-opacity duration-500 lg:flex-row lg:items-start lg:justify-between motion-reduce:transition-none ${
-                          isOpen ? "opacity-100" : "opacity-0"
-                        }`}
-                      >
-                        {/* Left: text content */}
-                        <div className="lg:max-w-[460px]">
-                          <p className="text-body text-dim">{project.subtitle}</p>
+                      <div className="py-6">
+                        {/* One surface holds the whole open card — subtitle,
+                            outcome, chips, paragraph, button and cover. Before
+                            this the parts sat loose on the section background
+                            and only their own alignment implied they belonged
+                            together; the container says it outright.
 
-                          {/* The result, in one line. Same body size as the
-                              subtitle and the paragraph below it — the only
-                              thing that ranks it is brightness and weight, so
-                              nothing new enters the type scale. `text-pretty`
-                              keeps a single word off the last line without
-                              touching the copy. */}
-                          <p className="mt-3 text-pretty text-body font-medium text-text">
-                            {project.outcome}
-                          </p>
+                            `--surface` resolves per theme, so the same class
+                            gives #EAECE7 in the light section and #242423 in
+                            the dark one. The radius is the shared card radius
+                            the cover already uses, so the outer corner and the
+                            corner inside it are cut to one value. */}
+                        <div
+                          className={`rounded-[var(--radius-card)] bg-surface p-8 transition-opacity duration-500 motion-reduce:transition-none ${
+                            isOpen ? "opacity-100" : "opacity-0"
+                          }`}
+                        >
+                          <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
+                            {/* Left: text content */}
+                            <div className="lg:max-w-[460px]">
+                              <p className="text-body text-dim">{project.subtitle}</p>
 
-                          {/* Chips are one size and one shape; the only thing
-                              that ranks them is colour. The first tag names the
-                              discipline, so it carries full-strength text and
-                              the rest sit a step down at `dim`. */}
-                          <div className="mt-5 flex flex-wrap gap-3">
-                            {project.tags.map((tag, ti) => (
-                              <span
-                                key={tag}
-                                className={`type-label inline-flex h-10 items-center rounded-full border border-border px-4 ${
-                                  ti === 0 ? "text-text" : "text-dim"
-                                }`}
-                              >
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
+                              {/* The result, in one line. Same body size as the
+                                  subtitle and the paragraph below it — the only
+                                  thing that ranks it is brightness and weight, so
+                                  nothing new enters the type scale. `text-pretty`
+                                  keeps a single word off the last line without
+                                  touching the copy. */}
+                              <p className="mt-3 text-pretty text-body font-medium text-text">
+                                {project.outcome}
+                              </p>
 
-                          <p className="mt-5 text-body text-dim">
-                            {project.description}
-                          </p>
+                              {/* Chips are one size and one shape; the only thing
+                                  that ranks them is colour. The first tag names the
+                                  discipline, so it carries full-strength text and
+                                  the rest sit a step down at `dim`. */}
+                              <div className="mt-5 flex flex-wrap gap-3">
+                                {project.tags.map((tag, ti) => (
+                                  <span
+                                    key={tag}
+                                    className={`type-label inline-flex h-10 items-center rounded-full border border-border px-4 ${
+                                      ti === 0 ? "text-text" : "text-dim"
+                                    }`}
+                                  >
+                                    {tag}
+                                  </span>
+                                ))}
+                              </div>
 
-                          {project.cta !== null && (
+                              <p className="mt-5 text-body text-dim">
+                                {project.description}
+                              </p>
+
+                              {project.cta !== null && (
+                                <CardLink
+                                  external={project.external}
+                                  href={project.href}
+                                  tabIndex={isOpen ? undefined : -1}
+                                  className="type-label mt-6 inline-flex h-11 w-fit items-center rounded-full bg-text px-6 text-bg transition-transform hover:scale-105"
+                                >
+                                  {/* One arrow for both branches: an off-site case
+                                      study now behaves exactly like an in-app one,
+                                      so ↗ would promise a new tab it won't open. */}
+                                  {project.cta} →
+                                </CardLink>
+                              )}
+                            </div>
+
+                            {/* Right: cover. Always 1:1 — the art is square, and a
+                                card with nothing on file keeps the same footprint
+                                so the row doesn't reflow. The dashed outline is the
+                                empty state alone; a real thumbnail fills the slot
+                                edge to edge. */}
                             <CardLink
                               external={project.external}
                               href={project.href}
-                              tabIndex={isOpen ? undefined : -1}
-                              className="type-label mt-6 inline-flex h-11 w-fit items-center rounded-full bg-text px-6 text-bg transition-transform hover:scale-105"
+                              tabIndex={-1}
+                              aria-hidden
+                              className={`relative flex aspect-square h-[min(600px,42vh)] w-[min(600px,42vh)] max-w-full items-center justify-center overflow-hidden rounded-[var(--radius-card)] bg-surface ${
+                                project.thumbnail ? "" : "border border-dashed border-border"
+                              }`}
                             >
-                              {/* One arrow for both branches: an off-site case
-                                  study now behaves exactly like an in-app one,
-                                  so ↗ would promise a new tab it won't open. */}
-                              {project.cta} →
+                              {project.thumbnail && (
+                                <Image
+                                  src={project.thumbnail}
+                                  alt={`${project.name} app screens on device mockup`}
+                                  fill
+                                  sizes="(max-width: 1024px) 100vw, 600px"
+                                  className="object-cover"
+                                />
+                              )}
                             </CardLink>
-                          )}
+                          </div>
                         </div>
-
-                        {/* Right: cover. Always 1:1 — the art is square, and a
-                            card with nothing on file keeps the same footprint
-                            so the row doesn't reflow. The dashed outline is the
-                            empty state alone; a real thumbnail fills the slot
-                            edge to edge. */}
-                        <CardLink
-                          external={project.external}
-                          href={project.href}
-                          tabIndex={-1}
-                          aria-hidden
-                          className={`relative flex aspect-square h-[min(600px,42vh)] w-[min(600px,42vh)] max-w-full items-center justify-center overflow-hidden rounded-[var(--radius-card)] bg-surface ${
-                            project.thumbnail ? "" : "border border-dashed border-border"
-                          }`}
-                        >
-                          {project.thumbnail && (
-                            <Image
-                              src={project.thumbnail}
-                              alt={`${project.name} app screens on device mockup`}
-                              fill
-                              sizes="(max-width: 1024px) 100vw, 600px"
-                              className="object-cover"
-                            />
-                          )}
-                        </CardLink>
                       </div>
                     </div>
                   </div>
