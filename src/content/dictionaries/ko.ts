@@ -54,6 +54,11 @@ const ko: Dictionary = {
     closing: { before: "진짜", after: "의미 있는 것" },
   },
 
+  // 한 로케일에 한 표기만 — 로마자 표기는 EN 쪽이 맡습니다.
+  about: {
+    name: "위해지",
+  },
+
   timeline: {
     title: "지금까지의 여정",
     items: [

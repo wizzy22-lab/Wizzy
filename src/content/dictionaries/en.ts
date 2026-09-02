@@ -57,6 +57,15 @@ const en = {
     closing: { before: "Real", after: "Meaningful" },
   },
 
+  // Leads the about section. The wordmark is a brand name, not a person's name —
+  // this line is the only place the applicant's own name is stated.
+  //
+  // One script per locale, no parenthetical: each reader gets the spelling they
+  // can actually hold on to, and the other form is one language toggle away.
+  about: {
+    name: "Haeji Wi",
+  },
+
   timeline: {
     title: "How I got here",
     items: [
