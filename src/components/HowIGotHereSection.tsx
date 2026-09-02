@@ -5,6 +5,21 @@ import { TIMELINE_PHOTOS } from "@/content/timeline";
 /** Ties the row list to the caption above it — the list is not a heading's child. */
 const TIMELINE_CAPTION_ID = "about-timeline-caption";
 
+/**
+ * The section's column grid: year, title, description.
+ *
+ * Named because two different things stand on it. The rows below use all three
+ * tracks; the head above covers the first two with the photo and starts the
+ * name on the third. That is what makes the head's edges land on the rows'
+ * edges instead of near them — and because both tracks are fixed, the photo is
+ * 412px (112 + 40 + 260) at every width the grid applies to, rather than a
+ * share of the container that drifts away from a fixed column as it grows.
+ *
+ * One literal, used twice: Tailwind still sees the class to generate it, and
+ * the two callers cannot fall out of step.
+ */
+const ROW_COLUMNS = "md:grid-cols-[112px_minmax(0,260px)_minmax(0,1fr)]";
+
 export default function HowIGotHereSection({ dict }: { dict: Dictionary }) {
   const { timeline } = dict;
 
@@ -29,34 +44,32 @@ export default function HowIGotHereSection({ dict }: { dict: Dictionary }) {
 
           Photo and name share a row rather than stacking. Given the whole
           container the photo rendered 1200×900 — larger than anything else on
-          the page, and larger than the person it introduces. A column is the
-          size limit, so no max-width has to be invented to hold it back.
+          the page, and larger than the person it introduces.
 
-          The break is `md`, where the rows below already turn into columns:
-          one column break for the whole section rather than two. Tablet needs
-          it as much as desktop — at 1023px a full-width photo is still 896
+          The row stands on `ROW_COLUMNS`, the same grid the years and their
+          descriptions use, so the head is measured by the section rather than
+          by a width picked for it. That is also what holds the photo back: two
+          tracks is the size limit, and no max-width has to be invented.
+
+          The break is `md`, where the rows already turn into columns: one
+          column break for the whole section rather than two. Tablet needs it
+          as much as desktop — at 1023px a full-width photo is still 896
           across.
-
-          `gap-10` is the gutter those rows use (`gap-x-10`), read sideways
-          here and vertically once the row stacks.
 
           Centred rather than top-aligned: two lines of text against a photo
           four times their height. ProjectSection top-aligns because both of
           its columns are tall; here only one is, and `items-start` would leave
           the name looking like a column that stopped early.
-
-          No `justify-between`: it would strand a two-word name against the
-          right edge with a hole in the middle. Packed left, the row's ragged
-          right matches the caption and the rows underneath it.
         */}
-        <div className="flex flex-col gap-10 md:flex-row md:items-center">
+        <div className={`flex flex-col gap-10 md:grid md:items-center ${ROW_COLUMNS}`}>
           {/*
-            Left-aligned now. The name shares a row instead of sitting over a
-            full-width band, so it starts at the same left edge as the caption,
-            the rows and the tiles below it — the centring was the one thing in
+            The name starts on the third track, where every description below
+            it starts. Left-aligned now: it shares a row instead of sitting
+            over a full-width band, so it begins at the same edge as the
+            caption, the rows and the tiles — the centring was the one thing in
             the section that did not.
           */}
-          <div>
+          <div className="md:col-start-3 md:row-start-1">
             <h2 className="text-display font-medium text-text">
               {dict.about.name}
             </h2>
@@ -66,14 +79,16 @@ export default function HowIGotHereSection({ dict }: { dict: Dictionary }) {
           {/*
             Second in the DOM, first on screen. The <h2> is this section's
             heading and has to stay the first thing announced — `#about` lands
-            a screen reader here — so the frame moves left with `order-first`
-            rather than by writing an image ahead of the heading it belongs to.
+            a screen reader here — so the frame is placed on the first two
+            tracks rather than written ahead of the heading it belongs to.
             Stacked, the order is the one it always was: name, role, photo.
 
-            Two fifths of the container, so the frame tracks the width the
-            section's own padding already decides — 480px at the widest.
-            `shrink-0` keeps that share exact, so a longer name in another
-            locale wraps instead of squeezing the photo out of ratio.
+            Covering the year and title tracks puts the frame's left edge on
+            the years and its right edge on the titles. Both tracks are fixed,
+            so the photo is 412px wherever the grid applies — the same size on
+            a laptop as on a 4K display, which is the point: a fraction of the
+            container would only meet a fixed column at one width and miss it
+            everywhere else.
 
             4:3 crops the source (1600×1200) exactly, so nothing is thrown
             away, and landscape is the one shape the six square tiles below
@@ -83,16 +98,15 @@ export default function HowIGotHereSection({ dict }: { dict: Dictionary }) {
             tiles and the business-case frames — one treatment for every image
             on the site. Below the fold, so it lazy-loads: no `preload`.
 
-            `sizes` is the container arithmetic times two fifths, since the gap
-            comes off the text column and never off the photo. It tops out at
-            480px, so the browser stops reaching for the 4K candidate.
+            `sizes` says so in two clauses: the container's width while the row
+            is still stacked, and a flat 412 once it is not.
           */}
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[var(--radius-card)] bg-surface md:order-first md:w-2/5 md:shrink-0">
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[var(--radius-card)] bg-surface md:col-span-2 md:col-start-1 md:row-start-1">
             <Image
               src="/about/about-working.webp"
               alt={dict.about.photoAlt}
               fill
-              sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1279px) calc((100vw - 128px) * 0.4), (max-width: 1535px) calc((100vw - 360px) * 0.4), (max-width: 1919px) calc((100vw - 720px) * 0.4), 480px"
+              sizes="(max-width: 767px) calc(100vw - 48px), 412px"
               className="object-cover"
             />
           </div>
@@ -118,7 +132,7 @@ export default function HowIGotHereSection({ dict }: { dict: Dictionary }) {
           {timeline.items.map((item, i) => (
             <li
               key={i}
-              className="grid gap-x-10 gap-y-1 border-t border-border py-4 md:grid-cols-[112px_minmax(0,260px)_minmax(0,1fr)] md:items-baseline"
+              className={`grid gap-x-10 gap-y-1 border-t border-border py-4 md:items-baseline ${ROW_COLUMNS}`}
             >
               <span className="type-label text-dim">{item.year}</span>
               <h3 className="text-body font-medium text-text">{item.title}</h3>
