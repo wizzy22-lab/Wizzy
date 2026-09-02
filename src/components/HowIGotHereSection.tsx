@@ -26,35 +26,76 @@ export default function HowIGotHereSection({ dict }: { dict: Dictionary }) {
 
           `brand.role` rather than a second copy of the same words — the header
           dropped its role line, so this is where that string lives now.
+
+          Photo and name share a row rather than stacking. Given the whole
+          container the photo rendered 1200×900 — larger than anything else on
+          the page, and larger than the person it introduces. A column is the
+          size limit, so no max-width has to be invented to hold it back.
+
+          The break is `md`, where the rows below already turn into columns:
+          one column break for the whole section rather than two. Tablet needs
+          it as much as desktop — at 1023px a full-width photo is still 896
+          across.
+
+          `gap-10` is the gutter those rows use (`gap-x-10`), read sideways
+          here and vertically once the row stacks.
+
+          Centred rather than top-aligned: two lines of text against a photo
+          four times their height. ProjectSection top-aligns because both of
+          its columns are tall; here only one is, and `items-start` would leave
+          the name looking like a column that stopped early.
+
+          No `justify-between`: it would strand a two-word name against the
+          right edge with a hole in the middle. Packed left, the row's ragged
+          right matches the caption and the rows underneath it.
         */}
-        <h2 className="text-center text-display font-medium text-text">
-          {dict.about.name}
-        </h2>
-        <p className="type-label mt-3 text-center text-dim">
-          {dict.brand.role}
-        </p>
+        <div className="flex flex-col gap-10 md:flex-row md:items-center">
+          {/*
+            Left-aligned now. The name shares a row instead of sitting over a
+            full-width band, so it starts at the same left edge as the caption,
+            the rows and the tiles below it — the centring was the one thing in
+            the section that did not.
+          */}
+          <div>
+            <h2 className="text-display font-medium text-text">
+              {dict.about.name}
+            </h2>
+            <p className="type-label mt-3 text-dim">{dict.brand.role}</p>
+          </div>
 
-        {/*
-          One wide photo directly under the name, before the list starts.
+          {/*
+            Second in the DOM, first on screen. The <h2> is this section's
+            heading and has to stay the first thing announced — `#about` lands
+            a screen reader here — so the frame moves left with `order-first`
+            rather than by writing an image ahead of the heading it belongs to.
+            Stacked, the order is the one it always was: name, role, photo.
 
-          It runs the full width of the text container rather than sitting in a
-          portrait slot beside the name: the name is centred and the rows below
-          are full-bleed within the container, so a landscape band is the only
-          shape that belongs between them. 4:3 crops the source (1600×1200)
-          exactly, so nothing is thrown away.
+            Two fifths of the container, so the frame tracks the width the
+            section's own padding already decides — 480px at the widest.
+            `shrink-0` keeps that share exact, so a longer name in another
+            locale wraps instead of squeezing the photo out of ratio.
 
-          Same `rounded-[var(--radius-card)]` over `bg-surface` as the timeline
-          tiles and the hero slot — one frame treatment for every image on the
-          page. Below the fold, so it lazy-loads: no `preload`.
-        */}
-        <div className="relative mt-12 aspect-[4/3] w-full overflow-hidden rounded-[var(--radius-card)] bg-surface">
-          <Image
-            src="/about/about-working.webp"
-            alt={dict.about.photoAlt}
-            fill
-            sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1279px) calc(100vw - 128px), (max-width: 1535px) calc(100vw - 360px), (max-width: 1919px) calc(100vw - 720px), 1200px"
-            className="object-cover"
-          />
+            4:3 crops the source (1600×1200) exactly, so nothing is thrown
+            away, and landscape is the one shape the six square tiles below
+            have not already taken.
+
+            Same `rounded-[var(--radius-card)]` over `bg-surface` as those
+            tiles and the business-case frames — one treatment for every image
+            on the site. Below the fold, so it lazy-loads: no `preload`.
+
+            `sizes` is the container arithmetic times two fifths, since the gap
+            comes off the text column and never off the photo. It tops out at
+            480px, so the browser stops reaching for the 4K candidate.
+          */}
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[var(--radius-card)] bg-surface md:order-first md:w-2/5 md:shrink-0">
+            <Image
+              src="/about/about-working.webp"
+              alt={dict.about.photoAlt}
+              fill
+              sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1279px) calc((100vw - 128px) * 0.4), (max-width: 1535px) calc((100vw - 360px) * 0.4), (max-width: 1919px) calc((100vw - 720px) * 0.4), 480px"
+              className="object-cover"
+            />
+          </div>
         </div>
 
         {/*
