@@ -57,6 +57,7 @@ const ko: Dictionary = {
   // 한 로케일에 한 표기만 — 로마자 표기는 EN 쪽이 맡습니다.
   about: {
     name: "위해지",
+    photoAlt: "작업 중인 모습",
   },
 
   timeline: {

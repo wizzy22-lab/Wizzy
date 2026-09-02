@@ -35,6 +35,29 @@ export default function HowIGotHereSection({ dict }: { dict: Dictionary }) {
         </p>
 
         {/*
+          One wide photo directly under the name, before the list starts.
+
+          It runs the full width of the text container rather than sitting in a
+          portrait slot beside the name: the name is centred and the rows below
+          are full-bleed within the container, so a landscape band is the only
+          shape that belongs between them. 4:3 crops the source (1600×1200)
+          exactly, so nothing is thrown away.
+
+          Same `rounded-[var(--radius-card)]` over `bg-surface` as the timeline
+          tiles and the hero slot — one frame treatment for every image on the
+          page. Below the fold, so it lazy-loads: no `preload`.
+        */}
+        <div className="relative mt-12 aspect-[4/3] w-full overflow-hidden rounded-[var(--radius-card)] bg-surface">
+          <Image
+            src="/about/about-working.webp"
+            alt={dict.about.photoAlt}
+            fill
+            sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1279px) calc(100vw - 128px), (max-width: 1535px) calc(100vw - 360px), (max-width: 1919px) calc(100vw - 720px), 1200px"
+            className="object-cover"
+          />
+        </div>
+
+        {/*
           "How I got here" titles the rows below it, so it sits on them rather
           than floating at the top of the section — a caption at label scale,
           left-aligned with the rows it names. A <p>, not a heading: the rows
