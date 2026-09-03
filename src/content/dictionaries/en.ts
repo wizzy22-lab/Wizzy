@@ -71,28 +71,10 @@ const en = {
     title: "How I got here",
     items: [
       {
-        year: "2016",
-        title: "Discovered Baking",
+        year: "2026–present",
+        title: "Leading Real-World Impact",
         description:
-          "Started baking as a hobby and turned it into a serious craft — curiosity becoming commitment, a pattern that has repeated ever since.",
-      },
-      {
-        year: "2018",
-        title: "Studied Navigation, Maritime Trade & Regulations",
-        description:
-          "Trained to make structured decisions in complex, high-stakes environments — a discipline that still shapes how I approach design problems.",
-      },
-      {
-        year: "2020–2021",
-        title: "Trained Professionally",
-        description:
-          "Advanced my baking to a professional level, working at a bakery in Seoul.",
-      },
-      {
-        year: "2022",
-        title: "Founded Wizzy Bakeshop",
-        description:
-          "Launched Wizzy Bakeshop, leading product development, store operations, and the end-to-end customer experience.",
+          "Leading brand renewal and product development, applying UX thinking to real-world products.",
       },
       {
         year: "2025",
@@ -101,10 +83,28 @@ const en = {
           "After graduation, shifted into UX/UI design, studying product thinking and UX methodology at Blossom UX School.",
       },
       {
-        year: "2026–present",
-        title: "Leading Real-World Impact",
+        year: "2022",
+        title: "Founded Wizzy Bakeshop",
         description:
-          "Leading brand renewal and product development, applying UX thinking to real-world products.",
+          "Launched Wizzy Bakeshop, leading product development, store operations, and the end-to-end customer experience.",
+      },
+      {
+        year: "2020–2021",
+        title: "Trained Professionally",
+        description:
+          "Advanced my baking to a professional level, working at a bakery in Seoul.",
+      },
+      {
+        year: "2018",
+        title: "Studied Navigation, Maritime Trade & Regulations",
+        description:
+          "Trained to make structured decisions in complex, high-stakes environments — a discipline that still shapes how I approach design problems.",
+      },
+      {
+        year: "2016",
+        title: "Discovered Baking",
+        description:
+          "Started baking as a hobby and turned it into a serious craft — curiosity becoming commitment, a pattern that has repeated ever since.",
       },
     ],
   },
