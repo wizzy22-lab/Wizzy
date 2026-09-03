@@ -142,6 +142,12 @@ export default function HowIGotHereSection({
           first line is one sentence and reads as a statement, so it is left to
           run.
 
+          The second breaks one sentence per line — then, now, and the rule
+          that came out of both — the same array-and-`<br>` the hero tail and
+          the intro statement use. The measure still guards the narrow end;
+          the breaks just stop the rag from landing mid-clause and hiding the
+          sequence.
+
           `mt-20` then `mt-10`: the section's interior gap, then half of it.
           The pair binds tighter to each other than to what follows.
         */}
@@ -149,7 +155,12 @@ export default function HowIGotHereSection({
           {dict.about.lead}
         </p>
         <p className="mt-10 max-w-[640px] text-body text-dim">
-          {dict.about.approach}
+          {dict.about.approach.map((line, i) => (
+            <span key={i}>
+              {i > 0 && <br />}
+              {line}
+            </span>
+          ))}
         </p>
 
         {/*

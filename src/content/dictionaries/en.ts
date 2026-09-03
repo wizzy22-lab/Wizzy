@@ -69,8 +69,14 @@ const en = {
     // one paragraph: the first is what the job is, the second is how the work
     // actually gets decided.
     lead: "I see a product designer’s job as closing the gap between the real world and the digital one.",
-    approach:
-      "Running a store, I decided from revenue and customer response. Now I decide from user behavior and test results. Design is judgment, not taste — so I define the criteria before I build.",
+    // One line per sentence, broken here rather than left to the measure: the
+    // three are a sequence — then, now, and the rule that came out of both —
+    // and a rag that falls mid-sentence hides it.
+    approach: [
+      "Running a store, I decided from revenue and customer response.",
+      "Now I decide from user behavior and test results.",
+      "Design is judgment, not taste — so I define the criteria before I build.",
+    ],
   },
 
   timeline: {
