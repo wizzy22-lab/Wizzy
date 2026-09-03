@@ -55,9 +55,12 @@ export const PROJECTS: Project[] = [
       en: "AI Master Decision Flow Redesign",
       ko: "AI Master 의사결정 플로우 리디자인",
     },
+    // `n=5` reads as a sample size to anyone who runs studies and as nothing
+    // at all to everyone else, and this line is the first thing a recruiter
+    // sees. Spelled out on the card; the case page keeps the notation.
     outcome: {
-      en: "AI trading redesigned around decisions — SUS 88 (n=5) across a 7-Master selection flow",
-      ko: "의사결정 중심으로 재설계한 AI 트레이딩 — SUS 88(n=5) · 7인 Master 선택 구조",
+      en: "Usability score 88 (SUS, 5 participants) — AI trading redesigned around a 7-Master selection flow",
+      ko: "사용성 테스트 88점(SUS · 참가자 5명) — 7인 Master 선택 구조로 재설계한 AI 트레이딩 의사결정 플로우",
     },
     tags: [
       { en: "UX Research", ko: "UX 리서치" },
@@ -82,8 +85,8 @@ export const PROJECTS: Project[] = [
       ko: "자영업자를 위한 냉난방 비용 최적화 의사결정 지원 시스템",
     },
     outcome: {
-      en: "Decision-support system validated with SUS 76 (n=5) — required inputs cut from 7 to 3",
-      ko: "SUS 76(n=5)으로 검증한 의사결정 지원 시스템 — 필수 입력 7개 → 3개",
+      en: "Usability score 76 (SUS, 5 participants) — required inputs cut from 7 to 3",
+      ko: "사용성 테스트 76점(SUS · 참가자 5명) — 필수 입력 7개 → 3개",
     },
     tags: [
       { en: "Product Design", ko: "프로덕트 디자인" },
