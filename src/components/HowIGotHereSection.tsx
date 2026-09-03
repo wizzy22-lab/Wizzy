@@ -123,6 +123,36 @@ export default function HowIGotHereSection({
         </div>
 
         {/*
+          What the work is, then how it gets decided.
+
+          Under the head row rather than beside the name: these are two and
+          four lines of prose, and the name's column narrows to 188px at `md`,
+          which would run them as a ribbon down the side of the photo. Here
+          they start on the section's main left edge — the one the caption, the
+          years, the tiles and the brand links all already use — so the block
+          adds no axis of its own.
+
+          Two levels off the existing ramp, no new ones. The claim takes body
+          weight at full strength; the evidence stays body at `text-dim`, a
+          step down the same ramp, which is the only way this system marks
+          something as supporting rather than leading.
+
+          `max-w-[640px]` on the second is the measure every other run of prose
+          on the site uses (`CaseStudyBody.tsx`, the case-study intros). The
+          first line is one sentence and reads as a statement, so it is left to
+          run.
+
+          `mt-20` then `mt-10`: the section's interior gap, then half of it.
+          The pair binds tighter to each other than to what follows.
+        */}
+        <p className="mt-20 text-body font-medium text-text">
+          {dict.about.lead}
+        </p>
+        <p className="mt-10 max-w-[640px] text-body text-dim">
+          {dict.about.approach}
+        </p>
+
+        {/*
           "How I got here" titles the rows below it, so it sits on them rather
           than floating at the top of the section — a caption at label scale,
           left-aligned with the rows it names. A <p>, not a heading: the rows

@@ -65,6 +65,12 @@ const en = {
     // Leads the two brand links at the foot of about. A label, not a link:
     // the case names below it are what you click, so the arrow lives on them.
     brandsLead: "More: brands I built and ran",
+    // The claim the section makes, and the evidence for it. Two levels, not
+    // one paragraph: the first is what the job is, the second is how the work
+    // actually gets decided.
+    lead: "I see a product designer’s job as closing the gap between the real world and the digital one.",
+    approach:
+      "Running a store, I decided from revenue and customer response. Now I decide from user behavior and test results. Design is judgment, not taste — so I define the criteria before I build.",
   },
 
   timeline: {
