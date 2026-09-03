@@ -42,10 +42,6 @@ const ko: Dictionary = {
     viewCase: "케이스 스터디 보기",
   },
 
-  businessBrand: {
-    label: "Business & Brand",
-  },
-
   intro: {
     greeting: "안녕하세요, 프로덕트 디자이너",
     name: "wizzy",
@@ -58,6 +54,7 @@ const ko: Dictionary = {
   about: {
     name: "위해지",
     photoAlt: "작업 중인 모습",
+    brandsLead: "브랜드를 직접 만들고 운영한 경험 더 보기",
   },
 
   timeline: {

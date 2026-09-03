@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { hasLocale, t } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionaries";
-import { PROJECT_CARDS, BUSINESS_CARDS } from "@/content/projects";
+import { PROJECT_CARDS } from "@/content/projects";
 import SiteHeader from "@/components/SiteHeader";
 import RotatingHeadline from "@/components/RotatingHeadline";
 import ProjectSection, { type ProjectCard } from "@/components/ProjectSection";
@@ -30,22 +30,6 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
     // Only link when there is something to read — a card with no case study
     // (written or hosted elsewhere) renders fully inert rather than pointing at
     // a placeholder page.
-    href: project.externalUrl ?? (project.hasCaseStudy ? `/${lang}/projects/${project.slug}` : null),
-    external: Boolean(project.externalUrl),
-    cta: project.hasCaseStudy || project.externalUrl ? dict.projects.viewCase : null,
-  }));
-
-  // Same shape, interaction, and linking rule as the project accordion — a card
-  // without a case study still renders inert.
-  const businessCards: ProjectCard[] = BUSINESS_CARDS.map((project) => ({
-    slug: project.slug,
-    no: project.no,
-    name: project.name,
-    subtitle: t(project.subtitle, lang),
-    outcome: t(project.outcome, lang),
-    tags: project.tags.map((tag) => t(tag, lang)),
-    description: t(project.description, lang),
-    thumbnail: project.thumbnail,
     href: project.externalUrl ?? (project.hasCaseStudy ? `/${lang}/projects/${project.slug}` : null),
     external: Boolean(project.externalUrl),
     cta: project.hasCaseStudy || project.externalUrl ? dict.projects.viewCase : null,
@@ -101,19 +85,24 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         </section>
       </div>
 
+      {/*
+        One project section, not two.
+
+        Business & Brand used to follow this one, which left the last thing a
+        visitor read before about — and the last thing they carried away — as
+        the bakery and the cafe rather than the product work. Real operating
+        experience is the stronger story, and that was the problem: it buried
+        three product cases under it. Those brands are now announced from the
+        foot of about, where a history belongs, and this section closes on the
+        design work it is there to argue for.
+      */}
       <ProjectSection
         id="project"
         theme="light"
         label={dict.projects.label}
         projects={cards}
       />
-      <ProjectSection
-        id="business"
-        theme="dark"
-        label={dict.businessBrand.label}
-        projects={businessCards}
-      />
-      <HowIGotHereSection dict={dict} />
+      <HowIGotHereSection lang={lang} dict={dict} />
       <SiteFooter lang={lang} dict={dict} />
     </main>
   );

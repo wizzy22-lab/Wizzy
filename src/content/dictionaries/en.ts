@@ -44,11 +44,6 @@ const en = {
     viewCase: "View case study",
   },
 
-  businessBrand: {
-    // Kept in English in both locales — it reads as a section name, not copy.
-    label: "Business & Brand",
-  },
-
   intro: {
     greeting: "Hi, I’m a Product Designer",
     name: "wizzy",
@@ -67,6 +62,9 @@ const en = {
     // The photo under the name. Describes what the frame shows, not who is in
     // it — the name is already stated in text directly above it.
     photoAlt: "At work",
+    // Leads the two brand links at the foot of about. A label, not a link:
+    // the case names below it are what you click, so the arrow lives on them.
+    brandsLead: "More: brands I built and ran",
   },
 
   timeline: {

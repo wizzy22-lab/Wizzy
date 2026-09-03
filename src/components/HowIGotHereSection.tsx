@@ -1,5 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
+import type { Locale } from "@/lib/i18n";
 import type { Dictionary } from "@/content/dictionaries";
+import { BUSINESS_PROJECTS } from "@/content/projects";
 import { TIMELINE_PHOTOS } from "@/content/timeline";
 
 /** Ties the row list to the caption above it — the list is not a heading's child. */
@@ -20,7 +23,14 @@ const TIMELINE_CAPTION_ID = "about-timeline-caption";
  */
 const ROW_COLUMNS = "md:grid-cols-[112px_minmax(0,260px)_minmax(0,1fr)]";
 
-export default function HowIGotHereSection({ dict }: { dict: Dictionary }) {
+export default function HowIGotHereSection({
+  lang,
+  dict,
+}: {
+  /** Needed to prefix the brand links — this section is the only place they live now. */
+  lang: Locale;
+  dict: Dictionary;
+}) {
   const { timeline } = dict;
 
   return (
@@ -159,6 +169,49 @@ export default function HowIGotHereSection({ dict }: { dict: Dictionary }) {
                 sizes="(max-width: 640px) 33vw, 16vw"
                 className="object-cover"
               />
+            </li>
+          ))}
+        </ul>
+
+        {/*
+          The brands, and the end of the page's argument.
+
+          These two had a section of their own between the case studies and
+          this one. That put the strongest real-world credential last, and by
+          peak-end it was what a visitor left with — three product cases buried
+          under a bakery. They belong here instead: this section is the
+          history, and building and running a brand is part of it.
+
+          Text links, not the filled pill the cases use. The pill is the page's
+          primary call, and repeating it here would put these straight back in
+          competition with the work the move was meant to keep in front.
+
+          `mt-20` and `mt-5` are the gaps the caption and its rows already use,
+          so a third block joins the section's rhythm instead of setting its
+          own.
+
+          `label-script text-label` rather than `type-label`, the same pairing
+          the case CTAs use. This is a running phrase, not a chip: uppercase
+          does nothing to Hangul, and the label token's 0.08em — sized for two
+          or three Latin words — reads as a double space between every Korean
+          word. `label-script` splits that by script, so KO gets the sans face
+          at its own spacing and EN keeps the mono, untransformed.
+        */}
+        <p className="label-script mt-20 text-label text-dim">
+          {dict.about.brandsLead}
+        </p>
+        <ul className="mt-5 flex flex-col gap-4 sm:flex-row sm:gap-10">
+          {BUSINESS_PROJECTS.map((project) => (
+            <li key={project.slug}>
+              <Link
+                href={`/${lang}/projects/${project.slug}`}
+                className="inline-flex items-baseline gap-2 text-body font-medium text-text transition-opacity hover:opacity-70"
+              >
+                {project.name}
+                {/* The arrow is the affordance, so it sits on what you click
+                    rather than on the label above. */}
+                <span aria-hidden>→</span>
+              </Link>
             </li>
           ))}
         </ul>

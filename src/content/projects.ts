@@ -185,5 +185,11 @@ export function getProject(slug: string): Project | undefined {
 /** Cards for the scroll-driven accordion. */
 export const PROJECT_CARDS = PROJECTS.filter((p) => p.group === "project");
 
-/** Cards for the "Business & Brand" grid. */
-export const BUSINESS_CARDS = PROJECTS.filter((p) => p.group === "business");
+/**
+ * The brands, linked from the foot of about.
+ *
+ * These had a section of their own on the main page. They still have their own
+ * pages — nothing here changed but where they are announced from — so this
+ * stays a list of projects rather than of cards.
+ */
+export const BUSINESS_PROJECTS = PROJECTS.filter((p) => p.group === "business");
