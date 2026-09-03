@@ -144,9 +144,13 @@ export default function HowIGotHereSection({
 
           The second breaks one sentence per line — then, now, and the rule
           that came out of both — the same array-and-`<br>` the hero tail and
-          the intro statement use. The measure still guards the narrow end;
-          the breaks just stop the rag from landing mid-clause and hiding the
-          sequence.
+          the intro statement use.
+
+          The breaks are held back below `md`, where the column is too narrow
+          to hold a sentence anyway: forcing them there only bought a second,
+          uneven rag under each line. From `md` up the measure is 640 and
+          every sentence fits, so the break is the only one on the line and
+          the sequence reads. Below it the text just flows.
 
           `mt-20` then `mt-10`: the section's interior gap, then half of it.
           The pair binds tighter to each other than to what follows.
@@ -157,7 +161,14 @@ export default function HowIGotHereSection({
         <p className="mt-10 max-w-[640px] text-body text-dim">
           {dict.about.approach.map((line, i) => (
             <span key={i}>
-              {i > 0 && <br />}
+              {/* The space carries the join once the break is hidden — without
+                  it the sentences butt together below `md`. At `md` and up it
+                  is a space before a forced break, which collapses. */}
+              {i > 0 && (
+                <>
+                  <br className="hidden md:inline" />{" "}
+                </>
+              )}
               {line}
             </span>
           ))}
