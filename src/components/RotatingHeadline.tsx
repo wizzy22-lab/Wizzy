@@ -23,7 +23,11 @@ export default function RotatingHeadline({ phrases }: { phrases: string[] }) {
       // Full-strength `--text`: the rotating word is the only thing in the hero
       // that is not dimmed, so the contrast step alone carries the emphasis the
       // brand colour used to.
-      className="relative mt-2 flex h-[1.2em] w-full items-center justify-center text-display font-medium text-text"
+      // `text-heading`, not `text-display`: the carousel below is now what
+      // carries the first screen, and a display-scale headline over it left the
+      // two competing. The box is 1.3em rather than 1.2 because this tier's
+      // line-height is 1.25 — at 1.2 the descenders clip.
+      className="relative mt-2 flex h-[1.3em] w-full items-center justify-center text-heading font-medium text-text"
     >
       {phrases.map((phrase, i) => {
         const isActive = i === active;

@@ -35,6 +35,7 @@ const ko: Dictionary = {
     mediaAlt: "디바이스 목업 위의 Shoot Shoot Penguin 앱 화면",
     // Left in English on both locales — a mono uppercase affordance, not prose.
     scrollHint: "scroll",
+    carouselLabel: "주요 작업",
   },
 
   projects: {

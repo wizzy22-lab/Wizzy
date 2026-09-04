@@ -2,8 +2,10 @@ import { notFound } from "next/navigation";
 import { hasLocale, t } from "@/lib/i18n";
 import { getDictionary } from "@/content/dictionaries";
 import { PROJECT_CARDS } from "@/content/projects";
+import { resolveHeroCards } from "@/content/hero-cards";
 import SiteHeader from "@/components/SiteHeader";
 import RotatingHeadline from "@/components/RotatingHeadline";
+import HeroCarousel from "@/components/HeroCarousel";
 import ProjectSection, { type ProjectCard } from "@/components/ProjectSection";
 import HowIGotHereSection from "@/components/HowIGotHereSection";
 import SiteFooter from "@/components/SiteFooter";
@@ -16,6 +18,10 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   if (!hasLocale(lang)) notFound();
 
   const dict = await getDictionary(lang);
+
+  // Destinations resolved here, so the client carousel never imports the
+  // project list to look one up.
+  const heroCards = resolveHeroCards(lang);
 
   // Resolve to plain strings here so the client accordion never imports a dictionary.
   const cards: ProjectCard[] = PROJECT_CARDS.map((project) => ({
@@ -64,6 +70,13 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               </span>
             ))}
           </p>
+
+          {/*
+            The arc sits under the whole headline block, not between the
+            rotating phrase and its tail — those two are one sentence, and
+            anything dropped into the middle of it breaks the reading.
+          */}
+          <HeroCarousel cards={heroCards} label={dict.hero.carouselLabel} />
 
           {/*
             Scroll hint — the only affordance left in the hero. Presence comes

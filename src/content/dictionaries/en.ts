@@ -36,6 +36,9 @@ const en = {
     // Rendered uppercase in the mono label face; kept in the dictionary so it
     // can be localised later rather than sitting hardcoded in the component.
     scrollHint: "scroll",
+    // Never rendered as text — the accessible name of the card carousel, which
+    // has no visible heading of its own.
+    carouselLabel: "Selected work",
   },
 
   projects: {
