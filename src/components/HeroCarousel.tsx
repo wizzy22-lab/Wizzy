@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -100,6 +100,30 @@ export default function HeroCarousel({
   label: string;
 }) {
   const [ready, setReady] = useState(false);
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  /*
+   * How far the arc has to travel to sit in the middle of the first screen.
+   *
+   * The intro holds it there, scaled up, and then releases it back to zero —
+   * so this is measured once, from the position it already occupies, and
+   * handed to the CSS as a length to translate by.
+   *
+   * `getBoundingClientRect` reports the transformed box, and the intro's scale
+   * is already applied by the time this runs. That is fine: `transform-origin`
+   * is the centre, and scaling about the centre leaves the centre where it
+   * was — which is the only point being measured.
+   */
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const box = el.getBoundingClientRect();
+    const centre = box.top + box.height / 2;
+    el.style.setProperty(
+      "--intro-y",
+      `${Math.round(window.innerHeight / 2 - centre)}px`,
+    );
+  }, []);
 
   return (
     // The arc wants the full window, but the hero sits inside the page's
@@ -107,6 +131,7 @@ export default function HeroCarousel({
     // same bleed the open project card uses — the padding is responsive, so
     // the margin matches it step for step.
     <div
+      ref={ref}
       role="region"
       // Named here rather than through Swiper's `a11y` option, which needs the
       // A11y module and the stylesheet that comes with it. One attribute does

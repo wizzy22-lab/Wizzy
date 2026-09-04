@@ -314,57 +314,163 @@ p {
 }
 
 /*
- * The entrance, in two layers.
+ * The carousel is only ever hidden by its own readiness.
  *
- * The whole arc arrives first — from 1.25 with the cards already in formation,
- * so it reads as the group settling back rather than as six things flying in.
- * Each card then fades up behind it, 60ms apart, which gives the arc a
- * direction it would not have if they all landed together.
- *
- * The start state is the default and `[data-ready]` is the end state, so a
- * visitor with JS off or Swiper still loading sees nothing half-built. React
- * sets `data-ready` from `onSwiper`, once coverflow has positioned the slides.
- *
- * Only `transform` and `opacity` move. Both are declared inside
- * `prefers-reduced-motion: no-preference`, which means the reduced-motion
- * default is not a suppressed animation but no animation at all — the final
- * state, painted once.
+ * Swiper positions the slides on init; until then they are a flat row, and
+ * this is what covers that gap. Outside the intro it is the whole story — a
+ * visitor with JS off, or arriving under reduced motion, gets the finished arc
+ * with nothing to wait for beyond Swiper itself.
  */
 .hero-carousel {
   opacity: 0;
+
+  /* The scale the intro holds the arc at before it settles. A phone gets less
+     of it: at 1.35 the outer cards of the arc leave the screen. */
+  --intro-scale: 1.2;
+}
+
+@media (min-width: 768px) {
+  .hero-carousel {
+    --intro-scale: 1.35;
+  }
 }
 
 .hero-carousel[data-ready] {
   opacity: 1;
 }
 
+/*
+ * The intro.
+ *
+ * One attribute on a wrapper, four phases, and every rule below keyed off it.
+ * `HeroIntro` renders `pending` on the server and walks the rest on a timer,
+ * so the page is dressed for the intro before the first paint rather than
+ * being caught and hidden after it.
+ *
+ * The whole block sits inside `prefers-reduced-motion: no-preference`. That is
+ * the reduced-motion branch too, by omission: none of this exists, the plate is
+ * `display: none`, nothing is hidden, and the scroll was never locked — the
+ * page simply paints finished.
+ *
+ * Only `transform` and `opacity` are animated. `overflow` and `display` are
+ * set, but they are state, not a transition — nothing tweens them.
+ */
+/*
+ * The plate does not exist outside the intro.
+ *
+ * Declared before the block below so the block can override it — under reduced
+ * motion nothing does, and the plate is never painted even for the one frame
+ * before React unmounts it.
+ */
+.hero-intro-plate {
+  display: none;
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .hero-carousel {
-    transform: scale(1.25);
-    transition:
-      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  /*
+   * Scroll lock, held from the server's first frame.
+   *
+   * `:has()` because the phase lives on a wrapper inside `<body>` and the
+   * scroller is `<html>`. The reserved gutter is what stops the page shifting
+   * sideways when the lock lifts and a real scrollbar takes the space — on the
+   * platforms that still take space for one.
+   */
+  html:has([data-intro]) {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+  }
+
+  html:has([data-intro]) body {
+    overflow: hidden;
+  }
+
+  /*
+   * The plate. Page-coloured rather than black, so what dissolves is a flat
+   * field and not a lighting change.
+   *
+   * Above the fixed header, below the carousel. It takes pointer events while
+   * it is opaque — there is a whole page under it that must not be clickable —
+   * and gives them up the moment it starts to fade.
+   */
+  .hero-intro-plate {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    background: var(--bg);
+    opacity: 1;
+    transition: opacity 0.6s ease-out;
+  }
+
+  [data-intro="reveal"] .hero-intro-plate {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* The one thing standing above the plate. */
+  [data-intro] .hero-carousel {
+    position: relative;
+    z-index: 70;
     will-change: transform;
   }
 
-  .hero-carousel[data-ready] {
-    transform: none;
+  /*
+   * Held in the middle of the screen, scaled up. `--intro-y` is the distance
+   * from where the arc actually sits to the centre of the first screen,
+   * measured once by the carousel itself; until it lands the arc is simply
+   * scaled in place, which nobody sees because the cards are still at zero.
+   */
+  [data-intro="pending"] .hero-carousel,
+  [data-intro="cards"] .hero-carousel {
+    transform: translateY(var(--intro-y, 0px)) scale(var(--intro-scale));
   }
 
-  /* `--i` is the card's index, set inline. The delay is the only thing that
-     differs between the six, so the rule is written once. */
-  .hero-carousel__card {
+  /* And released — back to the position it was always going to occupy. */
+  [data-intro="settle"] .hero-carousel,
+  [data-intro="reveal"] .hero-carousel {
+    transform: none;
+    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /*
+   * The cards, 60ms apart. `--i` is the card's index, set inline, so the delay
+   * is the only thing that differs between the six and the rule is written
+   * once. The 0.2s floor is the beat between the plate landing and the first
+   * card arriving.
+   */
+  [data-intro] .hero-carousel__card {
     opacity: 0;
     transform: translateY(12px);
     transition:
-      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-    transition-delay: calc(var(--i, 0) * 60ms);
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: calc(0.2s + var(--i, 0) * 60ms);
     will-change: transform;
   }
 
-  .hero-carousel[data-ready] .hero-carousel__card {
+  [data-intro="cards"] .hero-carousel__card,
+  [data-intro="settle"] .hero-carousel__card,
+  [data-intro="reveal"] .hero-carousel__card {
     opacity: 1;
     transform: none;
+  }
+
+  /*
+   * Everything else on the first screen, revealed in the order it is read:
+   * the bar, then the headline, then the scroll hint. `--intro-step` is which
+   * of those three an element belongs to.
+   *
+   * Only the first screen is listed. Nothing below the fold needs a rule — the
+   * plate covers it until 1.4s and the scroll is locked until 2.2, so it is
+   * revealed by the plate dissolving, which is exactly what should reveal it.
+   */
+  [data-intro] .intro-reveal {
+    opacity: 0;
+  }
+
+  [data-intro="reveal"] .intro-reveal {
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+    transition-delay: calc(var(--intro-step, 0) * 80ms);
   }
 }
