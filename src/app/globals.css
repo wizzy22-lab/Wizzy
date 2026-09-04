@@ -273,3 +273,98 @@ h3 {
 p {
   text-wrap: pretty;
 }
+
+/*
+ * The hero's card arc.
+ *
+ * Scoped to `.hero-carousel` rather than to Swiper's own class names on their
+ * own, so nothing here reaches a second carousel if one is ever added.
+ *
+ * No new tokens: the card takes `--surface`, `--border` and `--radius-card`,
+ * and the label takes the `type-label` utility. What is written here is
+ * geometry and motion, which the scale has no opinion about.
+ */
+
+/*
+ * Card width, and through the 4:5 ratio the card height too.
+ *
+ * Three bounds because the arc shares the first screen with the headline and
+ * the scroll hint: `22vw` keeps the row proportionate as the window widens,
+ * `30vh` is what stops a short window from pushing the cards past the fold,
+ * and `min()` means whichever runs out first wins.
+ */
+/*
+ * Depth on the same rule, without a shadow.
+ *
+ * `slideShadows` is off on the effect — Swiper's gradients paint a dark sheet
+ * over the card face, which on a monochrome palette reads as grime rather than
+ * as distance. Light falling off the sides does the same job honestly.
+ *
+ * Deliberately not transitioned: the entrance animates transform and opacity
+ * only, and a filter on the compositor's critical path is the one thing that
+ * would put a paint in the middle of it.
+ */
+.hero-carousel .swiper-slide {
+  width: clamp(200px, min(22vw, 30vh), 300px);
+  filter: brightness(0.88);
+}
+
+.hero-carousel .swiper-slide-active {
+  filter: none;
+}
+
+/*
+ * The entrance, in two layers.
+ *
+ * The whole arc arrives first — from 1.25 with the cards already in formation,
+ * so it reads as the group settling back rather than as six things flying in.
+ * Each card then fades up behind it, 60ms apart, which gives the arc a
+ * direction it would not have if they all landed together.
+ *
+ * The start state is the default and `[data-ready]` is the end state, so a
+ * visitor with JS off or Swiper still loading sees nothing half-built. React
+ * sets `data-ready` from `onSwiper`, once coverflow has positioned the slides.
+ *
+ * Only `transform` and `opacity` move. Both are declared inside
+ * `prefers-reduced-motion: no-preference`, which means the reduced-motion
+ * default is not a suppressed animation but no animation at all — the final
+ * state, painted once.
+ */
+.hero-carousel {
+  opacity: 0;
+}
+
+.hero-carousel[data-ready] {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-carousel {
+    transform: scale(1.25);
+    transition:
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  .hero-carousel[data-ready] {
+    transform: none;
+  }
+
+  /* `--i` is the card's index, set inline. The delay is the only thing that
+     differs between the six, so the rule is written once. */
+  .hero-carousel__card {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: calc(var(--i, 0) * 60ms);
+    will-change: transform;
+  }
+
+  .hero-carousel[data-ready] .hero-carousel__card {
+    opacity: 1;
+    transform: none;
+  }
+}
