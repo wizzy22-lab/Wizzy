@@ -6,7 +6,14 @@ import { useEffect, useState } from "react";
 const INTERVAL_MS = 2200; // how long each phrase stays
 const SHIFT = "0.35em"; // vertical slide distance of inactive phrases
 
-export default function RotatingHeadline({ phrases }: { phrases: string[] }) {
+export default function RotatingHeadline({
+  phrases,
+  className = "",
+}: {
+  phrases: string[];
+  /** Appended to the heading — the page uses it to tag the headline for the intro. */
+  className?: string;
+}) {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -27,7 +34,7 @@ export default function RotatingHeadline({ phrases }: { phrases: string[] }) {
       // carries the first screen, and a display-scale headline over it left the
       // two competing. The box is 1.3em rather than 1.2 because this tier's
       // line-height is 1.25 — at 1.2 the descenders clip.
-      className="relative mt-2 flex h-[1.3em] w-full items-center justify-center text-heading font-medium text-text"
+      className={`relative mt-2 flex h-[1.3em] w-full items-center justify-center text-heading font-medium text-text ${className}`}
     >
       {phrases.map((phrase, i) => {
         const isActive = i === active;

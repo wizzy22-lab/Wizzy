@@ -6,6 +6,7 @@ import { resolveHeroCards } from "@/content/hero-cards";
 import SiteHeader from "@/components/SiteHeader";
 import RotatingHeadline from "@/components/RotatingHeadline";
 import HeroCarousel from "@/components/HeroCarousel";
+import HeroIntro from "@/components/HeroIntro";
 import ProjectSection, { type ProjectCard } from "@/components/ProjectSection";
 import HowIGotHereSection from "@/components/HowIGotHereSection";
 import SiteFooter from "@/components/SiteFooter";
@@ -43,80 +44,99 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
 
   return (
     <main className="relative min-h-screen w-full bg-bg font-sans">
-      <SiteHeader lang={lang} dict={dict} />
-
       {/*
-        80vh, not 100 — the remaining fifth of the first screen belongs to the
-        section below, so the light band under the fold reads as "keep going".
-        The space the portrait used to occupy is left empty on purpose.
+        Everything the intro hides has to sit under the element carrying its
+        phase, so the intro wraps the page rather than sitting beside it. The
+        children stay server components; only the wrapper and its plate cross
+        to the client.
       */}
-      <div
-        data-theme="dark"
-        className="mx-auto flex min-h-[80vh] w-full max-w-[1920px] flex-col overflow-hidden px-6 pt-[70px] md:px-16 xl:px-[180px] 2xl:px-[360px]"
-      >
-        {/* Hero */}
-        <section className="relative flex flex-1 flex-col items-center justify-center pb-24 text-center">
-          {dict.hero.eyebrow && (
-            <p className="type-label text-dim">{dict.hero.eyebrow}</p>
-          )}
+      <HeroIntro>
+        <SiteHeader lang={lang} dict={dict} />
 
-          <RotatingHeadline phrases={dict.hero.phrases} />
+        {/*
+          80vh, not 100 — the remaining fifth of the first screen belongs to the
+          section below, so the light band under the fold reads as "keep going".
+          The space the portrait used to occupy is left empty on purpose.
+        */}
+        <div
+          data-theme="dark"
+          className="mx-auto flex min-h-[80vh] w-full max-w-[1920px] flex-col overflow-hidden px-6 pt-[70px] md:px-16 xl:px-[180px] 2xl:px-[360px]"
+        >
+          {/* Hero.
 
-          <p className="mt-2 text-body text-dim">
-            {dict.hero.tail.map((line, i) => (
-              <span key={i}>
-                {i > 0 && <br />}
-                {line}
-              </span>
-            ))}
-          </p>
-
-          {/*
-            The arc sits under the whole headline block, not between the
-            rotating phrase and its tail — those two are one sentence, and
-            anything dropped into the middle of it breaks the reading.
-          */}
-          <HeroCarousel cards={heroCards} label={dict.hero.carouselLabel} />
-
-          {/*
-            Scroll hint — the only affordance left in the hero. Presence comes
-            from the motion, not from size: the type stays at label scale and
-            the box only grows to meet the 44px touch minimum.
-          */}
-          <a
-            href="#project"
-            className="type-label absolute bottom-0 left-1/2 inline-flex min-h-[44px] min-w-[44px] -translate-x-1/2 flex-col items-center justify-end gap-1 text-dim transition-opacity hover:opacity-70"
+              `--intro-step` is set here rather than on each line: custom
+              properties inherit, so the three parts of the headline share one
+              beat of the intro's reveal and only the scroll hint below has to
+              name a different one. */}
+          <section
+            style={{ "--intro-step": 1 } as React.CSSProperties}
+            className="relative flex flex-1 flex-col items-center justify-center pb-24 text-center"
           >
-            {dict.hero.scrollHint}
-            <span
-              aria-hidden
-              className="animate-scroll-hint motion-reduce:animate-none"
+            {dict.hero.eyebrow && (
+              <p className="intro-reveal type-label text-dim">
+                {dict.hero.eyebrow}
+              </p>
+            )}
+
+            <RotatingHeadline phrases={dict.hero.phrases} className="intro-reveal" />
+
+            <p className="intro-reveal mt-2 text-body text-dim">
+              {dict.hero.tail.map((line, i) => (
+                <span key={i}>
+                  {i > 0 && <br />}
+                  {line}
+                </span>
+              ))}
+            </p>
+
+            {/*
+              The arc sits under the whole headline block, not between the
+              rotating phrase and its tail — those two are one sentence, and
+              anything dropped into the middle of it breaks the reading.
+            */}
+            <HeroCarousel cards={heroCards} label={dict.hero.carouselLabel} />
+
+            {/*
+              Scroll hint — the only affordance left in the hero. Presence comes
+              from the motion, not from size: the type stays at label scale and
+              the box only grows to meet the 44px touch minimum.
+            */}
+            <a
+              href="#project"
+              style={{ "--intro-step": 2 } as React.CSSProperties}
+              className="intro-reveal type-label absolute bottom-0 left-1/2 inline-flex min-h-[44px] min-w-[44px] -translate-x-1/2 flex-col items-center justify-end gap-1 text-dim transition-opacity hover:opacity-70"
             >
-              ↓
-            </span>
-          </a>
-        </section>
-      </div>
+              {dict.hero.scrollHint}
+              <span
+                aria-hidden
+                className="animate-scroll-hint motion-reduce:animate-none"
+              >
+                ↓
+              </span>
+            </a>
+          </section>
+        </div>
 
-      {/*
-        One project section, not two.
+        {/*
+          One project section, not two.
 
-        Business & Brand used to follow this one, which left the last thing a
-        visitor read before about — and the last thing they carried away — as
-        the bakery and the cafe rather than the product work. Real operating
-        experience is the stronger story, and that was the problem: it buried
-        three product cases under it. Those brands are now announced from the
-        foot of about, where a history belongs, and this section closes on the
-        design work it is there to argue for.
-      */}
-      <ProjectSection
-        id="project"
-        theme="light"
-        label={dict.projects.label}
-        projects={cards}
-      />
-      <HowIGotHereSection lang={lang} dict={dict} />
-      <SiteFooter lang={lang} dict={dict} />
+          Business & Brand used to follow this one, which left the last thing a
+          visitor read before about — and the last thing they carried away — as
+          the bakery and the cafe rather than the product work. Real operating
+          experience is the stronger story, and that was the problem: it buried
+          three product cases under it. Those brands are now announced from the
+          foot of about, where a history belongs, and this section closes on the
+          design work it is there to argue for.
+        */}
+        <ProjectSection
+          id="project"
+          theme="light"
+          label={dict.projects.label}
+          projects={cards}
+        />
+        <HowIGotHereSection lang={lang} dict={dict} />
+        <SiteFooter lang={lang} dict={dict} />
+      </HeroIntro>
     </main>
   );
 }

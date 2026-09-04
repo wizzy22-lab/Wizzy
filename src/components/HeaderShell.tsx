@@ -69,7 +69,10 @@ export default function HeaderShell({ children }: { children: React.ReactNode })
       // Section boundaries cut hard, but this element persists across them —
       // an instant flip strobes when a boundary sits under the bar, so the
       // colour change alone is eased.
-      className="fixed inset-x-0 top-0 z-50 bg-bg/80 backdrop-blur-md transition-colors duration-200 motion-reduce:transition-none"
+      // `intro-reveal` at step 0: the bar is the first thing back after the
+      // intro's plate dissolves. Outside the intro the class matches nothing.
+      style={{ "--intro-step": 0 } as React.CSSProperties}
+      className="intro-reveal fixed inset-x-0 top-0 z-50 bg-bg/80 backdrop-blur-md transition-colors duration-200 motion-reduce:transition-none"
     >
       {children}
     </header>
