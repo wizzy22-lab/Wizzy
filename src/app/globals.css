@@ -294,22 +294,62 @@ p {
  * and `min()` means whichever runs out first wins.
  */
 /*
- * Depth on the same rule, without a shadow.
+ * The slide is Swiper's to transform, and nothing here takes that back.
  *
- * `slideShadows` is off on the effect — Swiper's gradients paint a dark sheet
- * over the card face, which on a monochrome palette reads as grime rather than
- * as distance. Light falling off the sides does the same job honestly.
+ * Swiper writes `transition-duration` onto each slide inline — zero while a
+ * finger is down so the arc tracks the hand, then `speed` while it settles.
+ * The easing it never writes, so that is set here; without it the snap runs on
+ * the CSS default `ease` and lands flat.
  *
- * Deliberately not transitioned: the entrance animates transform and opacity
- * only, and a filter on the compositor's critical path is the one thing that
- * would put a paint in the middle of it.
+ * Deliberately no `transition` shorthand. That would set `transition-property`
+ * to whatever was listed, and Swiper's inline duration would then drive that
+ * property instead of `transform` — the arc would stop animating altogether.
+ *
+ * `backface-visibility` earns its place beyond the GPU hint: dragging pushes
+ * the far slides past 90 degrees, and a card turned through edge-on comes back
+ * mirrored, label and all. Hidden, it simply stops being drawn — which at that
+ * angle and that distance off-screen is what it should do.
  */
 .hero-carousel .swiper-slide {
   width: clamp(200px, min(22vw, 30vh), 300px);
-  filter: brightness(0.88);
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
-.hero-carousel .swiper-slide-active {
+/* Free mode's own stylesheet sets `ease-out` on the wrapper, so this has to
+   outrank it rather than merely follow it. */
+.hero-carousel .swiper.swiper-free-mode > .swiper-wrapper,
+.hero-carousel .swiper-wrapper {
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/*
+ * Depth, without a shadow, in three steps.
+ *
+ * `slideShadows` is off on the effect — Swiper's gradients paint a dark sheet
+ * over the card face, which on a monochrome palette reads as grime rather than
+ * as distance. Light falling off with distance does the same job honestly, and
+ * one flat value for everything off-centre flattened exactly the thing the
+ * arc exists to show.
+ *
+ * The brightness sits on the card, not on the slide, and that is the point:
+ * the slide's `transition-duration` belongs to Swiper and drops to zero on
+ * every drag frame. A filter on it would step between the three values instead
+ * of crossing between them. On the card it keeps a transition of its own.
+ */
+.hero-carousel__card {
+  filter: brightness(0.82);
+  transition: filter 0.3s ease-out;
+  transform: translateZ(0);
+}
+
+.hero-carousel .swiper-slide-prev .hero-carousel__card,
+.hero-carousel .swiper-slide-next .hero-carousel__card {
+  filter: brightness(0.92);
+}
+
+.hero-carousel .swiper-slide-active .hero-carousel__card {
   filter: none;
 }
 
@@ -440,7 +480,9 @@ p {
    */
   [data-intro] .hero-carousel__card {
     opacity: 0;
-    transform: translateY(12px);
+    /* `translate3d`, not `translateY` — this overrides the card's own
+       `translateZ(0)`, so the promotion has to be written back into it. */
+    transform: translate3d(0, 12px, 0);
     transition:
       transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
       opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
@@ -452,7 +494,7 @@ p {
   [data-intro="settle"] .hero-carousel__card,
   [data-intro="reveal"] .hero-carousel__card {
     opacity: 1;
-    transform: none;
+    transform: translateZ(0);
   }
 
   /*

@@ -4,7 +4,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow } from "swiper/modules";
+import { EffectCoverflow, FreeMode } from "swiper/modules";
 import type { ResolvedHeroCard } from "@/content/hero-cards";
 
 // Only the two stylesheets this carousel actually uses — the core layout and
@@ -12,6 +12,7 @@ import type { ResolvedHeroCard } from "@/content/hero-cards";
 // navigation and pagination included, none of which this renders.
 import "swiper/css";
 import "swiper/css/effect-coverflow";
+import "swiper/css/free-mode";
 
 /**
  * Coverflow geometry.
@@ -22,16 +23,56 @@ import "swiper/css/effect-coverflow";
  * gradient painted over the card.
  */
 const COVERFLOW = {
-  // 25, not 30: coverflow multiplies this by the slide's distance from centre,
-  // and past 90 degrees a card turns through edge-on and comes back mirrored —
-  // the label on the outermost card renders backwards. With the arc centred,
-  // the furthest slide is three out, so 25 tops out at 75 and every card stays
-  // facing the reader.
-  rotate: 25,
-  depth: 200,
+  /*
+   * 20, because `modifier` multiplies it.
+   *
+   * Coverflow turns each slide by `rotate * distance-from-centre * modifier`.
+   * The arc is centred on index 2 of six, so the furthest slide is three out:
+   * at 25 with the modifier now 1.2 that lands on exactly 90 degrees, and the
+   * outermost card collapses to an edge-on sliver — measured at 59px wide
+   * against the 315px of the centre card.
+   *
+   * 20 x 1.2 is 24 a step, which is the 25 the arc was drawn with, and tops
+   * out at 72. The modifier is left to do what it was raised for: depth.
+   */
+  rotate: 20,
+  depth: 260,
   stretch: 0,
-  modifier: 1,
+  modifier: 1.2,
   slideShadows: false,
+};
+
+/**
+ * How long a snap takes.
+ *
+ * Swiper writes `transition-duration` onto the slides itself — 0 while a
+ * finger is down, this while it settles — so the easing has to come from CSS.
+ * See `.hero-carousel .swiper-slide` in `globals.css`.
+ */
+const SPEED = 650;
+
+/**
+ * Drag with weight: the arc keeps going when the hand comes off and slows into
+ * place instead of stopping dead.
+ *
+ * Two settings beyond the brief, both of which it is broken without.
+ *
+ * `sticky`, because free mode on its own coasts to a halt wherever the
+ * momentum runs out and leaves the arc parked between two cards with nothing
+ * centred — and a snap is half of what this is meant to do.
+ *
+ * `momentumBounce` off, because Swiper defaults it on: a hard flick is allowed
+ * to carry the arc clean off the end of its own track and spring back. Measured
+ * at 688px past `maxTranslate`, which on a centred arc is the whole thing
+ * bunched against one edge with empty hero beside it. Off, the momentum is
+ * clamped at the bounds and the snap takes it from there.
+ */
+const FREE_MODE = {
+  enabled: true,
+  momentum: true,
+  momentumRatio: 0.6,
+  momentumBounce: false,
+  sticky: true,
 };
 
 /**
@@ -141,9 +182,11 @@ export default function HeroCarousel({
       data-ready={ready ? "" : undefined}
     >
       <Swiper
-        modules={[EffectCoverflow]}
+        modules={[EffectCoverflow, FreeMode]}
         effect="coverflow"
         coverflowEffect={COVERFLOW}
+        speed={SPEED}
+        freeMode={FREE_MODE}
         // Each slide carries its own width (see `.hero-carousel .swiper-slide`
         // in globals.css), so the count across the viewport falls out of the
         // card size rather than being fixed here.
