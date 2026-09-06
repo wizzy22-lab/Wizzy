@@ -100,7 +100,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{if(/[?&]intro=1(&|$)/.test(location.search))document.documentElement.setAttribute("data-intro-force","")}catch(e){}`,
+            __html: `try{if(/[?&]intro=1(&|$)/.test(location.search))document.documentElement.setAttribute("data-motion-force","")}catch(e){}`,
           }}
         />
 

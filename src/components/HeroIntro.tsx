@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 
-import { usePrefersReducedMotion } from "@/lib/motion";
+import { useHeroMotionForced, usePrefersReducedMotion } from "@/lib/motion";
 
 /**
  * The intro timeline, in milliseconds from mount.
@@ -29,26 +29,6 @@ const DONE_AT = 2100;
  * way of it.
  */
 type Phase = "pending" | "shrink" | "reveal" | "done";
-
-/** Nothing to subscribe to — the stamp is written before the document parses. */
-function subscribeNever() {
-  return () => {};
-}
-
-/**
- * Whether `?intro=1` asked for the intro regardless of the motion preference.
- *
- * The script in the layout head reads the URL and stamps `<html>`; this reads
- * the stamp rather than the URL so that the CSS and the timeline can never
- * disagree about which one is in force.
- */
-function useIntroForced() {
-  return useSyncExternalStore(
-    subscribeNever,
-    () => document.documentElement.hasAttribute("data-intro-force"),
-    () => false,
-  );
-}
 
 /**
  * The hero's intro.
@@ -90,7 +70,7 @@ function useIntroForced() {
 export default function HeroIntro({ children }: { children: React.ReactNode }) {
   // Both read unconditionally — `&&` would short-circuit the second hook.
   const reduced = usePrefersReducedMotion();
-  const forced = useIntroForced();
+  const forced = useHeroMotionForced();
   const inert = reduced && !forced;
 
   const [phase, setPhase] = useState<Phase>("pending");

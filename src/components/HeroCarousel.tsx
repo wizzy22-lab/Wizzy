@@ -7,7 +7,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectCoverflow, FreeMode } from "swiper/modules";
 import type { Swiper as SwiperClass } from "swiper/types";
 import type { ResolvedHeroCard } from "@/content/hero-cards";
-import { usePrefersReducedMotion } from "@/lib/motion";
+import { useHeroMotionForced, usePrefersReducedMotion } from "@/lib/motion";
 
 // Only the two stylesheets this carousel actually uses — the core layout and
 // the coverflow effect. `swiper/css/bundle` would pull in every module's CSS,
@@ -247,7 +247,13 @@ export default function HeroCarousel({
   label: string;
 }) {
   const [ready, setReady] = useState(false);
+  // Both read unconditionally — `&&` would short-circuit the second hook.
+  // `?intro=1` overrides the preference here as well as on the intro; an
+  // override that revives the intro and leaves the fan still cannot show you
+  // the hero.
   const reduced = usePrefersReducedMotion();
+  const forced = useHeroMotionForced();
+  const still = reduced && !forced;
 
   // The strip the loop actually runs on — see `STRIP_PASSES`.
   const strip = Array.from({ length: STRIP_PASSES }, () => cards).flat();
@@ -268,7 +274,7 @@ export default function HeroCarousel({
    * wait for and the fan starts immediately.
    */
   useEffect(() => {
-    if (reduced) return;
+    if (still) return;
 
     const start = () => swiperRef.current?.autoplay?.start();
     const wrapper = rootRef.current?.closest("[data-intro]");
@@ -287,7 +293,7 @@ export default function HeroCarousel({
       attributeFilter: ["data-intro"],
     });
     return () => observer.disconnect();
-  }, [reduced]);
+  }, [still]);
 
   useEffect(() => () => {
     if (resumeRef.current) clearTimeout(resumeRef.current);
@@ -375,7 +381,7 @@ export default function HeroCarousel({
           swiper.autoplay?.stop();
         }}
         onTouchEnd={(swiper) => {
-          if (reduced) return;
+          if (still) return;
           if (resumeRef.current) clearTimeout(resumeRef.current);
           resumeRef.current = setTimeout(() => {
             if (!hoveredRef.current) swiper.autoplay?.start();

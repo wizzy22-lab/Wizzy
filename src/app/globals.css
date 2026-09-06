@@ -603,7 +603,7 @@ p {
  * what the visitor asked for. Without these, a reduced-motion visitor would
  * see a card covering the screen until hydration caught up and cleared it.
  *
- * `data-intro-force` is the exception, stamped by the script in the layout
+ * `data-motion-force` is the exception, stamped by the script in the layout
  * head when the URL carries `?intro=1`. Reduced motion is a preference about
  * being shown motion unasked; typing the parameter is asking. It exists so the
  * intro can be reviewed on a machine that has the preference set — which is
@@ -611,22 +611,22 @@ p {
  * exactly that three times.
  */
 @media (prefers-reduced-motion: reduce) {
-  html:not([data-intro-force]):has([data-intro]),
-  html:not([data-intro-force]):has([data-intro]) body {
+  html:not([data-motion-force]):has([data-intro]),
+  html:not([data-motion-force]):has([data-intro]) body {
     overflow: visible;
     scrollbar-gutter: auto;
   }
 
-  html:not([data-intro-force]) .hero-intro-plate {
+  html:not([data-motion-force]) .hero-intro-plate {
     display: none;
   }
 
-  html:not([data-intro-force]) [data-intro] .hero-shell,
-  html:not([data-intro-force]) [data-intro] .hero-carousel .swiper {
+  html:not([data-motion-force]) [data-intro] .hero-shell,
+  html:not([data-motion-force]) [data-intro] .hero-carousel .swiper {
     overflow: hidden;
   }
 
-  html:not([data-intro-force])
+  html:not([data-motion-force])
     [data-intro]
     .hero-carousel
     .swiper-slide-active
@@ -635,7 +635,7 @@ p {
     transition: none;
   }
 
-  html:not([data-intro-force]) [data-intro] .intro-reveal {
+  html:not([data-motion-force]) [data-intro] .intro-reveal {
     opacity: 1;
     transition: none;
   }

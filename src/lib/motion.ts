@@ -28,3 +28,28 @@ export function usePrefersReducedMotion() {
     () => false,
   );
 }
+
+/** Nothing to subscribe to — the stamp is written before the document parses. */
+function subscribeNever() {
+  return () => {};
+}
+
+/**
+ * Whether `?intro=1` asked for the hero's motion regardless of the preference.
+ *
+ * The script in the layout head reads the URL and stamps `<html>`; this reads
+ * the stamp rather than the URL so the CSS, the intro and the carousel can
+ * never disagree about which one is in force.
+ *
+ * It covers the drift as well as the intro. Reduced motion is a preference
+ * about being shown motion unasked, and typing the parameter is asking — so an
+ * override that revived the intro and left the carousel still would be an
+ * override that cannot actually show you the hero.
+ */
+export function useHeroMotionForced() {
+  return useSyncExternalStore(
+    subscribeNever,
+    () => document.documentElement.hasAttribute("data-motion-force"),
+    () => false,
+  );
+}
