@@ -37,13 +37,16 @@ import "swiper/css/free-mode";
  * the ceiling, which is a sliver, which is what they should be.
  */
 const ROTATION_CEILING = 3.8;
-const ROTATION_PER_STEP = 1.3;
 
-function fanModifier(centerOffset: number) {
-  return (
-    Math.tanh((centerOffset * ROTATION_PER_STEP) / ROTATION_CEILING) *
-    ROTATION_CEILING
-  );
+/**
+ * `perStep` is how fast the turn builds where anyone is looking; the ceiling is
+ * what stops it ever reaching 90 degrees, and it is shared, because it is
+ * `rotate` that decides that limit and `rotate` does not change between the
+ * two. At 22 degrees a ceiling of 3.8 tops out at 83.6.
+ */
+function makeFanModifier(perStep: number) {
+  return (centerOffset: number) =>
+    Math.tanh((centerOffset * perStep) / ROTATION_CEILING) * ROTATION_CEILING;
 }
 
 /**
@@ -63,12 +66,45 @@ function fanModifier(centerOffset: number) {
  *
  * A percentage rather than pixels so the shape survives the card resizing.
  */
-const COVERFLOW = {
+const DESKTOP_COVERFLOW = {
   rotate: 22,
   depth: 520,
   stretch: "12%",
-  modifier: fanModifier,
+  modifier: makeFanModifier(1.3),
   slideShadows: false,
+} as const;
+
+/**
+ * The same fan, folded harder.
+ *
+ * A phone has a third of the width and the cards keep their full spacing in
+ * the strip, so the desktop shape walks most of them off the screen. Both
+ * numbers here work on the same mechanism: the multiplier scales `depth`, so
+ * building it faster (2.2 a step against 1.3) and pushing further back (600
+ * against 520) makes each step out a shorter step than the last. The fan
+ * converges instead of marching.
+ *
+ * Nothing is hidden and no slide is dropped — all twelve are still there and
+ * still reachable by dragging. What changes is how quickly they stack.
+ */
+const MOBILE_COVERFLOW = {
+  rotate: 22,
+  depth: 600,
+  stretch: "12%",
+  modifier: makeFanModifier(2.2),
+  slideShadows: false,
+} as const;
+
+/**
+ * Mobile-first: the base parameters are the phone's, and `lg` swaps in the
+ * desktop fan. Swiper's breakpoints are min-width and it deep-merges them over
+ * the base, so the whole object is restated rather than patched — a key left
+ * out would keep the phone's value on a desktop.
+ *
+ * The card's own width crosses at the same 1024 in `globals.css`.
+ */
+const BREAKPOINTS = {
+  1024: { coverflowEffect: DESKTOP_COVERFLOW },
 } as const;
 
 /**
@@ -189,7 +225,8 @@ export default function HeroCarousel({
       <Swiper
         modules={[EffectCoverflow, FreeMode]}
         effect="coverflow"
-        coverflowEffect={COVERFLOW}
+        coverflowEffect={MOBILE_COVERFLOW}
+        breakpoints={BREAKPOINTS}
         speed={SPEED}
         freeMode={FREE_MODE}
         // Each slide carries its own width (see `.hero-carousel .swiper-slide`

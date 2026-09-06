@@ -322,11 +322,15 @@ p {
    * together, so on the 742px window this was tuned against the card takes 341
    * and leaves 105 spare; on a 900px one the 24vw arm binds first at 353.
    *
-   * It is the arm that decides the answer on a short window, which is why it
-   * is not tighter: at 42vh a 742px-tall window dropped the card to 21% of the
-   * width, under the quarter it is supposed to hold.
+   * Mobile first, and the phone gets a much larger share of the width — 57%
+   * against the desktop's 24%. A quarter of 390px is 94px, which is a thumbnail
+   * rather than the subject, and the old floor of 240px was a fixed number
+   * standing in for a proportion. The `vh` arm and the 380px cap keep a tablet
+   * from taking the 57% literally — 300px rather than the desktop's 380px cap,
+   * which also keeps the step across `lg` small: 29% of a 1023px window on one
+   * side of it, 24% of a 1024px one on the other.
    */
-  width: clamp(240px, min(24vw, 46vh), 380px);
+  width: min(57vw, 46vh, 300px);
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
   backface-visibility: hidden;
@@ -375,6 +379,22 @@ p {
 
 .hero-carousel .swiper-slide-active .hero-carousel__card {
   filter: none;
+}
+
+/*
+ * From `lg` the card goes back to a quarter of the width, crossing at the same
+ * 1024 as the fan's own geometry in `HeroCarousel`. `clamp` rather than `min`
+ * because up here the floor is doing real work: on a short, wide window the
+ * `vh` arm would otherwise shrink the card below what the row can carry.
+ *
+ * It is the arm that decides the answer on a short window, which is why 46vh
+ * is not tighter: at 42vh a 742px-tall window dropped the card to 21% of the
+ * width, under the quarter it is supposed to hold.
+ */
+@media (min-width: 1024px) {
+  .hero-carousel .swiper-slide {
+    width: clamp(240px, min(24vw, 46vh), 380px);
+  }
 }
 
 /*
