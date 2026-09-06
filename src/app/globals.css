@@ -382,6 +382,25 @@ p {
 }
 
 /*
+ * The caption is the centre card's alone, and it crosses rather than cuts.
+ *
+ * 0.3s against the 650ms the fan takes to move, so the outgoing name is gone
+ * well before the incoming card has arrived — two labels legible at once would
+ * read as a glitch rather than a change.
+ *
+ * Opacity only. It is inside a slide Swiper transforms every frame, and
+ * anything here that moved the box would be fighting that.
+ */
+.hero-carousel__label {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+.hero-carousel .swiper-slide-active .hero-carousel__label {
+  opacity: 1;
+}
+
+/*
  * From `lg` the card goes back to a quarter of the width, crossing at the same
  * 1024 as the fan's own geometry in `HeroCarousel`. `clamp` rather than `min`
  * because up here the floor is doing real work: on a short, wide window the

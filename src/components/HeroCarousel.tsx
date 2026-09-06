@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow, FreeMode } from "swiper/modules";
+import { Autoplay, EffectCoverflow, FreeMode } from "swiper/modules";
+import type { Swiper as SwiperClass } from "swiper/types";
 import type { ResolvedHeroCard } from "@/content/hero-cards";
+import { usePrefersReducedMotion } from "@/lib/motion";
 
 // Only the two stylesheets this carousel actually uses — the core layout and
 // the coverflow effect. `swiper/css/bundle` would pull in every module's CSS,
@@ -141,6 +143,43 @@ const FREE_MODE = {
 };
 
 /**
+ * The rotation.
+ *
+ * 1600ms between moves against the 650ms it takes to make one: the fan is
+ * still for about as long as it is moving, which is what reads as drifting
+ * rather than ticking.
+ *
+ * `disableOnInteraction: false` because a drag should interrupt the drift, not
+ * end it — the resume is handled below, on a delay, so the fan does not start
+ * pulling against a hand that has only just come off it.
+ */
+const AUTOPLAY = {
+  delay: 1600,
+  disableOnInteraction: false,
+  pauseOnMouseEnter: true,
+};
+
+/** How long the fan waits after a drag before it starts drifting again. */
+const RESUME_AFTER_DRAG = 2000;
+
+/**
+ * How many times the twelve cards are laid into the strip.
+ *
+ * The endless drift is this strip plus the reset below, and not Swiper's
+ * `loop`. Loop rearranges the slides it has around the active one, using an
+ * estimate of how many fit on screen — and this fan defeats that estimate,
+ * because its slides overlap heavily and eleven of them share the width of
+ * about four. Measured with it on, at every index and at 24 and 36 slides and
+ * 6 and 12 spare: the active card centred correctly with 839px of fan to its
+ * left and 177px to its right, which is half the centre card and nothing else.
+ * The right-hand side of the fan was simply absent.
+ *
+ * Four passes instead. The carousel never loops; it runs along a strip long
+ * enough that it always has a full fan either side of wherever it is.
+ */
+const STRIP_PASSES = 4;
+
+/**
  * Which card the fan opens on — the middle of twelve.
  *
  * `centeredSlides` centres whichever slide is active, so starting at 0 puts
@@ -208,13 +247,66 @@ export default function HeroCarousel({
   label: string;
 }) {
   const [ready, setReady] = useState(false);
+  const reduced = usePrefersReducedMotion();
+
+  // The strip the loop actually runs on — see `STRIP_PASSES`.
+  const strip = Array.from({ length: STRIP_PASSES }, () => cards).flat();
+
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const swiperRef = useRef<SwiperClass | null>(null);
+  const hoveredRef = useRef(false);
+  const resumeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  /*
+   * The drift starts when the intro lets go, and not before.
+   *
+   * `HeroIntro` drops `data-intro` from the wrapper it renders around the page
+   * as its last act, so that attribute disappearing is the signal. Watching for
+   * it keeps the two components apart: the carousel does not need to know the
+   * intro's timeline, only that it has finished, and if the intro is not there
+   * at all — reduced motion, or a route without it — there is no attribute to
+   * wait for and the fan starts immediately.
+   */
+  useEffect(() => {
+    if (reduced) return;
+
+    const start = () => swiperRef.current?.autoplay?.start();
+    const wrapper = rootRef.current?.closest("[data-intro]");
+    if (!wrapper) {
+      start();
+      return;
+    }
+
+    const observer = new MutationObserver(() => {
+      if (wrapper.hasAttribute("data-intro")) return;
+      start();
+      observer.disconnect();
+    });
+    observer.observe(wrapper, {
+      attributes: true,
+      attributeFilter: ["data-intro"],
+    });
+    return () => observer.disconnect();
+  }, [reduced]);
+
+  useEffect(() => () => {
+    if (resumeRef.current) clearTimeout(resumeRef.current);
+  }, []);
+
   return (
     // The arc wants the full window, but the hero sits inside the page's
     // horizontal padding. Cancelling it with an equal negative margin is the
     // same bleed the open project card uses — the padding is responsive, so
     // the margin matches it step for step.
     <div
+      ref={rootRef}
       role="region"
+      onMouseEnter={() => {
+        hoveredRef.current = true;
+      }}
+      onMouseLeave={() => {
+        hoveredRef.current = false;
+      }}
       // Named here rather than through Swiper's `a11y` option, which needs the
       // A11y module and the stylesheet that comes with it. One attribute does
       // the same job for a carousel with no navigation UI to announce.
@@ -223,7 +315,7 @@ export default function HeroCarousel({
       data-ready={ready ? "" : undefined}
     >
       <Swiper
-        modules={[EffectCoverflow, FreeMode]}
+        modules={[Autoplay, EffectCoverflow, FreeMode]}
         effect="coverflow"
         coverflowEffect={MOBILE_COVERFLOW}
         breakpoints={BREAKPOINTS}
@@ -252,8 +344,43 @@ export default function HeroCarousel({
         centeredSlides
         initialSlide={INITIAL_SLIDE}
         grabCursor
-        // Stage one: no autoplay, no loop. Drag only.
-        loop={false}
+        autoplay={AUTOPLAY}
+        /*
+         * The seam, and why it cannot be seen.
+         *
+         * The strip is the same twelve cards four times over, so the view at
+         * any index and the view twelve later are the same picture — the same
+         * centre card, the same fan either side of it. Stepping back by
+         * exactly twelve is therefore invisible: every pixel is where it was.
+         *
+         * Doing it whenever the active card leaves the second pass keeps a
+         * whole pass of runway behind and two ahead, in both directions, so
+         * the fan is never short of cards and the strip's real ends are never
+         * approached. No duration, and no callbacks — this must not re-enter.
+         */
+        onSlideChange={(swiper) => {
+          const n = cards.length;
+          if (swiper.activeIndex >= n * 2) {
+            swiper.slideTo(swiper.activeIndex - n, 0, false);
+          } else if (swiper.activeIndex < n) {
+            swiper.slideTo(swiper.activeIndex + n, 0, false);
+          }
+        }}
+        // A drag interrupts the drift; the fan waits before taking it back, so
+        // it is not pulling against a hand that has only just come off it. The
+        // hover check is because `pauseOnMouseEnter` and this are two different
+        // mechanisms, and resuming under a parked cursor would defeat it.
+        onTouchStart={(swiper) => {
+          if (resumeRef.current) clearTimeout(resumeRef.current);
+          swiper.autoplay?.stop();
+        }}
+        onTouchEnd={(swiper) => {
+          if (reduced) return;
+          if (resumeRef.current) clearTimeout(resumeRef.current);
+          resumeRef.current = setTimeout(() => {
+            if (!hoveredRef.current) swiper.autoplay?.start();
+          }, RESUME_AFTER_DRAG);
+        }}
         onSwiper={(swiper) => {
           /*
            * Re-measure before anything is shown.
@@ -273,12 +400,20 @@ export default function HeroCarousel({
            * everything.
            */
           swiper.update();
-          swiper.slideTo(INITIAL_SLIDE, 0, false);
+          // Into the second pass, so there is a full run of cards behind the
+          // opening card as well as ahead of it.
+          swiper.slideTo(cards.length + INITIAL_SLIDE, 0, false);
+
+          // Swiper starts the drift on init. The intro owns the first two
+          // seconds of the page, so it is held until the effect above says the
+          // intro has finished — and under reduced motion, never.
+          swiper.autoplay?.stop();
+          swiperRef.current = swiper;
           setReady(true);
         }}
       >
-        {cards.map((card, i) => (
-          <SwiperSlide key={card.no}>
+        {strip.map((card, i) => (
+          <SwiperSlide key={`${card.no}-${Math.floor(i / cards.length)}`}>
             {/*
               The stagger lives on this wrapper, never on the slide itself:
               Swiper writes an inline `transform` onto `.swiper-slide` on every
@@ -296,7 +431,7 @@ export default function HeroCarousel({
                   card.image ? "" : "border-2 border-dashed border-border"
                 }`}
               >
-                {card.image ? (
+                {card.image && (
                   <Image
                     src={card.image}
                     alt={card.label}
@@ -304,11 +439,18 @@ export default function HeroCarousel({
                     sizes="300px"
                     className="object-cover"
                   />
-                ) : (
-                  <span className="type-label text-dim">
-                    {card.no} · {card.label}
-                  </span>
                 )}
+
+                {/*
+                  The caption, and only on the card in the middle. On every
+                  card it read as twelve things labelled at once; on one it
+                  names what is being shown. It sits at the foot of the card
+                  rather than across the middle of it, so the artwork that
+                  replaces the frame has somewhere to go.
+                */}
+                <span className="hero-carousel__label type-label absolute inset-x-0 bottom-6 px-3 text-center text-dim">
+                  {card.no} · {card.label}
+                </span>
               </CardLink>
             </div>
           </SwiperSlide>

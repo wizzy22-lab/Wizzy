@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 
+import { usePrefersReducedMotion } from "@/lib/motion";
+
 /**
  * The intro timeline, in milliseconds from mount.
  *
@@ -27,31 +29,6 @@ const DONE_AT = 2100;
  * way of it.
  */
 type Phase = "pending" | "shrink" | "reveal" | "done";
-
-const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
-
-function subscribeToMotion(onChange: () => void) {
-  const mq = window.matchMedia(REDUCED_MOTION);
-  mq.addEventListener("change", onChange);
-  return () => mq.removeEventListener("change", onChange);
-}
-
-/**
- * Read rather than stored, the same way the accordion reads its pin query.
- *
- * The server snapshot is `false` — motion allowed — because that is what the
- * server HTML is dressed for, and it keeps hydration honest. A visitor who
- * asked for less motion corrects it on the first client render, before any of
- * this is visible: the plate is `display: none` under that query anyway, so
- * what unmounts here was never painted.
- */
-function usePrefersReducedMotion() {
-  return useSyncExternalStore(
-    subscribeToMotion,
-    () => window.matchMedia(REDUCED_MOTION).matches,
-    () => false,
-  );
-}
 
 /** Nothing to subscribe to — the stamp is written before the document parses. */
 function subscribeNever() {
