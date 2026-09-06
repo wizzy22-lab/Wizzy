@@ -342,6 +342,15 @@ p {
   filter: brightness(0.82);
   transition: filter 0.3s ease-out;
   transform: translateZ(0);
+  /*
+   * The slide carries this too, and it is not enough on its own: `filter` and
+   * the promotion hint above give the card a rendering context of its own, and
+   * a parent's hidden backface does not reach into one. Measured with it only
+   * on the slide, cards turned past 90 degrees still drew their labels in
+   * mirror. This is the backstop — the saturating modifier means nothing
+   * should reach that angle in the first place.
+   */
+  backface-visibility: hidden;
 }
 
 .hero-carousel .swiper-slide-prev .hero-carousel__card,
@@ -387,6 +396,11 @@ p {
  * so the page is dressed for the intro before the first paint rather than
  * being caught and hidden after it.
  *
+ * The shape of it: the fan is already whole and already in its final position
+ * on the first frame. Nothing is staggered in, nothing assembles. One card —
+ * the middle one — is blown up until it covers the screen, and the intro is
+ * that card coming down. What is behind it gets uncovered, not built.
+ *
  * The whole block sits inside `prefers-reduced-motion: no-preference`. That is
  * the reduced-motion branch too, by omission: none of this exists, the plate is
  * `display: none`, nothing is hidden, and the scroll was never locked — the
@@ -395,6 +409,7 @@ p {
  * Only `transform` and `opacity` are animated. `overflow` and `display` are
  * set, but they are state, not a transition — nothing tweens them.
  */
+
 /*
  * The plate does not exist outside the intro.
  *
@@ -415,12 +430,12 @@ p {
    * sideways when the lock lifts and a real scrollbar takes the space — on the
    * platforms that still take space for one.
    */
-  html:has([data-intro]) {
+  html:has([data-intro]):not([data-intro-skip]) {
     overflow: hidden;
     scrollbar-gutter: stable;
   }
 
-  html:has([data-intro]) body {
+  html:has([data-intro]):not([data-intro-skip]) body {
     overflow: hidden;
   }
 
@@ -428,9 +443,9 @@ p {
    * The plate. Page-coloured rather than black, so what dissolves is a flat
    * field and not a lighting change.
    *
-   * Above the fixed header, below the carousel. It takes pointer events while
-   * it is opaque — there is a whole page under it that must not be clickable —
-   * and gives them up the moment it starts to fade.
+   * Above the fixed header, below the fan. It takes pointer events while it is
+   * opaque — there is a whole page under it that must not be clickable — and
+   * gives them up the moment it starts to fade.
    */
   .hero-intro-plate {
     display: block;
@@ -439,7 +454,7 @@ p {
     z-index: 60;
     background: var(--bg);
     opacity: 1;
-    transition: opacity 0.6s ease-out;
+    transition: opacity 0.5s ease-out;
   }
 
   [data-intro="reveal"] .hero-intro-plate {
@@ -451,50 +466,53 @@ p {
   [data-intro] .hero-carousel {
     position: relative;
     z-index: 70;
-    will-change: transform;
   }
 
   /*
-   * Held in the middle of the screen, scaled up. `--intro-y` is the distance
-   * from where the arc actually sits to the centre of the first screen,
-   * measured once by the carousel itself; until it lands the arc is simply
-   * scaled in place, which nobody sees because the cards are still at zero.
+   * Two clips to lift for the duration, neither of them animated.
+   *
+   * A card at five times its size is far bigger than the track it sits in and
+   * bigger than the hero band around that. Both clip by default — the swiper
+   * to keep the fan inside its own bounds, the hero to keep its contents off
+   * the section below — and between them they would crop the covering card to
+   * a letterbox. The viewport is doing the only clipping that should happen
+   * here, and the scroll lock has already sealed that.
    */
-  [data-intro="pending"] .hero-carousel,
-  [data-intro="cards"] .hero-carousel {
-    transform: translateY(var(--intro-y, 0px)) scale(var(--intro-scale));
-  }
-
-  /* And released — back to the position it was always going to occupy. */
-  [data-intro="settle"] .hero-carousel,
-  [data-intro="reveal"] .hero-carousel {
-    transform: none;
-    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  [data-intro] .hero-shell,
+  [data-intro] .hero-carousel .swiper {
+    overflow: visible;
   }
 
   /*
-   * The cards, 60ms apart. `--i` is the card's index, set inline, so the delay
-   * is the only thing that differs between the six and the rule is written
-   * once. The 0.2s floor is the beat between the plate landing and the first
-   * card arriving.
+   * The centre card, covering the screen.
+   *
+   * On the card rather than the slide: the slide's transform belongs to
+   * Swiper, which rewrites it every frame of the fan. The card sits inside it
+   * and inherits the slide's rotation, and the centre slide is the one at zero
+   * degrees — so scaling the card there is a straight, front-on scale, which
+   * is the only reason this can be the active slide and not a copy of it.
+   *
+   * `transform-origin` is left at its default centre. The card grows about its
+   * own middle, which is within a few pixels of the middle of the first
+   * screen, and at this size a few pixels is nothing.
    */
-  [data-intro] .hero-carousel__card {
-    opacity: 0;
-    /* `translate3d`, not `translateY` — this overrides the card's own
-       `translateZ(0)`, so the promotion has to be written back into it. */
-    transform: translate3d(0, 12px, 0);
-    transition:
-      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-      opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-    transition-delay: calc(0.2s + var(--i, 0) * 60ms);
-    will-change: transform;
+  [data-intro="pending"] .hero-carousel .swiper-slide-active .hero-carousel__card {
+    transform: scale(5);
   }
 
-  [data-intro="cards"] .hero-carousel__card,
-  [data-intro="settle"] .hero-carousel__card,
-  [data-intro="reveal"] .hero-carousel__card {
-    opacity: 1;
+  /*
+   * And down. Fast off the mark and very long in the tail, so the last third
+   * of the movement is almost still and the fan behind it settles rather than
+   * stops.
+   *
+   * `translateZ(0)` rather than `none` — the card's resting transform is a
+   * promotion hint, and ending on `none` would drop it.
+   */
+  [data-intro="shrink"] .hero-carousel .swiper-slide-active .hero-carousel__card,
+  [data-intro="reveal"] .hero-carousel .swiper-slide-active .hero-carousel__card {
     transform: translateZ(0);
+    transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
   }
 
   /*
@@ -503,8 +521,8 @@ p {
    * of those three an element belongs to.
    *
    * Only the first screen is listed. Nothing below the fold needs a rule — the
-   * plate covers it until 1.4s and the scroll is locked until 2.2, so it is
-   * revealed by the plate dissolving, which is exactly what should reveal it.
+   * plate covers it until the reveal and the scroll is locked past that, so it
+   * is revealed by the plate dissolving, which is what should reveal it.
    */
   [data-intro] .intro-reveal {
     opacity: 0;
@@ -514,5 +532,41 @@ p {
     opacity: 1;
     transition: opacity 0.5s ease-out;
     transition-delay: calc(var(--intro-step, 0) * 80ms);
+  }
+
+  /*
+   * The skip.
+   *
+   * `<html data-intro-skip>` is stamped by the blocking script in the layout
+   * head, before the body exists — so these win on the very first frame and
+   * the markup the server sent for the intro is never seen as the intro. React
+   * drops the phase attribute a moment later and all of this stops applying;
+   * the point is that nothing changes on screen when it does.
+   *
+   * `transition: none` matters as much as the values. Without it the elements
+   * would still be carrying the reveal's transition when React removes the
+   * attribute, and a skipped intro would end on a half-second fade.
+   */
+  html[data-intro-skip] .hero-intro-plate {
+    display: none;
+  }
+
+  html[data-intro-skip] [data-intro] .intro-reveal {
+    opacity: 1;
+    transition: none;
+  }
+
+  html[data-intro-skip]
+    [data-intro]
+    .hero-carousel
+    .swiper-slide-active
+    .hero-carousel__card {
+    transform: translateZ(0);
+    transition: none;
+  }
+
+  html[data-intro-skip] [data-intro] .hero-shell,
+  html[data-intro-skip] [data-intro] .hero-carousel .swiper {
+    overflow: hidden;
   }
 }

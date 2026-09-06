@@ -86,6 +86,30 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
       className={`${manrope.variable} ${azeretMono.variable} h-full antialiased`}
     >
       <head>
+        {/*
+          Whether the hero intro plays, decided before the document has a body.
+
+          `sessionStorage` cannot be read on the server, so the markup below is
+          always dressed for the intro's first frame — a card scaled up over a
+          plate. A visitor on their second page view of the session has to skip
+          that, and a skip decided after hydration is a skip that flashes the
+          card first. This runs while the parser is still in `<head>`, stamps
+          `<html>`, and `globals.css` keys the whole intro off the absence of
+          that stamp.
+
+          Inline and unguarded by `next/script` on purpose: the strategies
+          there load early but do not promise to run before the first paint,
+          and that promise is the entire point of this script.
+
+          `?intro=1` forces a replay, for looking at it again without opening a
+          new tab.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(!/[?&]intro=1(&|$)/.test(location.search)&&sessionStorage.getItem("wz_intro_played"))document.documentElement.setAttribute("data-intro-skip","")}catch(e){}`,
+          }}
+        />
+
         {/* Korean face. Not available through next/font, so it loads from the
             CDN — the variable dynamic subset (60KB of CSS vs 614KB for the
             static one) covers the 400/500 the scale needs. */}

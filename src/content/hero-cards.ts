@@ -24,7 +24,7 @@ export type HeroCard = {
   label: string;
   /** Case this card opens, looked up in `projects.ts`. `null` renders inert. */
   slug: string | null;
-  /** Reserved artwork. `null` keeps the dashed placeholder. */
+  /** Reserved artwork — `hero-card-01` through `-12`. `null` keeps the frame. */
   image: string | null;
 };
 
@@ -35,6 +35,12 @@ export const HERO_CARDS: HeroCard[] = [
   { no: "04", label: "Brand", slug: null, image: null },
   { no: "05", label: "Wireframe", slug: null, image: null },
   { no: "06", label: "Screens", slug: null, image: null },
+  { no: "07", label: "Flow", slug: null, image: null },
+  { no: "08", label: "System", slug: null, image: null },
+  { no: "09", label: "Research", slug: null, image: null },
+  { no: "10", label: "Prototype", slug: null, image: null },
+  { no: "11", label: "Motion", slug: null, image: null },
+  { no: "12", label: "Handoff", slug: null, image: null },
 ];
 
 /** A hero card with its destination resolved — plain strings for the client. */
