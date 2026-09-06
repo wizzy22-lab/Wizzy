@@ -17,9 +17,6 @@ const REVEAL_AT = 1400;
 const PLATE_OUT_AT = 1900;
 const DONE_AT = 2100;
 
-/** Set once the intro has run, so a second page view in the same tab skips it. */
-export const PLAYED_KEY = "wz_intro_played";
-
 /**
  * `pending` is what the server renders — the centre card already covering the
  * screen, everything else already in its final position underneath. `done`
@@ -56,30 +53,6 @@ function usePrefersReducedMotion() {
   );
 }
 
-/** Nothing to subscribe to — the flag is decided before the document parses. */
-function subscribeNever() {
-  return () => {};
-}
-
-/**
- * Whether the blocking script in `<head>` decided this view skips the intro.
- *
- * The decision cannot wait for React. `sessionStorage` is not knowable on the
- * server, so the server always renders the intro's first frame, and a skip
- * discovered after hydration would mean a flash of a screen-filling card
- * first. The script in the layout reads the key while the document is still
- * parsing and stamps `<html>`; the CSS keys the whole intro off the absence of
- * that stamp, so a skipped view paints finished. This hook only tells React
- * what has already been decided.
- */
-function useIntroSkipped() {
-  return useSyncExternalStore(
-    subscribeNever,
-    () => document.documentElement.hasAttribute("data-intro-skip"),
-    () => false,
-  );
-}
-
 /**
  * The hero's intro.
  *
@@ -107,27 +80,22 @@ function useIntroSkipped() {
  *   );
  *   card.getBoundingClientRect().width / window.innerWidth;  // > 0.9 at the start
  *
- * And it only runs once a session, so a reload will skip it. `?intro=1`
- * forces a replay; `sessionStorage.removeItem("wz_intro_played")` clears the
- * flag itself.
+ * It plays on every load. It was briefly once a session, keyed off
+ * `sessionStorage`, and that is worth knowing if it comes back: the check
+ * cannot live here. `sessionStorage` is not knowable on the server, so the
+ * markup is always dressed for the intro's first frame, and a skip decided
+ * after hydration is a skip that flashes a screen-filling card before it
+ * takes. It has to be a blocking script in `<head>`, stamping `<html>` while
+ * the parser is still above `<body>`, with the CSS keyed off that stamp.
  */
 export default function HeroIntro({ children }: { children: React.ReactNode }) {
-  const reduced = usePrefersReducedMotion();
-  const skipped = useIntroSkipped();
-  const inert = reduced || skipped;
+  const inert = usePrefersReducedMotion();
 
   const [phase, setPhase] = useState<Phase>("pending");
   const [plate, setPlate] = useState(true);
 
   useEffect(() => {
     if (inert) return;
-
-    try {
-      sessionStorage.setItem(PLAYED_KEY, "1");
-    } catch {
-      // Private browsing refuses to store. The intro then plays on every view,
-      // which is the previous behaviour rather than a broken one.
-    }
 
     /*
      * Hold the page at the top for the length of the intro.

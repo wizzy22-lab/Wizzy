@@ -445,12 +445,12 @@ p {
    * sideways when the lock lifts and a real scrollbar takes the space — on the
    * platforms that still take space for one.
    */
-  html:has([data-intro]):not([data-intro-skip]) {
+  html:has([data-intro]) {
     overflow: hidden;
     scrollbar-gutter: stable;
   }
 
-  html:has([data-intro]):not([data-intro-skip]) body {
+  html:has([data-intro]) body {
     overflow: hidden;
   }
 
@@ -547,41 +547,5 @@ p {
     opacity: 1;
     transition: opacity 0.5s ease-out;
     transition-delay: calc(var(--intro-step, 0) * 80ms);
-  }
-
-  /*
-   * The skip.
-   *
-   * `<html data-intro-skip>` is stamped by the blocking script in the layout
-   * head, before the body exists — so these win on the very first frame and
-   * the markup the server sent for the intro is never seen as the intro. React
-   * drops the phase attribute a moment later and all of this stops applying;
-   * the point is that nothing changes on screen when it does.
-   *
-   * `transition: none` matters as much as the values. Without it the elements
-   * would still be carrying the reveal's transition when React removes the
-   * attribute, and a skipped intro would end on a half-second fade.
-   */
-  html[data-intro-skip] .hero-intro-plate {
-    display: none;
-  }
-
-  html[data-intro-skip] [data-intro] .intro-reveal {
-    opacity: 1;
-    transition: none;
-  }
-
-  html[data-intro-skip]
-    [data-intro]
-    .hero-carousel
-    .swiper-slide-active
-    .hero-carousel__card {
-    transform: translateZ(0);
-    transition: none;
-  }
-
-  html[data-intro-skip] [data-intro] .hero-shell,
-  html[data-intro-skip] [data-intro] .hero-carousel .swiper {
-    overflow: hidden;
   }
 }
