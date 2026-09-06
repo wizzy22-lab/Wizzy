@@ -248,6 +248,26 @@ export default function HeroCarousel({
 }) {
   const [ready, setReady] = useState(false);
 
+  /**
+   * Wind the strip back to the pass it is meant to run in.
+   *
+   * Arithmetic rather than one subtraction: a flick under free momentum can
+   * cross several cards at once, and stepping back a single pass from far
+   * enough out lands still outside it. The modulo puts any index back in
+   * `[n, 2n)` in one move, onto the very same card — the strip repeats every
+   * `n`, so the picture does not change.
+   *
+   * No duration, so there is nothing to see, and no callbacks, so this cannot
+   * re-enter. Swiper takes its next `speed` from the params either way, so the
+   * move after a wind-back is the ordinary 650ms.
+   */
+  const keepToMiddlePass = (swiper: SwiperClass) => {
+    const n = cards.length;
+    const i = swiper.activeIndex;
+    if (i >= n && i < n * 2) return;
+    swiper.slideTo(n + (((i % n) + n) % n), 0, false);
+  };
+
   // The strip the loop rotates through — see `STRIP_PASSES`.
   const strip = Array.from({ length: STRIP_PASSES }, () => cards).flat();
   // Both read unconditionally — `&&` would short-circuit the second hook.
@@ -392,14 +412,13 @@ export default function HeroCarousel({
          *
          * No duration and no callbacks: this must not re-enter.
          */
-        onSlideChangeTransitionEnd={(swiper) => {
-          const n = cards.length;
-          if (swiper.activeIndex >= n * 2) {
-            swiper.slideTo(swiper.activeIndex - n, 0, false);
-          } else if (swiper.activeIndex < n) {
-            swiper.slideTo(swiper.activeIndex + n, 0, false);
-          }
-        }}
+        onSlideChangeTransitionEnd={keepToMiddlePass}
+        // The same correction on any transition ending, because a drag does not
+        // always end in a slide change — a flick that travels and settles back
+        // onto the card it started from would otherwise leave the strip wound
+        // forward with nothing to wind it back. It is a no-op in range, so
+        // arriving here twice for one move costs nothing.
+        onTransitionEnd={keepToMiddlePass}
         // A drag interrupts the drift; the fan waits before taking it back, so
         // it is not pulling against a hand that has only just come off it. The
         // hover check is because `pauseOnMouseEnter` and this are two different
