@@ -311,7 +311,22 @@ p {
  * angle and that distance off-screen is what it should do.
  */
 .hero-carousel .swiper-slide {
-  width: clamp(200px, min(22vw, 30vh), 300px);
+  /*
+   * The centre card is the subject, so it is sized as a fraction of the
+   * window: 24vw puts it at just under a quarter of the width, which is where
+   * it reads as the thing being shown rather than one of a row.
+   *
+   * 46vh is the ceiling that keeps it on the first screen. The card is square
+   * now, so its height is this same number, and it shares the screen with the
+   * headline above it and the scroll hint below. Those come to about 296px
+   * together, so on the 742px window this was tuned against the card takes 341
+   * and leaves 105 spare; on a 900px one the 24vw arm binds first at 353.
+   *
+   * It is the arm that decides the answer on a short window, which is why it
+   * is not tighter: at 42vh a 742px-tall window dropped the card to 21% of the
+   * width, under the quarter it is supposed to hold.
+   */
+  width: clamp(240px, min(24vw, 46vh), 380px);
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
   backface-visibility: hidden;
@@ -497,7 +512,7 @@ p {
    * screen, and at this size a few pixels is nothing.
    */
   [data-intro="pending"] .hero-carousel .swiper-slide-active .hero-carousel__card {
-    transform: scale(5);
+    transform: scale(5.5);
   }
 
   /*

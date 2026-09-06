@@ -18,24 +18,25 @@ import "swiper/css/free-mode";
  * How far a slide is turned, as a multiple of `rotate`, given its distance
  * from the centre in slide widths.
  *
- * Coverflow's own model is linear — `distance * modifier` — and over twelve
- * cards at this rotation that falls apart. 45 degrees at 1.3 is 58.5 a step,
- * so the third card out is past 90: turned through edge-on and drawn mirrored,
- * label and all. The sixth is past 340 and comes back round the front. Measured
- * on the linear version: six of the twelve rendered mirrored, and the
- * outermost read as front-facing at 351 degrees.
+ * Coverflow's own model is linear — `distance * modifier` — and this fan is
+ * twelve cards wide, so linear breaks it twice over. Past 90 degrees a card is
+ * drawn mirrored; past 270 it comes back round the front. Measured on the
+ * linear version: six of twelve rendered mirrored, the outermost front-facing
+ * at 351 degrees.
  *
- * So the multiplier saturates instead. `tanh` is 1.3 a step at the centre —
- * the fan the brief asks for, unchanged where anyone is looking — and flattens
- * to a ceiling of 1.6, which at `rotate: 45` is 72 degrees. Nothing ever
- * reaches 90, so nothing ever flips.
+ * So it saturates. The slope is what the fan looks like where anyone is
+ * looking; the ceiling is what stops it ever reaching 90.
  *
- * It is also the right shape physically: cards in a real fan cannot keep
- * turning past each other, and they cannot keep receding either — the same
- * multiplier drives depth, so the far cards now stack at a fixed distance
- * rather than shrinking away forever.
+ * The ceiling is doing a second job now, and it is the reason it is 3.8 rather
+ * than the 1.6 it was. The same multiplier scales `depth`, so a low ceiling
+ * capped how far the outer cards could recede — they kept their size, kept
+ * their spacing, and marched straight off the screen. Letting it climb to 3.8
+ * pushes them back far enough that perspective does the work: each step out is
+ * a shorter step than the last, and the far cards converge instead of
+ * escaping. `rotate` comes down to 22 to keep 3.8 under 90 — 83.6 degrees at
+ * the ceiling, which is a sliver, which is what they should be.
  */
-const ROTATION_CEILING = 1.6;
+const ROTATION_CEILING = 3.8;
 const ROTATION_PER_STEP = 1.3;
 
 function fanModifier(centerOffset: number) {
@@ -53,24 +54,18 @@ function fanModifier(centerOffset: number) {
  * (see `globals.css`), which reads as light falling off rather than as a
  * gradient painted over the card.
  *
- * `stretch` closes the fan, and it closes it positive.
+ * `stretch` closes the fan, and it closes it positive. The sign is the
+ * opposite of what it reads like: coverflow multiplies stretch by a signed
+ * offset — negative for the slides right of centre — so a negative stretch
+ * pushes both sides further out. Measured: -20 left a 22px gap between the
+ * centre card and its neighbour, -60 widened it to 45, -131 to 102. Positive
+ * 12% closes it and goes a little past touching.
  *
- * The sign is the opposite of what it reads like. Coverflow multiplies stretch
- * by a signed offset — negative for the slides right of centre — so a negative
- * stretch pushes both sides further out. Measured on this fan: -20 left a 22px
- * gap between the centre card and its neighbour, -60 widened it to 45, and
- * -131 to 102. It was spreading the cards apart, not overlapping them.
- *
- * Positive, at 12% of the card, closes that gap and takes it about 26px past
- * touching — a fan, with each card in front of the next.
- *
- * A percentage rather than pixels so the shape survives the card resizing: the
- * same 12% closes it at the 300px card a wide window gets and at the 200px
- * floor a phone gets.
+ * A percentage rather than pixels so the shape survives the card resizing.
  */
 const COVERFLOW = {
-  rotate: 45,
-  depth: 320,
+  rotate: 22,
+  depth: 520,
   stretch: "12%",
   modifier: fanModifier,
   slideShadows: false,
