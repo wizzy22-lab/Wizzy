@@ -426,17 +426,18 @@ p {
  */
 
 /*
- * The plate does not exist outside the intro.
+ * Unconditional, with reduced motion taking it away at the end rather than
+ * granting it here.
  *
- * Declared before the block below so the block can override it — under reduced
- * motion nothing does, and the plate is never painted even for the one frame
- * before React unmounts it.
+ * It was the other way round: everything lived inside
+ * `(prefers-reduced-motion: no-preference)`, so the intro existed only where
+ * that query positively matched. A browser that matches neither `reduce` nor
+ * `no-preference` — an old engine, an embedded webview, anything that does not
+ * know the feature — got the suppressed branch by default and the page looked
+ * like the intro had never been written. Suppression should need an explicit
+ * request, not the absence of one.
  */
-.hero-intro-plate {
-  display: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
+@media all {
   /*
    * Scroll lock, held from the server's first frame.
    *
@@ -547,5 +548,56 @@ p {
     opacity: 1;
     transition: opacity 0.5s ease-out;
     transition-delay: calc(var(--intro-step, 0) * 80ms);
+  }
+}
+
+/*
+ * Reduced motion, and the one way past it.
+ *
+ * This undoes the block above rather than the block above asking permission.
+ * Five rules is all it takes, because most of what the intro sets is inert
+ * without the two that matter — the scale on the covering card and the zeroed
+ * opacity on everything else.
+ *
+ * It has to be written at all, rather than left to `HeroIntro` rendering no
+ * phase, because the server renders `pending` unconditionally: it cannot know
+ * what the visitor asked for. Without these, a reduced-motion visitor would
+ * see a card covering the screen until hydration caught up and cleared it.
+ *
+ * `data-intro-force` is the exception, stamped by the script in the layout
+ * head when the URL carries `?intro=1`. Reduced motion is a preference about
+ * being shown motion unasked; typing the parameter is asking. It exists so the
+ * intro can be reviewed on a machine that has the preference set — which is
+ * otherwise indistinguishable from the intro being broken, and was read as
+ * exactly that three times.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-intro-force]):has([data-intro]),
+  html:not([data-intro-force]):has([data-intro]) body {
+    overflow: visible;
+    scrollbar-gutter: auto;
+  }
+
+  html:not([data-intro-force]) .hero-intro-plate {
+    display: none;
+  }
+
+  html:not([data-intro-force]) [data-intro] .hero-shell,
+  html:not([data-intro-force]) [data-intro] .hero-carousel .swiper {
+    overflow: hidden;
+  }
+
+  html:not([data-intro-force])
+    [data-intro]
+    .hero-carousel
+    .swiper-slide-active
+    .hero-carousel__card {
+    transform: translateZ(0);
+    transition: none;
+  }
+
+  html:not([data-intro-force]) [data-intro] .intro-reveal {
+    opacity: 1;
+    transition: none;
   }
 }

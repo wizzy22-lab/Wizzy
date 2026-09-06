@@ -86,6 +86,24 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
       className={`${manrope.variable} ${azeretMono.variable} h-full antialiased`}
     >
       <head>
+        {/*
+          `?intro=1` — replay the hero intro even on a machine that asks for
+          reduced motion.
+
+          Inline and not `next/script`, because it has to have run before the
+          first frame is painted: the CSS that suppresses the intro is keyed
+          off the absence of this stamp, and a stamp applied after hydration
+          would arrive too late to matter.
+
+          Reading the URL is the whole of it. Nothing is stored, and the
+          parameter affects this page view only.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(/[?&]intro=1(&|$)/.test(location.search))document.documentElement.setAttribute("data-intro-force","")}catch(e){}`,
+          }}
+        />
+
         {/* Korean face. Not available through next/font, so it loads from the
             CDN — the variable dynamic subset (60KB of CSS vs 614KB for the
             static one) covers the 400/500 the scale needs. */}

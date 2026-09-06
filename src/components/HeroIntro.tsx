@@ -53,6 +53,26 @@ function usePrefersReducedMotion() {
   );
 }
 
+/** Nothing to subscribe to — the stamp is written before the document parses. */
+function subscribeNever() {
+  return () => {};
+}
+
+/**
+ * Whether `?intro=1` asked for the intro regardless of the motion preference.
+ *
+ * The script in the layout head reads the URL and stamps `<html>`; this reads
+ * the stamp rather than the URL so that the CSS and the timeline can never
+ * disagree about which one is in force.
+ */
+function useIntroForced() {
+  return useSyncExternalStore(
+    subscribeNever,
+    () => document.documentElement.hasAttribute("data-intro-force"),
+    () => false,
+  );
+}
+
 /**
  * The hero's intro.
  *
@@ -80,7 +100,9 @@ function usePrefersReducedMotion() {
  *   );
  *   card.getBoundingClientRect().width / window.innerWidth;  // > 0.9 at the start
  *
- * It plays on every load. It was briefly once a session, keyed off
+ * It plays on every load, and reduced motion is the only thing that stops it
+ * — `?intro=1` overrides even that, for reviewing it on a machine that has the
+ * preference set. It was briefly once a session, keyed off
  * `sessionStorage`, and that is worth knowing if it comes back: the check
  * cannot live here. `sessionStorage` is not knowable on the server, so the
  * markup is always dressed for the intro's first frame, and a skip decided
@@ -89,7 +111,10 @@ function usePrefersReducedMotion() {
  * the parser is still above `<body>`, with the CSS keyed off that stamp.
  */
 export default function HeroIntro({ children }: { children: React.ReactNode }) {
-  const inert = usePrefersReducedMotion();
+  // Both read unconditionally — `&&` would short-circuit the second hook.
+  const reduced = usePrefersReducedMotion();
+  const forced = useIntroForced();
+  const inert = reduced && !forced;
 
   const [phase, setPhase] = useState<Phase>("pending");
   const [plate, setPlate] = useState(true);
