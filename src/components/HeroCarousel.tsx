@@ -165,17 +165,17 @@ const RESUME_AFTER_DRAG = 2000;
 /**
  * How many times the twelve cards are laid into the strip.
  *
- * The endless drift is this strip plus the reset below, and not Swiper's
- * `loop`. Loop rearranges the slides it has around the active one, using an
- * estimate of how many fit on screen — and this fan defeats that estimate,
- * because its slides overlap heavily and eleven of them share the width of
- * about four. Measured with it on, at every index and at 24 and 36 slides and
- * 6 and 12 spare: the active card centred correctly with 839px of fan to its
- * left and 177px to its right, which is half the centre card and nothing else.
- * The right-hand side of the fan was simply absent.
+ * Not Swiper's `loop`, which cannot carry this fan. Loop rotates the slides it
+ * has around the active one, sized by a count it takes from slide widths — and
+ * this fan overlaps, so it counts five where fifteen are drawn. Tried at 12 and
+ * at 24 slides with 4 and 10 spare, and on 24 it held the middle of the strip
+ * but still emptied the right-hand half at the wrap and stopped advancing
+ * there.
  *
- * Four passes instead. The carousel never loops; it runs along a strip long
- * enough that it always has a full fan either side of wherever it is.
+ * Four passes and no loop. The carousel runs along a strip long enough that a
+ * full fan sits either side of it wherever it is, and steps back a pass
+ * whenever the active card leaves the second one. Twelve cards apart the
+ * picture is the same picture, so the step cannot be seen.
  */
 const STRIP_PASSES = 4;
 
@@ -247,6 +247,9 @@ export default function HeroCarousel({
   label: string;
 }) {
   const [ready, setReady] = useState(false);
+
+  // The strip the loop rotates through — see `STRIP_PASSES`.
+  const strip = Array.from({ length: STRIP_PASSES }, () => cards).flat();
   // Both read unconditionally — `&&` would short-circuit the second hook.
   // `?intro=1` overrides the preference here as well as on the intro; an
   // override that revives the intro and leaves the fan still cannot show you
@@ -254,9 +257,6 @@ export default function HeroCarousel({
   const reduced = usePrefersReducedMotion();
   const forced = useHeroMotionForced();
   const still = reduced && !forced;
-
-  // The strip the loop actually runs on — see `STRIP_PASSES`.
-  const strip = Array.from({ length: STRIP_PASSES }, () => cards).flat();
 
   const rootRef = useRef<HTMLDivElement | null>(null);
   const swiperRef = useRef<SwiperClass | null>(null);
@@ -295,9 +295,12 @@ export default function HeroCarousel({
     return () => observer.disconnect();
   }, [still]);
 
-  useEffect(() => () => {
-    if (resumeRef.current) clearTimeout(resumeRef.current);
-  }, []);
+  useEffect(
+    () => () => {
+      if (resumeRef.current) clearTimeout(resumeRef.current);
+    },
+    [],
+  );
 
   return (
     // The arc wants the full window, but the hero sits inside the page's
@@ -317,6 +320,25 @@ export default function HeroCarousel({
       // A11y module and the stylesheet that comes with it. One attribute does
       // the same job for a carousel with no navigation UI to announce.
       aria-label={label}
+      /*
+       * `w-auto` and not `self-stretch`, deliberately, and it is worth knowing
+       * why because it looks like a bug.
+       *
+       * The hero section is a centred flex column, so its cross axis is the
+       * horizontal one and this child sizes to its content rather than to the
+       * section. It measures about ten thousand pixels — the whole strip — and
+       * Swiper takes that for its viewport, reporting 41 slides on screen where
+       * five are. That is what makes `loop` unusable here: its loop sizes the
+       * rotation from that count and wants eighty-odd slides to do it.
+       *
+       * Stretching it to the section width does fix the measurement, and was
+       * tried: `swiper.width` drops to the real viewport and the count to five.
+       * But every other number in the fan — the negative `spaceBetween`, the
+       * `stretch` percentage, the card widths — was tuned against the wrong
+       * one, and correcting it alone pushes the centred card 63 to 81px off
+       * centre, drifting with the index. Correct measurement needs the fan
+       * re-tuned around it, which is its own piece of work.
+       */
       className="hero-carousel mt-10 w-auto -mx-6 md:-mx-16 xl:-mx-[180px] 2xl:-mx-[360px]"
       data-ready={ready ? "" : undefined}
     >
@@ -354,17 +376,23 @@ export default function HeroCarousel({
         /*
          * The seam, and why it cannot be seen.
          *
-         * The strip is the same twelve cards four times over, so the view at
-         * any index and the view twelve later are the same picture — the same
-         * centre card, the same fan either side of it. Stepping back by
-         * exactly twelve is therefore invisible: every pixel is where it was.
-         *
-         * Doing it whenever the active card leaves the second pass keeps a
+         * Stepping back one pass puts the identical picture on screen — same
+         * centre card, same fan either side — so every pixel stays where it
+         * was. Doing it when the active card leaves the second pass keeps a
          * whole pass of runway behind and two ahead, in both directions, so
-         * the fan is never short of cards and the strip's real ends are never
-         * approached. No duration, and no callbacks — this must not re-enter.
+         * the far end of the strip is never approached: slide 48 is not a case
+         * that arises.
+         *
+         * On the transition *end*, and that is the fix. `slideChange` is
+         * emitted by `updateActiveIndex` when a move begins, not when it
+         * lands, so repositioning there cut the 650ms glide short and replaced
+         * it with a snap — a jolt every twelve cards. Waiting for the glide to
+         * finish means the reposition falls between moves, where the two
+         * positions really are the same picture.
+         *
+         * No duration and no callbacks: this must not re-enter.
          */
-        onSlideChange={(swiper) => {
+        onSlideChangeTransitionEnd={(swiper) => {
           const n = cards.length;
           if (swiper.activeIndex >= n * 2) {
             swiper.slideTo(swiper.activeIndex - n, 0, false);
@@ -406,8 +434,6 @@ export default function HeroCarousel({
            * everything.
            */
           swiper.update();
-          // Into the second pass, so there is a full run of cards behind the
-          // opening card as well as ahead of it.
           swiper.slideTo(cards.length + INITIAL_SLIDE, 0, false);
 
           // Swiper starts the drift on init. The intro owns the first two
@@ -418,49 +444,66 @@ export default function HeroCarousel({
           setReady(true);
         }}
       >
-        {strip.map((card, i) => (
-          <SwiperSlide key={`${card.no}-${Math.floor(i / cards.length)}`}>
-            {/*
-              The stagger lives on this wrapper, never on the slide itself:
-              Swiper writes an inline `transform` onto `.swiper-slide` on every
-              frame of the coverflow, and an animation there would be overwritten
-              on the next tick.
-            */}
-            <div
-              className="hero-carousel__card"
-              style={{ "--i": i } as React.CSSProperties}
+        {strip.map((card, i) => {
+          /*
+           * The strip repeats the twelve cards, so a reader would meet every
+           * case four times and tab through four sets of the same three
+           * links. One pass is exposed and the other three are taken out of
+           * the tree — `aria-hidden` for what is announced, `inert` for what
+           * can be focused, since either alone leaves the other half open.
+           * The labels go with them, being inside.
+           *
+           * The exposed pass is the second, not the first, because the reset
+           * above keeps the active card inside that one: it is the pass the
+           * fan is actually built around. Exposing the first would put
+           * keyboard focus on cards sitting off the side of the screen.
+           */
+          const copy = !(i >= cards.length && i < cards.length * 2);
+          return (
+            <SwiperSlide
+              key={`${card.no}-${Math.floor(i / cards.length)}`}
+              aria-hidden={copy || undefined}
+              inert={copy}
             >
-              <CardLink
-                href={card.href}
-                external={card.external}
-                className={`relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-[var(--radius-card)] bg-surface ${
-                  card.image ? "" : "border-2 border-dashed border-border"
-                }`}
-              >
-                {card.image && (
-                  <Image
-                    src={card.image}
-                    alt={card.label}
-                    fill
-                    sizes="300px"
-                    className="object-cover"
-                  />
-                )}
+              {/*
+              A wrapper of its own, because the slide's transform belongs to
+              Swiper — it rewrites it on every frame of the fan, so the card's
+              brightness, its promotion hint and the intro's scale all have to
+              live on something inside it.
+            */}
+              <div className="hero-carousel__card">
+                <CardLink
+                  href={card.href}
+                  external={card.external}
+                  className={`relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-[var(--radius-card)] bg-surface ${
+                    card.image ? "" : "border-2 border-dashed border-border"
+                  }`}
+                >
+                  {card.image && (
+                    <Image
+                      src={card.image}
+                      alt={card.label}
+                      fill
+                      sizes="300px"
+                      className="object-cover"
+                    />
+                  )}
 
-                {/*
+                  {/*
                   The caption, and only on the card in the middle. On every
                   card it read as twelve things labelled at once; on one it
                   names what is being shown. It sits at the foot of the card
                   rather than across the middle of it, so the artwork that
                   replaces the frame has somewhere to go.
                 */}
-                <span className="hero-carousel__label type-label absolute inset-x-0 bottom-6 px-3 text-center text-dim">
-                  {card.no} · {card.label}
-                </span>
-              </CardLink>
-            </div>
-          </SwiperSlide>
-        ))}
+                  <span className="hero-carousel__label type-label absolute inset-x-0 bottom-6 px-3 text-center text-dim">
+                    {card.no} · {card.label}
+                  </span>
+                </CardLink>
+              </div>
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
     </div>
   );
