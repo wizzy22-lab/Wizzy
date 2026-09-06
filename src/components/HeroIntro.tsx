@@ -95,6 +95,21 @@ function useIntroSkipped() {
  * Every rule it drives lives inside `prefers-reduced-motion: no-preference`,
  * so reduced motion is not a fast intro but no intro: the page paints
  * finished, and the scroll is never locked.
+ *
+ * Checking it from the console, note which element to measure. The scale is on
+ * `.hero-carousel__card`, never on `.swiper-slide` around it — the slide's
+ * transform belongs to Swiper, which rewrites it on every frame of the fan, so
+ * a scale there would not survive one. The slide keeps its resting size all
+ * the way through, and measuring that reports the intro as not running:
+ *
+ *   const card = document.querySelector(
+ *     ".hero-carousel .swiper-slide-active .hero-carousel__card",
+ *   );
+ *   card.getBoundingClientRect().width / window.innerWidth;  // > 0.9 at the start
+ *
+ * And it only runs once a session, so a reload will skip it. `?intro=1`
+ * forces a replay; `sessionStorage.removeItem("wz_intro_played")` clears the
+ * flag itself.
  */
 export default function HeroIntro({ children }: { children: React.ReactNode }) {
   const reduced = usePrefersReducedMotion();
