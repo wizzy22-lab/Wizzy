@@ -20,6 +20,8 @@ export type ProjectCard = {
   external: boolean;
   /** `null` alongside a null `href` — the card shows no button at all. */
   cta: string | null;
+  /** Why there is no button. `null` when nothing is being withheld. */
+  status: string | null;
 };
 
 type CardLinkProps = {
@@ -339,6 +341,23 @@ export default function ProjectSection({
                               <p className="mt-6 text-body text-dim lg:max-w-[460px]">
                                 {project.description}
                               </p>
+
+                              {/*
+                                  Where the button would be, when there is no
+                                  button. Deliberately not the `cta` pill with a
+                                  dead `href`: `CardLink` would still draw the
+                                  filled shape and the arrow, and a thing that
+                                  looks pressable and is not is worse than a
+                                  plain line. `text-faint` is the quietest step
+                                  on the ramp, so it reads as a note rather than
+                                  a claim, and `mt-8` is the button's own gap so
+                                  the rhythm of the card does not change.
+                              */}
+                              {project.status !== null && (
+                                <p className="label-script text-label mt-8 text-faint">
+                                  {project.status}
+                                </p>
+                              )}
 
                               {project.cta !== null && (
                                 <CardLink

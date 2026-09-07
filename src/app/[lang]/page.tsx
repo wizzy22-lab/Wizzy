@@ -40,6 +40,9 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
     href: project.externalUrl ?? (project.hasCaseStudy ? `/${lang}/projects/${project.slug}` : null),
     external: Boolean(project.externalUrl),
     cta: project.hasCaseStudy || project.externalUrl ? dict.projects.viewCase : null,
+    // Only set while a destination is deliberately shut — it takes the button's
+    // place so the gap reads as closed rather than as missing.
+    status: project.status ? t(project.status, lang) : null,
   }));
 
   return (

@@ -35,6 +35,16 @@ export type Project = {
    * still a case study rather than an outside service.
    */
   externalUrl?: string;
+  /**
+   * Why this case cannot be opened right now.
+   *
+   * A card with nowhere to go renders no button, and next to two cards that
+   * have one the gap reads as something missing rather than something closed.
+   * This is the line that goes in its place. Set it only while a destination
+   * is deliberately shut; clearing it and restoring the link is what reopens
+   * the card.
+   */
+  status?: Localized;
 };
 
 /**
@@ -125,7 +135,15 @@ export const PROJECTS: Project[] = [
     },
     thumbnail: "/thumbs/ssp-thumb.webp",
     hasCaseStudy: false,
-    externalUrl: "https://shoot-shoot-penguin.vercel.app/",
+    // The live app is closed while its design system is being rebuilt. Putting
+    // a reviewer into a half-rebuilt interface is worse than not letting them
+    // in: from the outside there is no way to tell a refactor from a finished
+    // piece of work, and a portfolio is read as the latter. Restore
+    // `externalUrl` to reopen it.
+    status: {
+      en: "Live app closed while its design system is rebuilt",
+      ko: "디자인 시스템 정비 중 — 라이브 앱을 잠시 닫았습니다",
+    },
   },
   {
     slug: "weekend-greenwich",
