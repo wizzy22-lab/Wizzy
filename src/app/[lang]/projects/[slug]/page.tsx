@@ -11,8 +11,26 @@ import SiteHeader from "@/components/SiteHeader";
 import CaseStudyBody from "@/components/CaseStudyBody";
 import BusinessCasePage from "@/components/BusinessCasePage";
 
+/**
+ * Whether this slug has a page to render at all.
+ *
+ * A project without either kind of case still produced a route, and that route
+ * rendered a stub: the name, the subtitle and one paragraph, with no body under
+ * it. Nothing linked to it — the cards for those projects point off-site — so it
+ * existed only for anyone who typed the URL or crawled it, which is the one
+ * audience a thin page cannot help.
+ */
+function hasPage(slug: string) {
+  return Boolean(getCaseStudy(slug) || getBusinessCase(slug));
+}
+
 export function generateStaticParams() {
-  return LOCALES.flatMap((lang) => PROJECTS.map((project) => ({ lang, slug: project.slug })));
+  return LOCALES.flatMap((lang) =>
+    PROJECTS.filter((project) => hasPage(project.slug)).map((project) => ({
+      lang,
+      slug: project.slug,
+    })),
+  );
 }
 
 export async function generateMetadata({
@@ -20,7 +38,7 @@ export async function generateMetadata({
 }: PageProps<"/[lang]/projects/[slug]">): Promise<Metadata> {
   const { lang, slug } = await params;
   const project = getProject(slug);
-  if (!hasLocale(lang) || !project) return {};
+  if (!hasLocale(lang) || !project || !hasPage(slug)) return {};
 
   return {
     title: `${project.name} — Wizzy`,
@@ -36,7 +54,7 @@ export default async function ProjectPage({ params }: PageProps<"/[lang]/project
   if (!hasLocale(lang)) notFound();
 
   const project = getProject(slug);
-  if (!project) notFound();
+  if (!project || !hasPage(slug)) notFound();
 
   const dict = await getDictionary(lang);
 
