@@ -47,9 +47,36 @@ export type Project = {
  */
 export const PROJECTS: Project[] = [
   {
-    slug: "bingx",
+    slug: "shoot-shoot-penguin",
     group: "project",
     no: "01",
+    name: "Shoot Shoot Penguin",
+    subtitle: {
+      en: "Shoot Shoot Penguin — Design System",
+      ko: "Shoot Shoot Penguin — 디자인 시스템",
+    },
+    outcome: {
+      en: "26 component groups, 5 status colours at 7:1 contrast — a design system that separates action from state",
+      ko: "컴포넌트 그룹 26개, 상태 색상 5종 대비 7:1 — 액션과 상태를 분리한 디자인 시스템",
+    },
+    tags: [
+      { en: "Design System", ko: "디자인 시스템" },
+      { en: "Tokens", ko: "토큰" },
+      { en: "Two-Sided Platform", ko: "양면 플랫폼" },
+      { en: "In Development", ko: "개발 중" },
+    ],
+    description: {
+      en: "Built a shared visual system for a two-sided basketball app, separating controls from match states and enforcing the rules in code. Designed end-to-end with one developer.",
+      ko: "양면 구조의 농구 앱을 위한 공용 비주얼 시스템을 만들었다. 컨트롤과 경기 상태를 분리하고, 그 규칙을 코드로 강제했다. 개발자 한 명과 엔드투엔드로 설계했다.",
+    },
+    thumbnail: "/thumbs/ssp-thumb.webp",
+    hasCaseStudy: false,
+    externalUrl: "https://shoot-shoot-penguin.vercel.app/",
+  },
+  {
+    slug: "bingx",
+    group: "project",
+    no: "02",
     name: "BingX",
     subtitle: {
       en: "AI Master Decision Flow Redesign",
@@ -78,7 +105,7 @@ export const PROJECTS: Project[] = [
   {
     slug: "operator",
     group: "project",
-    no: "02",
+    no: "03",
     name: "Operator",
     subtitle: {
       en: "HVAC Cost Optimization Decision Support System for Small Businesses",
@@ -100,32 +127,6 @@ export const PROJECTS: Project[] = [
     thumbnail: "/thumbs/operator-thumb.webp",
     hasCaseStudy: true,
     externalUrl: "https://wizzy-s-portfolio.vercel.app/projects/operator.html",
-  },
-  {
-    slug: "shoot-shoot-penguin",
-    group: "project",
-    no: "03",
-    name: "Shoot Shoot Penguin",
-    subtitle: {
-      en: "AI-Assisted Basketball Team Management Platform",
-      ko: "AI 기반 농구 팀 운영 플랫폼",
-    },
-    outcome: {
-      en: "Two-sided platform that automates guest recruiting — designed end-to-end with a developer, from IA to handoff",
-      ko: "개발자와 2인, IA부터 핸드오프까지 — 게스트 모집을 자동화하는 양면 플랫폼",
-    },
-    tags: [
-      { en: "End to End Design", ko: "엔드투엔드 디자인" },
-      { en: "Mobile UX", ko: "모바일 UX" },
-      { en: "In Development", ko: "개발 중" },
-    ],
-    description: {
-      en: "Co-founded and designed a mobile platform that transforms complex team management and guest matching into clear, actionable experiences — from problem definition to developer handoff.",
-      ko: "복잡한 팀 운영과 게스트 매칭을 명확하고 실행 가능한 경험으로 바꾸는 모바일 플랫폼을 공동 창업하고 디자인했다. 문제 정의부터 개발 핸드오프까지 전 과정을 담당했다.",
-    },
-    thumbnail: "/thumbs/ssp-thumb.webp",
-    hasCaseStudy: false,
-    externalUrl: "https://shoot-shoot-penguin.vercel.app/",
   },
   {
     slug: "weekend-greenwich",
