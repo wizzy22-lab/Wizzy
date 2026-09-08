@@ -220,7 +220,15 @@ export default function ProjectSection({
                     aria-controls={panelId}
                     onClick={() => onHeaderClick(i)}
                     className={`group block w-full cursor-pointer text-left ${
-                      isOpen ? "" : "flex h-[72px] items-center border-t border-border"
+                      isOpen
+                        ? ""
+                        // A floor rather than a fixed height. The row reserves
+                        // 64px either side for the number and the arrow, so a
+                        // long name gets 214px of the 342 a phone has and wraps
+                        // to three lines — 90px of text in a 72px box, spilling
+                        // over the rule above and below it. The padding keeps a
+                        // short name at exactly the 72 it had.
+                        : "flex min-h-[72px] items-center border-t border-border py-4"
                     }`}
                   >
                     {isOpen ? (

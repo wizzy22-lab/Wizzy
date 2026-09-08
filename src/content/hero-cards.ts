@@ -16,6 +16,9 @@ import { getProject } from "./projects";
  * Labels are placeholder codes in the mono face, so they stay out of the
  * dictionaries: `SSP` and `BingX` are proper nouns either way, and `Brand` /
  * `Wireframe` / `Screens` are notes to ourselves that the artwork replaces.
+ *
+ * The first three run in the same order and carry the same numbers as the
+ * project section, so a card here and the row it opens are the same 01, 02, 03.
  */
 export type HeroCard = {
   /** Position in the carousel. Not the project's own number. */
@@ -30,8 +33,8 @@ export type HeroCard = {
 
 export const HERO_CARDS: HeroCard[] = [
   { no: "01", label: "SSP", slug: "shoot-shoot-penguin", image: null },
-  { no: "02", label: "Operator", slug: "operator", image: null },
-  { no: "03", label: "BingX", slug: "bingx", image: null },
+  { no: "02", label: "BingX", slug: "bingx", image: null },
+  { no: "03", label: "Operator", slug: "operator", image: null },
   { no: "04", label: "Brand", slug: null, image: null },
   { no: "05", label: "Wireframe", slug: null, image: null },
   { no: "06", label: "Screens", slug: null, image: null },

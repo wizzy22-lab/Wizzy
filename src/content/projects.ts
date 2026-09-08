@@ -50,10 +50,13 @@ export const PROJECTS: Project[] = [
     slug: "shoot-shoot-penguin",
     group: "project",
     no: "01",
-    name: "Shoot Shoot Penguin",
+    name: "Shoot Shoot Penguin — Design System",
+    // The heading now carries the discipline, so this says what the product is
+    // rather than repeating the name back — which is the one thing the reader
+    // cannot get from the line above it.
     subtitle: {
-      en: "Shoot Shoot Penguin — Design System",
-      ko: "Shoot Shoot Penguin — 디자인 시스템",
+      en: "AI-Assisted Basketball Team Management Platform",
+      ko: "AI 기반 농구 팀 운영 플랫폼",
     },
     outcome: {
       en: "26 component groups, 5 status colours at 7:1 contrast — a design system that separates action from state",
