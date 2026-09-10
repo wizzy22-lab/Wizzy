@@ -72,7 +72,9 @@ export default function HowIGotHereSection({
           its columns are tall; here only one is, and `items-start` would leave
           the name looking like a column that stopped early.
         */}
-        <div className={`flex flex-col gap-10 md:grid md:items-center ${ROW_COLUMNS}`}>
+        <div
+          className={`flex flex-col gap-10 md:grid md:items-center ${ROW_COLUMNS}`}
+        >
           {/*
             The name starts on the third track, where every description below
             it starts. Left-aligned now: it shares a row instead of sitting
@@ -191,7 +193,10 @@ export default function HowIGotHereSection({
           sequence, so the vertical rule, dots and left/right staggering were
           all restating it. Rules between rows do the same job in 1px.
         */}
-        <ul aria-labelledby={TIMELINE_CAPTION_ID} className="mt-5 border-b border-border">
+        <ul
+          aria-labelledby={TIMELINE_CAPTION_ID}
+          className="mt-5 border-b border-border"
+        >
           {timeline.items.map((item, i) => (
             <li
               key={i}
@@ -208,22 +213,38 @@ export default function HowIGotHereSection({
           Photos leave the rows and regroup as one band of equal tiles. Freed
           from the text they no longer need to be the same height as a
           paragraph, so they can all share one square format.
+
+          Four tiles now, not six, and the column counts follow the count
+          rather than the other way round: two across on a phone and four from
+          `sm` fills both rows exactly. Held at the old three-and-six, four
+          tiles left two empty columns on a desktop and an orphan on a phone —
+          which is the placeholder this change exists to avoid, drawn in
+          whitespace instead of grey.
+
+          The band starts on the section's main left edge either way, so the
+          axis is the one the caption, the years and the brand links already
+          share. Nothing here introduces one.
+
+          A `null` renders no element at all — see `TIMELINE_PHOTOS`. The index
+          is still the row's, so the alt text stays paired with the right year.
         */}
-        <ul className="mt-12 grid grid-cols-3 gap-5 sm:grid-cols-6">
-          {TIMELINE_PHOTOS.map((photo, i) => (
-            <li
-              key={photo}
-              className="relative aspect-square overflow-hidden rounded-[var(--radius-card)] bg-surface"
-            >
-              <Image
-                src={photo}
-                alt={timeline.items[i]?.title ?? ""}
-                fill
-                sizes="(max-width: 640px) 33vw, 16vw"
-                className="object-cover"
-              />
-            </li>
-          ))}
+        <ul className="mt-12 grid grid-cols-2 gap-5 sm:grid-cols-4">
+          {TIMELINE_PHOTOS.map((photo, i) =>
+            photo === null ? null : (
+              <li
+                key={photo}
+                className="relative aspect-square overflow-hidden rounded-[var(--radius-card)] bg-surface"
+              >
+                <Image
+                  src={photo}
+                  alt={timeline.items[i]?.title ?? ""}
+                  fill
+                  sizes="(max-width: 640px) 50vw, 25vw"
+                  className="object-cover"
+                />
+              </li>
+            ),
+          )}
         </ul>
 
         {/*
