@@ -20,11 +20,11 @@ import "swiper/css/free-mode";
  * How far a slide is turned, as a multiple of `rotate`, given its distance
  * from the centre in slide widths.
  *
- * Coverflow's own model is linear — `distance * modifier` — and this fan is
- * twelve cards wide, so linear breaks it twice over. Past 90 degrees a card is
- * drawn mirrored; past 270 it comes back round the front. Measured on the
- * linear version: six of twelve rendered mirrored, the outermost front-facing
- * at 351 degrees.
+ * Coverflow's own model is linear — `distance * modifier` — and this fan runs
+ * wider than the screen, so linear breaks it twice over. Past 90 degrees a
+ * card is drawn mirrored; past 270 it comes back round the front. On the
+ * linear version, with a deck of twelve: six of them rendered mirrored, the
+ * outermost front-facing at 351 degrees.
  *
  * So it saturates. The slope is what the fan looks like where anyone is
  * looking; the ceiling is what stops it ever reaching 90.
@@ -86,7 +86,7 @@ const DESKTOP_COVERFLOW = {
  * against 520) makes each step out a shorter step than the last. The fan
  * converges instead of marching.
  *
- * Nothing is hidden and no slide is dropped — all twelve are still there and
+ * Nothing is hidden and no slide is dropped — every card is still there and
  * still reachable by dragging. What changes is how quickly they stack.
  */
 const MOBILE_COVERFLOW = {
@@ -163,7 +163,7 @@ const AUTOPLAY = {
 const RESUME_AFTER_DRAG = 2000;
 
 /**
- * How many times the twelve cards are laid into the strip.
+ * How many times the deck is laid into the strip.
  *
  * Not Swiper's `loop`, which cannot carry this fan. Loop rotates the slides it
  * has around the active one, sized by a count it takes from slide widths — and
@@ -174,22 +174,30 @@ const RESUME_AFTER_DRAG = 2000;
  *
  * Four passes and no loop. The carousel runs along a strip long enough that a
  * full fan sits either side of it wherever it is, and steps back a pass
- * whenever the active card leaves the second one. Twelve cards apart the
- * picture is the same picture, so the step cannot be seen.
+ * whenever the active card leaves the second one. A deck apart the picture is
+ * the same picture, so the step cannot be seen.
+ *
+ * The step is still invisible at seven cards; the repeat inside one screen is
+ * not. About fifteen slides are drawn across a desktop window, so a deck of
+ * seven appears roughly twice at once and the far pairs are visibly the same
+ * card. At twelve it only doubled up at the very edges. Fewer cards is what
+ * causes that, not this constant — dropping to two passes would empty the ends
+ * of the strip instead.
  */
 const STRIP_PASSES = 4;
 
 /**
- * Which card the fan opens on — the middle of twelve.
+ * Which card the fan opens on — the middle of the deck.
  *
  * `centeredSlides` centres whichever slide is active, so starting at 0 puts
  * every other card to its right and hangs the fan off one edge. Starting in
  * the middle is what makes it a fan: cards fall away on both sides.
  *
  * It is also the card the intro blows up to cover the screen, so it wants to
- * be the one with cards behind it in both directions.
+ * be the one with cards behind it in both directions. Seven cards put that at
+ * index 3 — card 04, which carries artwork, as the opening card must.
  */
-const INITIAL_SLIDE = 5;
+const INITIAL_SLIDE = 3;
 
 type CardLinkProps = {
   href: string | null;
@@ -422,7 +430,7 @@ export default function HeroCarousel({
          * On the transition *end*, and that is the fix. `slideChange` is
          * emitted by `updateActiveIndex` when a move begins, not when it
          * lands, so repositioning there cut the 650ms glide short and replaced
-         * it with a snap — a jolt every twelve cards. Waiting for the glide to
+         * it with a snap — a jolt once a deck. Waiting for the glide to
          * finish means the reposition falls between moves, where the two
          * positions really are the same picture.
          *
@@ -455,9 +463,9 @@ export default function HeroCarousel({
            * Re-measure before anything is shown.
            *
            * Swiper's first pass sizes the strip from the slides alone and
-           * misses the negative `spaceBetween` — measured at 3240px for twelve
-           * 270px cards, the sum with no gaps applied, against the 2760 it
-           * settles on. Everything downstream is computed from that number, so
+           * misses the negative `spaceBetween` — measured, back when the deck
+           * was twelve, at 3240px for twelve 270px cards: the sum with no gaps
+           * applied, against the 2760 it settles on. Everything downstream is computed from that number, so
            * the fan initialises off its own centre: the middle card landed
            * 233px right of the viewport centre at every width, far enough to
            * hang off the screen entirely on a phone.
@@ -481,9 +489,8 @@ export default function HeroCarousel({
       >
         {strip.map((card, i) => {
           /*
-           * The strip repeats the twelve cards, so a reader would meet every
-           * case four times and tab through four sets of the same three
-           * links. One pass is exposed and the other three are taken out of
+           * The strip repeats the deck, so a reader would meet every case
+           * four times and tab through four sets of the same three links. One pass is exposed and the other three are taken out of
            * the tree — `aria-hidden` for what is announced, `inert` for what
            * can be focused, since either alone leaves the other half open.
            * The labels go with them, being inside.

@@ -1,12 +1,13 @@
 import { getProject } from "./projects";
 
 /**
- * The twelve cards in the hero carousel.
+ * The seven cards in the hero carousel.
  *
- * A card with no `image` yet is an empty dashed frame — nothing is drawn
- * inside a card, so a card without artwork is blank. `image` is the slot that
- * ends that; when a file lands at the reserved path the card draws it instead
- * of the frame, and nothing else about the carousel changes.
+ * Every card carries artwork. It was twelve while five of them were still
+ * empty dashed frames waiting for a file; a frame with nothing in it reads as
+ * a gap in the arc rather than a promise, so the five went. A card added back
+ * later still renders the frame until its `image` lands — that path is intact,
+ * it is simply not in use.
  *
  * The first three point at cases that already exist. `slug` rather than a URL,
  * because `projects.ts` already knows where each case lives — writing the
@@ -21,29 +22,44 @@ import { getProject } from "./projects";
  * project section, so a card here and the row it opens are the same 01, 02, 03.
  */
 export type HeroCard = {
-  /** Position in the carousel. Not the project's own number. */
+  /**
+   * Identifies the card, and names its artwork file. Not a position: the
+   * numbers stopped being contiguous when the five empty cards were removed,
+   * and they stay as they are so each one still points at its own
+   * `hero-card-NN.webp`. Not the project's own number either.
+   */
   no: string;
   /** The card's accessible name. Not drawn — see the note above. */
   label: string;
   /** Case this card opens, looked up in `projects.ts`. `null` renders inert. */
   slug: string | null;
-  /** Reserved artwork — `hero-card-01` through `-12`. `null` keeps the frame. */
+  /** Artwork at `/hero/hero-card-<no>.webp`. `null` would keep the frame. */
   image: string | null;
 };
 
 export const HERO_CARDS: HeroCard[] = [
-  { no: "01", label: "SSP", slug: "shoot-shoot-penguin", image: null },
-  { no: "02", label: "BingX", slug: "bingx", image: null },
-  { no: "03", label: "Operator", slug: "operator", image: null },
+  {
+    no: "01",
+    label: "SSP",
+    slug: "shoot-shoot-penguin",
+    image: "/hero/hero-card-01.webp",
+  },
+  { no: "02", label: "BingX", slug: "bingx", image: "/hero/hero-card-02.webp" },
+  {
+    no: "03",
+    label: "Operator",
+    slug: "operator",
+    image: "/hero/hero-card-03.webp",
+  },
   { no: "04", label: "Brand", slug: null, image: "/hero/hero-card-04.webp" },
-  { no: "05", label: "Wireframe", slug: null, image: null },
-  { no: "06", label: "Screens", slug: null, image: null },
-  { no: "07", label: "Flow", slug: null, image: null },
+  { no: "06", label: "Screens", slug: null, image: "/hero/hero-card-06.webp" },
   { no: "08", label: "System", slug: null, image: "/hero/hero-card-08.webp" },
-  { no: "09", label: "Research", slug: null, image: null },
-  { no: "10", label: "Prototype", slug: null, image: null },
-  { no: "11", label: "Motion", slug: null, image: null },
-  { no: "12", label: "Handoff", slug: null, image: null },
+  {
+    no: "10",
+    label: "Prototype",
+    slug: null,
+    image: "/hero/hero-card-10.webp",
+  },
 ];
 
 /** A hero card with its destination resolved — plain strings for the client. */
