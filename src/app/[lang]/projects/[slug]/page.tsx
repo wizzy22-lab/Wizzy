@@ -22,8 +22,12 @@ export async function generateMetadata({
   const project = getProject(slug);
   if (!hasLocale(lang) || !project) return {};
 
+  // The suffix is the site's name, so it reads from the dictionary rather than
+  // being spelled here — a second copy is how the two come to disagree.
+  const dict = await getDictionary(lang);
+
   return {
-    title: `${project.name} — Wizzy`,
+    title: `${project.name} — ${dict.brand.name}`,
     description: t(project.subtitle, lang),
     alternates: {
       languages: Object.fromEntries(LOCALES.map((l) => [l, `/${l}/projects/${slug}`])),

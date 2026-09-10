@@ -9,12 +9,12 @@ import type { Dictionary } from "./en";
  */
 const ko: Dictionary = {
   meta: {
-    title: "Wizzy — 프로덕트 디자이너",
+    title: "위해지 — 프로덕트 디자이너",
     description: "비즈니스 문제를 성장하는 제품으로 바꿉니다.",
   },
 
   brand: {
-    name: "Wizzy",
+    name: "Haeji Wi",
     role: "프로덕트 디자이너",
   },
 
@@ -153,7 +153,7 @@ const ko: Dictionary = {
     locationValue: "서울, 대한민국",
     copied: "복사했습니다",
     // The mark stays lowercase Latin in both locales.
-    copyright: "© 2026 wizzy",
+    copyright: "© 2026 Haeji Wi",
   },
 };
 

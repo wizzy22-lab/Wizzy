@@ -43,9 +43,10 @@ export default function HowIGotHereSection({
         {/*
           The section head is the person, not the list.
 
-          Everywhere else the page says "wizzy", which brands the work but never
-          names whoever made it — so the applicant's name is stated once, here,
-          at the top of about. It takes the display tier and the role sits under
+          The mark elsewhere on the page is the same name set in the wordmark's
+          lowercase — a brand treatment. This is where it is stated as a
+          person's name, in the script the locale reads: "Haeji Wi" in English,
+          "위해지" in Korean. It takes the display tier and the role sits under
           it as a label: the same size-then-ramp-then-face stack the hero uses,
           which is the only way this system builds hierarchy.
 

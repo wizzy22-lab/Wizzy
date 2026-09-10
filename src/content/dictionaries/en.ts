@@ -5,12 +5,12 @@
  */
 const en = {
   meta: {
-    title: "Wizzy — Product Designer",
+    title: "Haeji Wi — Product Designer",
     description: "I turn business problems into products that grow business.",
   },
 
   brand: {
-    name: "Wizzy",
+    name: "Haeji Wi",
     role: "Product designer",
   },
 
@@ -173,7 +173,7 @@ const en = {
     location: "Location",
     locationValue: "Seoul, South Korea",
     copied: "Copied!",
-    copyright: "© 2026 wizzy",
+    copyright: "© 2026 Haeji Wi",
   },
 };
 
