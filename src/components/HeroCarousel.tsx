@@ -194,6 +194,16 @@ const INITIAL_SLIDE = 5;
 type CardLinkProps = {
   href: string | null;
   external: boolean;
+  /**
+   * The card's name, and the only place it is left.
+   *
+   * Nothing inside a card is drawn any more — no caption, and artwork that
+   * carries no alt of its own — so without this a linked card reaches a
+   * screen reader as a link with no name at all. It is what the caption used
+   * to say, minus the number, which was a position in the fan rather than
+   * anything about the case.
+   */
+  label: string;
   className?: string;
   children: React.ReactNode;
 };
@@ -203,7 +213,13 @@ type CardLinkProps = {
  * there is no destination — the same three branches the project accordion
  * uses, and deliberately not an `<a href="#">`, which would be a dead link.
  */
-function CardLink({ href, external, className, children }: CardLinkProps) {
+function CardLink({
+  href,
+  external,
+  label,
+  className,
+  children,
+}: CardLinkProps) {
   if (href === null) {
     return (
       <span aria-disabled="true" className={className}>
@@ -213,13 +229,13 @@ function CardLink({ href, external, className, children }: CardLinkProps) {
   }
   if (external) {
     return (
-      <a href={href} className={className}>
+      <a href={href} aria-label={label} className={className}>
         {children}
       </a>
     );
   }
   return (
-    <Link href={href} className={className}>
+    <Link href={href} aria-label={label} className={className}>
       {children}
     </Link>
   );
@@ -494,30 +510,25 @@ export default function HeroCarousel({
                 <CardLink
                   href={card.href}
                   external={card.external}
+                  label={card.label}
                   className={`relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-[var(--radius-card)] bg-surface ${
                     card.image ? "" : "border-2 border-dashed border-border"
                   }`}
                 >
+                  {/*
+                  `alt=""`, and the link is named instead — see `CardLink`.
+                  The artwork is the whole card, so alt text here and a label
+                  on the link around it would announce the same thing twice.
+                */}
                   {card.image && (
                     <Image
                       src={card.image}
-                      alt={card.label}
+                      alt=""
                       fill
                       sizes="300px"
                       className="object-cover"
                     />
                   )}
-
-                  {/*
-                  The caption, and only on the card in the middle. On every
-                  card it read as twelve things labelled at once; on one it
-                  names what is being shown. It sits at the foot of the card
-                  rather than across the middle of it, so the artwork that
-                  replaces the frame has somewhere to go.
-                */}
-                  <span className="hero-carousel__label type-label absolute inset-x-0 bottom-6 px-3 text-center text-dim">
-                    {card.no} · {card.label}
-                  </span>
                 </CardLink>
               </div>
             </SwiperSlide>

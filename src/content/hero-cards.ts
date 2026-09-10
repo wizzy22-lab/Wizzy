@@ -1,21 +1,21 @@
 import { getProject } from "./projects";
 
 /**
- * The six cards in the hero carousel.
+ * The twelve cards in the hero carousel.
  *
- * Stage one: every card is a placeholder — a dashed frame with a mono label
- * where the artwork will go. `image` is the slot that ends that; when a file
- * lands at the reserved path the card draws it instead of the frame, and
- * nothing else about the carousel changes.
+ * A card with no `image` yet is an empty dashed frame — nothing is drawn
+ * inside a card, so a card without artwork is blank. `image` is the slot that
+ * ends that; when a file lands at the reserved path the card draws it instead
+ * of the frame, and nothing else about the carousel changes.
  *
  * The first three point at cases that already exist. `slug` rather than a URL,
  * because `projects.ts` already knows where each case lives — writing the
- * destination twice is how the two drift apart. The last three have nowhere to
- * go yet and render inert.
+ * destination twice is how the two drift apart. The rest have nowhere to go
+ * yet and render inert.
  *
- * Labels are placeholder codes in the mono face, so they stay out of the
- * dictionaries: `SSP` and `BingX` are proper nouns either way, and `Brand` /
- * `Wireframe` / `Screens` are notes to ourselves that the artwork replaces.
+ * Labels are never drawn — they are the accessible name of a card that can be
+ * opened, and a note to ourselves about what artwork belongs in the slot — so
+ * they stay out of the dictionaries.
  *
  * The first three run in the same order and carry the same numbers as the
  * project section, so a card here and the row it opens are the same 01, 02, 03.
@@ -23,7 +23,7 @@ import { getProject } from "./projects";
 export type HeroCard = {
   /** Position in the carousel. Not the project's own number. */
   no: string;
-  /** What the placeholder says, after the number. */
+  /** The card's accessible name. Not drawn — see the note above. */
   label: string;
   /** Case this card opens, looked up in `projects.ts`. `null` renders inert. */
   slug: string | null;
@@ -35,11 +35,11 @@ export const HERO_CARDS: HeroCard[] = [
   { no: "01", label: "SSP", slug: "shoot-shoot-penguin", image: null },
   { no: "02", label: "BingX", slug: "bingx", image: null },
   { no: "03", label: "Operator", slug: "operator", image: null },
-  { no: "04", label: "Brand", slug: null, image: null },
+  { no: "04", label: "Brand", slug: null, image: "/hero/hero-card-04.webp" },
   { no: "05", label: "Wireframe", slug: null, image: null },
   { no: "06", label: "Screens", slug: null, image: null },
   { no: "07", label: "Flow", slug: null, image: null },
-  { no: "08", label: "System", slug: null, image: null },
+  { no: "08", label: "System", slug: null, image: "/hero/hero-card-08.webp" },
   { no: "09", label: "Research", slug: null, image: null },
   { no: "10", label: "Prototype", slug: null, image: null },
   { no: "11", label: "Motion", slug: null, image: null },

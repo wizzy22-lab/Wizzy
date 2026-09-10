@@ -65,7 +65,8 @@
 
   /* Latin is set by Manrope; Korean falls through to Pretendard, which the
      Latin face never claims. One stack, two scripts, no per-language classes. */
-  --font-sans: var(--font-manrope), "Pretendard Variable", Pretendard, sans-serif;
+  --font-sans:
+    var(--font-manrope), "Pretendard Variable", Pretendard, sans-serif;
   --font-mono: var(--font-azeret), monospace;
 
   /*
@@ -254,7 +255,8 @@
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-manrope), "Pretendard Variable", Pretendard, sans-serif;
+  font-family:
+    var(--font-manrope), "Pretendard Variable", Pretendard, sans-serif;
 }
 
 /*
@@ -379,25 +381,6 @@ p {
 
 .hero-carousel .swiper-slide-active .hero-carousel__card {
   filter: none;
-}
-
-/*
- * The caption is the centre card's alone, and it crosses rather than cuts.
- *
- * 0.3s against the 650ms the fan takes to move, so the outgoing name is gone
- * well before the incoming card has arrived — two labels legible at once would
- * read as a glitch rather than a change.
- *
- * Opacity only. It is inside a slide Swiper transforms every frame, and
- * anything here that moved the box would be fighting that.
- */
-.hero-carousel__label {
-  opacity: 0;
-  transition: opacity 0.3s ease-out;
-}
-
-.hero-carousel .swiper-slide-active .hero-carousel__label {
-  opacity: 1;
 }
 
 /*
@@ -551,7 +534,10 @@ p {
    * own middle, which is within a few pixels of the middle of the first
    * screen, and at this size a few pixels is nothing.
    */
-  [data-intro="pending"] .hero-carousel .swiper-slide-active .hero-carousel__card {
+  [data-intro="pending"]
+    .hero-carousel
+    .swiper-slide-active
+    .hero-carousel__card {
     transform: scale(5.5);
   }
 
@@ -563,8 +549,14 @@ p {
    * `translateZ(0)` rather than `none` — the card's resting transform is a
    * promotion hint, and ending on `none` would drop it.
    */
-  [data-intro="shrink"] .hero-carousel .swiper-slide-active .hero-carousel__card,
-  [data-intro="reveal"] .hero-carousel .swiper-slide-active .hero-carousel__card {
+  [data-intro="shrink"]
+    .hero-carousel
+    .swiper-slide-active
+    .hero-carousel__card,
+  [data-intro="reveal"]
+    .hero-carousel
+    .swiper-slide-active
+    .hero-carousel__card {
     transform: translateZ(0);
     transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform;
