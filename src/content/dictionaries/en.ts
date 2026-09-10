@@ -119,7 +119,7 @@ const en = {
         year: "2016",
         title: "Discovered Baking",
         description:
-          "Started baking as a hobby and turned it into a serious craft — curiosity becoming commitment, a pattern that has repeated ever since.",
+          "Started baking as a hobby and turned it into a serious craft.",
       },
     ],
   },
