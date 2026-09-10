@@ -277,358 +277,219 @@ p {
 }
 
 /*
- * The hero's card arc.
+ * The hero's card ring.
  *
- * Scoped to `.hero-carousel` rather than to Swiper's own class names on their
- * own, so nothing here reaches a second carousel if one is ever added.
+ * Geometry and motion only — no new tokens. The card takes `--surface` and
+ * `--radius-card`; what is written here is where a card stands on the cylinder
+ * and how the light falls on it there.
  *
- * No new tokens: the card takes `--surface`, `--border` and `--radius-card`,
- * and the label takes the `type-label` utility. What is written here is
- * geometry and motion, which the scale has no opinion about.
+ * The angle itself is not here. `HeroCylinder` writes `rotateY()` and a
+ * `--face` value onto each panel every frame, and everything below is a
+ * function of that one number.
  */
 
 /*
- * Card width, and through the 4:5 ratio the card height too.
+ * Card size, and through the square ratio the card height too.
  *
- * Three bounds because the arc shares the first screen with the headline and
- * the scroll hint: `22vw` keeps the row proportionate as the window widens,
- * `30vh` is what stops a short window from pushing the cards past the fold,
- * and `min()` means whichever runs out first wins.
+ * Unchanged from the flat fan, on purpose: the ring was widened rather than
+ * shrunk (see `RADIUS_K`), so a card is still a quarter of the window rather
+ * than a thumbnail. `min()` because the arc shares the first screen with the
+ * headline above it and the scroll hint below — `46vh` is what keeps it on
+ * that screen, `24vw` is what keeps it proportionate as the window widens, and
+ * whichever runs out first wins.
+ *
+ * Mobile first, and the phone takes a much larger share of the width: a
+ * quarter of 390px is 94px, which is a thumbnail standing in for a subject.
+ *
+ * `HeroCylinder` measures this off the element rather than repeating it, so
+ * the radius follows the card at every breakpoint with nothing to keep in
+ * sync.
  */
-/*
- * The slide is Swiper's to transform, and nothing here takes that back.
- *
- * Swiper writes `transition-duration` onto each slide inline — zero while a
- * finger is down so the arc tracks the hand, then `speed` while it settles.
- * The easing it never writes, so that is set here; without it the snap runs on
- * the CSS default `ease` and lands flat.
- *
- * Deliberately no `transition` shorthand. That would set `transition-property`
- * to whatever was listed, and Swiper's inline duration would then drive that
- * property instead of `transform` — the arc would stop animating altogether.
- *
- * `backface-visibility` earns its place beyond the GPU hint: dragging pushes
- * the far slides past 90 degrees, and a card turned through edge-on comes back
- * mirrored, label and all. Hidden, it simply stops being drawn — which at that
- * angle and that distance off-screen is what it should do.
- */
-.hero-carousel .swiper-slide {
+.hero-cylinder {
+  --card-size: min(57vw, 46vh, 300px);
+
+  /* Explicit, because the panels are all absolutely positioned and the ring
+     would otherwise measure zero and take its `perspective-origin` from a
+     zero-width box. It landed on the viewport centre by coincidence there —
+     the hero's padding is symmetric — which is not a thing to leave standing. */
+  width: 100%;
+
   /*
-   * The centre card is the subject, so it is sized as a fraction of the
-   * window: 24vw puts it at just under a quarter of the width, which is where
-   * it reads as the thing being shown rather than one of a row.
+   * Flatter than the 1200 Swiper used, and the reason is width.
    *
-   * 46vh is the ceiling that keeps it on the first screen. The card is square
-   * now, so its height is this same number, and it shares the screen with the
-   * headline above it and the scroll hint below. Those come to about 296px
-   * together, so on the 742px window this was tuned against the card takes 341
-   * and leaves 105 spare; on a 900px one the 24vw arm binds first at 353.
+   * Perspective foreshortening pulls the outer cards toward the centre, and on
+   * a ring that is the difference between an arc that reaches the edges of the
+   * window and one that sits in the middle of it. Measured across the same
+   * seven cards: at 1200 the ring spanned 72% of a 1455px window, at 2200 it
+   * spanned 82%, at 3000 86%. Card size does the rest — see `--card-size` —
+   * and the two together put it a little past both edges.
    *
-   * Mobile first, and the phone gets a much larger share of the width — 57%
-   * against the desktop's 24%. A quarter of 390px is 94px, which is a thumbnail
-   * rather than the subject, and the old floor of 240px was a fixed number
-   * standing in for a proportion. The `vh` arm and the 380px cap keep a tablet
-   * from taking the 57% literally — 300px rather than the desktop's 380px cap,
-   * which also keeps the step across `lg` small: 29% of a 1023px window on one
-   * side of it, 24% of a 1024px one on the other.
+   * Further would be flatter still, and past about 3000 the stow stops reading
+   * as a card turning away and starts reading as one sliding sideways. This is
+   * as far as it goes while the rotation is still legible as rotation.
    */
-  width: min(57vw, 46vh, 300px);
-  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
-  backface-visibility: hidden;
-}
+  perspective: 2200px;
 
-/* Free mode's own stylesheet sets `ease-out` on the wrapper, so this has to
-   outrank it rather than merely follow it. */
-.hero-carousel .swiper.swiper-free-mode > .swiper-wrapper,
-.hero-carousel .swiper-wrapper {
-  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  margin-top: 2.5rem;
+  opacity: 0;
 }
 
 /*
- * Depth, without a shadow, in three steps.
+ * From `lg` the card is a third of the width rather than a quarter.
  *
- * `slideShadows` is off on the effect — Swiper's gradients paint a dark sheet
- * over the card face, which on a monochrome palette reads as grime rather than
- * as distance. Light falling off with distance does the same job honestly, and
- * one flat value for everything off-centre flattened exactly the thing the
- * arc exists to show.
+ * Bigger than the flat fan's, and it is the ring that pays for it: a card and
+ * the radius are locked together by `w / (2·tan(π/n))`, so the only way to
+ * widen the arc without opening gaps between the cards is to grow the cards
+ * themselves. At 440px the ring runs 102% of a 1455px window; at the fan's
+ * 333px it stopped at 82%.
  *
- * The brightness sits on the card, not on the slide, and that is the point:
- * the slide's `transition-duration` belongs to Swiper and drops to zero on
- * every drag frame. A filter on it would step between the three values instead
- * of crossing between them. On the card it keeps a transition of its own.
- */
-.hero-carousel__card {
-  filter: brightness(0.82);
-  transition: filter 0.3s ease-out;
-  transform: translateZ(0);
-  /*
-   * The slide carries this too, and it is not enough on its own: `filter` and
-   * the promotion hint above give the card a rendering context of its own, and
-   * a parent's hidden backface does not reach into one. Measured with it only
-   * on the slide, cards turned past 90 degrees still drew their labels in
-   * mirror. This is the backstop — the saturating modifier means nothing
-   * should reach that angle in the first place.
-   */
-  backface-visibility: hidden;
-}
-
-.hero-carousel .swiper-slide-prev .hero-carousel__card,
-.hero-carousel .swiper-slide-next .hero-carousel__card {
-  filter: brightness(0.92);
-}
-
-.hero-carousel .swiper-slide-active .hero-carousel__card {
-  filter: none;
-}
-
-/*
- * From `lg` the card goes back to a quarter of the width, crossing at the same
- * 1024 as the fan's own geometry in `HeroCarousel`. `clamp` rather than `min`
- * because up here the floor is doing real work: on a short, wide window the
- * `vh` arm would otherwise shrink the card below what the row can carry.
- *
- * It is the arm that decides the answer on a short window, which is why 46vh
- * is not tighter: at 42vh a 742px-tall window dropped the card to 21% of the
- * width, under the quarter it is supposed to hold.
+ * `50vh` is the arm that binds on a short window, and it has to: the card is
+ * square, so this is its height too, and it shares the 80vh band with the
+ * headline above and the scroll hint below. On a 900px-tall window the `vw`
+ * arm wins at 437 and the ring bleeds; on a 723px one the `vh` arm holds it to
+ * 362 and the ring sits inside the margins instead. That is the same
+ * height-dependence the fan had, and the same reason for it.
  */
 @media (min-width: 1024px) {
-  .hero-carousel .swiper-slide {
-    width: clamp(240px, min(24vw, 46vh), 380px);
+  .hero-cylinder {
+    --card-size: clamp(280px, min(30vw, 50vh), 460px);
   }
 }
 
-/*
- * The carousel is only ever hidden by its own readiness.
- *
- * Swiper positions the slides on init; until then they are a flat row, and
- * this is what covers that gap. Outside the intro it is the whole story — a
- * visitor with JS off, or arriving under reduced motion, gets the finished arc
- * with nothing to wait for beyond Swiper itself.
- */
-.hero-carousel {
-  opacity: 0;
-
-  /* The scale the intro holds the arc at before it settles. A phone gets less
-     of it: at 1.35 the outer cards of the arc leave the screen. */
-  --intro-scale: 1.2;
-}
-
-@media (min-width: 768px) {
-  .hero-carousel {
-    --intro-scale: 1.35;
-  }
-}
-
-.hero-carousel[data-ready] {
+/* Nothing is drawn until the first frame has positioned the panels. Before
+   that they are stacked in one place, which is not a ring. */
+.hero-cylinder[data-ready] {
   opacity: 1;
 }
 
 /*
- * The intro.
+ * The stage carries the cylinder; the panels stand on it.
  *
- * One attribute on a wrapper, four phases, and every rule below keyed off it.
- * `HeroIntro` renders `pending` on the server and walks the rest on a timer,
- * so the page is dressed for the intro before the first paint rather than
- * being caught and hidden after it.
+ * `preserve-3d` is what makes the ring a ring rather than seven flat cards
+ * painted in sequence — without it the browser flattens every child into the
+ * stage's own plane and the depth disappears.
  *
- * The shape of it: the fan is already whole and already in its final position
- * on the first frame. Nothing is staggered in, nothing assembles. One card —
- * the middle one — is blown up until it covers the screen, and the intro is
- * that card coming down. What is behind it gets uncovered, not built.
- *
- * The whole block sits inside `prefers-reduced-motion: no-preference`. That is
- * the reduced-motion branch too, by omission: none of this exists, the plate is
- * `display: none`, nothing is hidden, and the scroll was never locked — the
- * page simply paints finished.
- *
- * Only `transform` and `opacity` are animated. `overflow` and `display` are
- * set, but they are state, not a transition — nothing tweens them.
+ * Its height is the card's, so the ring reserves exactly the row it occupies.
+ * Its width is the container's and the panels are free to hang outside it:
+ * `RADIUS_K` puts the outer cards past both edges of the window, and
+ * `.hero-shell` is where that gets clipped.
  */
+.hero-cylinder__stage {
+  position: relative;
+  width: 100%;
+  height: var(--card-size);
+  transform-style: preserve-3d;
+  cursor: grab;
+  touch-action: pan-y;
+}
 
-/*
- * Unconditional, with reduced motion taking it away at the end rather than
- * granting it here.
- *
- * It was the other way round: everything lived inside
- * `(prefers-reduced-motion: no-preference)`, so the intro existed only where
- * that query positively matched. A browser that matches neither `reduce` nor
- * `no-preference` — an old engine, an embedded webview, anything that does not
- * know the feature — got the suppressed branch by default and the page looked
- * like the intro had never been written. Suppression should need an explicit
- * request, not the absence of one.
- */
-@media all {
-  /*
-   * Scroll lock, held from the server's first frame.
-   *
-   * `:has()` because the phase lives on a wrapper inside `<body>` and the
-   * scroller is `<html>`. The reserved gutter is what stops the page shifting
-   * sideways when the lock lifts and a real scrollbar takes the space — on the
-   * platforms that still take space for one.
-   */
-  html:has([data-intro]) {
-    overflow: hidden;
-    scrollbar-gutter: stable;
-  }
-
-  html:has([data-intro]) body {
-    overflow: hidden;
-  }
-
-  /*
-   * The plate. Page-coloured rather than black, so what dissolves is a flat
-   * field and not a lighting change.
-   *
-   * Above the fixed header, below the fan. It takes pointer events while it is
-   * opaque — there is a whole page under it that must not be clickable — and
-   * gives them up the moment it starts to fade.
-   */
-  .hero-intro-plate {
-    display: block;
-    position: fixed;
-    inset: 0;
-    z-index: 60;
-    background: var(--bg);
-    opacity: 1;
-    transition: opacity 0.5s ease-out;
-  }
-
-  [data-intro="reveal"] .hero-intro-plate {
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  /* The one thing standing above the plate. */
-  [data-intro] .hero-carousel {
-    position: relative;
-    z-index: 70;
-  }
-
-  /*
-   * Two clips to lift for the duration, neither of them animated.
-   *
-   * A card at five times its size is far bigger than the track it sits in and
-   * bigger than the hero band around that. Both clip by default — the swiper
-   * to keep the fan inside its own bounds, the hero to keep its contents off
-   * the section below — and between them they would crop the covering card to
-   * a letterbox. The viewport is doing the only clipping that should happen
-   * here, and the scroll lock has already sealed that.
-   */
-  [data-intro] .hero-shell,
-  [data-intro] .hero-carousel .swiper {
-    overflow: visible;
-  }
-
-  /*
-   * The centre card, covering the screen.
-   *
-   * On the card rather than the slide: the slide's transform belongs to
-   * Swiper, which rewrites it every frame of the fan. The card sits inside it
-   * and inherits the slide's rotation, and the centre slide is the one at zero
-   * degrees — so scaling the card there is a straight, front-on scale, which
-   * is the only reason this can be the active slide and not a copy of it.
-   *
-   * `transform-origin` is left at its default centre. The card grows about its
-   * own middle, which is within a few pixels of the middle of the first
-   * screen, and at this size a few pixels is nothing.
-   */
-  [data-intro="pending"]
-    .hero-carousel
-    .swiper-slide-active
-    .hero-carousel__card {
-    transform: scale(5.5);
-  }
-
-  /*
-   * And down. Fast off the mark and very long in the tail, so the last third
-   * of the movement is almost still and the fan behind it settles rather than
-   * stops.
-   *
-   * `translateZ(0)` rather than `none` — the card's resting transform is a
-   * promotion hint, and ending on `none` would drop it.
-   */
-  [data-intro="shrink"]
-    .hero-carousel
-    .swiper-slide-active
-    .hero-carousel__card,
-  [data-intro="reveal"]
-    .hero-carousel
-    .swiper-slide-active
-    .hero-carousel__card {
-    transform: translateZ(0);
-    transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform;
-  }
-
-  /*
-   * Everything else on the first screen, revealed in the order it is read:
-   * the bar, then the headline, then the scroll hint. `--intro-step` is which
-   * of those three an element belongs to.
-   *
-   * Only the first screen is listed. Nothing below the fold needs a rule — the
-   * plate covers it until the reveal and the scroll is locked past that, so it
-   * is revealed by the plate dissolving, which is what should reveal it.
-   */
-  [data-intro] .intro-reveal {
-    opacity: 0;
-  }
-
-  [data-intro="reveal"] .intro-reveal {
-    opacity: 1;
-    transition: opacity 0.5s ease-out;
-    transition-delay: calc(var(--intro-step, 0) * 80ms);
-  }
+.hero-cylinder__stage.is-grabbing {
+  cursor: grabbing;
 }
 
 /*
- * Reduced motion, and the one way past it.
+ * Every panel starts in the same place — dead centre — and its rotation is the
+ * only thing that puts it somewhere else.
  *
- * This undoes the block above rather than the block above asking permission.
- * Five rules is all it takes, because most of what the intro sets is inert
- * without the two that matter — the scale on the covering card and the zeroed
- * opacity on everything else.
- *
- * It has to be written at all, rather than left to `HeroIntro` rendering no
- * phase, because the server renders `pending` unconditionally: it cannot know
- * what the visitor asked for. Without these, a reduced-motion visitor would
- * see a card covering the screen until hydration caught up and cleared it.
- *
- * `data-motion-force` is the exception, stamped by the script in the layout
- * head when the URL carries `?intro=1`. Reduced motion is a preference about
- * being shown motion unasked; typing the parameter is asking. It exists so the
- * intro can be reviewed on a machine that has the preference set — which is
- * otherwise indistinguishable from the intro being broken, and was read as
- * exactly that three times.
+ * That is the whole trick of the cylinder. `transform-origin` is pushed back
+ * by the radius (written from JS, which measures the card), so `rotateY(θ)`
+ * sweeps the panel out around an axis behind the screen instead of spinning it
+ * where it stands. At θ = 0 the transform is the identity: the front card sits
+ * exactly here, square to the viewer.
  */
-@media (prefers-reduced-motion: reduce) {
-  html:not([data-motion-force]):has([data-intro]),
-  html:not([data-motion-force]):has([data-intro]) body {
-    overflow: visible;
-    scrollbar-gutter: auto;
-  }
+.hero-cylinder__panel {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: var(--card-size);
+  height: var(--card-size);
+  margin-left: calc(var(--card-size) / -2);
+  transform-style: preserve-3d;
 
-  html:not([data-motion-force]) .hero-intro-plate {
-    display: none;
-  }
+  /*
+   * The stow.
+   *
+   * `--face` is the cosine of the panel's angle: 1 at the front, 0 edge-on, -1
+   * round the back. Opacity is a straight line off it, so a card dims away as
+   * it turns and is gone by the time its back would show. Opacity outside 0–1
+   * is clamped, so a card is at full strength from about 66 degrees inward.
+   *
+   * The `max(…, 0)` is doing more than tidying. It is what makes the second
+   * lap of the deck invisible: twins sit exactly 180 degrees apart, so
+   * whenever one has a positive cosine the other's is negative, and a floor at
+   * zero means the far one contributes nothing. The first version faded out at
+   * a cosine of -0.25 instead, which let a card at 96 degrees sit at a quarter
+   * opacity beside its own twin — two of the same card on screen at once.
+   *
+   * `--intro-fade` is the second lap of the same multiplication: the cards
+   * arriving. It rides here rather than on the card element because the two
+   * have to multiply, and a card stowed at the back must not fade in visibly
+   * first.
+   *
+   * This is what the flat fan could not do. Coverflow had no far side, so its
+   * outer cards saturated at 83.6 degrees and stood there as slivers; here
+   * they are stowed behind the ring and come round again.
+   */
+  opacity: calc(max(var(--face, 1), 0) * 2.5 * var(--intro-fade, 1));
 
-  html:not([data-motion-force]) [data-intro] .hero-shell,
-  html:not([data-motion-force]) [data-intro] .hero-carousel .swiper {
-    overflow: hidden;
-  }
+  /*
+   * Depth as a continuous function rather than three steps.
+   *
+   * The fan could only afford `brightness(0.82)` for everything off-centre,
+   * because Swiper only ever said which slide was active and which two were
+   * beside it. Here the angle is known per card, so the light falls off the
+   * way it would on a real drum — and at 0.82 flat, against a `#1a1a1a` page,
+   * an unlit card was within about 1.03:1 of the background and effectively
+   * invisible.
+   */
+  filter: brightness(calc(0.6 + 0.4 * (var(--face, 1) + 1) / 2));
 
-  html:not([data-motion-force])
-    [data-intro]
-    .hero-carousel
-    .swiper-slide-active
-    .hero-carousel__card {
-    transform: translateZ(0);
-    transition: none;
-  }
+  /* The backstop for the frame or two either side of the opacity reaching
+     zero — a card must never be caught drawing its own back. */
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
 
-  html:not([data-motion-force]) [data-intro] .intro-reveal {
+.hero-cylinder__card {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+
+.hero-cylinder__card img {
+  /* A drag that starts on an image must be a drag, not a picture being torn
+     out of the page. */
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/*
+ * The hero's text, arriving with the ring.
+ *
+ * Pure CSS now. It used to be driven by the intro's phase attribute, which
+ * meant the wrapper component had to be an ancestor of the whole page for a
+ * fade on four elements; the ring's own intro no longer needs that wrapper, so
+ * the fade became what it always was — an entrance animation with a delay per
+ * element, keyed off `--intro-step`.
+ */
+@keyframes intro-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
     opacity: 1;
-    transition: none;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .intro-reveal {
+    animation: intro-reveal 700ms cubic-bezier(0.16, 1, 0.3, 1)
+      calc(var(--intro-step, 0) * 120ms) both;
   }
 }
