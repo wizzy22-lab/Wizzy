@@ -11,15 +11,10 @@ const TIMELINE_CAPTION_ID = "about-timeline-caption";
 /**
  * The section's column grid: year, title, description.
  *
- * Named because two different things stand on it. The rows below use all three
- * tracks; the head above covers the first two with the photo and starts the
- * name on the third. That is what makes the head's edges land on the rows'
- * edges instead of near them — and because both tracks are fixed, the photo is
- * 412px (112 + 40 + 260) at every width the grid applies to, rather than a
- * share of the container that drifts away from a fixed column as it grows.
- *
- * One literal, used twice: Tailwind still sees the class to generate it, and
- * the two callers cannot fall out of step.
+ * Named rather than inlined because it is the section's own measure — the two
+ * fixed tracks are what keep a year and its title the same width at every
+ * size the grid applies to, instead of a share of the container that drifts
+ * as it grows. Kept as one literal so Tailwind still sees the class.
  */
 const ROW_COLUMNS = "md:grid-cols-[112px_minmax(0,260px)_minmax(0,1fr)]";
 
@@ -53,87 +48,24 @@ export default function HowIGotHereSection({
           `brand.role` rather than a second copy of the same words — the header
           dropped its role line, so this is where that string lives now.
 
-          Photo and name share a row rather than stacking. Given the whole
-          container the photo rendered 1200×900 — larger than anything else on
-          the page, and larger than the person it introduces.
-
-          The row stands on `ROW_COLUMNS`, the same grid the years and their
-          descriptions use, so the head is measured by the section rather than
-          by a width picked for it. That is also what holds the photo back: two
-          tracks is the size limit, and no max-width has to be invented.
-
-          The break is `md`, where the rows already turn into columns: one
-          column break for the whole section rather than two. Tablet needs it
-          as much as desktop — at 1023px a full-width photo is still 896
-          across.
-
-          Centred rather than top-aligned: two lines of text against a photo
-          four times their height. ProjectSection top-aligns because both of
-          its columns are tall; here only one is, and `items-start` would leave
-          the name looking like a column that stopped early.
+          Two lines of text and nothing beside them, so no grid: the head
+          starts on the section's own left edge, the one the caption, the
+          rows, the tiles and the brand links all already use.
         */}
-        <div
-          className={`flex flex-col gap-10 md:grid md:items-center ${ROW_COLUMNS}`}
-        >
-          {/*
-            The name starts on the third track, where every description below
-            it starts. Left-aligned now: it shares a row instead of sitting
-            over a full-width band, so it begins at the same edge as the
-            caption, the rows and the tiles — the centring was the one thing in
-            the section that did not.
-          */}
-          <div className="md:col-start-3 md:row-start-1">
-            <h2 className="text-display font-medium text-text">
-              {dict.about.name}
-            </h2>
-            <p className="type-label mt-3 text-dim">{dict.brand.role}</p>
-          </div>
-
-          {/*
-            Second in the DOM, first on screen. The <h2> is this section's
-            heading and has to stay the first thing announced — `#about` lands
-            a screen reader here — so the frame is placed on the first two
-            tracks rather than written ahead of the heading it belongs to.
-            Stacked, the order is the one it always was: name, role, photo.
-
-            Covering the year and title tracks puts the frame's left edge on
-            the years and its right edge on the titles. Both tracks are fixed,
-            so the photo is 412px wherever the grid applies — the same size on
-            a laptop as on a 4K display, which is the point: a fraction of the
-            container would only meet a fixed column at one width and miss it
-            everywhere else.
-
-            4:3 crops the source (1600×1200) exactly, so nothing is thrown
-            away, and landscape is the one shape the six square tiles below
-            have not already taken.
-
-            Same `rounded-[var(--radius-card)]` over `bg-surface` as those
-            tiles and the business-case frames — one treatment for every image
-            on the site. Below the fold, so it lazy-loads: no `preload`.
-
-            `sizes` says so in two clauses: the container's width while the row
-            is still stacked, and a flat 412 once it is not.
-          */}
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[var(--radius-card)] bg-surface md:col-span-2 md:col-start-1 md:row-start-1">
-            <Image
-              src="/about/about-working.webp"
-              alt={dict.about.photoAlt}
-              fill
-              sizes="(max-width: 767px) calc(100vw - 48px), 412px"
-              className="object-cover"
-            />
-          </div>
+        <div>
+          <h2 className="text-display font-medium text-text">
+            {dict.about.name}
+          </h2>
+          <p className="type-label mt-3 text-dim">{dict.brand.role}</p>
         </div>
 
         {/*
           What the work is, then how it gets decided.
 
-          Under the head row rather than beside the name: these are two and
-          four lines of prose, and the name's column narrows to 188px at `md`,
-          which would run them as a ribbon down the side of the photo. Here
-          they start on the section's main left edge — the one the caption, the
-          years, the tiles and the brand links all already use — so the block
-          adds no axis of its own.
+          Under the head rather than beside it: these are two and four lines
+          of prose, and they start on the section's main left edge — the one
+          the head, the caption, the years, the tiles and the brand links all
+          already use — so the block adds no axis of its own.
 
           Two levels off the existing ramp, no new ones. The claim takes body
           weight at full strength; the evidence stays body at `text-dim`, a

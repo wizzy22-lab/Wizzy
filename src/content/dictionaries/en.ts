@@ -62,9 +62,6 @@ const en = {
   // can actually hold on to, and the other form is one language toggle away.
   about: {
     name: "Haeji Wi",
-    // The photo under the name. Describes what the frame shows, not who is in
-    // it — the name is already stated in text directly above it.
-    photoAlt: "At work",
     // Leads the two brand links at the foot of about. A label, not a link:
     // the case names below it are what you click, so the arrow lives on them.
     brandsLead: "More: brands I built and ran",

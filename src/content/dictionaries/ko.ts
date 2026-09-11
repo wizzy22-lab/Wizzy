@@ -54,7 +54,6 @@ const ko: Dictionary = {
   // 한 로케일에 한 표기만 — 로마자 표기는 EN 쪽이 맡습니다.
   about: {
     name: "위해지",
-    photoAlt: "작업 중인 모습",
     brandsLead: "브랜드를 직접 만들고 운영한 경험 더 보기",
     lead: "현실과 디지털 사이의 간극을 줄이는 일이 프로덕트 디자이너의 몫이라고 생각합니다.",
     approach: [
