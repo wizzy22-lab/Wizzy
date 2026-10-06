@@ -77,9 +77,35 @@ export const PROJECTS: Project[] = [
     externalUrl: "https://shoot-shoot-penguin.vercel.app/",
   },
   {
-    slug: "bingx",
+    slug: "operator",
     group: "project",
     no: "02",
+    name: "Operator",
+    subtitle: {
+      en: "HVAC Cost Optimization Decision Support System for Small Businesses",
+      ko: "자영업자를 위한 냉난방 비용 최적화 의사결정 지원 시스템",
+    },
+    outcome: {
+      en: "Usability score 76 (SUS, 5 participants) — required inputs cut from 7 to 3",
+      ko: "사용성 테스트 76점(SUS · 참가자 5명) — 필수 입력 7개 → 3개",
+    },
+    tags: [
+      { en: "Product Design", ko: "프로덕트 디자인" },
+      { en: "UX Research", ko: "UX 리서치" },
+      { en: "Concept Project", ko: "컨셉 프로젝트" },
+    ],
+    description: {
+      en: "Designed an operational UX system that helps small business owners reduce HVAC costs by making clear, data-driven decisions within complex pricing structures and environments.",
+      ko: "복잡한 요금 구조와 환경 속에서 자영업자가 데이터 기반의 명확한 판단을 내려 냉난방 비용을 줄일 수 있도록 돕는 운영 UX 시스템을 디자인했다.",
+    },
+    thumbnail: "/thumbs/operator-thumb.webp",
+    hasCaseStudy: true,
+    externalUrl: "https://wizzy-s-portfolio.vercel.app/projects/operator.html",
+  },
+  {
+    slug: "bingx",
+    group: "project",
+    no: "03",
     name: "BingX",
     subtitle: {
       en: "AI Master Decision Flow Redesign",
@@ -104,32 +130,6 @@ export const PROJECTS: Project[] = [
     thumbnail: "/thumbs/bingx-thumb.webp",
     hasCaseStudy: false,
     externalUrl: "https://bingx-portfolio.vercel.app/",
-  },
-  {
-    slug: "operator",
-    group: "project",
-    no: "03",
-    name: "Operator",
-    subtitle: {
-      en: "HVAC Cost Optimization Decision Support System for Small Businesses",
-      ko: "자영업자를 위한 냉난방 비용 최적화 의사결정 지원 시스템",
-    },
-    outcome: {
-      en: "Usability score 76 (SUS, 5 participants) — required inputs cut from 7 to 3",
-      ko: "사용성 테스트 76점(SUS · 참가자 5명) — 필수 입력 7개 → 3개",
-    },
-    tags: [
-      { en: "Product Design", ko: "프로덕트 디자인" },
-      { en: "UX Research", ko: "UX 리서치" },
-      { en: "Concept Project", ko: "컨셉 프로젝트" },
-    ],
-    description: {
-      en: "Designed an operational UX system that helps small business owners reduce HVAC costs by making clear, data-driven decisions within complex pricing structures and environments.",
-      ko: "복잡한 요금 구조와 환경 속에서 자영업자가 데이터 기반의 명확한 판단을 내려 냉난방 비용을 줄일 수 있도록 돕는 운영 UX 시스템을 디자인했다.",
-    },
-    thumbnail: "/thumbs/operator-thumb.webp",
-    hasCaseStudy: true,
-    externalUrl: "https://wizzy-s-portfolio.vercel.app/projects/operator.html",
   },
   {
     slug: "weekend-greenwich",

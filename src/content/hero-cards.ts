@@ -18,8 +18,9 @@ import { getProject } from "./projects";
  * opened, and a note to ourselves about what artwork belongs in the slot — so
  * they stay out of the dictionaries.
  *
- * The first three run in the same order and carry the same numbers as the
- * project section, so a card here and the row it opens are the same 01, 02, 03.
+ * The first three run in the same order as the project section, so the
+ * second card here opens the second row there. Their `no` does not follow
+ * when that order changes — it names the artwork file, not the position.
  */
 export type HeroCard = {
   /**
@@ -44,13 +45,13 @@ export const HERO_CARDS: HeroCard[] = [
     slug: "shoot-shoot-penguin",
     image: "/hero/hero-card-01.webp",
   },
-  { no: "02", label: "BingX", slug: "bingx", image: "/hero/hero-card-02.webp" },
   {
     no: "03",
     label: "Operator",
     slug: "operator",
     image: "/hero/hero-card-03.webp",
   },
+  { no: "02", label: "BingX", slug: "bingx", image: "/hero/hero-card-02.webp" },
   { no: "04", label: "Brand", slug: null, image: "/hero/hero-card-04.webp" },
   { no: "06", label: "Screens", slug: null, image: "/hero/hero-card-06.webp" },
   { no: "08", label: "System", slug: null, image: "/hero/hero-card-08.webp" },
