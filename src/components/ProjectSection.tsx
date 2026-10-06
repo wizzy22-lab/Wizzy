@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
+import OperatorThumbnail from "./OperatorThumbnail";
 
 /** Locale-resolved project card — plain strings so it crosses the server boundary. */
 export type ProjectCard = {
@@ -349,7 +350,11 @@ export default function ProjectSection({
                         project.thumbnail ? "" : "border border-dashed border-border"
                       }`}
                     >
-                      {project.thumbnail && (
+                      {/* Operator's cover is played rather than shown — the
+                          flat image stays as its fallback in the data. */}
+                      {project.slug === "operator" ? (
+                        <OperatorThumbnail key={isOpen ? "open" : "closed"} active={isOpen} />
+                      ) : project.thumbnail && (
                         <Image
                           src={project.thumbnail}
                           alt={`${project.name} app screens on device mockup`}

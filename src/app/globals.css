@@ -273,6 +273,211 @@
 }
 
 /*
+ * Operator's played cover — see `OperatorThumbnail.tsx`.
+ *
+ * Every length is a multiple of `--t`, one pixel of the 671px Figma frame, so
+ * the cards stay pinned to the tablet at any cover size. Positions are the
+ * frame's own; the two centred cards are written as their resolved top-left.
+ * The cards set in Pretendard, as in Figma — Manrope would take the digits.
+ */
+.op-demo {
+  position: absolute;
+  inset: 0;
+  container-type: inline-size;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+.op-demo__stage {
+  --t: calc(100cqw / 671);
+  position: absolute;
+  inset: 0;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-weight: 600;
+}
+
+.op-demo__tablet {
+  position: absolute;
+  left: calc(-37 * var(--t));
+  top: calc(33 * var(--t));
+  width: calc(924 * var(--t));
+  height: calc(693 * var(--t));
+}
+
+/* The frame dims the tablet by 20% so the cards over it read first. */
+.op-demo__tablet::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* The dark strip laid across the tablet's foot in Figma. */
+.op-demo__bar {
+  position: absolute;
+  left: calc(123.85 * var(--t));
+  top: calc(596.04 * var(--t));
+  width: calc(464 * var(--t));
+  height: calc(40 * var(--t));
+  background: #151515;
+  transform: rotate(5.47deg);
+}
+
+.op-card {
+  position: absolute;
+  left: calc(24 * var(--t));
+  width: calc(464 * var(--t));
+  height: calc(122.23 * var(--t));
+  overflow: hidden;
+  border: calc(2.373 * var(--t)) solid;
+  border-radius: calc(9.494 * var(--t));
+  transition:
+    opacity 450ms ease-out,
+    transform 450ms ease-out;
+}
+
+.op-card--alert {
+  top: calc(33 * var(--t));
+  background: #fef2f2;
+  border-color: #ffc9c9;
+  color: #c10007;
+}
+
+.op-card--done {
+  top: calc(179 * var(--t));
+  background: #f0fdf4;
+  border-color: #b9f8cf;
+  color: #008236;
+}
+
+.op-card__head {
+  position: absolute;
+  left: calc(9.49 * var(--t));
+  top: calc(9.49 * var(--t));
+  display: flex;
+  align-items: center;
+  gap: calc(7.12 * var(--t));
+  font-size: calc(11.867 * var(--t));
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.op-card__dot {
+  width: calc(9.494 * var(--t));
+  height: calc(9.494 * var(--t));
+  border-radius: 999px;
+  background: #fb2c36;
+}
+
+.op-card--done .op-card__dot {
+  background: #00c950;
+}
+
+.op-card__body {
+  position: absolute;
+  left: calc(9.49 * var(--t));
+  top: calc(34.41 * var(--t));
+  width: calc(439.079 * var(--t));
+  height: calc(59.928 * var(--t));
+  overflow: hidden;
+  border-radius: calc(9.494 * var(--t));
+  background: #ffffff;
+}
+
+.op-card__title {
+  position: absolute;
+  left: calc(19.58 * var(--t));
+  top: calc(21.36 * var(--t));
+  color: #111827;
+  font-size: calc(14.24 * var(--t));
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.op-card__button {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(4.747 * var(--t));
+  width: calc(140.624 * var(--t));
+  height: calc(31.448 * var(--t));
+  border-radius: calc(5.28 * var(--t));
+  color: #ffffff;
+  font-size: calc(11.867 * var(--t));
+  line-height: 1.5;
+  white-space: nowrap;
+  filter: drop-shadow(0 calc(3.771 * var(--t)) calc(2.828 * var(--t)) rgba(0, 0, 0, 0.1))
+    drop-shadow(0 calc(1.508 * var(--t)) calc(1.131 * var(--t)) rgba(0, 0, 0, 0.1));
+  transition:
+    transform 160ms ease-out,
+    filter 160ms ease-out;
+}
+
+.op-card__button--run {
+  left: calc(284.21 * var(--t));
+  top: calc(14.24 * var(--t));
+  background: linear-gradient(to right, #ef4444 49.519%, #892727);
+}
+
+.op-card__button--done {
+  left: calc(283.62 * var(--t));
+  top: calc(14.24 * var(--t));
+  background: linear-gradient(to right, #10b981, #059669);
+}
+
+.op-card__check {
+  width: calc(10.087 * var(--t));
+  height: calc(7.714 * var(--t));
+}
+
+/* The tap: the white dot Figma leaves resting on 실행하기. */
+.op-card__tap {
+  position: absolute;
+  left: calc(388.64 * var(--t));
+  top: calc(33.82 * var(--t));
+  width: calc(22.547 * var(--t));
+  height: calc(22.547 * var(--t));
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow:
+    0 calc(5.934 * var(--t)) calc(8.9 * var(--t)) calc(-1.78 * var(--t)) rgba(0, 0, 0, 0.1),
+    0 calc(2.373 * var(--t)) calc(3.56 * var(--t)) calc(-2.373 * var(--t)) rgba(0, 0, 0, 0.1);
+  transition:
+    opacity 300ms ease-out,
+    transform 200ms ease-out;
+}
+
+/* Phase 0: the tablet alone. */
+.op-demo[data-phase="0"] .op-card--alert {
+  opacity: 0;
+  transform: translateY(calc(-12 * var(--t)));
+}
+
+/* Until phase 2 there is no tap. */
+.op-demo[data-phase="0"] .op-card__tap,
+.op-demo[data-phase="1"] .op-card__tap {
+  opacity: 0;
+  transform: scale(1.6);
+}
+
+/* Phase 3: the press — the dot sinks, the button gives. */
+.op-demo[data-phase="3"] .op-card__tap {
+  transform: scale(0.8);
+}
+
+.op-demo[data-phase="3"] .op-card__button--run {
+  transform: scale(0.96);
+  filter: brightness(0.88);
+}
+
+/* Until phase 4 the confirmation waits behind the alert. */
+.op-demo:not([data-phase="4"]) .op-card--done {
+  opacity: 0;
+  transform: translateY(calc(-40 * var(--t)));
+}
+
+/*
  * Labels made of words rather than codes.
  *
  * Azeret Mono carries no Hangul, so a Korean label silently falls through to
