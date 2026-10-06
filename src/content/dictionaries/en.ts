@@ -31,7 +31,7 @@ const en = {
     // independently rather than sharing one sentence template.
     eyebrow: "I TURN",
     phrases: ["Complex problems"],
-    tail: ["into structures people", "can judge and act on"],
+    tail: ["into structures people can judge and act on"],
     mediaAlt: "Shoot Shoot Penguin app screens on a device mockup",
     // Rendered uppercase in the mono label face; kept in the dictionary so it
     // can be localised later rather than sitting hardcoded in the component.
