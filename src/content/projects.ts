@@ -15,16 +15,21 @@ export type Project = {
   name: string;
   subtitle: Localized;
   /**
-   * One line of outcome — the result the project actually produced, in numbers
-   * where there are numbers. Sits between the subtitle and the description at
-   * full-strength `--text`, so the claim reads before the paragraph does.
+   * The open card's bold line under the name — what the work set out to do, in
+   * one sentence. Project cards only; the brands are not drawn as cards.
    */
-  outcome: Localized;
+  headline?: Localized;
+  /**
+   * One line of outcome, in numbers where there are numbers. Kept for the
+   * brands. The project cards fold their numbers into the description instead.
+   */
+  outcome?: Localized;
   tags: Localized[];
   description: Localized;
   /**
-   * Square (1:1) thumbnail shown in the accordion, cropped to fill. `null`
-   * leaves the slot empty rather than drawing a stand-in.
+   * Square (1:1) thumbnail shown in the accordion, cropped to fill. The project
+   * ones are exported whole from the card frames in Figma at 2×. `null` leaves
+   * the slot empty rather than drawing a stand-in.
    */
   thumbnail: string | null;
   /** Whether a full case study exists in `src/content/case-studies`. */
@@ -50,29 +55,27 @@ export const PROJECTS: Project[] = [
     slug: "shoot-shoot-penguin",
     group: "project",
     no: "01",
-    name: "Shoot Shoot Penguin — Design System",
-    // The heading now carries the discipline, so this says what the product is
-    // rather than repeating the name back — which is the one thing the reader
-    // cannot get from the line above it.
+    name: "Shoot Shoot Penguin",
     subtitle: {
       en: "AI-Assisted Basketball Team Management Platform",
-      ko: "AI 기반 농구 팀 운영 플랫폼",
+      ko: "AI 기반 농구팀 운영 플랫폼",
     },
-    outcome: {
-      en: "26 component groups, 5 status colours at 7:1 contrast — a design system that separates action from state",
-      ko: "컴포넌트 그룹 26개, 상태 색상 5종 대비 7:1 — 액션과 상태를 분리한 디자인 시스템",
+    headline: {
+      en: "One shared UI system that keeps running the team apart from playing the game",
+      ko: "운영과 경기의 역할을 분리한 공용 UI 시스템",
     },
+    // Tags are English in both locales — they are discipline names, and the
+    // Korean card in Figma sets them that way.
     tags: [
-      { en: "Design System", ko: "디자인 시스템" },
-      { en: "Tokens", ko: "토큰" },
-      { en: "Two-Sided Platform", ko: "양면 플랫폼" },
-      { en: "In Development", ko: "개발 중" },
+      { en: "Design System", ko: "Design System" },
+      { en: "Dual-Sided Platform", ko: "Dual-Sided Platform" },
+      { en: "End-to-End", ko: "End-to-End" },
     ],
     description: {
-      en: "Built a shared visual system for a two-sided basketball app, separating controls from match states and enforcing the rules in code. Designed end-to-end with one developer.",
-      ko: "양면 구조의 농구 앱을 위한 공용 비주얼 시스템을 만들었다. 컨트롤과 경기 상태를 분리하고, 그 규칙을 코드로 강제했다. 개발자 한 명과 엔드투엔드로 설계했다.",
+      en: "In a two-sided basketball app, I set the roles and rules of the UI so organisers can manage quickly and players can read match information at a glance. The design system runs through to code, so it held during development too.",
+      ko: "양면 구조의 농구 앱에서 운영자는 빠르게 관리하고, 플레이어는 직관적으로 경기 정보를 이해할 수 있도록 UI의 역할과 규칙을 설계했습니다. 디자인 시스템을 코드까지 연결해 개발 과정에서도 일관되게 적용했습니다.",
     },
-    thumbnail: "/thumbs/ssp-thumb.webp",
+    thumbnail: "/thumbs/ssp-card.webp",
     hasCaseStudy: false,
     externalUrl: "https://shoot-shoot-penguin.vercel.app/",
   },
@@ -82,23 +85,23 @@ export const PROJECTS: Project[] = [
     no: "02",
     name: "Operator",
     subtitle: {
-      en: "HVAC Cost Optimization Decision Support System for Small Businesses",
-      ko: "자영업자를 위한 냉난방 비용 최적화 의사결정 지원 시스템",
+      en: "HVAC Cost Optimization for Small Businesses",
+      ko: "자영업자를 위한 냉난방 비용 최적화 시스템",
     },
-    outcome: {
-      en: "Usability score 76 (SUS, 5 participants) — required inputs cut from 7 to 3",
-      ko: "사용성 테스트 76점(SUS · 참가자 5명) — 필수 입력 7개 → 3개",
+    headline: {
+      en: "Complex HVAC decisions, turned into simple actions",
+      ko: "복잡한 냉난방 판단을 간단한 행동으로",
     },
     tags: [
-      { en: "Product Design", ko: "프로덕트 디자인" },
-      { en: "UX Research", ko: "UX 리서치" },
-      { en: "Concept Project", ko: "컨셉 프로젝트" },
+      { en: "AI Recommendations", ko: "AI Recommendations" },
+      { en: "Decision Support", ko: "Decision Support" },
+      { en: "Product Design", ko: "Product Design" },
     ],
     description: {
-      en: "Designed an operational UX system that helps small business owners reduce HVAC costs by making clear, data-driven decisions within complex pricing structures and environments.",
-      ko: "복잡한 요금 구조와 환경 속에서 자영업자가 데이터 기반의 명확한 판단을 내려 냉난방 비용을 줄일 수 있도록 돕는 운영 UX 시스템을 디자인했다.",
+      en: "Simplified the decision so owners can read where things stand from store conditions and cost data, and pick the action they need straight away. Usability testing cut the required inputs from 7 to 3.",
+      ko: "매장 환경과 비용 데이터를 바탕으로 현재 상태를 파악하고 필요한 조치를 바로 선택할 수 있도록 의사결정 과정을 단순화했습니다. 사용성 테스트를 통해 필수 입력을 7개에서 3개로 줄였습니다.",
     },
-    thumbnail: "/thumbs/operator-thumb.webp",
+    thumbnail: "/thumbs/operator-card.webp",
     hasCaseStudy: true,
     externalUrl: "https://wizzy-s-portfolio.vercel.app/projects/operator.html",
   },
@@ -106,28 +109,25 @@ export const PROJECTS: Project[] = [
     slug: "bingx",
     group: "project",
     no: "03",
-    name: "BingX",
+    name: "Bing X - AI Trading",
     subtitle: {
-      en: "AI Master Decision Flow Redesign",
-      ko: "AI Master 의사결정 플로우 리디자인",
+      en: "AI Trading Decision Flow Redesign",
+      ko: "AI 트레이딩 의사결정 플로우 리디자인",
     },
-    // `n=5` reads as a sample size to anyone who runs studies and as nothing
-    // at all to everyone else, and this line is the first thing a recruiter
-    // sees. Spelled out on the card; the case page keeps the notation.
-    outcome: {
-      en: "Usability score 88 (SUS, 5 participants) — AI trading redesigned around a 7-Master selection flow",
-      ko: "사용성 테스트 88점(SUS · 참가자 5명) — 7인 Master 선택 구조로 재설계한 AI 트레이딩 의사결정 플로우",
+    headline: {
+      en: "A decision flow that lets people understand AI auto-trading before they choose it",
+      ko: "AI 자동매매를 이해하고 선택할 수 있는 의사결정 경험",
     },
     tags: [
-      { en: "UX Research", ko: "UX 리서치" },
-      { en: "Design System", ko: "디자인 시스템" },
       { en: "AI UX", ko: "AI UX" },
+      { en: "Decision Support", ko: "Decision Support" },
+      { en: "Onboarding - Structure", ko: "Onboarding - Structure" },
     ],
     description: {
-      en: "Redesigned an AI trading service around its decision flow — matching users to the right Master through onboarding, and making automated trading understandable before money goes in.",
-      ko: "AI 트레이딩 서비스를 의사결정 흐름 중심으로 리디자인했다. 온보딩으로 사용자를 적합한 Master와 연결하고, 돈을 넣기 전에 자동매매를 이해할 수 있게 만들었다.",
+      en: "Moved AI Master away from a simple pick, redesigning onboarding and the way into auto-trading so people can understand a Master and choose one that fits their investment goals. Usability testing scored 88 on SUS.",
+      ko: "AI Master를 단순히 선택하는 구조에서 벗어나, 사용자가 자신의 투자 목적에 맞는 Master를 이해하고 선택할 수 있도록 온보딩과 자동매매 진입 흐름을 재설계했습니다. 사용성 테스트를 통해 SUS 88점을 달성했습니다.",
     },
-    thumbnail: "/thumbs/bingx-thumb.webp",
+    thumbnail: "/thumbs/bingx-card.webp",
     hasCaseStudy: false,
     externalUrl: "https://bingx-portfolio.vercel.app/",
   },

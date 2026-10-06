@@ -29,7 +29,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
     no: project.no,
     name: project.name,
     subtitle: t(project.subtitle, lang),
-    outcome: t(project.outcome, lang),
+    headline: project.headline ? t(project.headline, lang) : "",
     tags: project.tags.map((tag) => t(tag, lang)),
     description: t(project.description, lang),
     thumbnail: project.thumbnail,
@@ -142,7 +142,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         */}
       <ProjectSection
         id="project"
-        theme="light"
+        theme="dark"
         label={dict.projects.label}
         projects={cards}
       />

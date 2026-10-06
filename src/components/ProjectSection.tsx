@@ -10,7 +10,8 @@ export type ProjectCard = {
   no: string;
   name: string;
   subtitle: string;
-  outcome: string;
+  /** The bold line under the name in the open card. */
+  headline: string;
   tags: string[];
   description: string;
   thumbnail: string | null;
@@ -181,10 +182,15 @@ export default function ProjectSection({
           here. It is kept low so the open card — down to its button — still
           clears `overflow-hidden` on a laptop-height viewport.
 
+          The top is the exception: it clears the 70px fixed header first, so
+          the block centres in the part of the screen the header leaves. The
+          Figma card is tall enough that, centred on the whole screen, the
+          section label slid up under the header on a laptop.
+
           Below `lg` none of that applies. Nothing is pinned, nothing is clipped,
           and the section takes the same `--section-gap` as every other section
           on the page. */}
-      <div className="flex flex-col py-[var(--section-gap)] lg:sticky lg:top-0 lg:h-screen lg:justify-center lg:overflow-hidden lg:py-8">
+      <div className="flex flex-col py-[var(--section-gap)] lg:sticky lg:top-0 lg:h-screen lg:justify-center lg:overflow-hidden lg:pt-[86px] lg:pb-4">
         <div className="mx-auto w-full max-w-[1920px] px-6 md:px-16 xl:px-[180px] 2xl:px-[360px]">
           <p className="type-label text-center text-dim">{label}</p>
 
@@ -199,16 +205,23 @@ export default function ProjectSection({
                 // included — an edge that started below the title would cut
                 // through the thing it is supposed to contain.
                 //
-                // It bleeds: the horizontal padding is cancelled by an equal
-                // negative margin, so the fill widens outward while every line
-                // inside it stays on the axis the collapsed rows use. Vertical
-                // padding does not bleed. A collapsed item gets none of this —
-                // the closed rhythm is untouched.
+                // Open, it is a white card on the dark section, so it carries
+                // the light token set: everything inside reads dark-on-white
+                // without a second set of colour classes. It bleeds by its own
+                // padding, so the number stays on the axis the collapsed rows
+                // use.
+                //
+                // From `lg` the open card is a two-column grid — header and
+                // text on the left, cover on the right spanning both rows — so
+                // the cover's top lines up with the number, as in Figma. The
+                // header row stays at its own height; any slack the cover adds
+                // goes under the text, not between the name and its line.
                 <div
                   key={project.slug}
+                  data-theme={isOpen ? "light" : undefined}
                   className={
                     isOpen
-                      ? "project-card -mx-6 px-6 py-10 lg:-mx-10 lg:px-10"
+                      ? "project-card -mx-6 p-6 md:-mx-[var(--pc-pad)] md:p-[var(--pc-pad)] lg:grid lg:grid-cols-[minmax(0,1fr)_auto] lg:grid-rows-[auto_1fr] lg:gap-x-12"
                       : undefined
                   }
                 >
@@ -221,7 +234,7 @@ export default function ProjectSection({
                     onClick={() => onHeaderClick(i)}
                     className={`group block w-full cursor-pointer text-left ${
                       isOpen
-                        ? ""
+                        ? "lg:col-start-1"
                         // A floor rather than a fixed height. The row reserves
                         // 64px either side for the number and the arrow, so a
                         // long name gets 214px of the 342 a phone has and wraps
@@ -232,25 +245,28 @@ export default function ProjectSection({
                     }`}
                   >
                     {isOpen ? (
-                      // Same number treatment as the collapsed row and the
-                      // next-project link: the mono label carries it everywhere,
-                      // so it never switches to heading type mid-page.
-                      <span className="flex items-baseline text-text">
-                        {/* Same 64px number column as the collapsed row, so the
-                            numbers stay on one axis as rows open and close. */}
-                        <span className="type-label w-16 shrink-0 text-dim">
-                          {project.no}
+                      // Number and category on one line, the name under them.
+                      // The number is the same face and size as the name, only
+                      // ghosted, so the pair reads as one heading.
+                      <span className="block">
+                        <span className="flex flex-wrap items-center gap-x-6 gap-y-2">
+                          <span className="project-title text-ghost">
+                            {project.no}
+                          </span>
+                          <span className="project-pill">{project.subtitle}</span>
                         </span>
-                        <span className="text-heading font-medium">
+                        <span className="project-title mt-2 block text-text">
                           {project.name}
                         </span>
                       </span>
                     ) : (
+                      // Same face and weight as the open heading, at row size,
+                      // so a row opening into a card does not change typeface.
                       <span className="flex w-full items-center text-dim">
-                        <span className="type-label w-16 shrink-0">
+                        <span className="w-16 shrink-0 text-heading font-extrabold text-faint">
                           {project.no}
                         </span>
-                        <span className="flex-1 text-center text-heading font-medium">
+                        <span className="flex-1 text-center text-heading font-extrabold">
                           {project.name}
                         </span>
                         <span className="w-16 shrink-0 text-right text-heading font-medium transition-transform duration-300 group-hover:translate-x-1">
@@ -265,137 +281,84 @@ export default function ProjectSection({
                     id={panelId}
                     role="region"
                     aria-labelledby={headerId}
-                    className={`grid transition-[grid-template-rows] duration-500 ease-out motion-reduce:transition-none ${
+                    className={`grid transition-[grid-template-rows] duration-500 ease-out motion-reduce:transition-none lg:col-start-1 ${
                       isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
                     }`}
                   >
                     <div className="overflow-hidden">
-                        {/* 16px to the title above it. The card's own padding
-                            no longer sits between the two, so the outcome can
-                            finally close up under the name it belongs to. */}
-                        <div
-                          className={`pt-4 transition-opacity duration-500 motion-reduce:transition-none ${
-                            isOpen ? "opacity-100" : "opacity-0"
-                          }`}
-                        >
-                          <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
-                            {/* Left: text content.
-                                Reading order is claim-first: the outcome sits
-                                directly under the title, and everything that
-                                only identifies the project — what it is, what
-                                disciplines it used — drops below it into one
-                                meta group. */}
-                            <div className="lg:flex-1">
-                              {/* The result, in one line, and now the first
-                                  thing under the title. Same body size as the
-                                  paragraph below it — the only thing that ranks
-                                  it is brightness and weight, so nothing new
-                                  enters the type scale. `text-pretty` keeps a
-                                  single word off the last line without touching
-                                  the copy. */}
-                              <p className="text-pretty text-body font-medium text-text lg:max-w-[460px]">
-                                {project.outcome}
-                              </p>
+                      <div
+                        className={`flex flex-col gap-[var(--pc-gap)] pt-[var(--pc-gap)] transition-opacity duration-500 motion-reduce:transition-none ${
+                          isOpen ? "opacity-100" : "opacity-0"
+                        }`}
+                      >
+                        {/* What the work set out to do — the one bold line. */}
+                        <p className="text-pretty text-[1.25rem] font-extrabold leading-[1.2] text-text">
+                          {project.headline}
+                        </p>
 
-                              {/* Meta group: what the project is, then which
-                                  disciplines built it. The subtitle used to run
-                                  as prose at body size, which put it in
-                                  competition with the outcome; as a label it
-                                  reads as the caption to the chip row instead.
-                                  `normal-case` because these run long — the
-                                  label token's uppercase is sized for two or
-                                  three words, not a full descriptor. */}
-                              <div className="mt-8">
-                                <p className="label-script text-label text-dim lg:max-w-[460px]">
-                                  {project.subtitle}
-                                </p>
+                        <p className="max-w-[560px] text-pretty text-body text-dim">
+                          {project.description}
+                        </p>
 
-                                {/* Chips are one size and one shape; the only
-                                    thing that ranks them is colour. The first
-                                    tag names the discipline, so it carries
-                                    full-strength text and the rest sit a step
-                                    down at `dim`.
-
-                                    They are metadata, not prose, so the 460px
-                                    reading measure now sits on the paragraphs
-                                    themselves rather than on the column, and
-                                    the row is free to use the full width beside
-                                    the cover. It still wraps rather than
-                                    forcing one line: the widest set needs 583px
-                                    and only the roomiest breakpoints have it. */}
-                                <div className="mt-2 flex flex-wrap gap-1.5 lg:gap-2">
-                                  {project.tags.map((tag, ti) => (
-                                    // A phone gets a smaller face and tighter
-                                    // sides — 278px of usable width is not
-                                    // enough for these at full size, and the
-                                    // tags say things like "In Development"
-                                    // that are worth keeping whole. Tracking
-                                    // stays on the label token so Korean keeps
-                                    // its own, narrower value.
-                                    <span
-                                      key={tag}
-                                      className={`label-script label-script-caps inline-flex h-10 shrink-0 items-center whitespace-nowrap rounded-full border border-border px-[14px] text-[11px] lg:px-4 lg:text-label ${
-                                        ti === 0 ? "text-text" : "text-dim"
-                                      }`}
-                                    >
-                                      {tag}
-                                    </span>
-                                  ))}
-                                </div>
-                              </div>
-
-                              <p className="mt-6 text-body text-dim lg:max-w-[460px]">
-                                {project.description}
-                              </p>
-
-                              {project.cta !== null && (
-                                <CardLink
-                                  external={project.external}
-                                  href={project.href}
-                                  tabIndex={isOpen ? undefined : -1}
-                                  className="label-script text-label mt-8 inline-flex h-11 w-fit items-center rounded-full bg-text px-6 text-bg transition-transform hover:scale-105"
-                                >
-                                  {/* One arrow for both branches: an off-site case
-                                      study now behaves exactly like an in-app one,
-                                      so ↗ would promise a new tab it won't open. */}
-                                  {project.cta} →
-                                </CardLink>
-                              )}
-                            </div>
-
-                            {/* Right: cover. Always 1:1 — the art is square, and a
-                                card with nothing on file keeps the same footprint
-                                so the row doesn't reflow. The dashed outline is the
-                                empty state alone; a real thumbnail fills the slot
-                                edge to edge.
-
-                                Cut to the same 12px as the card around it, so
-                                there is one corner in the accordion rather than
-                                a smaller box wearing a rounder corner than its
-                                container. */}
-                            <CardLink
-                              external={project.external}
-                              href={project.href}
-                              tabIndex={-1}
-                              aria-hidden
-                              className={`relative flex aspect-square h-[min(600px,42vh)] w-[min(600px,42vh)] max-w-full items-center justify-center overflow-hidden rounded-xl bg-surface ${
-                                project.thumbnail ? "" : "border border-dashed border-border"
-                              }`}
+                        {/* Discipline names, in the sans face now rather than
+                            the mono label — they sit in a white card next to
+                            prose, not in a list of codes. */}
+                        <div className="flex flex-wrap gap-2 md:gap-3">
+                          {project.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="inline-flex shrink-0 items-center whitespace-nowrap rounded-full border border-hairline px-4 py-2 text-[0.875rem] font-medium leading-[1.2] text-dim"
                             >
-                              {project.thumbnail && (
-                                <Image
-                                  src={project.thumbnail}
-                                  alt={`${project.name} app screens on device mockup`}
-                                  fill
-                                  sizes="(max-width: 1024px) 100vw, 600px"
-                                  className="object-cover"
-                                />
-                              )}
-                            </CardLink>
-                          </div>
+                              {tag}
+                            </span>
+                          ))}
                         </div>
+
+                        {project.cta !== null && (
+                          <CardLink
+                            external={project.external}
+                            href={project.href}
+                            tabIndex={isOpen ? undefined : -1}
+                            className="project-cta inline-flex w-fit items-center rounded-full bg-text font-medium leading-[1.2] text-bg transition-transform hover:scale-105"
+                          >
+                            {/* One arrow for both branches: an off-site case
+                                study now behaves exactly like an in-app one,
+                                so ↗ would promise a new tab it won't open. */}
+                            {project.cta} →
+                          </CardLink>
+                        )}
+                      </div>
                     </div>
                   </div>
+
+                  {/* Cover. Always 1:1 — the art is square, and a card with
+                      nothing on file keeps the same footprint so the row
+                      doesn't reflow. The dashed outline is the empty state
+                      alone; a real thumbnail fills the slot edge to edge.
+
+                      Outside the collapsing panel so it can span the header
+                      row from `lg`; a closed row simply does not draw it. */}
+                  {isOpen && (
+                    <CardLink
+                      external={project.external}
+                      href={project.href}
+                      tabIndex={-1}
+                      aria-hidden
+                      className={`relative mt-10 flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl bg-surface lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:size-[var(--pc-thumb)] ${
+                        project.thumbnail ? "" : "border border-dashed border-border"
+                      }`}
+                    >
+                      {project.thumbnail && (
+                        <Image
+                          src={project.thumbnail}
+                          alt={`${project.name} app screens on device mockup`}
+                          fill
+                          sizes="(max-width: 1024px) 100vw, 671px"
+                          className="object-cover"
+                        />
+                      )}
+                    </CardLink>
+                  )}
                 </div>
               );
             })}

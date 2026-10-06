@@ -29,6 +29,11 @@
   --text-dim: #747370;
   --text-faint: #a3a19e;
   --border: rgba(0, 0, 0, 0.08);
+  /* The open project card's two greys from Figma: the ghosted number, and the
+     chip outline — a solid line, which a white card needs where the 8% black
+     border would read as a smudge. */
+  --text-ghost: #e5e5e5;
+  --hairline: #e5e5e5;
 }
 
 /*
@@ -62,6 +67,8 @@
   --color-dim: var(--text-dim);
   --color-faint: var(--text-faint);
   --color-border: var(--border);
+  --color-ghost: var(--text-ghost);
+  --color-hairline: var(--hairline);
 
   /* Latin is set by Manrope; Korean falls through to Pretendard, which the
      Latin face never claims. One stack, two scripts, no per-language classes. */
@@ -138,27 +145,58 @@
 }
 
 /*
- * The open project card's fill.
+ * The open project card.
  *
- * `--surface` at full strength is what something nested uses — the cover sits
- * on it — and across a panel this wide it reads as a slab rather than a card.
- * A third of it over the page background lifts the card just enough to bound
- * it, which is why this is a mix of two existing tokens and not a third token
- * of its own. One flat plane does the bounding: no border, no shadow.
+ * A white card on the dark section, straight from the Figma frames. It carries
+ * `data-theme="light"` from the component, so the ramp inside it is the light
+ * one; only the fill is set here, because the light `--bg` is a warm off-white
+ * and the card is meant to be white.
  *
- * The flat colour above each mix is the fallback. A browser without
- * `color-mix()` keeps it and drops the line after it, so both themes need
- * their own — the mix resolves to a different value in each.
+ * Everything that sizes it is a variable, and each one is the Figma value
+ * capped from above and scaled by the viewport's height below that. The
+ * accordion is pinned, so the open card, both closed rows and the label all
+ * have to fit in one screen — at 1920×1080 that is the Figma card as drawn; on
+ * a laptop the same card is shorter rather than cut off at the bottom.
  */
 .project-card {
-  background: #f1f3ee;
-  background: color-mix(in srgb, var(--surface) 36%, var(--bg));
-  border-radius: 12px;
+  --pc-pad: clamp(24px, 4vh, 48px);
+  --pc-gap: clamp(12px, 2.2vh, 24px);
+  --pc-thumb: min(671px, 52vh);
+  background: #ffffff;
+  border-radius: 32px;
 }
 
-[data-theme="dark"] .project-card {
-  background: #1e1e1d;
-  background: color-mix(in srgb, var(--surface) 36%, var(--bg));
+/* Number and name: Manrope ExtraBold, 64px in Figma. */
+.project-title {
+  font-weight: 800;
+  font-size: clamp(2rem, min(4.4vw, 5.6vh), 4rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+/*
+ * The category pill — the one place the palette takes a hue. The Figma cards
+ * set it in orange; it labels the project rather than ranking anything, so it
+ * does not compete with the text ramp the rest of the page relies on.
+ */
+.project-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: #ff8c42;
+  color: #000000;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-transform: uppercase;
+  word-break: keep-all;
+}
+
+/* 20px on 36/16 in Figma; trimmed with the rest on a short screen. */
+.project-cta {
+  padding: clamp(12px, 1.6vh, 16px) clamp(28px, 3vh, 36px);
+  font-size: clamp(1rem, 2.4vh, 1.25rem);
 }
 
 /*
