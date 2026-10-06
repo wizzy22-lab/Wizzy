@@ -30,8 +30,8 @@ const en = {
     // Korean puts the object first, so each locale arranges these three parts
     // independently rather than sharing one sentence template.
     eyebrow: "I TURN",
-    phrases: ["Business Problem", "Messy Operation", "User frustration"],
-    tail: ["into products", "that grow business"],
+    phrases: ["Complex problems"],
+    tail: ["into structures people", "can judge and act on"],
     mediaAlt: "Shoot Shoot Penguin app screens on a device mockup",
     // Rendered uppercase in the mono label face; kept in the dictionary so it
     // can be localised later rather than sitting hardcoded in the component.
