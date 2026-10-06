@@ -4,7 +4,6 @@ import { getDictionary } from "@/content/dictionaries";
 import { PROJECT_CARDS } from "@/content/projects";
 import { resolveHeroCards } from "@/content/hero-cards";
 import SiteHeader from "@/components/SiteHeader";
-import RotatingHeadline from "@/components/RotatingHeadline";
 import HeroCylinder from "@/components/HeroCylinder";
 import ProjectSection, { type ProjectCard } from "@/components/ProjectSection";
 import HowIGotHereSection from "@/components/HowIGotHereSection";
@@ -72,40 +71,24 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       >
         {/* Hero.
 
-              `--intro-step` is set here rather than on each line: custom
-              properties inherit, so the three parts of the headline share one
-              beat of the reveal and only the scroll hint below has to name a
+              `--intro-step` is set here rather than on each element: custom
+              properties inherit, so the headline and the ring share one beat
+              of the reveal and only the scroll hint below has to name a
               different one. It is a pure CSS delay now — see `.intro-reveal`
               in `globals.css`. */}
         <section
           style={{ "--intro-step": 1 } as React.CSSProperties}
           className="relative flex flex-1 flex-col items-center justify-center pb-24 text-center"
         >
-          {dict.hero.eyebrow && (
-            <p className="intro-reveal type-label text-dim">
-              {dict.hero.eyebrow}
-            </p>
-          )}
-
-          <RotatingHeadline
-            phrases={dict.hero.phrases}
-            className="intro-reveal"
-          />
-
-          <p className="intro-reveal mt-2 text-body text-dim">
-            {dict.hero.tail.map((line, i) => (
-              <span key={i}>
-                {i > 0 && <br />}
-                {line}
-              </span>
-            ))}
-          </p>
-
           {/*
-              The ring sits under the whole headline block, not between the
-              rotating phrase and its tail — those two are one sentence, and
-              anything dropped into the middle of it breaks the reading.
+              One static sentence at `text-heading`, not `text-display`: the
+              ring below is what carries the first screen. `text-balance` keeps
+              the lines even where it wraps on narrow screens.
             */}
+          <h1 className="intro-reveal mt-2 text-heading font-medium text-balance text-text">
+            {dict.hero.headline}
+          </h1>
+
           <HeroCylinder cards={heroCards} label={dict.hero.carouselLabel} />
 
           {/*

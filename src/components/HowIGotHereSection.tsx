@@ -78,8 +78,8 @@ export default function HowIGotHereSection({
           run.
 
           The second breaks one sentence per line — then, now, and the rule
-          that came out of both — the same array-and-`<br>` the hero tail and
-          the intro statement use.
+          that came out of both — the same array-and-`<br>` the intro statement
+          uses.
 
           The breaks are held back below `md`, where the column is too narrow
           to hold a sentence anyway: forcing them there only bought a second,
