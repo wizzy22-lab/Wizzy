@@ -9,14 +9,15 @@ import { useEffect, useRef, useState } from "react";
 /**
  * Shoot Shoot Penguin's cover, played rather than shown.
  *
- * Two phones from the app — the team lead's home on the left, a player's map on
- * the right — and the one thing that connects them. The player applies to SH
- * 스포츠센터, which is 팀 슛슛펭귄's game, and the application lands on the lead's
- * screen. That is the case in one beat: one product, two sides, one flow.
+ * Two phones from the app — a player's map on the left, the team lead's home
+ * on the right — and the one thing that connects them. The player applies to
+ * SH 스포츠센터, which is 팀 슛슛펭귄's game, and the application lands on the
+ * lead's screen. That is the case in one beat: one product, two sides, one
+ * flow, read left to right in the order it happens.
  *
  * Nobody has to touch it. It plays when the card opens, which on the pinned
- * accordion is the scroll arriving at it, and the accordion remounts it on
- * close, so it plays again the next time the scroll comes back.
+ * accordion is the scroll arriving at it, and keeps playing while the card
+ * stays open — once is easy to miss. The accordion remounts it on close.
  *
  * Phases:
  *   0  phones only
@@ -26,15 +27,25 @@ import { useEffect, useRef, useState } from "react";
  *   4  applied — the button becomes 신청완료 and the game's pin, which counts
  *      the places still open, drops by one
  *   5  the lead's screen catches up: a third guest, a seventh to approve
+ *   6  the changed parts fade out, and the loop goes back to 1 — the pins stay
+ *      down; only the apply-and-arrive part replays
  *
  * Geometry is Figma's: the 671px cover frame, and the two 390×844 app frames
  * scaled to 240 wide inside it. Colours are the app's tokens — see `.ssp-demo`
  * in globals.css.
  */
 
-// When each phase starts after the card opens, in ms.
-const TIMELINE = [300, 1500, 2100, 2350, 3000];
-const FINAL_PHASE = TIMELINE.length;
+// One pass, in ms from phase 1. The pins drop 300ms after the card opens.
+const DROP_AT = 300;
+const PASS = [
+  { phase: 2, at: 1200 }, // tap
+  { phase: 3, at: 1800 }, // press
+  { phase: 4, at: 2050 }, // applied
+  { phase: 5, at: 2700 }, // arrived
+  { phase: 6, at: 5700 }, // fade the changes out
+];
+const PASS_END = 6050; // back to phase 1, and again
+const FINAL_PHASE = 5;
 
 const SRC = "/thumbs/ssp";
 
@@ -60,9 +71,24 @@ export default function SspThumbnail({ active }: { active: boolean }) {
     if (!active) return;
     // Reduced motion gets the finished frame — the same picture, unplayed.
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const timers = reduced
-      ? [setTimeout(() => setPhase(FINAL_PHASE), 0)]
-      : TIMELINE.map((ms, i) => setTimeout(() => setPhase(i + 1), ms));
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    const at = (ms: number, fn: () => void) => timers.push(setTimeout(fn, ms));
+
+    if (reduced) {
+      at(0, () => setPhase(FINAL_PHASE));
+    } else {
+      const pass = () => {
+        PASS.forEach(({ phase, at: ms }) => at(ms, () => setPhase(phase)));
+        at(PASS_END, () => {
+          setPhase(1);
+          pass();
+        });
+      };
+      at(DROP_AT, () => {
+        setPhase(1);
+        pass();
+      });
+    }
     return () => timers.forEach(clearTimeout);
   }, [active]);
 
@@ -86,11 +112,13 @@ export default function SspThumbnail({ active }: { active: boolean }) {
           delay={360}
         />
 
+        {/* Player first, lead second: the order the application travels in.
+            Figma has them the other way round; the slots are kept. */}
         <Phone className="left-[90px] top-[102px]">
-          <LeadScreen arrived={arrived} />
+          <PlayerScreen applied={applied} />
         </Phone>
         <Phone className="left-[342px] top-[54px]">
-          <PlayerScreen applied={applied} />
+          <LeadScreen arrived={arrived} />
         </Phone>
       </div>
     </div>
@@ -380,7 +408,7 @@ function PlayerScreen({ applied }: { applied: boolean }) {
         key={applied ? "after" : "before"}
         no={applied ? "2" : "3"}
         hop={applied}
-        className="left-[227px] top-[335px]"
+        className="ssp-pin--count left-[227px] top-[335px]"
         delay={240}
       />
 
@@ -451,7 +479,11 @@ function LeadScreen({ arrived }: { arrived: boolean }) {
                 notice.fresh && arrived ? "ssp-arrive" : ""
               }`}
             >
-              <p className="whitespace-nowrap text-[14px] leading-[24px] text-[var(--ssp-content-primary)]">
+              <p
+                className={`whitespace-nowrap text-[14px] leading-[24px] text-[var(--ssp-content-primary)] ${
+                  notice.fresh ? "ssp-swap" : ""
+                }`}
+              >
                 {notice.text}
               </p>
               <img src={`${SRC}/chevron.svg`} alt="" className="size-[20px]" />
@@ -474,7 +506,11 @@ function LeadScreen({ arrived }: { arrived: boolean }) {
               }`}
             >
               <div className="flex w-[45px] flex-col items-center leading-[24px]">
-                <p className="w-full text-center text-[20px] font-extrabold tracking-[-0.4px] text-[var(--ssp-content-primary)]">
+                <p
+                  className={`w-full text-center text-[20px] font-extrabold tracking-[-0.4px] text-[var(--ssp-content-primary)] ${
+                    card.fresh ? "ssp-swap" : ""
+                  }`}
+                >
                   {card.n}
                 </p>
                 <p className="whitespace-nowrap text-[12px] text-[var(--ssp-content-secondary)]">

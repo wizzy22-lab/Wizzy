@@ -610,11 +610,25 @@
   transition:
     transform 160ms ease-out,
     background-color 200ms ease-out,
-    color 200ms ease-out;
+    color 200ms ease-out,
+    opacity 300ms ease-out;
 }
 
 .ssp-demo[data-phase="3"] .ssp-apply {
   transform: scale(0.95);
+}
+
+/* Phase 6 closes a pass: what changed fades out, and comes back in the next
+   pass's before-state, so the loop never snaps from 신청완료 back to 신청. */
+.ssp-swap {
+  transition: opacity 300ms ease-out;
+}
+
+/* The button and the pin keep their own transitions; both already carry
+   opacity, so they only need hiding here — not a second `transition`. */
+.ssp-demo[data-phase="6"] :is(.ssp-swap, .ssp-apply, .ssp-pin--count) {
+  opacity: 0;
+  transition-delay: 0ms;
 }
 
 /* What arrives on the lead's screen flashes once, then settles. */
