@@ -207,10 +207,9 @@ export default function ProjectSection({
                 //
                 // Open, it is a white card on the dark section, so it carries
                 // the light token set: everything inside reads dark-on-white
-                // without a second set of colour classes. It bleeds by its own
-                // padding below `lg`, so the number stays on the axis the
-                // collapsed rows use. From `lg` it takes the Figma width and
-                // proportions instead — see `.project-card` in globals.css.
+                // without a second set of colour classes. It sits inside the
+                // page margins and keeps the Figma proportions — see
+                // `.project-card` in globals.css.
                 //
                 // From `lg` the open card is a two-column grid — header and
                 // text on the left, cover on the right spanning both rows — so
@@ -268,7 +267,7 @@ export default function ProjectSection({
                         <span className="w-16 shrink-0 text-heading font-extrabold text-faint">
                           {project.no}
                         </span>
-                        <span className="flex-1 text-center text-heading font-extrabold">
+                        <span className="project-row-name flex-1 text-center text-heading font-extrabold">
                           {project.name}
                         </span>
                         <span className="w-16 shrink-0 text-right text-heading font-medium transition-transform duration-300 group-hover:translate-x-1">

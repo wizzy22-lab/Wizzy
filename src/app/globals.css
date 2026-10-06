@@ -153,58 +153,53 @@
  * and the card is meant to be white.
  *
  * Every size is a multiple of `--u`, one Figma pixel. The card is drawn at
- * 1438×767 in a 1920 frame, and it keeps those proportions at every size: the
- * whole card scales as one, rather than its height being squeezed on its own,
- * which flattened it and closed up the space around everything inside.
+ * 1438×767, and it keeps those proportions at every size: the whole card scales
+ * as one, rather than its height being squeezed on its own, which flattened it
+ * and closed up the space around everything inside.
  *
- * From `lg` the accordion is pinned, so `--u` is the smaller of two fits: the
- * Figma frame's width, and the height left once the header, the label and the
- * two closed rows have taken theirs (280px). At 1920×1080 that is exactly 1px.
- * On a laptop the card is smaller and narrower, but the same shape.
+ * Its width is the page column's — the same margins as every other section, so
+ * the card's edges line up with the rules of the closed rows. `.project-list`
+ * is a size container so `cqw` here is that column, scrollbar excluded.
+ *
+ * From `lg` the accordion is pinned, so `--u` is also capped by height: what is
+ * left once the header, the label and the two closed rows have taken theirs
+ * (280px). On a short laptop screen that cap wins and the card stops short of
+ * the margins, centred, still the same shape; on a taller one it fills them.
  *
  * Text that would drop below a readable size takes a floor instead; the card
  * then grows a little taller than its proportion, never cut off.
  */
 .project-list {
-  --u: 0.62px;
-}
-
-@media (min-width: 768px) {
-  .project-list {
-    --u: 0.75px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .project-list {
-    --u: min(calc(100vw / 1920), calc((100vh - 280px) / 767));
-  }
+  container-type: inline-size;
 }
 
 .project-card {
+  --u: 0.62px;
   --pc-gap: max(12px, calc(24 * var(--u)));
   background: #ffffff;
   border-radius: calc(32 * var(--u));
-  /* Phones bleed to the gutter, so the card spends the screen's width. */
-  margin-inline: -24px;
   padding: 24px;
 }
 
 @media (min-width: 768px) {
   .project-card {
-    margin-inline: calc(-48 * var(--u));
+    --u: calc(100cqw / 1438);
     padding: calc(48 * var(--u));
   }
 }
 
-/* Figma's width, centred on the column — wider than it at 1920, where the card
-   is 1438 and the column 1200, as drawn. */
 @media (min-width: 1024px) {
   .project-card {
+    --u: min(calc(100cqw / 1438), calc((100vh - 280px) / 767));
     width: calc(1438 * var(--u));
-    margin-inline: calc(50% - 719 * var(--u));
+    margin-inline: auto;
     column-gap: calc(48 * var(--u));
   }
+}
+
+/* Closed rows: the name at near-white, the number and arrow left dim. */
+.project-row-name {
+  color: #fafafa;
 }
 
 /* Number and name: Manrope ExtraBold, 64px in Figma. */
