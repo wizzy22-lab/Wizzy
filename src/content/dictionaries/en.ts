@@ -27,10 +27,11 @@ const en = {
   },
 
   hero: {
-    // One static sentence — it is complete on its own, so nothing rotates and
-    // there is no eyebrow or tail around it.
-    headline:
-      "I turn complex problems into structures people can judge and act on.",
+    // Korean puts the object first, so each locale arranges these three parts
+    // independently rather than sharing one sentence template.
+    eyebrow: "I TURN",
+    phrases: ["Business Problem", "Messy Operation", "User frustration"],
+    tail: ["into products", "that grow business"],
     mediaAlt: "Shoot Shoot Penguin app screens on a device mockup",
     // Rendered uppercase in the mono label face; kept in the dictionary so it
     // can be localised later rather than sitting hardcoded in the component.
