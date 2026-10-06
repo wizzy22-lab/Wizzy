@@ -152,26 +152,71 @@
  * one; only the fill is set here, because the light `--bg` is a warm off-white
  * and the card is meant to be white.
  *
- * Everything that sizes it is a variable, and each one is the Figma value
- * capped from above and scaled by the viewport's height below that. The
- * accordion is pinned, so the open card, both closed rows and the label all
- * have to fit in one screen — at 1920×1080 that is the Figma card as drawn; on
- * a laptop the same card is shorter rather than cut off at the bottom.
+ * Every size is a multiple of `--u`, one Figma pixel. The card is drawn at
+ * 1438×767 in a 1920 frame, and it keeps those proportions at every size: the
+ * whole card scales as one, rather than its height being squeezed on its own,
+ * which flattened it and closed up the space around everything inside.
+ *
+ * From `lg` the accordion is pinned, so `--u` is the smaller of two fits: the
+ * Figma frame's width, and the height left once the header, the label and the
+ * two closed rows have taken theirs (280px). At 1920×1080 that is exactly 1px.
+ * On a laptop the card is smaller and narrower, but the same shape.
+ *
+ * Text that would drop below a readable size takes a floor instead; the card
+ * then grows a little taller than its proportion, never cut off.
  */
+.project-list {
+  --u: 0.62px;
+}
+
+@media (min-width: 768px) {
+  .project-list {
+    --u: 0.75px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .project-list {
+    --u: min(calc(100vw / 1920), calc((100vh - 280px) / 767));
+  }
+}
+
 .project-card {
-  --pc-pad: clamp(24px, 4vh, 48px);
-  --pc-gap: clamp(12px, 2.2vh, 24px);
-  --pc-thumb: min(671px, 52vh);
+  --pc-gap: max(12px, calc(24 * var(--u)));
   background: #ffffff;
-  border-radius: 32px;
+  border-radius: calc(32 * var(--u));
+  /* Phones bleed to the gutter, so the card spends the screen's width. */
+  margin-inline: -24px;
+  padding: 24px;
+}
+
+@media (min-width: 768px) {
+  .project-card {
+    margin-inline: calc(-48 * var(--u));
+    padding: calc(48 * var(--u));
+  }
+}
+
+/* Figma's width, centred on the column — wider than it at 1920, where the card
+   is 1438 and the column 1200, as drawn. */
+@media (min-width: 1024px) {
+  .project-card {
+    width: calc(1438 * var(--u));
+    margin-inline: calc(50% - 719 * var(--u));
+    column-gap: calc(48 * var(--u));
+  }
 }
 
 /* Number and name: Manrope ExtraBold, 64px in Figma. */
 .project-title {
   font-weight: 800;
-  font-size: clamp(2rem, min(4.4vw, 5.6vh), 4rem);
+  font-size: max(2rem, calc(64 * var(--u)));
   line-height: 1.2;
   letter-spacing: -0.01em;
+}
+
+.project-name {
+  margin-top: calc(10 * var(--u));
 }
 
 /*
@@ -182,21 +227,54 @@
 .project-pill {
   display: inline-flex;
   align-items: center;
-  padding: 8px 16px;
+  padding: max(6px, calc(8 * var(--u))) max(12px, calc(16 * var(--u)));
   border-radius: 999px;
   background: #ff8c42;
   color: #000000;
-  font-size: 1rem;
+  font-size: max(0.75rem, calc(16 * var(--u)));
   font-weight: 500;
   line-height: 1.2;
   text-transform: uppercase;
   word-break: keep-all;
 }
 
-/* 20px on 36/16 in Figma; trimmed with the rest on a short screen. */
+.project-headline {
+  font-size: max(1rem, calc(20 * var(--u)));
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+/* Figma sets this at 487 wide; a little more so Korean does not orphan. */
+.project-body {
+  font-size: max(0.875rem, calc(16 * var(--u)));
+  line-height: 1.6;
+  max-width: max(360px, calc(520 * var(--u)));
+}
+
+.project-tag {
+  padding: max(6px, calc(8 * var(--u))) max(12px, calc(16 * var(--u)));
+  font-size: max(0.75rem, calc(14 * var(--u)));
+}
+
+.project-tags {
+  gap: max(8px, calc(12 * var(--u)));
+}
+
+/* 20px on 36/16 in Figma. */
 .project-cta {
-  padding: clamp(12px, 1.6vh, 16px) clamp(28px, 3vh, 36px);
-  font-size: clamp(1rem, 2.4vh, 1.25rem);
+  padding: max(10px, calc(16 * var(--u))) max(24px, calc(36 * var(--u)));
+  font-size: max(0.875rem, calc(20 * var(--u)));
+}
+
+.project-thumb {
+  border-radius: max(12px, calc(16 * var(--u)));
+}
+
+@media (min-width: 1024px) {
+  .project-thumb {
+    width: calc(671 * var(--u));
+    height: calc(671 * var(--u));
+  }
 }
 
 /*

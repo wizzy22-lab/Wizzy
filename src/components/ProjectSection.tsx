@@ -194,7 +194,7 @@ export default function ProjectSection({
         <div className="mx-auto w-full max-w-[1920px] px-6 md:px-16 xl:px-[180px] 2xl:px-[360px]">
           <p className="type-label text-center text-dim">{label}</p>
 
-          <div className="mt-10">
+          <div className="project-list mt-10 lg:mt-6">
             {projects.map((project, i) => {
               const isOpen = i === openIndex;
               const panelId = `${baseId}-panel-${i}`;
@@ -208,8 +208,9 @@ export default function ProjectSection({
                 // Open, it is a white card on the dark section, so it carries
                 // the light token set: everything inside reads dark-on-white
                 // without a second set of colour classes. It bleeds by its own
-                // padding, so the number stays on the axis the collapsed rows
-                // use.
+                // padding below `lg`, so the number stays on the axis the
+                // collapsed rows use. From `lg` it takes the Figma width and
+                // proportions instead — see `.project-card` in globals.css.
                 //
                 // From `lg` the open card is a two-column grid — header and
                 // text on the left, cover on the right spanning both rows — so
@@ -221,7 +222,7 @@ export default function ProjectSection({
                   data-theme={isOpen ? "light" : undefined}
                   className={
                     isOpen
-                      ? "project-card -mx-6 p-6 md:-mx-[var(--pc-pad)] md:p-[var(--pc-pad)] lg:grid lg:grid-cols-[minmax(0,1fr)_auto] lg:grid-rows-[auto_1fr] lg:gap-x-12"
+                      ? "project-card lg:grid lg:grid-cols-[minmax(0,1fr)_auto] lg:grid-rows-[auto_1fr]"
                       : undefined
                   }
                 >
@@ -240,8 +241,9 @@ export default function ProjectSection({
                         // long name gets 214px of the 342 a phone has and wraps
                         // to three lines — 90px of text in a 72px box, spilling
                         // over the rule above and below it. The padding keeps a
-                        // short name at exactly the 72 it had.
-                        : "flex min-h-[72px] items-center border-t border-border py-4"
+                        // short name at exactly the 72 it had. Pinned, the rows
+                        // drop to 56 so the open card can keep its proportions.
+                        : "flex min-h-[72px] items-center border-t border-border py-4 lg:min-h-[56px] lg:py-2"
                     }`}
                   >
                     {isOpen ? (
@@ -255,7 +257,7 @@ export default function ProjectSection({
                           </span>
                           <span className="project-pill">{project.subtitle}</span>
                         </span>
-                        <span className="project-title mt-2 block text-text">
+                        <span className="project-title project-name block text-text">
                           {project.name}
                         </span>
                       </span>
@@ -292,22 +294,22 @@ export default function ProjectSection({
                         }`}
                       >
                         {/* What the work set out to do — the one bold line. */}
-                        <p className="text-pretty text-[1.25rem] font-extrabold leading-[1.2] text-text">
+                        <p className="project-headline text-pretty text-text">
                           {project.headline}
                         </p>
 
-                        <p className="max-w-[560px] text-pretty text-body text-dim">
+                        <p className="project-body text-pretty text-dim">
                           {project.description}
                         </p>
 
                         {/* Discipline names, in the sans face now rather than
                             the mono label — they sit in a white card next to
                             prose, not in a list of codes. */}
-                        <div className="flex flex-wrap gap-2 md:gap-3">
+                        <div className="project-tags flex flex-wrap">
                           {project.tags.map((tag) => (
                             <span
                               key={tag}
-                              className="inline-flex shrink-0 items-center whitespace-nowrap rounded-full border border-hairline px-4 py-2 text-[0.875rem] font-medium leading-[1.2] text-dim"
+                              className="project-tag inline-flex shrink-0 items-center whitespace-nowrap rounded-full border border-hairline font-medium leading-[1.2] text-dim"
                             >
                               {tag}
                             </span>
@@ -344,7 +346,7 @@ export default function ProjectSection({
                       href={project.href}
                       tabIndex={-1}
                       aria-hidden
-                      className={`relative mt-10 flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl bg-surface lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:size-[var(--pc-thumb)] ${
+                      className={`project-thumb relative mt-10 flex aspect-square w-full items-center justify-center overflow-hidden bg-surface lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0 ${
                         project.thumbnail ? "" : "border border-dashed border-border"
                       }`}
                     >
