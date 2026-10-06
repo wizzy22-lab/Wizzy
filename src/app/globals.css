@@ -478,6 +478,170 @@
 }
 
 /*
+ * Shoot Shoot Penguin's played cover — see `SspThumbnail.tsx`.
+ *
+ * Unlike Operator's, this one is laid out in plain Figma pixels: the 671px
+ * stage is scaled as one by a single factor the component measures, and each
+ * phone is its 390×844 frame scaled to 240 wide. So the values in the
+ * component are the frames' own, and only the colours live here.
+ *
+ * The tokens are the app's design system as named in its Figma file, kept
+ * under their own prefix — they belong to the product on the cover, not to
+ * this site.
+ */
+.ssp-demo {
+  --ssp-ink: #111111;
+  --ssp-content-primary: #232930;
+  --ssp-content-secondary: #67717d;
+  --ssp-content-tertiary: #98a1ac;
+  --ssp-tint: #eff1f4;
+  --ssp-border-subtle: #eff1f4;
+  --ssp-border-strong: #c6ccd4;
+  --ssp-full-text: #454d56;
+  --ssp-recruiting-tint: #e4f5ec;
+  --ssp-recruiting-text: #085c2e;
+  --ssp-closing-tint: #fbf0d6;
+  --ssp-closing-text: #6b4606;
+  --ssp-action: #151e28;
+  --ssp-disabled: #e0e4e9;
+  --ssp-grabber: #dddfe2;
+  --ssp-stage: #1a1a1a;
+
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--ssp-stage);
+}
+
+.ssp-demo__stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 671px;
+  height: 671px;
+  transform-origin: 0 0;
+  transform: scale(var(--k, 0));
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+}
+
+/* Elevation tokens from the app's file. */
+.ssp-shadow-floating {
+  box-shadow:
+    0 1px 2px rgba(11, 17, 24, 0.1),
+    0 8px 20px -6px rgba(11, 17, 24, 0.22);
+}
+
+.ssp-shadow-raised {
+  box-shadow:
+    0 4px 10px -3px rgba(11, 17, 24, 0.16),
+    0 1px 2px rgba(11, 17, 24, 0.1);
+}
+
+.ssp-shadow-icon {
+  filter: drop-shadow(0 4px 5px rgba(11, 17, 24, 0.16)) drop-shadow(0 1px 1px rgba(11, 17, 24, 0.1));
+}
+
+.ssp-shadow-sheet {
+  box-shadow:
+    0 -2px 6px rgba(11, 17, 24, 0.06),
+    0 -14px 34px -10px rgba(11, 17, 24, 0.24);
+}
+
+/* The status bar's clock is set in the system face, as in the frames. */
+.ssp-clock {
+  font-family: -apple-system, "SF Pro Text", system-ui, sans-serif;
+  font-weight: 600;
+}
+
+/* ---- Motion ---- */
+
+/* Phase 0: no pins yet. Phase 1 drops them, one after another. */
+.ssp-pin {
+  transition:
+    opacity 260ms ease-out,
+    transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: var(--drop-delay, 0ms);
+}
+
+.ssp-demo[data-phase="0"] .ssp-pin {
+  opacity: 0;
+  transform: translateY(-18px);
+}
+
+/* The count that changes on apply gives a small hop when it does. */
+.ssp-pin--hop {
+  animation: ssp-hop 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes ssp-hop {
+  40% {
+    transform: translateY(-8px) scale(1.12);
+  }
+}
+
+/* The tap that lands on 신청 — the same white dot the Operator cover uses. */
+.ssp-tap {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow:
+    0 8px 12px -2px rgba(0, 0, 0, 0.16),
+    0 3px 5px -3px rgba(0, 0, 0, 0.16);
+  opacity: 0;
+  transform: scale(1.6);
+  transition:
+    opacity 260ms ease-out,
+    transform 200ms ease-out;
+}
+
+.ssp-demo[data-phase="2"] .ssp-tap {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.ssp-demo[data-phase="3"] .ssp-tap {
+  opacity: 1;
+  transform: scale(0.8);
+}
+
+.ssp-apply {
+  transition:
+    transform 160ms ease-out,
+    background-color 200ms ease-out,
+    color 200ms ease-out;
+}
+
+.ssp-demo[data-phase="3"] .ssp-apply {
+  transform: scale(0.95);
+}
+
+/* What arrives on the lead's screen flashes once, then settles. */
+.ssp-arrive {
+  animation: ssp-arrive 1200ms ease-out;
+}
+
+@keyframes ssp-arrive {
+  0%,
+  40% {
+    background-color: rgba(21, 30, 40, 0.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ssp-pin,
+  .ssp-tap,
+  .ssp-apply {
+    transition: none;
+  }
+  .ssp-pin--hop,
+  .ssp-arrive {
+    animation: none;
+  }
+}
+
+/*
  * Labels made of words rather than codes.
  *
  * Azeret Mono carries no Hangul, so a Korean label silently falls through to
@@ -581,15 +745,19 @@ body {
  * Headings balance — a two-line heading splits evenly instead of dropping one
  * short word onto line two. Paragraphs get `pretty`, which only guards the last
  * line against orphans and leaves the rest of the rag alone.
+ *
+ * `text-wrap-style`, not the `text-wrap` shorthand: the shorthand also resets
+ * whether text wraps at all, and these rules are unlayered, so they quietly
+ * beat every `whitespace-nowrap` set on a heading or a paragraph.
  */
 h1,
 h2,
 h3 {
-  text-wrap: balance;
+  text-wrap-style: balance;
 }
 
 p {
-  text-wrap: pretty;
+  text-wrap-style: pretty;
 }
 
 /*
