@@ -170,7 +170,7 @@ export default function BingxThumbnail({ active }: { active: boolean }) {
         <img
           src={`${SRC}/chart-empty.webp`}
           alt=""
-          className="bx-chart-cover absolute left-[81.5px] top-[290px] h-[54px] w-[187px] max-w-none"
+          className="bx-chart-cover absolute left-[80px] top-[290px] h-[55px] w-[190px] max-w-none"
         />
       </div>
     </div>
