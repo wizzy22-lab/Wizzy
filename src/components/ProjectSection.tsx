@@ -239,12 +239,14 @@ export default function ProjectSection({
                         ? "lg:col-start-1"
                         // A floor rather than a fixed height. The row reserves
                         // 64px either side for the number and the arrow, so a
-                        // long name gets 214px of the 342 a phone has and wraps
-                        // to three lines — 90px of text in a 72px box, spilling
-                        // over the rule above and below it. The padding keeps a
-                        // short name at exactly the 72 it had. Pinned, the rows
-                        // drop to 56 so the open card can keep its proportions.
-                        : "flex min-h-[72px] items-center border-t border-border py-4 lg:min-h-[56px] lg:py-2"
+                        // long name wraps on a phone; the padding lets it grow
+                        // instead of spilling over the rules. The floor is the
+                        // one-line name plus 42px above and below (21px before
+                        // it was doubled). Pinned, the rows are 72 — 16px
+                        // either side of the 40px line, also doubled from 8 —
+                        // and the card's height cap in `globals.css` reserves
+                        // for them.
+                        : "flex min-h-[114px] items-center border-t border-border py-8 lg:min-h-[72px] lg:py-4"
                     }`}
                   >
                     {isOpen ? (

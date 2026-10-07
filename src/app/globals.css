@@ -163,7 +163,7 @@
  *
  * From `lg` the accordion is pinned, so `--u` is also capped by height: what is
  * left once the header, the label and the two closed rows have taken theirs
- * (280px). On a short laptop screen that cap wins and the card stops short of
+ * (312px). On a short laptop screen that cap wins and the card stops short of
  * the margins, centred, still the same shape; on a taller one it fills them.
  *
  * Text that would drop below a readable size takes a floor instead; the card
@@ -190,16 +190,16 @@
 
 @media (min-width: 1024px) {
   .project-card {
-    --u: min(calc(100cqw / 1438), calc((100vh - 280px) / 767));
+    --u: min(calc(100cqw / 1438), calc((100vh - 312px) / 767));
     width: calc(1438 * var(--u));
     margin-inline: auto;
     column-gap: calc(48 * var(--u));
   }
 }
 
-/* Closed rows: the name at near-white, the number and arrow left dim. */
+/* Closed rows: the name in the number's colour, the arrow left dim. */
 .project-row-name {
-  color: #fafafa;
+  color: var(--text-faint);
 }
 
 /* Number and name: Manrope ExtraBold, 64px in Figma. */
