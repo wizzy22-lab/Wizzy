@@ -112,12 +112,6 @@ const en = {
         description:
           "Trained to make structured decisions in complex, high-stakes environments — a discipline that still shapes how I approach design problems.",
       },
-      {
-        year: "2016",
-        title: "Discovered Baking",
-        description:
-          "Started baking as a hobby and turned it into a serious craft.",
-      },
     ],
   },
 
