@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import OperatorThumbnail from "./OperatorThumbnail";
+import BingxThumbnail from "./BingxThumbnail";
 import SspThumbnail from "./SspThumbnail";
 
 /** Locale-resolved project card — plain strings so it crosses the server boundary. */
@@ -353,13 +354,15 @@ export default function ProjectSection({
                         project.thumbnail ? "" : "border border-dashed border-border"
                       }`}
                     >
-                      {/* Two covers are played rather than shown — the flat
+                      {/* Three covers are played rather than shown — the flat
                           image stays as each one's fallback in the data. Keyed
                           on `isOpen` so closing the card resets the playback. */}
                       {project.slug === "operator" ? (
                         <OperatorThumbnail key={isOpen ? "open" : "closed"} active={isOpen} />
                       ) : project.slug === "shoot-shoot-penguin" ? (
                         <SspThumbnail key={isOpen ? "open" : "closed"} active={isOpen} />
+                      ) : project.slug === "bingx" ? (
+                        <BingxThumbnail key={isOpen ? "open" : "closed"} active={isOpen} />
                       ) : project.thumbnail && (
                         <Image
                           src={project.thumbnail}

@@ -656,6 +656,106 @@
 }
 
 /*
+ * Bing X's played cover — see `BingxThumbnail.tsx`.
+ *
+ * Laid out like SSP's: a 671px stage scaled as one by the factor the component
+ * measures. The base is the flat cover; everything that moves is a patch cut
+ * from it at the same pixels, so at rest the stage is the picture exactly.
+ */
+.bx-demo {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #00061a;
+}
+
+.bx-demo__stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 671px;
+  height: 671px;
+  transform-origin: 0 0;
+  transform: scale(var(--k, 0));
+}
+
+/* The panel's flat fill, over each original number. */
+.bx-stat-cover {
+  position: absolute;
+  top: 173.5px;
+  height: 11px;
+  background: #1a2035;
+}
+
+/* The stats, set in the app's face at the picture's size and white. */
+.bx-stat {
+  position: absolute;
+  top: 172.5px;
+  transform: translateX(-50%);
+  font-size: 9.27px;
+  line-height: 12px;
+  font-weight: 500;
+  color: #f4f8ff;
+  white-space: nowrap;
+  transition: opacity 300ms ease-out;
+}
+
+/* ---- Motion ---- */
+
+/* The neon breathes the whole time: the cut-out laid over itself, brightened
+   and glowing, fading in and out. */
+.bx-neon {
+  mix-blend-mode: screen;
+  filter: brightness(1.7) drop-shadow(0 0 6px rgba(40, 110, 255, 0.7));
+  animation: bx-neon 3.2s ease-in-out infinite alternate;
+}
+
+@keyframes bx-neon {
+  from {
+    opacity: 0.1;
+  }
+  to {
+    opacity: 0.85;
+  }
+}
+
+/* Phase 1 wipes the empty plot away from the left, so the line draws in. */
+.bx-chart-cover {
+  clip-path: inset(0 0 0 0);
+}
+
+.bx-demo:is([data-phase="1"], [data-phase="2"]) .bx-chart-cover {
+  clip-path: inset(0 0 0 100%);
+  transition: clip-path 1400ms cubic-bezier(0.33, 1, 0.68, 1) 100ms;
+}
+
+/* Phase 3 closes a pass: the stats fade, and the empty plot fades back over
+   the line — the next pass starts from both, rather than snapping to them. */
+.bx-demo[data-phase="3"] .bx-stat {
+  opacity: 0;
+}
+
+.bx-demo[data-phase="3"] .bx-chart-cover {
+  animation: bx-fade-in 300ms ease-out;
+}
+
+@keyframes bx-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bx-neon {
+    animation: none;
+    opacity: 0;
+  }
+  .bx-demo .bx-chart-cover {
+    transition: none;
+  }
+}
+
+/*
  * Labels made of words rather than codes.
  *
  * Azeret Mono carries no Hangul, so a Korean label silently falls through to
