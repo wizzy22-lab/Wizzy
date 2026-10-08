@@ -85,11 +85,6 @@ const ko: Dictionary = {
           "Wizzy Bakeshop을 런칭해 제품 개발, 매장 운영, 고객 경험 전반을 이끌었습니다.",
       },
       {
-        year: "2020–2021",
-        title: "전문가 과정",
-        description: "서울의 베이커리에서 일하며 베이킹을 전문가 수준으로 끌어올렸습니다.",
-      },
-      {
         year: "2018",
         title: "항해학·해상무역·해사법규 전공",
         description:

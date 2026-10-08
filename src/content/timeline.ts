@@ -16,16 +16,13 @@
  * band renders nothing at all for a `null` — no tile, no placeholder — so the
  * gap exists here and nowhere on the page.
  *
- * One of the five is `null`: its photo was food rather than work, a tray of
- * cupcakes against a band that otherwise shows the making of things. The row
- * keeps its year, title and description; only the picture goes, and the file
- * stays in `public/about/`. (The 2016 "Discovered Baking" row, whose scone
- * photo was dropped the same way, has since been removed outright.)
+ * None of the four is `null` right now. The 2016 "Discovered Baking" and
+ * 2020–2021 "Trained Professionally" rows lost their food photos first and
+ * were later removed outright; their files stay in `public/about/`.
  */
 export const TIMELINE_PHOTOS: (string | null)[] = [
   "/about/timeline-06-leading-impact.jpg", // 2026–present — Leading Real-World Impact
   "/about/timeline-05-ux-transition.jpg", // 2025 — Transitioned into UX/UI Design
   "/about/timeline-04-founded-bakeshop.jpg", // 2022 — Founded Wizzy Bakeshop
-  null, // 2020–2021 — Trained Professionally (was timeline-03-trained-professionally.jpg)
   "/about/timeline-01-navigation.jpg", // 2018 — Studied Navigation
 ];

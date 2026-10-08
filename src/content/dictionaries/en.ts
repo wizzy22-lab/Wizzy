@@ -101,12 +101,6 @@ const en = {
           "Launched Wizzy Bakeshop, leading product development, store operations, and the end-to-end customer experience.",
       },
       {
-        year: "2020–2021",
-        title: "Trained Professionally",
-        description:
-          "Advanced my baking to a professional level, working at a bakery in Seoul.",
-      },
-      {
         year: "2018",
         title: "Studied Navigation, Maritime Trade & Regulations",
         description:
