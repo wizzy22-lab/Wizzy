@@ -5,7 +5,7 @@ import type { Dictionary } from "./en";
  *
  * NOTE: the legacy site shipped an EN/KO toggle on the main page but never any
  * Korean copy for it (`index.html` had zero `data-ko` attributes). Everything
- * below is a first-pass translation and should be reviewed in Haeji's own voice.
+ * below is a first-pass translation and should be reviewed in Heaji's own voice.
  */
 const ko: Dictionary = {
   meta: {
@@ -14,7 +14,7 @@ const ko: Dictionary = {
   },
 
   brand: {
-    name: "Haeji Wi",
+    name: "Heaji Wi",
     role: "프로덕트 디자이너",
   },
 
@@ -141,7 +141,7 @@ const ko: Dictionary = {
     locationValue: "서울, 대한민국",
     copied: "복사했습니다",
     // The mark stays lowercase Latin in both locales.
-    copyright: "© 2026 Haeji Wi",
+    copyright: "© 2026 Heaji Wi",
   },
 };
 

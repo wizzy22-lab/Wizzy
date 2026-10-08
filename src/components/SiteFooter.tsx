@@ -90,7 +90,7 @@ export default function SiteFooter({
               {dict.brand.name}
             </p>
             {/* Label scale, but `normal-case`: the notice names the mark, and
-                uppercasing it to HAEJI WI would contradict the lowercase
+                uppercasing it to HEAJI WI would contradict the lowercase
                 wordmark directly above. */}
             <p className="type-label mt-5 normal-case text-dim">
               {footer.copyright}

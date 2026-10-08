@@ -1,7 +1,7 @@
 import type { BusinessCase } from "./types";
 
 /**
- * Weekend Greenwich — the F&B brand Haeji is renewing as a freelance brand
+ * Weekend Greenwich — the F&B brand Heaji is renewing as a freelance brand
  * director, alongside its department-store expansion.
  *
  * Same rules as `wizzy-bakeshop.ts`: Korean is the source copy and the English

@@ -40,7 +40,7 @@ export default function HowIGotHereSection({
 
           The mark elsewhere on the page is the same name set in the wordmark's
           lowercase — a brand treatment. This is where it is stated as a
-          person's name, in the script the locale reads: "Haeji Wi" in English,
+          person's name, in the script the locale reads: "Heaji Wi" in English,
           "위해지" in Korean. It takes the display tier and the role sits under
           it as a label: the same size-then-ramp-then-face stack the hero uses,
           which is the only way this system builds hierarchy.

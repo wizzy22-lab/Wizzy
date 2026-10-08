@@ -1,7 +1,7 @@
 import type { BusinessCase } from "./types";
 
 /**
- * Wizzy Bakeshop — the dessert brand Haeji founded and ran for 2 years 2 months.
+ * Wizzy Bakeshop — the dessert brand Heaji founded and ran for 2 years 2 months.
  *
  * Korean is the source copy; the English is a faithful translation, kept 1:1 on
  * every number and claim (58% returning customers, 70/30 weekly split, the

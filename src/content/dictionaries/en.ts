@@ -5,12 +5,12 @@
  */
 const en = {
   meta: {
-    title: "Haeji Wi — Product Designer",
+    title: "Heaji Wi — Product Designer",
     description: "I turn business problems into products that grow business.",
   },
 
   brand: {
-    name: "Haeji Wi",
+    name: "Heaji Wi",
     role: "Product designer",
   },
 
@@ -61,7 +61,7 @@ const en = {
   // One script per locale, no parenthetical: each reader gets the spelling they
   // can actually hold on to, and the other form is one language toggle away.
   about: {
-    name: "Haeji Wi",
+    name: "Heaji Wi",
     // Leads the two brand links at the foot of about. A label, not a link:
     // the case names below it are what you click, so the arrow lives on them.
     brandsLead: "More: brands I built and ran",
@@ -158,7 +158,7 @@ const en = {
     location: "Location",
     locationValue: "Seoul, South Korea",
     copied: "Copied!",
-    copyright: "© 2026 Haeji Wi",
+    copyright: "© 2026 Heaji Wi",
   },
 };
 
