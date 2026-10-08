@@ -87,10 +87,10 @@ export default function HowIGotHereSection({
           every sentence fits, so the break is the only one on the line and
           the sequence reads. Below it the text just flows.
 
-          `mt-20` then `mt-10`: the section's interior gap, then half of it.
-          The pair binds tighter to each other than to what follows.
+          `mt-10` above both: the role, the claim and the evidence step down at
+          one even interval, so no pair reads as closer than another.
         */}
-        <p className="mt-20 text-body font-medium text-text">
+        <p className="mt-10 text-body font-medium text-text">
           {dict.about.lead}
         </p>
         <p className="mt-10 max-w-[640px] text-body text-dim">
