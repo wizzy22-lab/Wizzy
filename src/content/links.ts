@@ -2,7 +2,7 @@ import type { Locale } from "@/lib/i18n";
 
 /** The CV is written per language, so each locale serves its own file. */
 export const RESUME_PDF: Record<Locale, string> = {
-  en: "/HaejiWi_ProductDesigner_Resume_EN.pdf",
+  en: "/HeajiWi_UXUIDesigner_Intern_Resume.pdf",
   ko: "/위해지_UXUI디자이너인턴_이력서.pdf",
 };
 
