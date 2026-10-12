@@ -98,8 +98,8 @@ export const PROJECTS: Project[] = [
       { en: "Product Design", ko: "Product Design" },
     ],
     description: {
-      en: "Simplified the decision so owners can read where things stand from store conditions and cost data, and pick the action they need straight away. Usability testing cut the required inputs from 7 to 3.",
-      ko: "매장 환경과 비용 데이터를 바탕으로 현재 상태를 파악하고 필요한 조치를 바로 선택할 수 있도록 의사결정 과정을 단순화했습니다. 사용성 테스트를 통해 필수 입력을 7개에서 3개로 줄였습니다.",
+      en: "To ease the heating and cooling calls store owners make again and again,\nI designed an AI decision-support service that weighs cost and comfort together.",
+      ko: "매장 운영 중 반복되는 냉난방 판단 부담을 줄이기 위해,\n비용과 쾌적도를 함께 고려하는 AI 기반 의사결정 지원 서비스를 설계했습니다.",
     },
     thumbnail: "/thumbs/operator-card.webp",
     hasCaseStudy: true,
