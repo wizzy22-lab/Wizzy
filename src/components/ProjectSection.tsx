@@ -302,7 +302,7 @@ export default function ProjectSection({
                           {project.headline}
                         </p>
 
-                        <p className="project-body text-pretty text-dim">
+                        <p className="project-body whitespace-pre-line text-pretty text-dim">
                           {project.description}
                         </p>
 
